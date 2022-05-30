@@ -32,7 +32,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                 } else if (parameter instanceof Double) {
                     ps.setDouble(index, (Double) parameter);
                 } else if (parameter instanceof String) {
-                    ps.setString(index, (String) parameter);
+                    ps.setString(index, (String) parameter);    
                 } else if (parameter instanceof Timestamp) {
                     ps.setTimestamp(index, (Timestamp) parameter);
                 } else if (parameter instanceof Boolean) {
