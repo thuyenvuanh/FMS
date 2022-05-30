@@ -39,6 +39,7 @@ public class CategoryDAOTest {
         List<Category> expecteds = new ArrayList<>();
         expecteds.add(new Category(1, "Food", "F"));
         expecteds.add(new Category(2, "Drink", "D"));
+        expecteds.add(new Category(3, "Food1", "F1"));
         assertArrayEquals(expecteds.toArray(), listC.toArray());
     }
 
