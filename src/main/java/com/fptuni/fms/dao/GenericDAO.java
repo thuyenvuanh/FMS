@@ -12,7 +12,7 @@ public interface GenericDAO<T> {
 
     <T> List<T> query(String sql, RowMapper<T> rowMapper, Object... params);
 
-    void update(String sql, Object... params);
+    boolean update(String sql, Object... params);
 
     Integer insert(String sql, Object... params);
 
