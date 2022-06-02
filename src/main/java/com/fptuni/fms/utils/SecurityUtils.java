@@ -8,9 +8,10 @@ import java.security.spec.KeySpec;
 public class SecurityUtils {
 
     private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
-    private static final int HASH_ITERATIONS = 1000;
+    private static final int HASH_ITERATIONS = 65536;
     private static final int HASH_BYTES = 128;
 
+    //Returns a hashed string for an input string
     public static String createHash(String target, String salt) throws Exception {
 
         byte[] saltBytes = fromHex(salt);
@@ -19,6 +20,8 @@ public class SecurityUtils {
         return toHex(hashed);
     }
 
+
+    //Compares the plain input string with the hashed output
     public static boolean validateHash(String target, String salt, String goodHash) throws Exception {
 
         byte[] saltBytes = fromHex(salt);
@@ -27,6 +30,7 @@ public class SecurityUtils {
         return toHex(hashed).equals(goodHash);
     }
 
+    //Compute the input string with salt
     private static byte[] pbkdf2(char[] password, byte[] salt) throws Exception {
 
         KeySpec spec = new PBEKeySpec(password, salt, SecurityUtils.HASH_ITERATIONS, SecurityUtils.HASH_BYTES);
@@ -35,6 +39,7 @@ public class SecurityUtils {
         return factory.generateSecret(spec).getEncoded();
     }
 
+    //convert to byte[] binary from String hex
     private static byte[] fromHex(String hex) {
 
         byte[] binary = new byte[hex.length() / 2];
@@ -44,6 +49,7 @@ public class SecurityUtils {
         return binary;
     }
 
+    //Convert from byte[] to String hex
     private static  String toHex(byte[] binary) {
         BigInteger bigInteger = new BigInteger(1, binary);
         String hex = bigInteger.toString(16);
