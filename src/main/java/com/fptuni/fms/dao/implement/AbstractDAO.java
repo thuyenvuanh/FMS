@@ -7,13 +7,16 @@ package com.fptuni.fms.dao.implement;
 import com.fptuni.fms.dao.GenericDAO;
 import com.fptuni.fms.mapper.RowMapper;
 import static com.fptuni.fms.utils.DBUtils.getConnection;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 /**
  *
@@ -37,7 +40,12 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                     ps.setTimestamp(index, (Timestamp) parameter);
                 } else if (parameter instanceof Boolean) {
                     ps.setBoolean(index, (Boolean) parameter);
+                } else if (parameter instanceof BigDecimal) {
+                    ps.setBigDecimal(index, (BigDecimal) parameter);
+                } else if (parameter instanceof Date) {
+                    ps.setDate(index, new java.sql.Date(((Date) parameter).getTime()));
                 }
+                
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -83,9 +91,10 @@ public class AbstractDAO<T> implements GenericDAO<T> {
     }
 
     @Override
-    public void update(String sql, Object... params) {
+    public boolean update(String sql, Object... params) {
         Connection conn = null;
         PreparedStatement ps = null;
+        boolean result = false;
         try {
             conn = getConnection();
             if (conn != null) {
@@ -94,6 +103,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                 setParameters(ps, params);
                 ps.executeUpdate();
                 conn.commit();
+                result = true;
             }
         } catch (Exception e) {
             if (conn != null) {
@@ -115,6 +125,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                 System.out.println(ex.getMessage());
             }
         }
+        return result;
     }
 
     @Override
@@ -179,7 +190,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                 count = rs.getInt(1);
             }
         } catch (Exception e) {
-                System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
         } finally {
             try {
                 if (rs != null) {
