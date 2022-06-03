@@ -33,19 +33,19 @@ public class CounterDAOTest {
         counterDAO = null;
     }
 
-    @Test
-    public void testGetAll() {
+//    @Test
+//    public void testGetAll() {
 //        List<Counter> counters = counterDAO.getAll();
 //        List<Counter> expecteds = new ArrayList<>();
 //        expecteds.add(new Counter(1));
 //        expecteds.add(new Counter(2));
 //        expecteds.add(new Counter(3));
 //        assertArrayEquals(expecteds.toArray(), counters.toArray());
-    }
-
-    @Test
-    public void testGet() {
-        
-    }
+//    }
+//
+//    @Test
+//    public void testGet() {
+//
+//    }
     
 }

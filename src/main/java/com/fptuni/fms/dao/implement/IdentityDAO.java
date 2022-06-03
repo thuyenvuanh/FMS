@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author LEGION
  */
-public class IdentityDAO extends AbstractDAO<IdentityCard> implements IIdentityCardDAO{
+public class IdentityDAO extends AbstractDAO<IdentityCard> implements IIdentityCardDAO {
 
     @Override
     public List<IdentityCard> getAll() {
@@ -29,5 +29,13 @@ public class IdentityDAO extends AbstractDAO<IdentityCard> implements IIdentityC
         List<IdentityCard> identityCards = query(sql, new IdentityCardMapper(), id);
         return identityCards.isEmpty() ? null : identityCards.get(0);
     }
-    
+
+    @Override
+    public void update(IdentityCard identityCard) {
+        String sql = "UPDATE IdentityCard\n"
+                + "SET CustomerID = ?\n"
+                + "WHERE ID = ?";
+        update(sql, identityCard.getCustomerID());
+    }
+
 }

@@ -14,5 +14,5 @@ import java.util.List;
  */
 public interface ICounterDAO extends GenericDAO<Counter> {
     List<Counter> getAll();
-    Counter get(Integer id);
+    Counter get(int id);
 }

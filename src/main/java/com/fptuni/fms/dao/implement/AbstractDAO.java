@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +129,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
             conn = getConnection();
             if (conn != null) {
                 conn.setAutoCommit(false);
-                ps = conn.prepareStatement(sql);
+                ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 setParameters(ps, params);
                 ps.executeUpdate();
                 //get auto generate key (IDENTITY)

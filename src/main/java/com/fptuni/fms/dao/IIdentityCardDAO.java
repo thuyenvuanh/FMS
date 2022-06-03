@@ -12,6 +12,7 @@ import java.util.List;
  * @author LEGION
  */
 public interface IIdentityCardDAO extends GenericDAO<IdentityCard>{
+    void update(IdentityCard identityCard);
     List<IdentityCard> getAll();
-    IdentityCard get(Integer id);
+    IdentityCard get(int id);
 }

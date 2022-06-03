@@ -13,6 +13,8 @@ import java.util.List;
  * @author Casul
  */
 public interface ICategoryDAO extends GenericDAO<Category>{
+    int insert(Category category);
+    void update(Category category);
     List<Category> getAll();
     Category get(int id);
     List<Category> getByName(String name);

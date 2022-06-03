@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  *
- * @author LucasBV
+ * @author LEGION
  */
 public class CounterDAO extends AbstractDAO<Counter> implements ICounterDAO {
 
