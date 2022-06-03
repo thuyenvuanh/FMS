@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface IWalletDAO extends GenericDAO<Wallet> {
 
-    List<Wallet> findAll();
+    List<Wallet> getAll();
 
     Wallet getWalletWithID(int ID);
 

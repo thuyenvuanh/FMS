@@ -5,7 +5,7 @@
 package com.fptuni.fms.dao;
 
 import com.fptuni.fms.model.TransactionShared;
-import com.fptuni.fms.model.Wallet;
+
 import java.util.List;
 
 /**
@@ -14,10 +14,10 @@ import java.util.List;
  */
 public interface ITransactionShared extends GenericDAO<TransactionShared>{
     
-    List<TransactionShared> findAll();
+    List<TransactionShared> getAll();
     
-    TransactionShared findLatestTransactionOf(int WalletID);
+    TransactionShared getLatestTransactionOf(int WalletID);
     
-    List<TransactionShared> findHistoryOf(int WalletID, Boolean... isAscending);
+    List<TransactionShared> getHistoryOf(int WalletID, Boolean... isAscending);
     
 }

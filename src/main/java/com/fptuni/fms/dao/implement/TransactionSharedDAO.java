@@ -23,7 +23,7 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
     }
 
     @Override
-    public List<TransactionShared> findAll() {
+    public List<TransactionShared> getAll() {
         String sql = "select * from TransactionShared\n"
                 + "order by TransactionShared.CreatedDate\n"
                 + "DESC";
@@ -31,7 +31,7 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
     }
 
     @Override
-    public TransactionShared findLatestTransactionOf(int WalletID) {
+    public TransactionShared getLatestTransactionOf(int WalletID) {
         String sql =  "select top(1) * from TransactionShared\n"
                     + "where TransactionShared.WalletID = ?\n"
                     + "order by TransacitonShared.CreatedDate\n"
@@ -41,7 +41,7 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
     }
 
     @Override
-    public List<TransactionShared> findHistoryOf(int WalletID, Boolean... isAscending) {
+    public List<TransactionShared> getHistoryOf(int WalletID, Boolean... isAscending) {
         String sql =  "select * from TransactionShared\n"
                     + "where TransactionShared.WalletID = ?\n"
                     + "order by TransactionCreate\n";

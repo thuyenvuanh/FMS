@@ -23,7 +23,7 @@ public class WalletDAO extends AbstractDAO<Wallet> implements IWalletDAO {
     }
     
     @Override
-    public List<Wallet> findAll() {
+    public List<Wallet> getAll() {
         String sql = "Select * from Wallet";
         return query(sql, new WalletMapper());
     }
