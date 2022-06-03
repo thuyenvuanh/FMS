@@ -1,8 +1,12 @@
 package com.fptuni.fms.utils;
 
+import com.sun.javafx.scene.layout.region.Margins;
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import javax.xml.bind.annotation.XmlInlineBinaryData;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.spec.KeySpec;
 
 public class SecurityUtils {
@@ -14,17 +18,29 @@ public class SecurityUtils {
     //Returns a hashed string for an input string
     public static String createHash(String target, String salt) throws Exception {
 
-        byte[] saltBytes = fromHex(salt);
+        byte[] saltBytes = fromHex(mix(salt,target));
         byte[] hashed = pbkdf2(target.toCharArray(), saltBytes);
-
         return toHex(hashed);
+    }
+
+    private static String mix(String salt, String target) {
+
+        String result = "";
+
+        int i = 0;
+        while (i < salt.length() || i < target.length()) {
+            result += ((i < salt.length()) ? salt.charAt(i) : "0");
+            result += ((i < target.length()) ? target.charAt(i) : "0");
+            i++;
+        }
+        return String.format("%040x", new BigInteger(1, result.getBytes(StandardCharsets.UTF_8)));
     }
 
 
     //Compares the plain input string with the hashed output
     public static boolean validateHash(String target, String salt, String goodHash) throws Exception {
 
-        byte[] saltBytes = fromHex(salt);
+        byte[] saltBytes = fromHex(mix(salt,target));
         byte[] hashed = pbkdf2(target.toCharArray(), saltBytes);
 
         return toHex(hashed).equals(goodHash);
