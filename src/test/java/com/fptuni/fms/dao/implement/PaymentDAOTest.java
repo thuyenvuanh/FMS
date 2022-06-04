@@ -1,42 +1,19 @@
 package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.model.Payment;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-/**
-=======
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
->>>>>>> dev
  * @author Acer
  */
 public class PaymentDAOTest {
 
     public PaymentDAOTest() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
     }
 
     /**
