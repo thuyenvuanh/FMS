@@ -12,5 +12,7 @@ public interface IOrderDetailDAO extends GenericDAO<OrderDetail> {
 
     public List<OrderDetail> getOrderDetail();
 
-    public boolean createOrderDetail(OrderDetail orderDetail);
+    public int createOrderDetail(OrderDetail orderDetail);
+
+    public List<OrderDetail> getOrderDetailByOrderID(int orderID);
 }
