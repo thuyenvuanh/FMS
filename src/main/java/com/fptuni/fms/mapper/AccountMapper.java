@@ -2,9 +2,7 @@ package com.fptuni.fms.mapper;
 
 import com.fptuni.fms.dao.implement.AbstractDAO;
 import com.fptuni.fms.model.Account;
-import com.fptuni.fms.model.Orders;
 import com.fptuni.fms.model.Role;
-import com.fptuni.fms.model.Store;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -12,7 +10,7 @@ import java.sql.SQLException;
  *
  * @author NhatTan
  */
-public class AccountMapper extends AbstractDAO<Orders> implements RowMapper {
+public class AccountMapper extends AbstractDAO<Account> implements RowMapper {
 
     @Override
     public Account mapRow(ResultSet rs) {
