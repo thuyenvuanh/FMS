@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +36,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                 } else if (parameter instanceof Double) {
                     ps.setDouble(index, (Double) parameter);
                 } else if (parameter instanceof String) {
-                    ps.setString(index, (String) parameter);
+                    ps.setString(index, (String) parameter);    
                 } else if (parameter instanceof Timestamp) {
                     ps.setTimestamp(index, (Timestamp) parameter);
                 } else if (parameter instanceof Boolean) {
@@ -139,7 +140,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
             conn = getConnection();
             if (conn != null) {
                 conn.setAutoCommit(false);
-                ps = conn.prepareStatement(sql);
+                ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 setParameters(ps, params);
                 ps.executeUpdate();
                 //get auto generate key (IDENTITY)
