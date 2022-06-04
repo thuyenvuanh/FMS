@@ -23,7 +23,7 @@ public class CounterDAO extends AbstractDAO<Counter> implements ICounterDAO {
     }
 
     @Override
-    public Counter get(Integer id) {
+    public Counter get(int id) {
         String sql = "SELECT ID FROM Counter\n"
                 + "Where ID = ?";
         List<Counter> counters = query(sql, new CounterMapper(), id);

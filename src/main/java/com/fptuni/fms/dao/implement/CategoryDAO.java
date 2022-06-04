@@ -38,7 +38,7 @@ public class CategoryDAO extends AbstractDAO<Category> implements ICategoryDAO {
     }
 
     @Override
-    public Integer insert(Category category) {
+    public int insert(Category category) {
         String sql = "INSERT INTO Category(Name, ShortName)\n"
                 + "VALUES (?,?);";
         return insert(sql, category.getName(), category.getShortName());

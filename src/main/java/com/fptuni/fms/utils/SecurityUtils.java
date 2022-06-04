@@ -1,9 +1,7 @@
 package com.fptuni.fms.utils;
 
-import com.sun.javafx.scene.layout.region.Margins;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.xml.bind.annotation.XmlInlineBinaryData;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import javax.crypto.SecretKeyFactory;
@@ -19,8 +17,6 @@ public class SecurityUtils {
 
     //Returns a hashed string for an input string
     public static String createHash(String target, String salt) throws Exception {
-
-
         byte[] saltBytes = fromHex(mix(salt,target));
         byte[] hashed = pbkdf2(target.toCharArray(), saltBytes);
         return toHex(hashed);
@@ -37,10 +33,10 @@ public class SecurityUtils {
             i++;
         }
         return String.format("%040x", new BigInteger(1, result.getBytes(StandardCharsets.UTF_8)));
-        byte[] saltBytes = fromHex(salt);
-        byte[] hashed = pbkdf2(target.toCharArray(), saltBytes);
-
-        return toHex(hashed);
+//        byte[] saltBytes = fromHex(salt);
+//        byte[] hashed = pbkdf2(target.toCharArray(), saltBytes);
+//
+//        return toHex(hashed);
     }
 
 
@@ -50,7 +46,6 @@ public class SecurityUtils {
 
         byte[] saltBytes = fromHex(mix(salt,target));
 
-        byte[] saltBytes = fromHex(salt);
 
         byte[] hashed = pbkdf2(target.toCharArray(), saltBytes);
 

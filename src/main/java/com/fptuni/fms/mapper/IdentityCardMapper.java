@@ -4,6 +4,7 @@
  */
 package com.fptuni.fms.mapper;
 
+import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.model.IdentityCard;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ public class IdentityCardMapper implements RowMapper<IdentityCard>{
         try {
             identityCard = new IdentityCard();
             identityCard.setId(rs.getInt("ID"));
-            identityCard.setCustomerID(rs.getInt("CustomerID"));
+            identityCard.setCustomerID(new Customer(rs.getInt("CustomerID")));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

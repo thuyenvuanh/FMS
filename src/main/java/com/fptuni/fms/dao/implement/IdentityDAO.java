@@ -23,7 +23,7 @@ public class IdentityDAO extends AbstractDAO<IdentityCard> implements IIdentityC
     }
 
     @Override
-    public IdentityCard get(Integer id) {
+    public IdentityCard get(int id) {
         String sql = "SELECT ID, CustomerID FROM IdentityCard\n"
                 + "Where ID = ?";
         List<IdentityCard> identityCards = query(sql, new IdentityCardMapper(), id);

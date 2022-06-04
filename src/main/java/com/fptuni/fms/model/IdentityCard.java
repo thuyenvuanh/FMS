@@ -39,7 +39,7 @@ public class IdentityCard implements Serializable {
     private Integer id;
     @JoinColumn(name = "CustomerID", referencedColumnName = "ID")
     @ManyToOne
-    private Integer customerID;
+    private Customer customerID;
 
     public IdentityCard() {
     }
@@ -56,11 +56,11 @@ public class IdentityCard implements Serializable {
         this.id = id;
     }
 
-    public Integer getCustomerID() {
+    public Customer getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(Integer customerID) {
+    public void setCustomerID(Customer customerID) {
         this.customerID = customerID;
     }
 
