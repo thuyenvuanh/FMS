@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author NhatTan
  */
-public abstract class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
+public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
 
     @Override
     public List<Account> getListAccount() {
