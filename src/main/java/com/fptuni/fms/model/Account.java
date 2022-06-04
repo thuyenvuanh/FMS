@@ -121,7 +121,7 @@ public class Account implements Serializable {
         this.roleID = roleID;
     }
 
-    @XmlTransient
+
     public List<Store> getStoreList() {
         return storeList;
     }
