@@ -1,5 +1,6 @@
 package com.fptuni.mapper;
 
+import com.fptuni.fms.mapper.RowMapper;
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Role;
 import java.sql.ResultSet;
