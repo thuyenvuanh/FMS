@@ -4,12 +4,12 @@ import com.fptuni.fms.sort.Sorter;
 
 public class PageRequest implements Pageable {
     private Integer page;
-    private Integer maxPageItem;
+    private Integer maxItemInPage;
     private Sorter sorter;
 
     public PageRequest(Integer page, Integer maxPageItem, Sorter sorter) {
         this.page = page;
-        this.maxPageItem = maxPageItem;
+        this.maxItemInPage = maxPageItem;
         this.sorter = sorter;
     }
 
@@ -20,15 +20,15 @@ public class PageRequest implements Pageable {
 
     @Override
     public Integer getOffset() {
-        if (this.page != null && this.maxPageItem != null) {
-            return (this.page - 1) * this.maxPageItem;
+        if (this.page != null && this.maxItemInPage != null) {
+            return (this.page - 1) * this.maxItemInPage;
         }
         return null;
     }
 
     @Override
     public Integer getLimit() {
-        return this.maxPageItem;
+        return this.maxItemInPage;
     }
 
     @Override

@@ -1,27 +1,27 @@
 package com.fptuni.fms.sort;
 
 public class Sorter {
-    private String sortName;
-    private String sortBy;
+    private String sortField;
+    private boolean isAscending;
 
-    public Sorter(String sortName, String sortBy) {
-        this.sortName = sortName;
-        this.sortBy = sortBy;
+    public Sorter(String sortField, boolean isAscending){
+        this.sortField = sortField;
+        this.isAscending = isAscending;
     }
 
-    public String getSortName() {
-        return sortName;
+    public String getSortField() {
+        return sortField;
     }
 
-    public void setSortName(String sortName) {
-        this.sortName = sortName;
+    public void setSortField(String sortField) {
+        this.sortField = sortField;
     }
 
-    public String getSortBy() {
-        return sortBy;
+    public boolean isAscending() {
+        return isAscending;
     }
 
-    public void setSortBy(String sortBy) {
-        this.sortBy = sortBy;
+    public void setAscending(boolean bool) {
+        isAscending = bool;
     }
 }
