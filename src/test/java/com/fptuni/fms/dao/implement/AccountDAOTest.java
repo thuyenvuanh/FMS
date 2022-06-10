@@ -2,34 +2,6 @@
 package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.model.Account;
-import org.eclipse.persistence.jpa.jpql.Assert;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class AccountDAOTest {
-
-    @Test
-    void checkLogin() {
-        Account account = null;
-        try {
-            AccountDAO accountDAO = new AccountDAO();
-            account = accountDAO.checkLogin("binhvq", "binhvq");
-            System.out.println(account.getFullName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        assertTrue(account != null);
-    }
-}
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
-package com.fptuni.fms.dao.implement;
-
-import com.fptuni.fms.model.Account;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
