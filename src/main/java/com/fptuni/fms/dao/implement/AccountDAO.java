@@ -22,7 +22,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
     @Override
     public int Create(String Username, String Password, String Fullname, int RoleID) {
         String sql = "INSERT INTO dbo.Account(Username, Password, Fullname, RoleID) VALUES (?,?,?,?)";
-        return insert(sql, Username, Password, Fullname, new Role(RoleID));
+        return insert(sql, Username, Password, Fullname, RoleID);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
     @Override
     public boolean Update(String Username, String Password, String Fullname, int RoleID) {
         String sql = "UPDATE dbo.Account SET Password=?, Fullname=?, RoleID=? WHERE Username=?";
-        return update(sql, Password, Fullname, new Role(RoleID), Username);
+        return update(sql, Password, Fullname, RoleID, Username);
     }
 
     @Override
