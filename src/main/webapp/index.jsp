@@ -30,7 +30,7 @@
         </header>
         <div class="text-center">
             <section class="btn btn-light" style="position:relative; text-align:center;">
-            <form>
+            <form action="AccountController" method="post">
                 <p style="font-weight:bold;"> SIGN IN </p>
                 <p class="text-center">
                     <!--Username-->

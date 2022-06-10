@@ -6,7 +6,7 @@ import com.fptuni.fms.model.Product;
 import java.util.List;
 
 public interface IProductService {
-    List<Product> getProducts();
+    List<Product> getProducts(String search, String sortBy, int pageIndex);
 
     Product getProductById(int productId);
 

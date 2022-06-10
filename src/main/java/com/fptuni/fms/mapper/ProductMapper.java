@@ -5,6 +5,8 @@ package com.fptuni.mapper;
 * Author: Anh Quoc
 *
 * */
+import com.fptuni.fms.dao.implement.CategoryDAO;
+import com.fptuni.fms.mapper.RowMapper;
 import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Product;
 import com.fptuni.fms.model.Store;
