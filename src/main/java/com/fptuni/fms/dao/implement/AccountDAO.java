@@ -22,9 +22,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
     @Override
     public int Create(String Username, String Password, String Fullname, int RoleID) {
         String sql = "INSERT INTO dbo.Account(Username, Password, Fullname, RoleID) VALUES (?,?,?,?)";
-        String check = "SELECT ID, Username, Fullname, RoleID FROM dbo.Account WHERE Username=?";
-        List<Account> acc = query(check, new AccountMapper(), Username);
-        return acc.isEmpty() ? insert(sql, Username, Password, Fullname, new Role(RoleID)) : null;
+        return insert(sql, Username, Password, Fullname, new Role(RoleID));
     }
 
     @Override
