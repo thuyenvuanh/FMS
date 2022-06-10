@@ -16,12 +16,10 @@ public class ProductController extends HttpServlet {
         String path = request.getPathInfo();
         System.out.println(path);
         if (path.equals("/list")) {
-            request.setAttribute("test", "test");
-//            request.getRequestDispatcher("productList.jsp").forward(request, response);
-            HttpSession session = request.getSession();
-            session.setAttribute("name","binh");
 //            String pageSize = getServletContext().getInitParameter("pageSize");
 //            System.out.println(pageSize);
+            String queryString = request.getQueryString();
+            System.out.println(queryString);
             response.sendRedirect(request.getContextPath() + "/productList.jsp");
 
         }
