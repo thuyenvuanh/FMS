@@ -1,1 +1,4 @@
 /FMS/nbproject/private/
+/target
+/.idea
+nb-configuration.xml
