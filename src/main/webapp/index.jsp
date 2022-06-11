@@ -20,7 +20,7 @@
 <body style="background-color:#84f5b4" class="container-fluid">
 
 <header class="text-center my-5">
-    <img src="image/Background.jpg" class="rounded-3" width="200px" alt="Store logo">
+    <img src="images/Background.jpg" class="rounded-3" width="200px" alt="Store logo">
 </header>
 <div>
     <section class="shadow bg-light mx-auto px-5 py-1 rounded-4">
