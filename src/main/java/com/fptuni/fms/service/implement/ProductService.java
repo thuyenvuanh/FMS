@@ -1,16 +1,18 @@
 package com.fptuni.fms.service.implement;
 
+import com.fptuni.fms.dao.IProductDAO;
 import com.fptuni.fms.dao.implement.ProductDAO;
 import com.fptuni.fms.model.Product;
+import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.IProductService;
 
 import java.util.List;
 
 public class ProductService implements IProductService {
     @Override
-    public List<Product> getProducts(String search, String sortBy, int pageIndex) {
-        ProductDAO productDAO = new ProductDAO();
-        List<Product> products = productDAO.getProduct();
+    public List<Product> getProducts(Pageable pageable) {
+        IProductDAO productDAO = new ProductDAO();
+        List<Product> products = productDAO.getProducts(pageable);
         return products;
     }
 
@@ -32,5 +34,11 @@ public class ProductService implements IProductService {
     @Override
     public boolean deleteProduct(int productId) {
         return false;
+    }
+
+    @Override
+    public int countProduct() {
+        IProductDAO productDAO = new ProductDAO();
+        return productDAO.count();
     }
 }

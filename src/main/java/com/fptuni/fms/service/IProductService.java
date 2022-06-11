@@ -2,11 +2,12 @@ package com.fptuni.fms.service;
 
 import com.fptuni.fms.controller.ProductController;
 import com.fptuni.fms.model.Product;
+import com.fptuni.fms.paging.Pageable;
 
 import java.util.List;
 
 public interface IProductService {
-    List<Product> getProducts(String search, String sortBy, int pageIndex);
+    List<Product> getProducts(Pageable pageable);
 
     Product getProductById(int productId);
 
@@ -15,4 +16,6 @@ public interface IProductService {
     boolean updateProduct(Product product);
 
     boolean deleteProduct(int productId);
+
+    int countProduct();
 }

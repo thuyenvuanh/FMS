@@ -3,6 +3,7 @@ package com.fptuni.fms.dao;
 import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Product;
 import com.fptuni.fms.model.Store;
+import com.fptuni.fms.paging.Pageable;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,11 +15,13 @@ import java.util.List;
 * */
 public interface IProductDAO extends GenericDAO<Product> {
 
-    public Product getProduct(String name);
+    Product getProduct(int id);
 
-    public List<Product> getProduct();
+    List<Product> getProducts(Pageable pageable);
 
-    public Integer insertProduct(Product product);
+    Integer insertProduct(Product product);
 
-    public void updateProduct(String id, String name, String unit, BigDecimal price, short qtyAvailable, Category cateID, Store storeID);
+    void updateProduct(String id, String name, String unit, BigDecimal price, short qtyAvailable, Category cateID, Store storeID);
+
+    int count();
 }
