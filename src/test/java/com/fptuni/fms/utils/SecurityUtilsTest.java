@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SecurityUtilsTest {
     @Test
     public void TestOutput() {
-        String email = "anhthuyn2412@gmail.com";
+        String email = "anhthuyn2412";
         String password = "123456789";
 
         try {
