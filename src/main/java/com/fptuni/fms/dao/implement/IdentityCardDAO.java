@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author LEGION
  */
-public class IdentityDAO extends AbstractDAO<IdentityCard> implements IIdentityCardDAO {
+public class IdentityCardDAO extends AbstractDAO<IdentityCard> implements IIdentityCardDAO {
 
     @Override
     public List<IdentityCard> getAll() {
