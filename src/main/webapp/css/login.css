@@ -1,0 +1,13 @@
+section {
+    width: 600px;
+}
+
+#link-button {
+    color: #4fc284 !important;
+}
+
+@media screen and (max-width: 736px) {
+    section {
+        width: 90vw;
+    }
+}
