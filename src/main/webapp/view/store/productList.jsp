@@ -17,6 +17,9 @@
 
     <link href="../css/animate.css" rel="stylesheet"/>
     <link href="../css/style.css" rel="stylesheet"/>
+    <!-- Sweet Alert -->
+    <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
     <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
@@ -29,213 +32,294 @@
 
 <body>
 <div id="wrapper">
-    <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu">
-                <li class="nav-header">
-                    <div class="dropdown profile-element">
-                        <img
-                                alt="image"
-                                class="rounded-circle"
-                                src="img/profile_small.html"
-                        />
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="block m-t-xs font-bold">David Williams</span>
-                            <span class="text-muted text-xs block"
-                            >Art Director <b class="caret"></b></span>
+    <jsp:include page="layoutStore.jsp"></jsp:include>
+    <%--    <nav class="navbar-default navbar-static-side" role="navigation">--%>
+    <%--        <div class="sidebar-collapse">--%>
+    <%--            <ul class="nav metismenu" id="side-menu">--%>
+    <%--                <li class="nav-header">--%>
+    <%--                    <div class="dropdown profile-element">--%>
+    <%--                        <img--%>
+    <%--                                alt="image"--%>
+    <%--                                class="rounded-circle"--%>
+    <%--                                src="img/profile_small.html"--%>
+    <%--                        />--%>
+    <%--                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">--%>
+    <%--                            <span class="block m-t-xs font-bold">David Williams</span>--%>
+    <%--                            <span class="text-muted text-xs block"--%>
+    <%--                            >Art Director <b class="caret"></b></span>--%>
 
-                        </a>
-                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li>
-                                <a class="dropdown-item" href="profile.html">Profile</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="contacts.html">Contacts</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="mailbox.html">Mailbox</a>
-                            </li>
-                            <li class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="login.html">Logout</a></li>
-                        </ul>
+    <%--                        </a>--%>
+    <%--                        <ul class="dropdown-menu animated fadeInRight m-t-xs">--%>
+    <%--                            <li>--%>
+    <%--                                <a class="dropdown-item" href="profile.html">Profile</a>--%>
+    <%--                            </li>--%>
+    <%--                            <li>--%>
+    <%--                                <a class="dropdown-item" href="contacts.html">Contacts</a>--%>
+    <%--                            </li>--%>
+    <%--                            <li>--%>
+    <%--                                <a class="dropdown-item" href="mailbox.html">Mailbox</a>--%>
+    <%--                            </li>--%>
+    <%--                            <li class="dropdown-divider"></li>--%>
+    <%--                            <li><a class="dropdown-item" href="login.html">Logout</a></li>--%>
+    <%--                        </ul>--%>
+    <%--                    </div>--%>
+    <%--                    <div class="logo-element">IN+</div>--%>
+    <%--                </li>--%>
+    <%--                <li class="active">--%>
+    <%--                    <a href="#"--%>
+    <%--                    ><i class="fa fa-shopping-cart"></i>--%>
+    <%--                        <span class="nav-label">E-commerce</span--%>
+    <%--                        ><span class="fa arrow"></span--%>
+    <%--                        ></a>--%>
+    <%--                    <ul class="nav nav-second-level">--%>
+    <%--                        <li>--%>
+    <%--                            <a href="ecommerce_products_grid.html">Products grid</a>--%>
+    <%--                        </li>--%>
+    <%--                        <li class="active">--%>
+    <%--                            <a href="ecommerce_product_list.html">Products list</a>--%>
+    <%--                        </li>--%>
+    <%--                        <li><a href="ecommerce_product.html">Product edit</a></li>--%>
+    <%--                        <li>--%>
+    <%--                            <a href="ecommerce_product_detail.html">Product detail</a>--%>
+    <%--                        </li>--%>
+    <%--                        <li><a href="ecommerce-cart.html">Cart</a></li>--%>
+    <%--                        <li><a href="ecommerce-orders.html">Orders</a></li>--%>
+    <%--                        <li><a href="ecommerce_payments.html">Credit Card form</a></li>--%>
+    <%--                        <li><a href="customer-list.html">Customer list</a></li>--%>
+    <%--                    </ul>--%>
+    <%--                </li>--%>
+    <%--            </ul>--%>
+    <%--        </div>--%>
+    <%--    </nav>--%>
+
+    <%--    <div id="page-wrapper" class="gray-bg">--%>
+    <%--        <div class="row border-bottom">--%>
+    <%--            <nav--%>
+    <%--                    class="navbar navbar-static-top"--%>
+    <%--                    role="navigation"--%>
+    <%--                    style="margin-bottom: 0"--%>
+    <%--            ></nav>--%>
+    <%--        </div>--%>
+    <%--    Title--%>
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>E-commerce product list</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="index.html">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a>E-commerce</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <strong>Product list</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+    <%--    Title--%>
+    <%--    Search--%>
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-form-label" for="product_name">Category</label>
+                    <select name="status" id="status" class="form-control">
+                        <option value="" selected></option>
+                        <option value="">Food</option>
+                        <option value="">Drink</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-form-label" for="product_name">Product Name</label>
+                    <input type="text" id="product_name" name="product_name" value=""
+                           placeholder="Product Name" class="form-control">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-form-label" for="price">Price</label>
+                    <div class="d-flex flex-row">
+                        <input type="text" id="maxPrice" name="price" value="" placeholder="Max"
+                               class="form-control">
+                        <input type="text" id="minPrice" name="price" value="" placeholder="Min"
+                               class="form-control">
                     </div>
-                    <div class="logo-element">IN+</div>
-                </li>
-                <li class="active">
-                    <a href="#"
-                    ><i class="fa fa-shopping-cart"></i>
-                        <span class="nav-label">E-commerce</span
-                        ><span class="fa arrow"></span
-                        ></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="ecommerce_products_grid.html">Products grid</a>
-                        </li>
-                        <li class="active">
-                            <a href="ecommerce_product_list.html">Products list</a>
-                        </li>
-                        <li><a href="ecommerce_product.html">Product edit</a></li>
-                        <li>
-                            <a href="ecommerce_product_detail.html">Product detail</a>
-                        </li>
-                        <li><a href="ecommerce-cart.html">Cart</a></li>
-                        <li><a href="ecommerce-orders.html">Orders</a></li>
-                        <li><a href="ecommerce_payments.html">Credit Card form</a></li>
-                        <li><a href="customer-list.html">Customer list</a></li>
-                    </ul>
-                </li>
-            </ul>
+
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-form-label" for="quantity">Quantity</label>
+                    <input type="text" id="quantity" name="quantity" value="" placeholder="Quantity"
+                           class="form-control">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="col-form-label" for="status">Status</label>
+                    <select name="status" id="status" class="form-control">
+                        <option value="1" selected>Enabled</option>
+                        <option value="0">Disabled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <button class="btn btn-outline-success  float-right" type="submit">Search</button>
+            </div>
+        </div>
+
+    </div>
+    <%--    Search--%>
+    <%--    Create--%>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a href="ecommerce_product.html" class="">
+                <button class="btn btn-outline-primary"
+                        type="submit">Create
+                </button>
+            </a>
         </div>
     </nav>
+    <%--    Create--%>
 
-    <div id="page-wrapper" class="gray-bg">
-        <div class="row border-bottom">
-            <nav
-                    class="navbar navbar-static-top"
-                    role="navigation"
-                    style="margin-bottom: 0"
-            ></nav>
-        </div>
-        <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-lg-10">
-                <h2>E-commerce product list</h2>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a>E-commerce</a>
-                    </li>
-                    <li class="breadcrumb-item active">
-                        <strong>Product list</strong>
-                    </li>
-                </ol>
-            </div>
-            <div class="col-lg-2"></div>
-        </div>
+    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
 
-        <div class="wrapper wrapper-content animated fadeInRight ecommerce">
-            <nav class="navbar navbar-light bg-light">
-                <div class="container-fluid">
-                    <a href="ecommerce_product.html" class=""
-                    >
-                        <button class="btn btn-outline-primary" type="submit">
-                            Create
-                        </button>
-                    </a
-                    >
-                    <form class="d-flex">
-                        <input
-                                class="form-control me-2"
-                                type="search"
-                                placeholder="Search"
-                                aria-label="Search"
-                        />
-                        <button class="btn btn-outline-success" type="submit">
-                            Search
-                        </button>
-                    </form>
-                </div>
-            </nav>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <table class="footable table table-stripped toggle-arrow-tiny"
+                               data-page-size="15">
+                            <thead>
+                            <c:url var="sort" value="${requestScope.contextPath}/product/list">
+                                <c:param name="page" value="${requestScope.currentPage}"></c:param>
+                                <c:param name="isAscending" value="${requestScope.isAsc}"></c:param>
+                            </c:url>
+                            <tr>
+                                <th data-toggle="true" data-sort-ignore="true">
+                                    <a href="${sort}&sortField=ID">Product ID</a>
+                                </th>
+                                <th data-hide="phone" data-sort-ignore="true">
+                                    <a href="${sort}&sortField=Name">Product Name</a>
+                                </th>
+                                <th data-hide="all" data-sort-ignore="true">Description</th>
+                                <th data-hide="phone" data-sort-ignore="true">Price</th>
+                                <th data-hide="phone,tablet" data-sort-ignore="true">Quantity</th>
+                                <th data-hide="phone" data-sort-ignore="true">Status</th>
+                                <th class="text-right" data-sort-ignore="true">
+                                    Action
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="ibox">
-                        <div class="ibox-content">
-                            <table class="footable table table-stripped toggle-arrow-tiny"
-                                   data-page-size="15">
-                                <thead>
+                            <c:forEach var="product" items="${requestScope.productList}">
                                 <tr>
-                                    <th data-toggle="true">Product Name</th>
-                                    <th data-hide="phone">Model</th>
-                                    <th data-hide="all">Description</th>
-                                    <th data-hide="phone">Price</th>
-                                    <th data-hide="phone,tablet">Quantity</th>
-                                    <th data-hide="phone" data-sort-ignore="true">Status</th>
-                                    <th class="text-right" data-sort-ignore="true">
-                                        Action
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                <c:forEach var="product" items="${requestScope.productList}">
-                                    <tr>
-                                        <td>${product.id}</td>
-                                        <td>${product.name}</td>
-                                        <td>
-                                            It is a long established fact that a reader will be
-                                            distracted by the readable content of a page when
-                                            looking at its layout. The point of using Lorem Ipsum
-                                            is that it has a more-or-less normal distribution of
-                                            letters, as opposed to using 'Content here, content
-                                            here', making it look like readable English.
-                                        </td>
-                                        <td>${product.price}</td>
-                                        <td>${product.qtyAvailable}</td>
-                                        <td>
-                                            <span class="label label-primary">Enable</span>
-                                        </td>
-                                        <td class="text-right">
-                                            <div class="btn-group">
-                                                <a href="product-view.html">
-                                                    <button class="btn-white btn btn-xs">
-                                                        View
-                                                    </button>
-                                                </a>
-                                                <a href="product-update.html">
-                                                    <button class="btn-white btn btn-xs">
-                                                        Edit
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td colspan="6">
-                                        <!-- <ul class="pagination float-right"></ul> -->
-                                        <nav aria-label="Page navigation example">
-                                            <ul class="paginations">
-                                                <li class="page-item">
-                                                    <a
-                                                            class="page-link"
-                                                            href="#"
-                                                            aria-label="Previous"
-                                                    >
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                        <span class="sr-only">Previous</span>
-                                                    </a>
-                                                </li>
-                                                <c:forEach var="pageIndex" items="${requestScope.totalPages}">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="${pageIndex}">${pageIndex}</a>
-                                                    </li>
-                                                </c:forEach>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                        <span class="sr-only">Next</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
+                                    <td>${product.id}</td>
+                                    <td>${product.name}</td>
+                                    <td>
+                                        It is a long established fact that a reader will be
+                                        distracted by the readable content of a page when
+                                        looking at its layout. The point of using Lorem Ipsum
+                                        is that it has a more-or-less normal distribution of
+                                        letters, as opposed to using 'Content here, content
+                                        here', making it look like readable English.
+                                    </td>
+                                    <td>${product.price}</td>
+                                    <td>${product.qtyAvailable}</td>
+                                    <td>
+                                        <span class="label label-primary">Enable</span>
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                            <a href="product-view.html">
+                                                <button class="btn-white btn btn-xs">
+                                                    View
+                                                </button>
+                                            </a>
+                                            <a href="product-update.html">
+                                                <button class="btn-white btn btn-xs">
+                                                    Edit
+                                                </button>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+                            </c:forEach>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <!-- <ul class="pagination float-right"></ul> -->
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="paginations">
+                                            <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
+                                                <c:url var="previousPage"
+                                                       value="${requestScope.contextPath}/product/list">
+                                                    <c:param name="page"
+                                                             value="${requestScope.currentPage - 1}"></c:param>
+                                                    <c:param name="sortField"
+                                                             value="${requestScope.sortField}"></c:param>
+                                                    <c:param name="isAscending" value="true"></c:param>
+                                                </c:url>
+                                                <a
+                                                        class="page-link"
+                                                        href="${previousPage}"
+                                                        aria-label="Previous"
+                                                >
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                            </li>
+                                            <c:forEach begin="1" end="${requestScope.totalPages}" var="page">
+                                                <c:url var="paging"
+                                                       value="${requestScope.contextPath}/product/list">
+                                                    <c:param name="page" value="${page}"></c:param>
+                                                    <c:param name="sortField"
+                                                             value="${requestScope.sortField}"></c:param>
+                                                    <c:param name="isAscending" value="true"></c:param>
+                                                </c:url>
+                                                <li class="page-item ${requestScope.currentPage == page ?"active":""}">
+                                                    <a class="page-link "
+                                                       href="${paging}">${page}</a>
+                                                </li>
+                                            </c:forEach>
+                                            <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
+                                                <c:url var="nextPage"
+                                                       value="${requestScope.contextPath}/product/list">
+                                                    <c:param name="page"
+                                                             value="${requestScope.currentPage + 1}"></c:param>
+                                                    <c:param name="sortField"
+                                                             value="${requestScope.sortField}"></c:param>
+                                                    <c:param name="isAscending" value="true"></c:param>
+                                                </c:url>
+                                                <a class="page-link" href="${nextPage}" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="footer">
-            <div class="float-right">10GB of <strong>250GB</strong> Free.</div>
-            <div><strong>Copyright</strong> Example Company &copy; 2014-2018</div>
-        </div>
     </div>
+    <%--    <div class="footer">--%>
+    <%--        <div class="float-right">10GB of <strong>250GB</strong> Free.</div>--%>
+    <%--        <div><strong>Copyright</strong> Example Company &copy; 2014-2018</div>--%>
+    <%--    </div>--%>
+    <jsp:include page="footer.jsp"></jsp:include>
+</div>
 </div>
 
 <!-- Mainly scripts -->
@@ -267,11 +351,75 @@
 <script src="../js/plugins/footable/footable.all.min.js"></script>
 
 <!-- Page-Level Scripts -->
+<!-- Sweet alert -->
+<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        swal({
+            title: "Create Success!",
+            text: "You clicked the button!",
+            type: "success"
+        });
+    });
+</script>
 <script>
     $(document).ready(function () {
         $(".footable").footable();
     });
 </script>
+<div class="sa-icon sa-error" style="display: none">
+        <span class="sa-x-mark">
+          <span class="sa-line sa-left"></span>
+          <span class="sa-line sa-right"></span>
+        </span>
+</div>
+<div class="sa-icon sa-warning" style="display: none">
+    <span class="sa-body"></span>
+    <span class="sa-dot"></span>
+</div>
+<div class="sa-icon sa-info" style="display: none"></div>
+<div class="sa-icon sa-success" style="display: block">
+    <span class="sa-line sa-tip"></span>
+    <span class="sa-line sa-long"></span>
+
+    <div class="sa-placeholder"></div>
+    <div class="sa-fix"></div>
+</div>
+<div class="sa-icon sa-custom" style="display: none"></div>
+<h2>Create success!</h2>
+<p style="display: block">Your imaginary file has been deleted.</p>
+<fieldset>
+    <input type="text" tabindex="3" placeholder=""/>
+    <div class="sa-input-error"></div>
+</fieldset>
+<div class="sa-error-container">
+    <div class="icon">!</div>
+    <p>Not valid!</p>
+</div>
+<div class="sa-button-container">
+    <button
+            class="cancel"
+            tabindex="2"
+            style="display: none; box-shadow: none"
+    >
+        Cancel
+    </button>
+
+    <button
+            class="confirm"
+            tabindex="1"
+            style="
+            display: inline-block;
+            background-color: rgb(174, 222, 244);
+            box-shadow: rgba(174, 222, 244, 0.8) 0px 0px 2px,
+              rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;
+          "
+    >
+        a
+    </button>
+</div>
+</div>
 </body>
 
 <!-- Mirrored from webapplayers.com/inspinia_admin-v2.9.4/ecommerce_product_list.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jun 2022 04:37:12 GMT -->

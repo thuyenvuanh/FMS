@@ -32,17 +32,23 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 
     @Override
     public List<Product> getProducts(Pageable pageable) {
-
-        String sql = "SELECT ID, Name, Unit, Price, QtyAvailable, CateID, StoreID \n" +
-                " FROM Product\n";
-        if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
-            String orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
-            sql += "ORDER BY " + pageable.getSorter().getSortField() + " " + orderBy;
-        }
+        // Sort theo field xong moi paging
+        // Neu chon sortField khac thi cac Product moi trang se thay doi
+        // Vi du: sortField = ID ==> list ID ASC ==> paging
+        String sql = "SELECT * FROM \n" +
+                "(SELECT ID, Name, Unit, Price, QtyAvailable, CateID, StoreID \n" +
+                "FROM Product\n" +
+                "ORDER BY " + pageable.getSorter().getSortField() + " ASC ";
         if (pageable.getOffset() != null && pageable.getLimit() != null) {
             sql += " OFFSET " + pageable.getOffset() + " ROWS\n" +
-                    " FETCH NEXT " + pageable.getLimit() + " ROWS ONLY";
+                    " FETCH NEXT " + pageable.getLimit() + " ROWS ONLY ) AS A \n";
         }
+        if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
+            String orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
+            sql += "ORDER BY A." + pageable.getSorter().getSortField() + " " + orderBy;
+        }
+
+
         List<Product> products = query(sql, new ProductMapper());
         return products.isEmpty() ? null : products;
     }

@@ -23,18 +23,34 @@ public class ProductController extends HttpServlet {
         String path = request.getPathInfo();
 //        System.out.println(path);
         if (path.equals("/list")) {
-//            String pageSize = getServletContext().getInitParameter("pageSize");
+
+            int pageIndex = 1;
+            int pageSize = 2;
+//            int pageSize = Integer.parseInt(getServletContext().getInitParameter("pageSize"));
 //            System.out.println(pageSize);
-            int pageIndex = Integer.parseInt(request.getParameter("page")) ;
-            int maxItem = Integer.parseInt(request.getParameter("maxItem")) ;
-            Sorter sorter = new Sorter(request.getParameter("sortField"), Boolean.parseBoolean(request.getParameter("isAscending")) );
-            Pageable pageable = new PageRequest(pageIndex,maxItem,sorter);
+            String sortField = "ID";
+            boolean isAsc = true;
+            if (request.getParameter("page") != null) {
+                pageIndex = Integer.parseInt(request.getParameter("page"));
+            }
+            if (request.getParameter("sortField") != null) {
+                sortField = request.getParameter("sortField");
+            }
+            if (request.getParameter("isAscending") != null) {
+                isAsc = Boolean.parseBoolean(request.getParameter("isAscending"));
+            }
+            Sorter sorter = new Sorter(sortField, isAsc);
+            Pageable pageable = new PageRequest(pageIndex, pageSize, sorter);
             IProductService productService = new ProductService();
             List<Product> products = productService.getProducts(pageable);
-            int totalPages = (int) Math.ceil(productService.countProduct() / maxItem);
+            int totalPages = (int) Math.ceil(productService.countProduct() / pageSize);
             request.setAttribute("productList", products);
-            request.setAttribute("totalPages",totalPages);
-            request.getRequestDispatcher("/view/store/productList.jsp").forward(request,response);
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentPage", pageIndex);
+            request.setAttribute("sortField", sortField);
+            // Tu dong dao nguoc khi nhan nhieu lan vao sortField
+            request.setAttribute("isAsc", !isAsc);
+            request.getRequestDispatcher("/view/store/productList.jsp").forward(request, response);
 
 //            response.sendRedirect(request.getContextPath() + "/view/store/productList.jsp");
         }
