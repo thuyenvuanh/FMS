@@ -18,8 +18,8 @@
     <link href="../css/animate.css" rel="stylesheet"/>
     <link href="../css/style.css" rel="stylesheet"/>
     <!-- Sweet Alert -->
-    <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
-    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
     <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
@@ -33,74 +33,6 @@
 <body>
 <div id="wrapper">
     <jsp:include page="layoutStore.jsp"></jsp:include>
-    <%--    <nav class="navbar-default navbar-static-side" role="navigation">--%>
-    <%--        <div class="sidebar-collapse">--%>
-    <%--            <ul class="nav metismenu" id="side-menu">--%>
-    <%--                <li class="nav-header">--%>
-    <%--                    <div class="dropdown profile-element">--%>
-    <%--                        <img--%>
-    <%--                                alt="image"--%>
-    <%--                                class="rounded-circle"--%>
-    <%--                                src="img/profile_small.html"--%>
-    <%--                        />--%>
-    <%--                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">--%>
-    <%--                            <span class="block m-t-xs font-bold">David Williams</span>--%>
-    <%--                            <span class="text-muted text-xs block"--%>
-    <%--                            >Art Director <b class="caret"></b></span>--%>
-
-    <%--                        </a>--%>
-    <%--                        <ul class="dropdown-menu animated fadeInRight m-t-xs">--%>
-    <%--                            <li>--%>
-    <%--                                <a class="dropdown-item" href="profile.html">Profile</a>--%>
-    <%--                            </li>--%>
-    <%--                            <li>--%>
-    <%--                                <a class="dropdown-item" href="contacts.html">Contacts</a>--%>
-    <%--                            </li>--%>
-    <%--                            <li>--%>
-    <%--                                <a class="dropdown-item" href="mailbox.html">Mailbox</a>--%>
-    <%--                            </li>--%>
-    <%--                            <li class="dropdown-divider"></li>--%>
-    <%--                            <li><a class="dropdown-item" href="login.html">Logout</a></li>--%>
-    <%--                        </ul>--%>
-    <%--                    </div>--%>
-    <%--                    <div class="logo-element">IN+</div>--%>
-    <%--                </li>--%>
-    <%--                <li class="active">--%>
-    <%--                    <a href="#"--%>
-    <%--                    ><i class="fa fa-shopping-cart"></i>--%>
-    <%--                        <span class="nav-label">E-commerce</span--%>
-    <%--                        ><span class="fa arrow"></span--%>
-    <%--                        ></a>--%>
-    <%--                    <ul class="nav nav-second-level">--%>
-    <%--                        <li>--%>
-    <%--                            <a href="ecommerce_products_grid.html">Products grid</a>--%>
-    <%--                        </li>--%>
-    <%--                        <li class="active">--%>
-    <%--                            <a href="ecommerce_product_list.html">Products list</a>--%>
-    <%--                        </li>--%>
-    <%--                        <li><a href="ecommerce_product.html">Product edit</a></li>--%>
-    <%--                        <li>--%>
-    <%--                            <a href="ecommerce_product_detail.html">Product detail</a>--%>
-    <%--                        </li>--%>
-    <%--                        <li><a href="ecommerce-cart.html">Cart</a></li>--%>
-    <%--                        <li><a href="ecommerce-orders.html">Orders</a></li>--%>
-    <%--                        <li><a href="ecommerce_payments.html">Credit Card form</a></li>--%>
-    <%--                        <li><a href="customer-list.html">Customer list</a></li>--%>
-    <%--                    </ul>--%>
-    <%--                </li>--%>
-    <%--            </ul>--%>
-    <%--        </div>--%>
-    <%--    </nav>--%>
-
-    <%--    <div id="page-wrapper" class="gray-bg">--%>
-    <%--        <div class="row border-bottom">--%>
-    <%--            <nav--%>
-    <%--                    class="navbar navbar-static-top"--%>
-    <%--                    role="navigation"--%>
-    <%--                    style="margin-bottom: 0"--%>
-    <%--            ></nav>--%>
-    <%--        </div>--%>
-    <%--    Title--%>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>E-commerce product list</h2>
@@ -125,7 +57,7 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label class="col-form-label" for="product_name">Category</label>
-                    <select name="status" id="status" class="form-control">
+                    <select name="status" id="category" class="form-control">
                         <option value="" selected></option>
                         <option value="">Food</option>
                         <option value="">Drink</option>
@@ -141,7 +73,7 @@
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="col-form-label" for="price">Price</label>
+                    <label class="col-form-label" for="maxPrice">Price</label>
                     <div class="d-flex flex-row">
                         <input type="text" id="maxPrice" name="price" value="" placeholder="Max"
                                class="form-control">
@@ -178,7 +110,7 @@
     <%--    Create--%>
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
-            <a href="ecommerce_product.html" class="">
+            <a href="${pageContext.servletContext.contextPath}/view/store/productCreate.jsp" class="">
                 <button class="btn btn-outline-primary"
                         type="submit">Create
                 </button>
@@ -314,10 +246,6 @@
             </div>
         </div>
     </div>
-    <%--    <div class="footer">--%>
-    <%--        <div class="float-right">10GB of <strong>250GB</strong> Free.</div>--%>
-    <%--        <div><strong>Copyright</strong> Example Company &copy; 2014-2018</div>--%>
-    <%--    </div>--%>
     <jsp:include page="footer.jsp"></jsp:include>
 </div>
 </div>
@@ -335,6 +263,7 @@
 
 <!-- FooTable -->
 <script src="../../js/plugins/footable/footable.all.min.js"></script>
+<script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <!-- Mainly scripts -->
 <script src="../js/jquery-3.1.1.min.js"></script>
@@ -352,74 +281,26 @@
 
 <!-- Page-Level Scripts -->
 <!-- Sweet alert -->
-<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-        swal({
-            title: "Create Success!",
-            text: "You clicked the button!",
-            type: "success"
+<%--if controller return update successful status--%>
+<c:if test="${sessionScope.status!=null}">
+    <script>
+        $(document).ready(function () {
+            swal({
+                title: "Create Success!",
+                text: "You clicked the button!",
+                type: "success"
+            });
         });
-    });
-</script>
+    </script>
+</c:if>
 <script>
     $(document).ready(function () {
         $(".footable").footable();
     });
 </script>
-<div class="sa-icon sa-error" style="display: none">
-        <span class="sa-x-mark">
-          <span class="sa-line sa-left"></span>
-          <span class="sa-line sa-right"></span>
-        </span>
-</div>
-<div class="sa-icon sa-warning" style="display: none">
-    <span class="sa-body"></span>
-    <span class="sa-dot"></span>
-</div>
-<div class="sa-icon sa-info" style="display: none"></div>
-<div class="sa-icon sa-success" style="display: block">
-    <span class="sa-line sa-tip"></span>
-    <span class="sa-line sa-long"></span>
 
-    <div class="sa-placeholder"></div>
-    <div class="sa-fix"></div>
-</div>
-<div class="sa-icon sa-custom" style="display: none"></div>
-<h2>Create success!</h2>
-<p style="display: block">Your imaginary file has been deleted.</p>
-<fieldset>
-    <input type="text" tabindex="3" placeholder=""/>
-    <div class="sa-input-error"></div>
-</fieldset>
-<div class="sa-error-container">
-    <div class="icon">!</div>
-    <p>Not valid!</p>
-</div>
-<div class="sa-button-container">
-    <button
-            class="cancel"
-            tabindex="2"
-            style="display: none; box-shadow: none"
-    >
-        Cancel
-    </button>
-
-    <button
-            class="confirm"
-            tabindex="1"
-            style="
-            display: inline-block;
-            background-color: rgb(174, 222, 244);
-            box-shadow: rgba(174, 222, 244, 0.8) 0px 0px 2px,
-              rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;
-          "
-    >
-        a
-    </button>
-</div>
-</div>
 </body>
 
 <!-- Mirrored from webapplayers.com/inspinia_admin-v2.9.4/ecommerce_product_list.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jun 2022 04:37:12 GMT -->

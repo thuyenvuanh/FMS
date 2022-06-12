@@ -6,13 +6,11 @@ import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.IProductService;
 import com.fptuni.fms.service.implement.ProductService;
 import com.fptuni.fms.sort.Sorter;
-import com.fptuni.fms.utils.RequestUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 @MultipartConfig
@@ -52,7 +50,12 @@ public class ProductController extends HttpServlet {
             request.setAttribute("isAsc", !isAsc);
             request.getRequestDispatcher("/view/store/productList.jsp").forward(request, response);
 
-//            response.sendRedirect(request.getContextPath() + "/view/store/productList.jsp");
+        }
+        if(path.equals("/create")){
+            HttpSession session = request.getSession();
+            session.setAttribute("status", "success");
+            System.out.println(request.getQueryString());
+            response.sendRedirect(request.getContextPath()+"/view/store/productList.jsp");
         }
     }
 
