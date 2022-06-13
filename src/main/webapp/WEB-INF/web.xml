@@ -12,19 +12,29 @@
         <servlet-name>MainController</servlet-name>
         <servlet-class>com.fptuni.fms.controllers.MainController</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>AuthController</servlet-name>
-        <servlet-class>com.fptuni.fms.controllers.AuthController</servlet-class>
-    </servlet>
-
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>*.html</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AuthController</servlet-name>
+        <servlet-class>com.fptuni.fms.controllers.AccountController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthController</servlet-name>
         <url-pattern>/auth</url-pattern>
     </servlet-mapping>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.fptuni.fms.filters.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 
     <session-config>
         <session-timeout>

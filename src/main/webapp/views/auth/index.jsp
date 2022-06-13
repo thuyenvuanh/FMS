@@ -38,7 +38,7 @@ align-self-md-center align-self-stretch">
                 <!-- Submit button -->
                 <div class="row px-2">
                     <button type="submit" class="btn mb-3 shadow" formaction="<c:url
-        value="/auth/login.do"/>" style="background-color: #4fc284; color: #ffffff">Sign in
+        value="/auth/login.html"/>" style="background-color: #4fc284; color: #ffffff">Sign in
                     </button>
                     <span class="text-danger">${message}</span>
                 </div>

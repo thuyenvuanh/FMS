@@ -10,32 +10,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class AuthController extends HttpServlet {
+import static com.fptuni.fms.services.AccountServices.login;
+
+public class AccountController extends HttpServlet {
 
     private final AccountDAO accountDAO;
 
-    public AuthController() {
+    public AccountController() {
         this.accountDAO = new AccountDAO();
     }
 
     private void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         request.removeAttribute("message");
+        String action = (String) request.getAttribute("action");
 
-        String username = (String) request.getParameter("username");
-        String password = (String) request.getParameter("password");
-        if (username != null && password != null) {
-            try {
-                password = SecurityUtils.createHash(password, username);
-                Account account = accountDAO.checkLogin(username, password);
-                if (account != null)
-                    request.setAttribute("message", "Account found");
-                else
-                    request.setAttribute("message", "username or password is wrong");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            request.setAttribute("action", "index");
+        switch (action) {
+            case "index":
+                break;
+            case "login":
+                login(request, response);
+                break;
+            case "forgot":
+//                forgot(request, response);
+                break;
+            default:
+
         }
         request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
     }

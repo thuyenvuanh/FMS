@@ -12,6 +12,7 @@ public class MainController extends HttpServlet {
         String url = request.getServletPath();
         String controller = url.substring(0, url.lastIndexOf("/"));
         String action = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
+//        String action = url.substring(url.lastIndexOf("/") + 1);
 
         System.out.println("ServletPath: " + url);
         System.out.println("Controller: " + controller);
