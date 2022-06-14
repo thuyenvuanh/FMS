@@ -10,33 +10,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.fptuni.fms.services.AccountServices.login;
+import com.fptuni.fms.services.AccountServices;
 
 public class AccountController extends HttpServlet {
 
-    private final AccountDAO accountDAO;
-
     public AccountController() {
-        this.accountDAO = new AccountDAO();
     }
 
     private void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.removeAttribute("message");
-        String action = (String) request.getAttribute("action");
-
+        String action = request.getPathInfo();
+        System.out.println("path info: " + action);
         switch (action) {
-            case "index":
+            case "/index":
                 break;
-            case "login":
-                login(request, response);
+            case "/login":
+                AccountServices.login(request, response);
                 break;
-            case "forgot":
+            case "/forgot":
 //                forgot(request, response);
+                break;
+            case "/logout":
+                AccountServices.logout(request, response);
                 break;
             default:
 
         }
-        request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
     }
 
     @Override

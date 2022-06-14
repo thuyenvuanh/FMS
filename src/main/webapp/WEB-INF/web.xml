@@ -5,17 +5,8 @@
 	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	 version="3.1">
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>/views/auth/index.jsp</welcome-file>
     </welcome-file-list>
-
-    <servlet>
-        <servlet-name>MainController</servlet-name>
-        <servlet-class>com.fptuni.fms.controllers.MainController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>MainController</servlet-name>
-        <url-pattern>*.html</url-pattern>
-    </servlet-mapping>
 
     <servlet>
         <servlet-name>AuthController</servlet-name>
@@ -23,7 +14,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>AuthController</servlet-name>
-        <url-pattern>/auth</url-pattern>
+        <url-pattern>/auth/*</url-pattern>
     </servlet-mapping>
 
     <filter>
@@ -34,7 +25,6 @@
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
 
     <session-config>
         <session-timeout>
