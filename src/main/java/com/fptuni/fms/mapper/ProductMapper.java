@@ -5,6 +5,8 @@ package com.fptuni.mapper;
 * Author: Anh Quoc
 *
 * */
+import com.fptuni.fms.dao.implement.CategoryDAO;
+
 import com.fptuni.fms.mapper.RowMapper;
 import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Product;
@@ -22,20 +24,15 @@ public class ProductMapper implements RowMapper<Product> {
             product = new Product();
             product.setId(rs.getString("ID"));
             product.setName(rs.getString("Name"));
-            product.setUnit(rs.getString("Unit"));
-            product.setPrice(rs.getBigDecimal("FullName"));
+            product.setImagePath(rs.getString("ImagePath"));
+            product.setPrice(rs.getBigDecimal("Price"));
             product.setQtyAvailable(rs.getShort("QtyAvailable"));
-            Category category = new Category();
-            Store store = new Store();
-            category.setId(rs.getInt("ID"));
-            store.setId(rs.getInt("ID"));
-            product.setCateID(category);
-            product.setStoreID(store);
+            product.setCateID(new Category(rs.getInt("CateID")));
+            product.setStoreID(new Store(rs.getInt("StoreID")));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return product;
     }
-
 }
 

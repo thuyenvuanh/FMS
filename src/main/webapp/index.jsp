@@ -4,72 +4,66 @@
     Author     : Admin
 --%>
 
-    <%@page contentType="text/html" pageEncoding="UTF-8"%>
-        <!DOCTYPE html>
-        <html>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Login</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" rel="stylesheet">
+    <link href="css/login.css" rel="stylesheet">
+</head>
 
-        <head>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Login</title>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-        </head>
+<body style="background-color:#84f5b4" class="container-fluid">
 
-        <body style="background-color:#9EBF99">
-
-        <header class="text-center col-sm-4" style="margin-left:auto;margin-right:auto;">
-            <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="index.jsp" role="tab"
-                       aria-controls="pills-login" aria-selected="true" >Login</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="register.jsp" role="tab"
-                       aria-controls="pills-register" aria-selected="false">Register</a>
-                </li>
-            </ul>
-        </header>
-        <div class="text-center">
-            <section class="btn btn-light" style="position:relative; text-align:center;">
-            <form>
-                <p style="font-weight:bold;"> SIGN IN </p>
-                <p class="text-center">
-                    <!--Username-->
-                <div class="form-outline mb-4">
-                    <p>Username: <input type="text" id="loginName" placeholder="Username"></p>
-                </div>
-                <!-- Password input -->
-                <div class="form-outline mb-4">
-                    <p>Password: <input type="text" id="loginPassword" placeholder="Password"></p>
-                </div>
-
-                <!-- 2 column grid layout -->
-                <div class="row mb-3">
-                    <div class="d-flex justify-content-center">
-                        <!-- Checkbox -->
-                        <div class="form-check mb-3 mb-md-0">
-                            <input class="form-check-input" type="checkbox" value="" id="loginCheck" />
-                            <label for="loginCheck"> Remember me </label>
-                        </div>
+<header class="text-center my-5">
+    <img src="image/Background.jpg" class="rounded-3" width="200px" alt="Store logo">
+</header>
+<div>
+    <section class="shadow bg-light mx-auto px-5 py-1 rounded-4">
+        <form action="" method="post">
+            <p class="fw-bold fs-1 text-center mt-3">SIGN IN</p>
+            <!--Username-->
+            <div class="mb-3">
+                <label for="loginUsername" class="form-label">Username</label>
+                <input type="text" class="form-control" id="loginUsername" placeholder="Enter username" name="username"
+                       required>
+            </div>
+            <!-- Password input -->
+            <div class="mb-3">
+                <label for="loginPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="loginPassword" placeholder="Enter password"
+                       name="password" required>
+            </div>
+            <!-- 2 column grid layout -->
+            <div class="row mb-3">
+                <div class="d-flex justify-content-center">
+                    <!-- Checkbox -->
+                    <div class="form-check mb-3 mb-md-0 was-validated">
+                        <input class="form-check-input" type="checkbox" id="loginCheck" name="remember"/>
+                        <label for="loginCheck" class="form-check-label">Remember me</label>
                     </div>
-
-                    <div class="d-flex justify-content-center">
-                        <!-- Simple link -->
-                        <a href="register.jsp">Forgot password?</a>
-                    </div>
-
                 </div>
-                <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
-                <!-- Register buttons -->
-                <div class="text-center">
-                    <p>Not a member? <a href="register.jsp">Register</a></p>
-                </div>
-                </p>
-            </form>
-        </section>
+            </div>
+            <!-- Submit button -->
+            <div class="row px-2">
+                <button type="submit" class="btn mb-3 shadow" style="background-color: #4fc284; color: #ffffff">Sign
+                    in
+                </button>
+                <span class="text-danger"></span>
+            </div>
+        </form>
+        <!-- Forgot password-->
+        <div class="d-flex justify-content-center">
+            <button type="submit" id="link-button" class="btn btn-link text-center">Forgot password?</button>
         </div>
+    </section>
+</div>
 
-        <footer></footer>
-        </body>
+<footer></footer>
+</body>
 
-        </html>
+</html>
