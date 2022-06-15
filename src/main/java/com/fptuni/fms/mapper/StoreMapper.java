@@ -1,6 +1,7 @@
 package com.fptuni.mapper;
 
 
+import com.fptuni.fms.mapper.RowMapper;
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Store;
 
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 * Author: Anh Quoc
 *
 * */
-public class StoreMapper implements RowMapper<Store>{
+public class StoreMapper implements RowMapper<Store> {
 
     @Override
     public Store mapRow(ResultSet rs) {

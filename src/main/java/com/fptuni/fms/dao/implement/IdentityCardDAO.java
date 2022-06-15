@@ -7,6 +7,8 @@ package com.fptuni.fms.dao.implement;
 import com.fptuni.fms.dao.IIdentityCardDAO;
 import com.fptuni.fms.mapper.IdentityCardMapper;
 import com.fptuni.fms.model.IdentityCard;
+import com.fptuni.fms.paging.Pageable;
+
 import java.util.List;
 
 /**
@@ -16,8 +18,24 @@ import java.util.List;
 public class IdentityCardDAO extends AbstractDAO<IdentityCard> implements IIdentityCardDAO {
 
     @Override
-    public List<IdentityCard> getAll() {
+    public List<IdentityCard> getList(Boolean status, Pageable pageable) {
         String sql = "SELECT ID, CustomerID FROM IdentityCard";
+        if(status != null){
+            if(status)
+                sql += "\nWHERE CustomerID is not null";
+            else
+                sql += "\nWHERE CustomerID is null";
+        }
+        if(pageable != null){
+            if(pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty() && pageable.getSorter().isAscending() != null){
+                sql += "\nORDER BY " + pageable.getSorter().getSortField() + " " + (pageable.getSorter().isAscending() == true ? "ASC" : "DESC");
+            }
+            if(pageable.getOffset() != null && pageable.getLimit() != null){
+                sql += "\nOFFSET " + pageable.getOffset() + " ROWS" +
+                        "\nFETCH NEXT " + pageable.getLimit() + " ROWS ONLY";
+            }
+        }
+
         List<IdentityCard> identityCards = query(sql, new IdentityCardMapper());
         return identityCards.isEmpty() ? null : identityCards;
     }
@@ -38,4 +56,9 @@ public class IdentityCardDAO extends AbstractDAO<IdentityCard> implements IIdent
         update(sql, identityCard.getCustomerID());
     }
 
+    @Override
+    public int getTotalItem() {
+        String sql = "SELECT count(*) FROM IdentityCard";
+        return count(sql);
+    }
 }
