@@ -5,6 +5,7 @@
 package com.fptuni.fms.dao;
 
 import com.fptuni.fms.model.IdentityCard;
+import com.fptuni.fms.paging.Pageable;
 
 import java.util.List;
 
@@ -15,7 +16,9 @@ public interface IIdentityCardDAO extends GenericDAO<IdentityCard> {
 
     void update(IdentityCard identityCard);
 
-    List<IdentityCard> getAll();
+    List<IdentityCard> getList(Boolean status, Pageable pageable);
 
     IdentityCard get(int id);
+
+    int getTotalItem();
 }

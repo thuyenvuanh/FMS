@@ -2,7 +2,10 @@ package com.fptuni.fms.sort;
 
 public class Sorter {
     private String sortField;
-    private boolean isAscending; // true: ASC; false: DESC
+    private Boolean isAscending;
+
+    public Sorter() {
+    }
 
     public Sorter(String sortField, boolean isAscending){
         this.sortField = sortField;
@@ -17,11 +20,11 @@ public class Sorter {
         this.sortField = sortField;
     }
 
-    public boolean isAscending() {
+    public Boolean isAscending() {
         return isAscending;
     }
 
-    public void setAscending(boolean bool) {
+    public void setAscending(Boolean bool) {
         isAscending = bool;
     }
 }
