@@ -78,10 +78,7 @@ public class IdentityCard implements Serializable {
             return false;
         }
         IdentityCard other = (IdentityCard) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override

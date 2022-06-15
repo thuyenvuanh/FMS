@@ -9,14 +9,14 @@ import java.util.List;
  */
 public interface IAccountDAO extends GenericDAO<Account> {
 
-    public List<Account> getListAccount();
+    List<Account> getListAccount();
 
-    public int Create(String Username, String Password, String Fullname, int RoleID);
+    int Create(String Username, String Password, String Fullname, int RoleID);
 
-    public boolean Delete(String username);
+    boolean Delete(String username);
 
-    public boolean Update(String Username, String Password, String Fullname, int RoleID);
+    boolean Update(String Username, String Password, String Fullname, int RoleID);
 
-    public Account checkLogin(String username, String password);
+    Account checkLogin(String username, String password);
 
 }
