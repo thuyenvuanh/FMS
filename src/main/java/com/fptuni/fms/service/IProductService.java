@@ -1,17 +1,17 @@
 package com.fptuni.fms.service;
 
-import com.fptuni.fms.controller.ProductController;
 import com.fptuni.fms.model.Product;
-import com.fptuni.fms.paging.Pageable;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface IProductService {
-    List<Product> getProducts(Pageable pageable);
+    List<Product> getProducts(HttpServletRequest request, HttpServletResponse response);
 
     Product getProductById(int productId);
 
-    Integer insertProduct(Product product);
+    Integer insertProduct(HttpServletRequest request, HttpServletResponse response);
 
     boolean updateProduct(Product product);
 

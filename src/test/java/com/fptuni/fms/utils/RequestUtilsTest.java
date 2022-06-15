@@ -12,10 +12,19 @@ import static org.junit.jupiter.api.Assertions.*;
 class RequestUtilsTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {"name=shirt&price=20"})
+    @ValueSource(strings = {"name=shirt&price="})
     void getParameters(String queryString) {
+        Map<String, String> paramMap = RequestUtils.getParameters(queryString);
+        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+            System.out.println("Key: " + entry.getKey());
+            System.out.println("value: " + entry.getValue());
+            System.out.println(entry.getValue().isEmpty() ? "ko co" : "co");
+        }
         Map<String, String> params = new HashMap<>();
         params = RequestUtils.getParameters(queryString);
-        assertEquals(params.size(),2);
+        System.out.println(params);
+        params.forEach((k, v) -> System.out.println(k + "" + v));
+        System.out.println(params.get("price")==null?"nullp":params.get("price"));
+        assertEquals(params.size(), 2);
     }
 }

@@ -6,6 +6,8 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Product Create</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
@@ -18,6 +20,7 @@
     <!-- Sweet Alert -->
     <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
     <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+
     <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
@@ -26,6 +29,7 @@
 
     <link href="../../css/animate.css" rel="stylesheet"/>
     <link href="../../css/style.css" rel="stylesheet"/>
+
 </head>
 <body>
 <div id="wrapper">
@@ -67,52 +71,78 @@
 
                                 <c:url var="createLink" value="${requestScope.contextPath}/product/create">
                                 </c:url>
-                                <form class="createForm" action="${createLink}">
+                                <form class="createForm" action="${createLink}" autocomplete="off">
                                     <fieldset>
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Name:</label>
-                                            <div class="col-sm-10">
+                                            <label class="col-sm-1 col-form-label">Name:</label>
+                                            <div class="col-sm-5">
                                                 <input
                                                         type="text"
                                                         class="form-control"
                                                         placeholder="Product name"
                                                         name="name"
+                                                        value="product test"
                                                 />
 
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Price:</label>
-                                            <div class="col-sm-10">
+                                            <%--                                        </div>--%>
+                                            <%--                                        <div class="form-group row">--%>
+                                            <label class="col-sm-1 col-form-label">Price:</label>
+                                            <div class="col-sm-3">
                                                 <input
                                                         type="number"
                                                         class="form-control"
                                                         placeholder="VND"
                                                         name="price"
-                                                />VND
+                                                        value="1"
+                                                />
+                                            </div>
+                                            VND
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-1 col-form-label"
+                                            >Image:</label
+                                            >
+                                            <div class="col-sm-6">
+<%--                                                <input--%>
+<%--                                                        type="text"--%>
+<%--                                                        class="form-control"--%>
+<%--                                                        placeholder="url"--%>
+<%--                                                        name="imagePath"--%>
+<%--                                                />--%>
+                                            </div>
+                                            <div class="input-group col-sm-3">
+                                                <%--                                                <div class="custom-file">--%>
+                                                <%--                                                    <input id="inputGroupFile01" type="file" class="custom-file-input">--%>
+                                                <%--                                                    <label class="custom-file-label" for="inputGroupFile01">Choose--%>
+                                                <%--                                                        file</label>--%>
+                                                <%--                                                </div>--%>
+                                                <div class="mb-3">
+                                                    <input class="form-control" type="file" id="formFileMultiple"
+                                                           name="imagePath" multiple>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label"
-                                            >Unit:</label
-                                            >
-                                            <div class="col-sm-10">
-                                                <select name="unit">
-                                                    <option value="Cup">Cup</option>
-                                                    <option value="Cup">Combo</option>
-                                                    <option value="Unit">Unit</option>
+                                            <label class="col-sm-1 col-form-label" for="category">Category</label>
+                                            <div class="col-sm-4">
+                                                <select name="categoryID" id="category" class="form-control">
+                                                    <c:forEach var="category" items="${requestScope.categories}">
+                                                        <option value="${category.id}" ${category.id==1?"selected":""} >
+                                                                ${category.name} (${category.shortName})
+                                                        </option>
+                                                    </c:forEach>
                                                 </select>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label"
+                                            <label class="col-sm-1 col-form-label"
                                             >Quantity:</label
                                             >
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-3">
                                                 <input
                                                         type="number"
                                                         class="form-control"
                                                         name="quantity"
+                                                        value="1"
                                                 />
                                             </div>
                                         </div>
@@ -125,12 +155,13 @@
                                         >
                                             Submit Form
                                         </button>
-<%--                                        <a href="productList.jsp">--%>
-<%--                                            <button class="btn btn-secondary bd-0">--%>
-<%--                                                Cancel--%>
-<%--                                            </button>--%>
-<%--                                        </a--%>
-                                        <button onclick="history.back()" type="button" class="btn btn-dark">Cancel</button>
+                                        <%--                                        <a href="productList.jsp">--%>
+                                        <%--                                            <button class="btn btn-secondary bd-0">--%>
+                                        <%--                                                Cancel--%>
+                                        <%--                                            </button>--%>
+                                        <%--                                        </a--%>
+                                        <button onclick="history.back()" type="button" class="btn btn-dark">Cancel
+                                        </button>
 
                                     </div>
                                 </form>
@@ -226,8 +257,11 @@
 
 <!-- FooTable -->
 <script src="../../js/plugins/footable/footable.all.min.js"></script>
+<%--SweetAlert--%>
 <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
-
+<!-- CodeMirror -->
+<script src="../../js/plugins/codemirror/codemirror.js"></script>
+<script src="../../js/plugins/codemirror/mode/xml/xml.js"></script>
 <!-- Mainly scripts -->
 <script src="../js/jquery-3.1.1.min.js"></script>
 <script src="../js/popper.min.js"></script>
@@ -270,5 +304,8 @@
     });
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

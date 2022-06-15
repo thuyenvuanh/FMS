@@ -36,7 +36,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
         // Neu chon sortField khac thi cac Product moi trang se thay doi
         // Vi du: sortField = ID ==> list ID ASC ==> paging
         String sql = "SELECT * FROM \n" +
-                "(SELECT ID, Name, Unit, Price, QtyAvailable, CateID, StoreID \n" +
+                "(SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID \n" +
                 "FROM Product\n" +
                 "ORDER BY " + pageable.getSorter().getSortField() + " ASC ";
         if (pageable.getOffset() != null && pageable.getLimit() != null) {
@@ -57,7 +57,13 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
     public Integer insertProduct(Product product) {
         String sql = "INSERT INTO Product\n" +
                 "VALUES(?,?,?,?,?,?,?);";
-        return insert(product.getId(), product.getName(), product.getUnit(), product.getPrice(), product.getQtyAvailable(), product.getCateID(), product.getStoreID());
+        return insert(product.getId(),
+                product.getName(),
+                product.getPrice(),
+                product.getImagePath(),
+                product.getQtyAvailable(),
+                product.getCateID().getId(),
+                product.getStoreID().getId());
     }
 
     @Override
@@ -65,7 +71,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
         String sql = "UPDATE Product\n" +
                 "SET\n" +
                 "Name='?',\n" +
-                "Unit='?',\n" +
+                "ImagePath='?',\n" +
                 "Price='?',\n" +
                 "QtyAvailable='?',\n" +
                 "CateID='?',\n" +

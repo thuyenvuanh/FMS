@@ -16,13 +16,13 @@ import java.util.List;
 public class CategoryDAO extends AbstractDAO<Category> implements ICategoryDAO {
 
     @Override
-    public List<Category> getAll() {
+    public List<Category> getCategories() {
         String sql = "SELECT ID, Name, ShortName FROM Category";
         return query(sql, new CategoryMapper());
     }
 
     @Override
-    public Category get(int id) {
+    public Category getCategory(int id) {
         String sql = "SELECT ID, Name, ShortName FROM Category\n"
                 + "WHERE ID = ?";
         List<Category> categories = query(sql, new CategoryMapper(), id);
@@ -30,7 +30,7 @@ public class CategoryDAO extends AbstractDAO<Category> implements ICategoryDAO {
     }
 
     @Override
-    public List<Category> getByName(String name) {
+    public List<Category> getCategoryByName(String name) {
         String sql = "SELECT ID, Name, ShortName FROM Category\n"
                 + "WHERE Name like ?";
         List<Category> categories = query(sql, new CategoryMapper(), "%" + name + "%");
@@ -38,14 +38,21 @@ public class CategoryDAO extends AbstractDAO<Category> implements ICategoryDAO {
     }
 
     @Override
-    public int insert(Category category) {
+    public int count() {
+        String sql ="SELECT COUNT(ID) FROM Category";
+        int count = count(sql,new CategoryMapper());
+        return count;
+    }
+
+    @Override
+    public int insertCategory(Category category) {
         String sql = "INSERT INTO Category(Name, ShortName)\n"
                 + "VALUES (?,?);";
         return insert(sql, category.getName(), category.getShortName());
     }
 
     @Override
-    public void update(Category category) {
+    public void updateCategory(Category category) {
         String sql = "UPDATE Category\n"
                 + "SET Name = ?, ShortName = ?\n"
                 + "WHERE ID = ?";

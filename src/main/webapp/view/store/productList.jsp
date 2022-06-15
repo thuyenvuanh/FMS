@@ -110,7 +110,7 @@
     <%--    Create--%>
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
-            <a href="${pageContext.servletContext.contextPath}/view/store/productCreate.jsp" class="">
+            <a href="${pageContext.servletContext.contextPath}/product/createPage" class="">
                 <button class="btn btn-outline-primary"
                         type="submit">Create
                 </button>
@@ -139,7 +139,8 @@
                                 <th data-hide="phone" data-sort-ignore="true">
                                     <a href="${sort}&sortField=Name">Product Name</a>
                                 </th>
-                                <th data-hide="all" data-sort-ignore="true">Description</th>
+<%--                                <th data-hide="all" data-sort-ignore="true">Description</th>--%>
+                                <th data-hide="all" data-sort-ignore="true">Image</th>
                                 <th data-hide="phone" data-sort-ignore="true">Price</th>
                                 <th data-hide="phone,tablet" data-sort-ignore="true">Quantity</th>
                                 <th data-hide="phone" data-sort-ignore="true">Status</th>
@@ -155,12 +156,7 @@
                                     <td>${product.id}</td>
                                     <td>${product.name}</td>
                                     <td>
-                                        It is a long established fact that a reader will be
-                                        distracted by the readable content of a page when
-                                        looking at its layout. The point of using Lorem Ipsum
-                                        is that it has a more-or-less normal distribution of
-                                        letters, as opposed to using 'Content here, content
-                                        here', making it look like readable English.
+                                        <img src="${product.imagePath}" alt="${product.name}" style="width: 35%"/>
                                     </td>
                                     <td>${product.price}</td>
                                     <td>${product.qtyAvailable}</td>
@@ -284,7 +280,7 @@
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <%--if controller return update successful status--%>
-<c:if test="${sessionScope.status!=null}">
+<c:if test="${sessionScope.createStatus!=null}">
     <script>
         $(document).ready(function () {
             swal({
