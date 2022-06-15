@@ -121,7 +121,7 @@ public class Account implements Serializable {
         this.roleID = roleID;
     }
 
-    @XmlTransient
+
     public List<Store> getStoreList() {
         return storeList;
     }
@@ -144,10 +144,7 @@ public class Account implements Serializable {
             return false;
         }
         Account other = (Account) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override

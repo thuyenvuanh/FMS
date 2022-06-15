@@ -11,10 +11,10 @@ import java.util.List;
  */
 public interface IOrderDAO extends GenericDAO<Orders> {
 
-    public List<Orders> getOrders();
+    List<Orders> getOrders();
 
-    public Orders getOrderById(int id);
-    public Integer insertOrder(Orders orders);
+    Orders getOrderById(int id);
+    Integer insertOrder(Orders orders);
 
-    public boolean updateOrder(int id, int storeID, double total, Timestamp createdDate);
+    boolean updateOrder(int id, int storeID, double total, Timestamp createdDate);
 }

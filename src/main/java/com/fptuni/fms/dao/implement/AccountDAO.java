@@ -4,10 +4,11 @@ import com.fptuni.fms.dao.IAccountDAO;
 import com.fptuni.fms.mapper.AccountMapper;
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Role;
+import com.fptuni.fms.utils.SecurityUtils;
+
 import java.util.List;
 
 /**
- *
  * @author NhatTan
  */
 public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
@@ -39,9 +40,14 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
 
     @Override
     public Account checkLogin(String username, String password) {
-        String sql = "SELECT ID, Username, Fullname, RoleID FROM dbo.Account WHERE Username=? AND Password=?";
-        List<Account> acc = query(sql, new AccountMapper(), username, password);
-        return acc.isEmpty() ? null : acc.get(0);
+        try {
+            String sql = "SELECT ID, Username, FullName, RoleID FROM dbo.Account WHERE Username=? AND Password=?";
+            String hashPassword = SecurityUtils.createHash(username, password);
+            List<Account> acc = query(sql, new AccountMapper(), username, hashPassword);
+            return acc.isEmpty() ? null : acc.get(0);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
-
 }

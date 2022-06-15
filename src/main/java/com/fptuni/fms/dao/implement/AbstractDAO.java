@@ -187,7 +187,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
             ps = conn.prepareStatement(sql);
             setParameters(ps, params);
             rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 count = rs.getInt(1);
             }
         } catch (Exception e) {

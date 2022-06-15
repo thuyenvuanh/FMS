@@ -29,12 +29,14 @@
             <!--Username-->
             <div class="mb-3">
                 <label for="loginUsername" class="form-label">Username</label>
-                <input type="text" class="form-control" id="loginUsername" placeholder="Enter username" name="username" required>
+                <input type="text" class="form-control" id="loginUsername" placeholder="Enter username" name="username"
+                       required>
             </div>
             <!-- Password input -->
             <div class="mb-3">
                 <label for="loginPassword" class="form-label">Password</label>
-                <input type="password" class="form-control" id="loginPassword" placeholder="Enter password" name="password" required>
+                <input type="password" class="form-control" id="loginPassword" placeholder="Enter password"
+                       name="password" required>
             </div>
             <!-- 2 column grid layout -->
             <div class="row mb-3">
@@ -48,7 +50,9 @@
             </div>
             <!-- Submit button -->
             <div class="row px-2">
-                <button type="submit" class="btn mb-3 shadow" style="background-color: #4fc284; color: #ffffff">Sign in</button>
+                <button type="submit" class="btn mb-3 shadow" style="background-color: #4fc284; color: #ffffff">Sign
+                    in
+                </button>
                 <span class="text-danger"></span>
             </div>
         </form>
