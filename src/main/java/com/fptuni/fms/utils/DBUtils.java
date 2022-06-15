@@ -15,12 +15,13 @@ public class DBUtils {
     private final static String SERVERNAME = "13.215.207.31";
     private final static String DBNAME = "FMS";
     private final static String PORTNUMBER = "1433";
-    private final static String INSTANCE = "";//LEAVE THIS ONE EMPTY IF YOUR SQL IS A SINGLE INSTANCE
+    private final static String INSTANCE = "";// LEAVE THIS ONE EMPTY IF YOUR SQL IS A SINGLE INSTANCE
     private final static String USERID = "sa";
-    private final static String PASSWORD = "Haruka1020";
+    private final static String PASSWORD = "12345"; // "Haruka1020";
+
     public static Connection getConnection() throws Exception {
         String url = "jdbc:sqlserver://" + SERVERNAME + ":" + PORTNUMBER + "\\" + INSTANCE + ";databaseName=" + DBNAME;
-        if (INSTANCE == null || INSTANCE.trim().isEmpty()) {
+        if (INSTANCE.trim().isEmpty()) {
             url = "jdbc:sqlserver://" + SERVERNAME + ":" + PORTNUMBER + ";databaseName=" + DBNAME;
         }
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

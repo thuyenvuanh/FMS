@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Timeout;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 class SecurityUtilsTest {
     @Test
     public void TestOutput() {

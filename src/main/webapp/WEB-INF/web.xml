@@ -3,6 +3,25 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+
+    <servlet>
+        <servlet-name>AuthController</servlet-name>
+        <servlet-class>com.fptuni.fms.controllers.AccountController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AuthController</servlet-name>
+        <url-pattern>/auth/*</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.fptuni.fms.filters.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <session-config>
         <session-timeout>
             30
