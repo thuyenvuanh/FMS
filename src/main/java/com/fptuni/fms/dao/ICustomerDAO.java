@@ -8,4 +8,6 @@ public interface ICustomerDAO extends GenericDAO<Customer>{
     List<Customer> getAll();
     List<Customer> getByID(int Id);
     Integer insertCustomer(Customer customer);
+    List<Customer> getByPhoneNum(String phoneNum);
+
 }

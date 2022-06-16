@@ -31,4 +31,13 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
                 "values ('?',?)";
         return insert(sql, customer.getName() , customer.getPhone());
     }
+
+    @Override
+    public List<Customer> getByPhoneNum(String phoneNum) {
+        String sql = "select ID, Name, Phone\n" +
+                "from [dbo].[Customer]\n" +
+                "where Phone = '?'";
+        List<Customer> cus = query(sql, new CustomerMapper(), phoneNum);
+        return cus.isEmpty() ? null : cus;
+    }
 }

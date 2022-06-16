@@ -33,7 +33,18 @@ public class CustomerController extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("");
                 rd.forward(request,response);
             }
-
+            
+        }else if(path.equals("/search")){
+            CustomerDAO customerDAO = new CustomerDAO();
+            String index = "";
+            if(request.getParameter("searchItem") != null ||
+                    !request.getParameter("searchItem").equals("")){
+                index = request.getParameter("searchItem");
+            }
+            List<Customer> list = customerDAO.getByPhoneNum(index);
+            request.setAttribute("list", list);
+            RequestDispatcher rd = request.getRequestDispatcher("/");
+            rd.forward(request,response);
         }
     }
 
