@@ -7,21 +7,13 @@ package com.fptuni.fms.dao.implement;
 import com.fptuni.fms.dao.GenericDAO;
 import com.fptuni.fms.mapper.RowMapper;
 
-import static com.fptuni.fms.utils.DBUtils.getConnection;
-
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.text.ParseException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
+import static com.fptuni.fms.utils.DBUtils.getConnection;
 
 /**
  * @param <T>

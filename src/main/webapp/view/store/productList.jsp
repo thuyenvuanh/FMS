@@ -140,8 +140,12 @@
                                     <a href="${sort}&sortField=Name">Product Name</a>
                                 </th>
                                 <th data-hide="all" data-sort-ignore="true">Image</th>
-                                <th data-hide="phone" data-sort-ignore="true">Price</th>
-                                <th data-hide="phone,tablet" data-sort-ignore="true">Quantity</th>
+                                <th data-hide="phone" data-sort-ignore="true">
+                                    <a href="${sort}&sortField=Price">Price</a>
+                                </th>
+                                <th data-hide="phone,tablet" data-sort-ignore="true">
+                                    <a href="${sort}&sortField=QtyAvailable">Quantity</a>
+                                </th>
                                 <th data-hide="phone" data-sort-ignore="true">Status</th>
                                 <th class="text-right" data-sort-ignore="true">
                                     Action
@@ -151,12 +155,14 @@
                             <tbody>
 
                             <c:forEach var="product" items="${requestScope.productList}">
-                                <c:url var="deleteLink" value="/product/delete"></c:url>
+                                <c:url var="deleteLink" value="${requestScope.contextPath}/product/delete"></c:url>
                                 <form action="${deleteLink}" class="deleteForm">
-                                    <input type="hidden" name="productID" value="${product.id}"/>
                                     <tr>
-                                        <td>${product.id}</td>
 
+                                        <td>
+                                                ${product.id}
+                                            <input type="hidden" name="productID" value="${product.id}"/>
+                                        </td>
                                         <td>${product.name}</td>
                                         <td>
                                             <img src="${product.imagePath}" alt="${product.name}" style="width: 35%"/>
@@ -193,12 +199,12 @@
                                                     </button>
                                                 </a>
                                                 <button type="button"
-                                                        class="btn-white btn btn-xs delete_product" ${product.isDeleted == true ? "disabled" : ""} >
+                                                        class="btn-white btn btn-xs btn_delete_product" ${product.isDeleted == true ? "disabled" : ""} >
                                                     Delete
                                                 </button>
                                             </div>
-
                                         </td>
+
                                     </tr>
                                 </form>
                             </c:forEach>
@@ -217,7 +223,7 @@
                                                              value="${requestScope.currentPage - 1}"></c:param>
                                                     <c:param name="sortField"
                                                              value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending" value="true"></c:param>
+                                                    <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
                                                 </c:url>
                                                 <a
                                                         class="page-link"
@@ -234,7 +240,7 @@
                                                     <c:param name="page" value="${page}"></c:param>
                                                     <c:param name="sortField"
                                                              value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending" value="true"></c:param>
+                                                    <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
                                                 </c:url>
                                                 <li class="page-item ${requestScope.currentPage == page ?"active":""}">
                                                     <a class="page-link "
@@ -248,7 +254,7 @@
                                                              value="${requestScope.currentPage + 1}"></c:param>
                                                     <c:param name="sortField"
                                                              value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending" value="true"></c:param>
+                                                    <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
                                                 </c:url>
                                                 <a class="page-link" href="${nextPage}" aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
@@ -334,24 +340,24 @@
 </c:if>
 <script>
     $(document).ready(function () {
-        $(".delete_product").click(function () {
+        $(".btn_delete_product").click(function () {
             swal({
                     title: "Are you sure?",
-                    text: "Your will not be able to recover this imaginary file!",
+                    text: "Your will not be able to recover this product!",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "No, cancel plx!",
+                    cancelButtonText: "No, cancel!",
                     closeOnConfirm: false,
                     closeOnCancel: false
                 },
                 function (isConfirm) {
                     if (isConfirm) {
-                        $(".deleteForm").submit();
-                        swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                        // $(".deleteForm").submit();
+                        swal("Deleted!", "Your product has been deleted.", "success");
                     } else {
-                        swal("Cancelled", "Your imaginary file is safe :)", "error");
+                        swal("Cancelled", "", "error");
                     }
                 });
         });

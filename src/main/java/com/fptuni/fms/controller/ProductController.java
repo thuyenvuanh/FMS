@@ -1,27 +1,21 @@
 package com.fptuni.fms.controller;
 
-import com.fptuni.fms.dao.ICategoryDAO;
-import com.fptuni.fms.dao.implement.CategoryDAO;
 import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Product;
-import com.fptuni.fms.model.Store;
-import com.fptuni.fms.paging.PageRequest;
-import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.ICategoryService;
 import com.fptuni.fms.service.IProductService;
 import com.fptuni.fms.service.implement.CategoryService;
 import com.fptuni.fms.service.implement.ProductService;
-import com.fptuni.fms.sort.Sorter;
-import com.fptuni.fms.utils.RequestUtils;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
-import java.awt.geom.RoundRectangle2D;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 @MultipartConfig
 @WebServlet(name = "ProductController", urlPatterns = "/product/*")

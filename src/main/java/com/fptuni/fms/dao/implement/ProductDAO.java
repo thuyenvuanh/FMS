@@ -2,18 +2,15 @@ package com.fptuni.fms.dao.implement;
 
 /*
  *
- * Author: Anh Quoc
+ * Author: Binh
  *
  * */
 
 import com.fptuni.fms.dao.IProductDAO;
-import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Product;
-import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.mapper.ProductMapper;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
@@ -24,7 +21,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
                 "FROM Product\n" +
                 "WHERE ID = ?";
         List<Product> products = query(sql, new ProductMapper(), id);
-        return products.isEmpty() ? null : products.get(0);
+        return products == null ? null : products.get(0);
     }
 
     @Override
@@ -34,19 +31,23 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
         // Vi du: sortField = ID ==> list ID ASC ==> paging
         String sql = "SELECT * FROM \n" +
                 "(SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID, IsDeleted \n" +
-                "FROM Product\n" +
-                "ORDER BY " + pageable.getSorter().getSortField() + " ASC ";
+                "FROM Product\n";
+        String orderBy;
+        if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
+            orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
+            sql += "ORDER BY " + pageable.getSorter().getSortField() + "  " + orderBy;
+        }
         if (pageable.getOffset() != null && pageable.getLimit() != null) {
             sql += " OFFSET " + pageable.getOffset() + " ROWS\n" +
                     " FETCH NEXT " + pageable.getLimit() + " ROWS ONLY ) AS A \n";
         }
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
-            String orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
+            orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
             sql += "ORDER BY A." + pageable.getSorter().getSortField() + " " + orderBy;
         }
 
         List<Product> products = query(sql, new ProductMapper());
-        return products.isEmpty() ? null : products;
+        return products;
     }
 
     @Override

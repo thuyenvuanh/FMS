@@ -8,6 +8,9 @@ public class PageRequest implements Pageable {
     private final Sorter sorter;
 
     public PageRequest() {
+        page = 1;
+        maxItemInPage = 0;
+        sorter = null;
     }
 
     public PageRequest(Integer page, Integer maxPageItem, Sorter sorter) {
