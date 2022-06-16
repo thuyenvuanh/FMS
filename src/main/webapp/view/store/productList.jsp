@@ -106,7 +106,6 @@
         </div>
 
     </div>
-
     <%--    Search--%>
     <%--    Create--%>
     <nav class="navbar navbar-light bg-light">
@@ -269,7 +268,6 @@
     </div>
     <jsp:include page="footer.jsp"></jsp:include>
 </div>
-
 
 <!-- Mainly scripts -->
 <script src="../../js/jquery-3.1.1.min.js"></script>

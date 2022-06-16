@@ -50,7 +50,8 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getProductById(String productId) {
-        if (productId == null || productId.isEmpty()) return null;
+        if (productId == null || productId.isEmpty())
+            return null;
         IProductDAO productDAO = new ProductDAO();
         return productDAO.getProduct(productId);
     }
@@ -62,7 +63,7 @@ public class ProductService implements IProductService {
         String id = "";
         String name = "";
         BigDecimal price = BigDecimal.valueOf(0.0);
-//        String imgPath = "";
+        // String imgPath = "";
         int cateID = 1;
         short quantity = 1;
         // get this store id
@@ -74,9 +75,9 @@ public class ProductService implements IProductService {
         if (request.getParameter("price") != null) {
             price = BigDecimal.valueOf(Double.parseDouble(request.getParameter("price")));
         }
-//        if (request.getParameter("imagePath") != null) {
+        // if (request.getParameter("imagePath") != null) {
         String imgPath = request.getParameter("imagePath");
-//        }
+        // }
         if (request.getParameter("categoryID") != null) {
             cateID = Integer.parseInt(request.getParameter("categoryID"));
             // get category info by id
@@ -104,8 +105,10 @@ public class ProductService implements IProductService {
         // Key = param name | Value = param value
         Map<String, String> paramMap = RequestUtils.getParameters(request.getQueryString());
         for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-            if (entry.getKey().equals("imagePath")) continue;
-            else if (entry.getValue().isEmpty()) return 0;
+            if (entry.getKey().equals("imagePath"))
+                continue;
+            else if (entry.getValue().isEmpty())
+                return 0;
         }
         productDAO.insertProduct(product);
         return 1;
@@ -123,7 +126,7 @@ public class ProductService implements IProductService {
         String id = "";
         String name = "";
         BigDecimal price = BigDecimal.valueOf(0.0);
-//        String imgPath = "";
+        // String imgPath = "";
         int cateID = 1;
         short quantity = 1;
         // get this store id
@@ -138,16 +141,17 @@ public class ProductService implements IProductService {
         if (request.getParameter("price") != null) {
             price = BigDecimal.valueOf(Double.parseDouble(request.getParameter("price")));
         }
-//        if (request.getParameter("imagePath") != null) {
+        // if (request.getParameter("imagePath") != null) {
         String imgPath = request.getParameter("imagePath") == null ? "n/a" : request.getParameter("imagePath");
-//        }
+        // }
         if (request.getParameter("categoryID") != null) {
             cateID = Integer.parseInt(request.getParameter("categoryID"));
             // get category info by id
             category = categoryService.getCategory(cateID);
             List<Category> categories = categoryService.getCategories();
-            // if change category: short cate name in id != choosen cate then create new pro id
-            //else not change pro id
+            // if change category: short cate name in id != choosen cate then create new pro
+            // id
+            // else not change pro id
             if (!id.contains(category.getShortName())) {
                 int subID = 1;
                 // count the number of exist foods which have the same category
@@ -171,8 +175,10 @@ public class ProductService implements IProductService {
         // Key = param name | Value = param value
         Map<String, String> paramMap = RequestUtils.getParameters(request.getQueryString());
         for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-            if (entry.getKey().equals("imagePath")) continue;
-            else if (entry.getValue().isEmpty()) return false;
+            if (entry.getKey().equals("imagePath"))
+                continue;
+            else if (entry.getValue().isEmpty())
+                return false;
         }
 
         return productDAO.updateProduct(product);
@@ -180,8 +186,9 @@ public class ProductService implements IProductService {
 
     @Override
     public boolean deleteProduct(String productId) {
-        if(productId == null) return false;
-        IProductDAO productDAO =new ProductDAO();
+        if (productId == null)
+            return false;
+        IProductDAO productDAO = new ProductDAO();
         return productDAO.deleteProduct(productId);
     }
 

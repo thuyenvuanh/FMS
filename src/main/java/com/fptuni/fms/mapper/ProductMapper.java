@@ -5,7 +5,6 @@ package com.fptuni.mapper;
 * Author: Anh Quoc
 *
 * */
-
 import com.fptuni.fms.dao.implement.CategoryDAO;
 
 import com.fptuni.fms.mapper.RowMapper;
@@ -37,4 +36,3 @@ public class ProductMapper implements RowMapper<Product> {
         return product;
     }
 }
-

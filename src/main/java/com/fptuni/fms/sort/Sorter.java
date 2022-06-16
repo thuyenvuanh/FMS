@@ -4,7 +4,7 @@ public class Sorter {
     private String sortField;
     private boolean isAscending; // true: ASC; false: DESC
 
-    public Sorter(String sortField, boolean isAscending){
+    public Sorter(String sortField, boolean isAscending) {
         this.sortField = sortField;
         this.isAscending = isAscending;
     }
@@ -17,11 +17,11 @@ public class Sorter {
         this.sortField = sortField;
     }
 
-    public boolean isAscending() {
+    public Boolean isAscending() {
         return isAscending;
     }
 
-    public void setAscending(boolean bool) {
+    public void setAscending(Boolean bool) {
         isAscending = bool;
     }
 }

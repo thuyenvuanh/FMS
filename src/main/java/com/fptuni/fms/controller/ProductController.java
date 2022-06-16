@@ -30,6 +30,7 @@ public class ProductController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         HttpSession session = request.getSession();
+        session.removeAttribute("createStatus");
         if (path.equals("/list")) {
             int pageSize = 3;
             IProductService productService = new ProductService();

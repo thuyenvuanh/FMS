@@ -1,32 +1,48 @@
 package com.fptuni.fms.controller;
 
-import com.fptuni.fms.model.Category;
-import com.fptuni.fms.model.Product;
-import com.fptuni.fms.service.ICategoryService;
-import com.fptuni.fms.service.IProductService;
-import com.fptuni.fms.service.implement.CategoryService;
-import com.fptuni.fms.service.implement.ProductService;
+import com.fptuni.fms.service.implement.AccountService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet(name = "AccountController", value = "/account")
+@WebServlet(name = "AccountController", value = "/account/*")
 public class AccountController extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String path = request.getPathInfo();
+    private AccountService accountService = new AccountService();
 
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.removeAttribute("message");
+        String action = request.getPathInfo();
+        System.out.println("path info: " + action);
+        switch (action) {
+            case "/index":
+                break;
+            case "/login":
+                accountService.login(request, response);
+                break;
+            case "/forgot":
+                // forgot(request, response);
+                break;
+            case "/logout":
+                accountService.logout(request, response);
+                break;
+            default:
+
+        }
     }
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 }

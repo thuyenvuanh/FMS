@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
         @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
         @NamedQuery(name = "Product.findByImagePath", query = "SELECT p FROM Product p WHERE p.imagePath = :imagePath"),
         @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
-        @NamedQuery(name = "Product.findByQtyAvailable", query = "SELECT p FROM Product p WHERE p.qtyAvailable = :qtyAvailable")})
+        @NamedQuery(name = "Product.findByQtyAvailable", query = "SELECT p FROM Product p WHERE p.qtyAvailable = :qtyAvailable") })
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,7 +56,8 @@ public class Product implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "ImagePath")
     private String imagePath;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // @Max(value=?) @Min(value=?)//if you know range of your decimal fields
+    // consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "Price")
@@ -88,7 +89,8 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public Product(String id, String name, String imagePath, BigDecimal price, Short qtyAvailable, Category cateID, Store storeID) {
+    public Product(String id, String name, String imagePath, BigDecimal price, Short qtyAvailable, Category cateID,
+            Store storeID) {
         this.id = id;
         this.name = name;
         this.imagePath = imagePath;

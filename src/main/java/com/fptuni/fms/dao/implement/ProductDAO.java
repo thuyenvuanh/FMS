@@ -1,6 +1,5 @@
 package com.fptuni.fms.dao.implement;
 
-
 /*
  *
  * Author: Anh Quoc
@@ -20,7 +19,7 @@ import java.util.List;
 public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 
     @Override
-    public Product getProduct(String id) {//Get single product
+    public Product getProduct(String id) {// Get single product
         String sql = "SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID, IsDeleted\n" +
                 "FROM Product\n" +
                 "WHERE ID = ?";
@@ -45,7 +44,6 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
             String orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
             sql += "ORDER BY A." + pageable.getSorter().getSortField() + " " + orderBy;
         }
-
 
         List<Product> products = query(sql, new ProductMapper());
         return products.isEmpty() ? null : products;
