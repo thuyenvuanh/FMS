@@ -6,10 +6,13 @@ import com.fptuni.fms.service.ICategoryService;
 import com.fptuni.fms.service.IProductService;
 import com.fptuni.fms.service.implement.CategoryService;
 import com.fptuni.fms.service.implement.ProductService;
-
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,14 +26,16 @@ public class ProductController extends HttpServlet {
         session.removeAttribute("createStatus");
         if (path.equals("/list")) {
             int pageSize = 3;
-            IProductService productService = new ProductService(); // check valid in product service
+            IProductService productService = new ProductService();
+            ICategoryService categoryService = new CategoryService();
             List<Product> products = productService.getProducts(request, response);
             int totalPages = productService.countProduct() / pageSize;
             if (productService.countProduct() % pageSize != 0) totalPages++;
+            List<Category> categories = categoryService.getCategories();
+            request.setAttribute("categories", categories);
             request.setAttribute("productList", products);
             request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("/view/store/productList.jsp").forward(request, response);
-
         } else if (path.equals("/createPage")) {
             ICategoryService categoryService = new CategoryService();
             List<Category> categories = categoryService.getCategories();
@@ -45,8 +50,43 @@ public class ProductController extends HttpServlet {
                 request.setAttribute("createStatus", "fail");
                 request.getRequestDispatcher("/view/store/productCreate.jsp").forward(request, response);
             }
-//            request.getRequestDispatcher("/product/list").forward(request, response);
+        } else if (path.equals("/view")) {
+            String productID = request.getParameter("productID");
+            ICategoryService categoryService = new CategoryService();
+            IProductService productService = new ProductService();
+            List<Category> categories = categoryService.getCategories();
+            Product product = productService.getProductById(productID);
+            request.setAttribute("product", product);
+            request.setAttribute("categories", categories);
+            request.getRequestDispatcher("/view/store/productDetail.jsp").forward(request, response);
+        } else if (path.equals("/updatePage")) {
+            String productID = request.getParameter("productID");
+            ICategoryService categoryService = new CategoryService();
+            IProductService productService = new ProductService();
+            List<Category> categories = categoryService.getCategories();
+            Product product = productService.getProductById(productID);
+            request.setAttribute("product", product);
+            request.setAttribute("categories", categories);
+            request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
+        } else if (path.equals("/update")) {
+            IProductService productService = new ProductService();
+            if (productService.updateProduct(request, response)) {
+                session.setAttribute("updateStatus", "success");
+                response.sendRedirect(request.getContextPath() + "/product/list");
+            } else {
+                session.setAttribute("updateStatus", "fail");
+                request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
+            }
 
+        } else if (path.equals("/delete")) {
+            IProductService productService = new ProductService();
+            String productID = request.getParameter("productID");
+            if (productService.deleteProduct(productID)) {
+                session.setAttribute("deleteStatus", "success");
+            } else {
+                session.setAttribute("deleteStatus", "fail");
+            }
+            response.sendRedirect(request.getContextPath() + "/product/list");
         }
     }
 

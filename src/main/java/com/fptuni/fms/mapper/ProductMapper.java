@@ -28,10 +28,10 @@ public class ProductMapper implements RowMapper<Product> {
             product.setQtyAvailable(rs.getShort("QtyAvailable"));
             product.setCateID(new Category(rs.getInt("CateID")));
             product.setStoreID(new Store(rs.getInt("StoreID")));
+            product.setDeleted(rs.getBoolean("IsDeleted"));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return product;
     }
 }
-

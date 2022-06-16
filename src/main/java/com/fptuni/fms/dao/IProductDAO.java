@@ -10,19 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-*
-* Author: Anh Quoc
-*
-* */
+ *
+ * Author: Anh Quoc
+ *
+ * */
 public interface IProductDAO extends GenericDAO<Product> {
 
-    Product getProduct(int id);
+    Product getProduct(String id);
 
     List<Product> getProducts(Pageable pageable);
 
     Integer insertProduct(Product product);
 
-    void updateProduct(String id, String name, String unit, BigDecimal price, short qtyAvailable, Category cateID, Store storeID);
+    boolean updateProduct(Product product);
+
+    boolean deleteProduct(String id);
 
     int count();
 

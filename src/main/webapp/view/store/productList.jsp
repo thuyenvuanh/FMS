@@ -54,44 +54,44 @@
     <%--    Search--%>
     <div class="ibox-content m-b-sm border-bottom">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label class="col-form-label" for="product_name">Category</label>
-                    <select name="status" id="category" class="form-control">
-                        <option value="" selected></option>
-                        <option value="">Food</option>
-                        <option value="">Drink</option>
+                    <select name="status" class="form-control">
+                        <c:forEach var="category" items="${requestScope.categories}">
+                            <option value="${category.id}" ${category.id == 1 ? "selected" : ""}>${category.name}</option>
+                        </c:forEach>
                     </select>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label class="col-form-label" for="product_name">Product Name</label>
                     <input type="text" id="product_name" name="product_name" value=""
                            placeholder="Product Name" class="form-control">
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label class="col-form-label" for="maxPrice">Price</label>
-                    <div class="d-flex flex-row">
-                        <input type="text" id="maxPrice" name="price" value="" placeholder="Max"
-                               class="form-control">
-                        <input type="text" id="minPrice" name="price" value="" placeholder="Min"
-                               class="form-control">
+            <div class="col-md-4">
+                <div class="form-group" id="date_range_transaction">
+                    <label class="col-form-label">Price</label>
+                    <div class="input-daterange input-group" id="datepicker">
+                        <input type="text" class="form-control-sm form-control" name="start"
+                               value="" placeholder="Min">
+                        <span class="input-group-addon">to</span>
+                        <input type="text" class="form-control-sm form-control" name="end"
+                               value="" placeholder="Max">
                     </div>
-
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label class="col-form-label" for="quantity">Quantity</label>
                     <input type="text" id="quantity" name="quantity" value="" placeholder="Quantity"
                            class="form-control">
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label class="col-form-label" for="status">Status</label>
                     <select name="status" id="status" class="form-control">
@@ -139,10 +139,13 @@
                                 <th data-hide="phone" data-sort-ignore="true">
                                     <a href="${sort}&sortField=Name">Product Name</a>
                                 </th>
-<%--                                <th data-hide="all" data-sort-ignore="true">Description</th>--%>
                                 <th data-hide="all" data-sort-ignore="true">Image</th>
-                                <th data-hide="phone" data-sort-ignore="true">Price</th>
-                                <th data-hide="phone,tablet" data-sort-ignore="true">Quantity</th>
+                                <th data-hide="phone" data-sort-ignore="true">
+                                    <a href="${sort}&sortField=Price">Price</a>
+                                </th>
+                                <th data-hide="phone,tablet" data-sort-ignore="true">
+                                    <a href="${sort}&sortField=QtyAvailable">Quantity</a>
+                                </th>
                                 <th data-hide="phone" data-sort-ignore="true">Status</th>
                                 <th class="text-right" data-sort-ignore="true">
                                     Action
@@ -152,33 +155,60 @@
                             <tbody>
 
                             <c:forEach var="product" items="${requestScope.productList}">
-                                <tr>
-                                    <td>${product.id}</td>
-                                    <td>${product.name}</td>
-                                    <td>
-                                        <img src="${product.imagePath}" alt="${product.name}" style="width: 35%"/>
-                                    </td>
-                                    <td>${product.price}</td>
-                                    <td>${product.qtyAvailable}</td>
-                                    <td>
-                                        <span class="label label-primary">Enable</span>
-                                    </td>
-                                    <td class="text-right">
-                                        <div class="btn-group">
-                                            <a href="product-view.html">
-                                                <button class="btn-white btn btn-xs">
-                                                    View
+                                <c:url var="deleteLink" value="${requestScope.contextPath}/product/delete"></c:url>
+                                <form action="${deleteLink}" class="deleteForm">
+                                    <tr>
+
+                                        <td>
+                                                ${product.id}
+                                            <input type="hidden" name="productID" value="${product.id}"/>
+                                        </td>
+                                        <td>${product.name}</td>
+                                        <td>
+                                            <img src="${product.imagePath}" alt="${product.name}" style="width: 35%"/>
+                                        </td>
+                                        <td>${product.price}</td>
+                                        <td>${product.qtyAvailable}</td>
+                                        <c:if test="${product.isDeleted == false}">
+                                            <td>
+                                                <span class="label label-primary">Enable</span>
+                                            </td>
+                                        </c:if>
+                                        <c:if test="${product.isDeleted == true}">
+                                            <td>
+                                                <span class="label label-danger">Disable</span>
+                                            </td>
+                                        </c:if>
+                                        <td class="text-right">
+                                            <div class="btn-group">
+                                                <c:url var="viewLink" value="/product/view">
+                                                    <c:param name="productID" value="${product.id}"></c:param>
+                                                </c:url>
+                                                <c:url var="updateLink" value="/product/updatePage">
+                                                    <c:param name="productID" value="${product.id}"></c:param>
+                                                </c:url>
+
+                                                <a href="${viewLink}">
+                                                    <button class="btn-white btn btn-xs">
+                                                        View
+                                                    </button>
+                                                </a>
+                                                <a href="${updateLink}">
+                                                    <button class="btn-white btn btn-xs">
+                                                        Edit
+                                                    </button>
+                                                </a>
+                                                <button type="button"
+                                                        class="btn-white btn btn-xs btn_delete_product" ${product.isDeleted == true ? "disabled" : ""} >
+                                                    Delete
                                                 </button>
-                                            </a>
-                                            <a href="product-update.html">
-                                                <button class="btn-white btn btn-xs">
-                                                    Edit
-                                                </button>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                </form>
                             </c:forEach>
+
                             </tbody>
                             <tfoot>
                             <tr>
@@ -193,7 +223,7 @@
                                                              value="${requestScope.currentPage - 1}"></c:param>
                                                     <c:param name="sortField"
                                                              value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending" value="true"></c:param>
+                                                    <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
                                                 </c:url>
                                                 <a
                                                         class="page-link"
@@ -210,7 +240,7 @@
                                                     <c:param name="page" value="${page}"></c:param>
                                                     <c:param name="sortField"
                                                              value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending" value="true"></c:param>
+                                                    <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
                                                 </c:url>
                                                 <li class="page-item ${requestScope.currentPage == page ?"active":""}">
                                                     <a class="page-link "
@@ -224,7 +254,7 @@
                                                              value="${requestScope.currentPage + 1}"></c:param>
                                                     <c:param name="sortField"
                                                              value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending" value="true"></c:param>
+                                                    <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
                                                 </c:url>
                                                 <a class="page-link" href="${nextPage}" aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
@@ -243,7 +273,6 @@
         </div>
     </div>
     <jsp:include page="footer.jsp"></jsp:include>
-</div>
 </div>
 
 <!-- Mainly scripts -->
@@ -280,7 +309,7 @@
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <%--if controller return update successful status--%>
-<c:if test="${sessionScope.createStatus!=null}">
+<c:if test="${sessionScope.createStatus != null}">
     <script>
         $(document).ready(function () {
             swal({
@@ -290,16 +319,104 @@
             });
         });
     </script>
+    <%
+        session.removeAttribute("createStatus");
+    %>
 </c:if>
+
+<c:if test="${sessionScope.updateStatus != null}">
+    <script>
+        $(document).ready(function () {
+            swal({
+                title: "Update Success!",
+                text: "You clicked the button!",
+                type: "success"
+            });
+        });
+    </script>
+    <%
+        session.removeAttribute("updateStatus");
+    %>
+</c:if>
+<script>
+    $(document).ready(function () {
+        $(".btn_delete_product").click(function () {
+            swal({
+                    title: "Are you sure?",
+                    text: "Your will not be able to recover this product!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        // $(".deleteForm").submit();
+                        swal("Deleted!", "Your product has been deleted.", "success");
+                    } else {
+                        swal("Cancelled", "", "error");
+                    }
+                });
+        });
+    });
+    <%
+        session.removeAttribute("deleteStatus");
+    %>
+</script>
 <script>
     $(document).ready(function () {
         $(".footable").footable();
     });
 </script>
 
+<%--<!-- Alert -->--%>
+<div class="sweet-overlay" tabindex="-1" style="opacity: -0.03; display: none;"></div>
+<div class="sweet-alert hideSweetAlert" data-custom-class="" data-has-cancel-button="false"
+     data-has-confirm-button="true" data-allow-outside-click="false" data-has-done-function="false"
+     data-animation="pop" data-timer="null" style="display: none; margin-top: -171px; opacity: 0;">
+    <div class="sa-icon sa-error" style="display: none;">
+            <span class="sa-x-mark">
+                <span class="sa-line sa-left"></span>
+                <span class="sa-line sa-right"></span>
+            </span>
+    </div>
+    <div class="sa-icon sa-warning" style="display: none;">
+        <span class="sa-body"></span>
+        <span class="sa-dot"></span>
+    </div>
+    <div class="sa-icon sa-info" style="display: none;"></div>
+    <div class="sa-icon sa-success" style="display: block;">
+        <span class="sa-line sa-tip"></span>
+        <span class="sa-line sa-long"></span>
+
+        <div class="sa-placeholder"></div>
+        <div class="sa-fix"></div>
+    </div>
+    <div class="sa-icon sa-custom" style="display: none;"></div>
+    <h2>Update success!</h2>
+    <p style="display: block;">Your Product has been deleted.</p>
+    <fieldset>
+        <input type="text" tabindex="3" placeholder="">
+        <div class="sa-input-error"></div>
+    </fieldset>
+    <div class="sa-error-container">
+        <div class="icon">!</div>
+        <p>Not valid!</p>
+    </div>
+    <div class="sa-button-container">
+        <button class="cancel" tabindex="2" style="display: none; box-shadow: none;">Cancel</button>
+
+        <button class="confirm" tabindex="1"
+                style="display: inline-block; background-color: rgb(174, 222, 244); box-shadow: rgba(174, 222, 244, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">
+            OK
+        </button>
+    </div>
+</div>
 </body>
 
-<!-- Mirrored from webapplayers.com/inspinia_admin-v2.9.4/ecommerce_product_list.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jun 2022 04:37:12 GMT -->
 </html>
 
 

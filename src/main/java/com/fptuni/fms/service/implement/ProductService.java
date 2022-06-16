@@ -47,19 +47,21 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product getProductById(int productId) {
-        return null;
+    public Product getProductById(String productId) {
+        if (productId == null || productId.isEmpty())
+            return null;
+        IProductDAO productDAO = new ProductDAO();
+        return productDAO.getProduct(productId);
     }
 
     @Override
     public Integer insertProduct(HttpServletRequest request, HttpServletResponse response) {
-
         ICategoryService categoryService = new CategoryService();
         IProductDAO productDAO = new ProductDAO();
         String id = "";
         String name = "";
         BigDecimal price = BigDecimal.valueOf(0.0);
-//        String imgPath = "";
+        // String imgPath = "";
         int cateID = 1;
         short quantity = 1;
         // get this store id
@@ -71,9 +73,9 @@ public class ProductService implements IProductService {
         if (request.getParameter("price") != null) {
             price = BigDecimal.valueOf(Double.parseDouble(request.getParameter("price")));
         }
-//        if (request.getParameter("imagePath") != null) {
+        // if (request.getParameter("imagePath") != null) {
         String imgPath = request.getParameter("imagePath");
-//        }
+        // }
         if (request.getParameter("categoryID") != null) {
             cateID = Integer.parseInt(request.getParameter("categoryID"));
             // get category info by id
@@ -101,8 +103,10 @@ public class ProductService implements IProductService {
         // Key = param name | Value = param value
         Map<String, String> paramMap = RequestUtils.getParameters(request.getQueryString());
         for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-            if (entry.getKey().equals("imagePath")) continue;
-            else if (entry.getValue().isEmpty()) return 0;
+            if (entry.getKey().equals("imagePath"))
+                continue;
+            else if (entry.getValue().isEmpty())
+                return 0;
         }
         productDAO.insertProduct(product);
         return 1;
@@ -114,8 +118,76 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public boolean deleteProduct(int productId) {
-        return false;
+    public boolean updateProduct(HttpServletRequest request, HttpServletResponse response) {
+        ICategoryService categoryService = new CategoryService();
+        IProductDAO productDAO = new ProductDAO();
+        String id = "";
+        String name = "";
+        BigDecimal price = BigDecimal.valueOf(0.0);
+        // String imgPath = "";
+        int cateID = 1;
+        short quantity = 1;
+        // get this store id
+        int storeID = 1;
+        Category category = new Category();
+        if (request.getParameter("id") != null) {
+            id = request.getParameter("id");
+        }
+        if (request.getParameter("name") != null) {
+            name = request.getParameter("name");
+        }
+        if (request.getParameter("price") != null) {
+            price = BigDecimal.valueOf(Double.parseDouble(request.getParameter("price")));
+        }
+        // if (request.getParameter("imagePath") != null) {
+        String imgPath = request.getParameter("imagePath") == null ? "n/a" : request.getParameter("imagePath");
+        // }
+        if (request.getParameter("categoryID") != null) {
+            cateID = Integer.parseInt(request.getParameter("categoryID"));
+            // get category info by id
+            category = categoryService.getCategory(cateID);
+            List<Category> categories = categoryService.getCategories();
+            // if change category: short cate name in id != choosen cate then create new pro
+            // id
+            // else not change pro id
+            if (!id.contains(category.getShortName())) {
+                int subID = 1;
+                // count the number of exist foods which have the same category
+                for (Category c : categories) {
+                    if (c.getShortName().contains(category.getShortName())) {
+                        subID++;
+                        break;
+                    }
+                }
+                // concat short name and the next Id
+                id = category.getShortName() + String.valueOf(subID + 1);
+            }
+        }
+        if (request.getParameter("quantity") != null) {
+            quantity = Short.parseShort(request.getParameter("quantity"));
+        }
+        Product product = new Product(id, name, imgPath, price, quantity, category, new Store(storeID));
+        // Set input request attribute to forward to create page if not success
+        request.setAttribute("product", product);
+        // force all of these param not null except Image
+        // Key = param name | Value = param value
+        Map<String, String> paramMap = RequestUtils.getParameters(request.getQueryString());
+        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+            if (entry.getKey().equals("imagePath"))
+                continue;
+            else if (entry.getValue().isEmpty())
+                return false;
+        }
+
+        return productDAO.updateProduct(product);
+    }
+
+    @Override
+    public boolean deleteProduct(String productId) {
+        if (productId == null)
+            return false;
+        IProductDAO productDAO = new ProductDAO();
+        return productDAO.deleteProduct(productId);
     }
 
     @Override

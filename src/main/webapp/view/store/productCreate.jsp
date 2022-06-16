@@ -284,7 +284,7 @@
     $(document).ready(function () {
         $("#create_product_form").click(function () {
             swal({
-                title: "Are you sure create?",
+                title: "Are you sure to create?",
                 type: "info",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
