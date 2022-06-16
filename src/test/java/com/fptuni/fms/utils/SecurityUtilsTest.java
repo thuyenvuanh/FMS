@@ -8,12 +8,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SecurityUtilsTest {
     @Test
     public void TestOutput() {
-        String email = "binhvq";
-        String password = "binhvq";
+        String[] email = {"admin1", "stm1", "cashier", "counter"};
+        String[] password = {"root", "123456789", "123456789", "123456789"};
 
         try {
-            String result = SecurityUtils.createHash(password, email);
-            System.out.println(result);
+            for (int i = 0; i < 4; i++) {
+                String result = SecurityUtils.createHash(password[i], email[i]);
+                System.out.println(result);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             fail();

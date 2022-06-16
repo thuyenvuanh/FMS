@@ -15,6 +15,7 @@ import com.fptuni.fms.paging.Pageable;
 import com.fptuni.mapper.ProductMapper;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
@@ -84,5 +85,11 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
     public int count() {
         String sql = "SELECT COUNT(ID) FROM Product";
         return count(sql);
+    }
+
+    @Override
+    public ArrayList<Product> getProductsByStoreAndCategory(Store store, Category category) {
+        String sql = "SELECT ID, Name, Price, ImagePath, QtyAvailable, StoreID, CateID WHERE StoreID = ? AND CateID = ? AND IsDeleted = 0";
+        return (ArrayList<Product>) query(sql, new ProductMapper(), store.getId(), category.getId());
     }
 }

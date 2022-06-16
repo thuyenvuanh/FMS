@@ -8,8 +8,7 @@ import java.io.IOException;
 
 public interface IAccountService {
 
-    void login(HttpServletRequest request, HttpServletResponse respons) throws ServletException, IOException;
+    String login(HttpServletRequest request, HttpServletResponse respons) throws ServletException, IOException;
 
-    void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
-
+    String logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }

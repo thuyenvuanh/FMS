@@ -3,7 +3,6 @@ package com.fptuni.fms.dao.implement;
 import com.fptuni.fms.dao.IAccountDAO;
 import com.fptuni.fms.mapper.AccountMapper;
 import com.fptuni.fms.model.Account;
-import com.fptuni.fms.model.Role;
 import com.fptuni.fms.utils.SecurityUtils;
 
 import java.util.List;
@@ -13,10 +12,12 @@ import java.util.List;
  */
 public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
 
+    private final AccountMapper mapper = new AccountMapper();
+
     @Override
     public List<Account> getListAccount() {
         String sql = "SELECT ID, Username, Fullname, RoleID FROM dbo.Account WHERE IsDeleted = 0";
-        List<Account> acc = query(sql, new AccountMapper());
+        List<Account> acc = query(sql, mapper);
         return acc.isEmpty() ? null : acc;
     }
 
@@ -42,11 +43,11 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
     public Account checkLogin(String username, String password) {
         try {
             String sql = "SELECT ID, Username, FullName, RoleID FROM dbo.Account WHERE Username=? AND Password=? AND IsDeleted = 0";
-            String hashPassword = SecurityUtils.createHash(username, password);
-            List<Account> acc = query(sql, new AccountMapper(), username, hashPassword);
-            return acc.isEmpty() ? null : acc.get(0);
+            String hashPassword = SecurityUtils.createHash(password, username);
+            List<Account> acc = query(sql, mapper, username, hashPassword);
+            return acc == null ? null : (acc.isEmpty() ? null : acc.get(0));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Database query error: " + e.getMessage());
         }
         return null;
     }

@@ -10,24 +10,24 @@ import java.io.IOException;
 @WebServlet(name = "AccountController", value = "/account/*")
 public class AccountController extends HttpServlet {
 
-    private AccountService accountService = new AccountService();
+    private final AccountService accountService = new AccountService();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.removeAttribute("message");
         String action = request.getPathInfo();
+        System.out.println(request.getServletPath());
         System.out.println("path info: " + action);
+        String redirectUrl = null;
         switch (action) {
-            case "/index":
-                break;
             case "/login":
-                accountService.login(request, response);
+                redirectUrl = accountService.login(request, response);
                 break;
             case "/logout":
-                accountService.logout(request, response);
+                redirectUrl = accountService.logout(request, response);
                 break;
             default:
-
+                //chuyen huong den trang error
         }
+        response.sendRedirect(redirectUrl);
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

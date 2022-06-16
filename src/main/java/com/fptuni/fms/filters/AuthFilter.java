@@ -16,7 +16,6 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         boolean logedIn = ((HttpServletRequest) request).getSession().getAttribute("account") != null;
         System.out.println("Already loged In = " + logedIn);
-
         chain.doFilter(request, response);
     }
 }

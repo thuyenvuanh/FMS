@@ -17,7 +17,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 /**
  *

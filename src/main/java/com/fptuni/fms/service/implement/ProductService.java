@@ -1,16 +1,14 @@
 package com.fptuni.fms.service.implement;
 
-import com.fptuni.fms.dao.ICategoryDAO;
 import com.fptuni.fms.dao.IProductDAO;
-import com.fptuni.fms.dao.implement.CategoryDAO;
 import com.fptuni.fms.dao.implement.ProductDAO;
 import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Product;
 import com.fptuni.fms.model.Store;
-import com.fptuni.fms.paging.PageRequest;
-import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.ICategoryService;
 import com.fptuni.fms.service.IProductService;
+import com.fptuni.fms.paging.PageRequest;
+import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.sort.Sorter;
 import com.fptuni.fms.utils.RequestUtils;
 

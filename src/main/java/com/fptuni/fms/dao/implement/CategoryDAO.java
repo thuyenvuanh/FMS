@@ -7,6 +7,9 @@ package com.fptuni.fms.dao.implement;
 import com.fptuni.fms.dao.ICategoryDAO;
 import com.fptuni.fms.mapper.CategoryMapper;
 import com.fptuni.fms.model.Category;
+import com.fptuni.fms.model.Store;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +45,13 @@ public class CategoryDAO extends AbstractDAO<Category> implements ICategoryDAO {
         String sql ="SELECT COUNT(ID) FROM Category";
         int count = count(sql,new CategoryMapper());
         return count;
+    }
+
+    @Override
+    public ArrayList<Category> getCategoriesByStore(Store store) {
+        //Under developing
+        //TODO: Create field in Category StoreID link to Store
+        return new ArrayList<>();
     }
 
     @Override

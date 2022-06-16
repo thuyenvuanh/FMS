@@ -1,6 +1,5 @@
 package com.fptuni.fms.mapper;
 
-import com.fptuni.fms.dao.implement.AbstractDAO;
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Role;
 import java.sql.ResultSet;
@@ -10,7 +9,7 @@ import java.sql.SQLException;
  *
  * @author NhatTan
  */
-public class AccountMapper extends AbstractDAO<Account> implements RowMapper {
+public class AccountMapper implements RowMapper<Account> {
 
     @Override
     public Account mapRow(ResultSet rs) {
@@ -22,7 +21,7 @@ public class AccountMapper extends AbstractDAO<Account> implements RowMapper {
             acc.setFullName(rs.getString("FullName"));
             acc.setRole(new Role(rs.getInt("RoleID")));
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Mapping error: " + e.getMessage());
         }
         return acc;
     }

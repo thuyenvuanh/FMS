@@ -6,6 +6,7 @@ import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -24,4 +25,6 @@ public interface IProductDAO extends GenericDAO<Product> {
     void updateProduct(String id, String name, String unit, BigDecimal price, short qtyAvailable, Category cateID, Store storeID);
 
     int count();
+
+    ArrayList<Product> getProductsByStoreAndCategory(Store store, Category category);
 }
