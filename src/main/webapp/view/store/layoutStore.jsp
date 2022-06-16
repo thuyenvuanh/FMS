@@ -1,3 +1,5 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <nav class="navbar-default navbar-static-side" role="navigation">
   <div class="sidebar-collapse">
     <ul class="nav metismenu" id="side-menu">
@@ -18,7 +20,7 @@
               <a class="dropdown-item" href="profile.html">Store profile</a>
             </li>
             <li class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="login.html">Logout</a></li>
+            <li><a class="dropdown-item" href="<c:url value="/account/logout"/>">Logout</a></li>
           </ul>
         </div>
         <div class="logo-element">FMS</div>
@@ -67,7 +69,7 @@
       </div>
       <ul class="nav navbar-top-links navbar-right">
         <li>
-          <a href="login.html"> <i class="fa fa-sign-out"></i> Log out </a>
+          <a href="<c:url value="/account/logout"/>"> <i class="fa fa-sign-out"></i> Log out </a>
         </li>
       </ul>
     </nav>
