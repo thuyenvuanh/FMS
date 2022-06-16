@@ -140,7 +140,6 @@
                                 <th data-hide="phone" data-sort-ignore="true">
                                     <a href="${sort}&sortField=Name">Product Name</a>
                                 </th>
-                                <%--                                <th data-hide="all" data-sort-ignore="true">Description</th>--%>
                                 <th data-hide="all" data-sort-ignore="true">Image</th>
                                 <th data-hide="phone" data-sort-ignore="true">Price</th>
                                 <th data-hide="phone,tablet" data-sort-ignore="true">Quantity</th>
@@ -153,36 +152,58 @@
                             <tbody>
 
                             <c:forEach var="product" items="${requestScope.productList}">
-                                <tr>
-                                    <td>${product.id}</td>
-                                    <td>${product.name}</td>
-                                    <td>
-                                        <img src="${product.imagePath}" alt="${product.name}" style="width: 35%"/>
-                                    </td>
-                                    <td>${product.price}</td>
-                                    <td>${product.qtyAvailable}</td>
-                                    <td>
-                                        <span class="label label-primary">Enable</span>
-                                    </td>
-                                    <td class="text-right">
-                                        <div class="btn-group">
-                                            <c:url var="viewLink" value="/product/view">
-                                                <c:param name="productID" value="${product.id}"></c:param>
-                                            </c:url>
-                                            <a href="${viewLink}">
-                                                <button class="btn-white btn btn-xs">
-                                                    View
+                                <c:url var="deleteLink" value="/product/delete"></c:url>
+                                <form action="${deleteLink}" class="deleteForm">
+                                    <input type="hidden" name="productID" value="${product.id}"/>
+                                    <tr>
+                                        <td>${product.id}</td>
+
+                                        <td>${product.name}</td>
+                                        <td>
+                                            <img src="${product.imagePath}" alt="${product.name}" style="width: 35%"/>
+                                        </td>
+                                        <td>${product.price}</td>
+                                        <td>${product.qtyAvailable}</td>
+                                        <c:if test="${product.isDeleted == false}">
+                                            <td>
+                                                <span class="label label-primary">Enable</span>
+                                            </td>
+                                        </c:if>
+                                        <c:if test="${product.isDeleted == true}">
+                                            <td>
+                                                <span class="label label-danger">Disable</span>
+                                            </td>
+                                        </c:if>
+                                        <td class="text-right">
+                                            <div class="btn-group">
+                                                <c:url var="viewLink" value="/product/view">
+                                                    <c:param name="productID" value="${product.id}"></c:param>
+                                                </c:url>
+                                                <c:url var="updateLink" value="/product/updatePage">
+                                                    <c:param name="productID" value="${product.id}"></c:param>
+                                                </c:url>
+
+                                                <a href="${viewLink}">
+                                                    <button class="btn-white btn btn-xs">
+                                                        View
+                                                    </button>
+                                                </a>
+                                                <a href="${updateLink}">
+                                                    <button class="btn-white btn btn-xs">
+                                                        Edit
+                                                    </button>
+                                                </a>
+                                                <button type="button"
+                                                        class="btn-white btn btn-xs delete_product" ${product.isDeleted == true ? "disabled" : ""} >
+                                                    Delete
                                                 </button>
-                                            </a>
-                                            <a href="product-update.html">
-                                                <button class="btn-white btn btn-xs">
-                                                    Edit
-                                                </button>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                </form>
                             </c:forEach>
+
                             </tbody>
                             <tfoot>
                             <tr>
@@ -298,15 +319,100 @@
         session.removeAttribute("createStatus");
     %>
 </c:if>
+
+<c:if test="${sessionScope.updateStatus != null}">
+    <script>
+        $(document).ready(function () {
+            swal({
+                title: "Update Success!",
+                text: "You clicked the button!",
+                type: "success"
+            });
+        });
+    </script>
+    <%
+        session.removeAttribute("updateStatus");
+    %>
+</c:if>
+<script>
+    $(document).ready(function () {
+        $(".delete_product").click(function () {
+            swal({
+                    title: "Are you sure?",
+                    text: "Your will not be able to recover this imaginary file!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel plx!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        $(".deleteForm").submit();
+                        swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                    } else {
+                        swal("Cancelled", "Your imaginary file is safe :)", "error");
+                    }
+                });
+        });
+    });
+    <%
+        session.removeAttribute("deleteStatus");
+    %>
+</script>
 <script>
     $(document).ready(function () {
         $(".footable").footable();
     });
 </script>
 
+<%--<!-- Alert -->--%>
+<div class="sweet-overlay" tabindex="-1" style="opacity: -0.03; display: none;"></div>
+<div class="sweet-alert hideSweetAlert" data-custom-class="" data-has-cancel-button="false"
+     data-has-confirm-button="true" data-allow-outside-click="false" data-has-done-function="false"
+     data-animation="pop" data-timer="null" style="display: none; margin-top: -171px; opacity: 0;">
+    <div class="sa-icon sa-error" style="display: none;">
+            <span class="sa-x-mark">
+                <span class="sa-line sa-left"></span>
+                <span class="sa-line sa-right"></span>
+            </span>
+    </div>
+    <div class="sa-icon sa-warning" style="display: none;">
+        <span class="sa-body"></span>
+        <span class="sa-dot"></span>
+    </div>
+    <div class="sa-icon sa-info" style="display: none;"></div>
+    <div class="sa-icon sa-success" style="display: block;">
+        <span class="sa-line sa-tip"></span>
+        <span class="sa-line sa-long"></span>
+
+        <div class="sa-placeholder"></div>
+        <div class="sa-fix"></div>
+    </div>
+    <div class="sa-icon sa-custom" style="display: none;"></div>
+    <h2>Update success!</h2>
+    <p style="display: block;">Your Product has been deleted.</p>
+    <fieldset>
+        <input type="text" tabindex="3" placeholder="">
+        <div class="sa-input-error"></div>
+    </fieldset>
+    <div class="sa-error-container">
+        <div class="icon">!</div>
+        <p>Not valid!</p>
+    </div>
+    <div class="sa-button-container">
+        <button class="cancel" tabindex="2" style="display: none; box-shadow: none;">Cancel</button>
+
+        <button class="confirm" tabindex="1"
+                style="display: inline-block; background-color: rgb(174, 222, 244); box-shadow: rgba(174, 222, 244, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">
+            OK
+        </button>
+    </div>
+</div>
 </body>
 
-<!-- Mirrored from webapplayers.com/inspinia_admin-v2.9.4/ecommerce_product_list.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jun 2022 04:37:12 GMT -->
 </html>
 
 

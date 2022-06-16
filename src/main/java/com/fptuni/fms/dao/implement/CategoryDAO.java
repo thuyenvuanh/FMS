@@ -17,13 +17,13 @@ public class CategoryDAO extends AbstractDAO<Category> implements ICategoryDAO {
 
     @Override
     public List<Category> getCategories() {
-        String sql = "SELECT ID, Name, ShortName FROM Category";
+        String sql = "SELECT ID, Name, ShortName, IsDeleted FROM Category";
         return query(sql, new CategoryMapper());
     }
 
     @Override
     public Category getCategory(int id) {
-        String sql = "SELECT ID, Name, ShortName FROM Category\n"
+        String sql = "SELECT ID, Name, ShortName, IsDeleted FROM Category\n"
                 + "WHERE ID = ?";
         List<Category> categories = query(sql, new CategoryMapper(), id);
         return categories.isEmpty() ? null : categories.get(0);
@@ -31,7 +31,7 @@ public class CategoryDAO extends AbstractDAO<Category> implements ICategoryDAO {
 
     @Override
     public List<Category> getCategoryByName(String name) {
-        String sql = "SELECT ID, Name, ShortName FROM Category\n"
+        String sql = "SELECT ID, Name, ShortName, IsDeleted FROM Category\n"
                 + "WHERE Name like ?";
         List<Category> categories = query(sql, new CategoryMapper(), "%" + name + "%");
         return categories.isEmpty() ? null : categories;

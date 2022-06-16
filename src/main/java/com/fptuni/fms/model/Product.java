@@ -25,19 +25,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
  * @author LucasBV
  */
 @Entity
 @Table(name = "Product")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
-    @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
-    @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
-    @NamedQuery(name = "Product.findByImagePath", query = "SELECT p FROM Product p WHERE p.imagePath = :imagePath"),
-    @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
-    @NamedQuery(name = "Product.findByQtyAvailable", query = "SELECT p FROM Product p WHERE p.qtyAvailable = :qtyAvailable")})
+        @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+        @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
+        @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
+        @NamedQuery(name = "Product.findByImagePath", query = "SELECT p FROM Product p WHERE p.imagePath = :imagePath"),
+        @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
+        @NamedQuery(name = "Product.findByQtyAvailable", query = "SELECT p FROM Product p WHERE p.qtyAvailable = :qtyAvailable")})
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -64,6 +63,8 @@ public class Product implements Serializable {
     private BigDecimal price;
     @Column(name = "QtyAvailable")
     private Short qtyAvailable;
+    @Column(name = "IsDeleted")
+    private boolean isDeleted;
     @JoinColumn(name = "CateID", referencedColumnName = "ID")
     @ManyToOne
     private Category cateID;
@@ -151,6 +152,14 @@ public class Product implements Serializable {
 
     public void setStoreID(Store storeID) {
         this.storeID = storeID;
+    }
+
+    public boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.isDeleted = deleted;
     }
 
     @XmlTransient

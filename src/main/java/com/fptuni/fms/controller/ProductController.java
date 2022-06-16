@@ -56,12 +56,43 @@ public class ProductController extends HttpServlet {
                 request.setAttribute("createStatus", "fail");
                 request.getRequestDispatcher("/view/store/productCreate.jsp").forward(request, response);
             }
-        }else if(path.equals("/view")){
+        } else if (path.equals("/view")) {
             String productID = request.getParameter("productID");
+            ICategoryService categoryService = new CategoryService();
             IProductService productService = new ProductService();
+            List<Category> categories = categoryService.getCategories();
             Product product = productService.getProductById(productID);
-            request.setAttribute("product",product);
-            request.getRequestDispatcher("/view/store/productDetail.jsp").forward(request,response);
+            request.setAttribute("product", product);
+            request.setAttribute("categories", categories);
+            request.getRequestDispatcher("/view/store/productDetail.jsp").forward(request, response);
+        } else if (path.equals("/updatePage")) {
+            String productID = request.getParameter("productID");
+            ICategoryService categoryService = new CategoryService();
+            IProductService productService = new ProductService();
+            List<Category> categories = categoryService.getCategories();
+            Product product = productService.getProductById(productID);
+            request.setAttribute("product", product);
+            request.setAttribute("categories", categories);
+            request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
+        } else if (path.equals("/update")) {
+            IProductService productService = new ProductService();
+            if (productService.updateProduct(request, response)) {
+                session.setAttribute("updateStatus", "success");
+                response.sendRedirect(request.getContextPath() + "/product/list");
+            } else {
+                session.setAttribute("updateStatus", "fail");
+                request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
+            }
+
+        } else if (path.equals("/delete")) {
+            IProductService productService = new ProductService();
+            String productID = request.getParameter("productID");
+            if (productService.deleteProduct(productID)) {
+                session.setAttribute("deleteStatus", "success");
+            } else {
+                session.setAttribute("deleteStatus", "fail");
+            }
+            response.sendRedirect(request.getContextPath() + "/product/list");
         }
     }
 

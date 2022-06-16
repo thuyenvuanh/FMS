@@ -21,11 +21,9 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 
     @Override
     public Product getProduct(String id) {//Get single product
-        String sql = "SELECT ID,Name, Unit, Price, QtyAvailable, CateID, StoreID" +
-                "from Product\n" +
-                "Join Category on Product.CateID = Category.ID\n" +
-                "Join Store on Product.StoreID = Store.ID\n" +
-                "Where upper(Product.Name) = upper('?');";
+        String sql = "SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID, IsDeleted\n" +
+                "FROM Product\n" +
+                "WHERE ID = ?";
         List<Product> products = query(sql, new ProductMapper(), id);
         return products.isEmpty() ? null : products.get(0);
     }
@@ -36,7 +34,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
         // Neu chon sortField khac thi cac Product moi trang se thay doi
         // Vi du: sortField = ID ==> list ID ASC ==> paging
         String sql = "SELECT * FROM \n" +
-                "(SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID \n" +
+                "(SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID, IsDeleted \n" +
                 "FROM Product\n" +
                 "ORDER BY " + pageable.getSorter().getSortField() + " ASC ";
         if (pageable.getOffset() != null && pageable.getLimit() != null) {
@@ -67,17 +65,32 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
     }
 
     @Override
-    public void updateProduct(String id, String name, String unit, BigDecimal price, short qtyAvailable, Category cateID, Store storeID) {
+    public boolean updateProduct(Product product) {
         String sql = "UPDATE Product\n" +
-                "SET\n" +
-                "Name='?',\n" +
-                "ImagePath='?',\n" +
-                "Price='?',\n" +
-                "QtyAvailable='?',\n" +
-                "CateID='?',\n" +
-                "StoreID='?'\n" +
-                "Where ID = ?;";
-        update(name, unit, price, qtyAvailable, cateID, storeID, id);
+                " SET ID = ?,\n" +
+                " Name = ?,\n" +
+                " Price = ?,\n" +
+                " ImagePath = ?,\n" +
+                " QtyAvailable = ?,\n" +
+                " CateID = ?,\n" +
+                " StoreID = ?\n" +
+                " WHERE ID = ?";
+        return update(sql, product.getId(),
+                product.getName(),
+                product.getPrice(),
+                product.getImagePath(),
+                product.getQtyAvailable(),
+                product.getCateID().getId(),
+                product.getStoreID().getId(),
+                product.getId());
+    }
+
+    @Override
+    public boolean deleteProduct(String id) {
+        String sql = "UPDATE Product\n" +
+                "SET IsDeleted = 1 \n" +
+                "WHERE ID = ?";
+        return update(sql, id);
     }
 
     @Override

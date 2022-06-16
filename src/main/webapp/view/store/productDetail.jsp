@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Acer
-  Date: 15/06/2022
-  Time: 11:25 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -32,6 +26,12 @@
 
     <link href="../../css/animate.css" rel="stylesheet"/>
     <link href="../../css/style.css" rel="stylesheet"/>
+    <style>
+        .text-align {
+            display: flex;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
 <div id="wrapper">
@@ -68,43 +68,47 @@
                             <div class="panel-body">
 
                                 <fieldset>
+                                    <c:set var="productDetail" value="${requestScope.product}"></c:set>
+                                    <div class="form-group row"><label class="col-sm-2 col-form-label">ID:</label>
+                                        <div class="col-sm-10 text-align">${productDetail.id}</div>
+                                    </div>
                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
-                                        <div class="col-sm-10"><input readonly type="text" class="form-control"
-                                                                      placeholder="Product name"></div>
+                                        <div class="col-sm-10 text-align">${productDetail.name}</div>
                                     </div>
                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Price:</label>
-                                        <div class="col-sm-10"><input readonly type="text" class="form-control"
-                                                                      placeholder="$160.00"></div>
+                                        <div class="col-sm-10 text-align">${productDetail.price}</div>
                                     </div>
-                                    <div class="form-group row"><label
-                                            class="col-sm-2 col-form-label">Description:</label>
-                                        <div class="col-sm-10">
-                                            <input readonly type="text" class="form-control" placeholder="Description">
+                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Image:</label>
 
+                                        <div class="col-sm-10 text-align">
+                                            <img src="${productDetail.imagePath}" alt="${productDetail.name}"
+                                                 style="width: 35%"/>
                                         </div>
                                     </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Meta Tag
-                                        Title:</label>
-                                        <div class="col-sm-10"><input readonly type="text" class="form-control"
-                                                                      placeholder="..."></div>
+                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Category</label>
+                                        <div class="col-sm-10">
+                                            <select name="status" class="form-control" disabled>
+                                                <c:forEach var="category" items="${requestScope.categories}">
+                                                    <option value="${category.id}" ${category.id == productDetail.cateID.id ? "selected" : ""}>${category.name}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Meta Tag
-                                        Description:</label>
-                                        <div class="col-sm-10"><input readonly type="text" class="form-control"
-                                                                      placeholder="Sheets containing Lorem"></div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Meta Tag
-                                        Keywords:</label>
-                                        <div class="col-sm-10"><input readonly type="text" class="form-control"
-                                                                      placeholder="Lorem, Ipsum, has, been"></div>
+                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Avaialable quantity:</label>
+                                        <div class="col-sm-10 text-align">${productDetail.qtyAvailable}</div>
                                     </div>
                                 </fieldset>
                                 <div class="form-layout-footer text-center">
-                                    <a href="product-update.html">
-                                        <button class="btn btn-primary bd-0">Update Form</button>
+                                    <c:url var="updateProductLink" value="${requestScope.contextPath}/product/updatePage">
+                                        <c:param name="productID" value="${productDetail.id}"></c:param>
+                                    </c:url>
+                                    <c:url var="deleteProductLink" value="${requestScope.contextPath}/product/delete">
+                                        <c:param name="productID" value="${productDetail.id}"></c:param>
+                                    </c:url>
+                                    <a href="${updateProductLink}">
+                                        <button class="btn btn-primary bd-0">Update</button>
                                     </a>
-
-                                    <a href="#">
+                                    <a href="${deleteProductLink}">
                                         <button class="btn btn-danger bd-0">Delete</button>
                                     </a>
                                     <a href="ecommerce_product_list.html">
@@ -120,7 +124,7 @@
             </div>
         </div>
     </div>
-<jsp:include page="footer.jsp"></jsp:include>
+    <jsp:include page="footer.jsp"></jsp:include>
 </div>
 
 

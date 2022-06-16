@@ -9,10 +9,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /*
-*
-* Author: Anh Quoc
-*
-* */
+ *
+ * Author: Anh Quoc
+ *
+ * */
 public interface IProductDAO extends GenericDAO<Product> {
 
     Product getProduct(String id);
@@ -21,7 +21,9 @@ public interface IProductDAO extends GenericDAO<Product> {
 
     Integer insertProduct(Product product);
 
-    void updateProduct(String id, String name, String unit, BigDecimal price, short qtyAvailable, Category cateID, Store storeID);
+    boolean updateProduct(Product product);
+
+    boolean deleteProduct(String id);
 
     int count();
 }

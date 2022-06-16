@@ -14,8 +14,7 @@ public interface IProductService {
     Integer insertProduct(HttpServletRequest request, HttpServletResponse response);
 
     boolean updateProduct(Product product);
-
-    boolean deleteProduct(int productId);
-
+    boolean updateProduct(HttpServletRequest request, HttpServletResponse response);
+    boolean deleteProduct(String productId);
     int countProduct();
 }
