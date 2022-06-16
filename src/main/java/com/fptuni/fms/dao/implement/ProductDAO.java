@@ -20,8 +20,8 @@ import java.util.List;
 public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 
     @Override
-    public Product getProduct(int id) {//Get single product
-        String sql = "SELECT Product.ID, Product.Name, Unit, Price, QtyAvailable,CateID,StoreID, Category.Name, Store.Name " +
+    public Product getProduct(String id) {//Get single product
+        String sql = "SELECT ID,Name, Unit, Price, QtyAvailable, CateID, StoreID" +
                 "from Product\n" +
                 "Join Category on Product.CateID = Category.ID\n" +
                 "Join Store on Product.StoreID = Store.ID\n" +
@@ -56,8 +56,8 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
     @Override
     public Integer insertProduct(Product product) {
         String sql = "INSERT INTO Product\n" +
-                "VALUES(?,?,?,?,?,?,?);";
-        return insert(product.getId(),
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        return insert(sql, product.getId(),
                 product.getName(),
                 product.getPrice(),
                 product.getImagePath(),

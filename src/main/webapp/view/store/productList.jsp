@@ -54,44 +54,44 @@
     <%--    Search--%>
     <div class="ibox-content m-b-sm border-bottom">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label class="col-form-label" for="product_name">Category</label>
-                    <select name="status" id="category" class="form-control">
-                        <option value="" selected></option>
-                        <option value="">Food</option>
-                        <option value="">Drink</option>
+                    <select name="status" class="form-control">
+                        <c:forEach var="category" items="${requestScope.categories}">
+                            <option value="${category.id}" ${category.id == 1 ? "selected" : ""}>${category.name}</option>
+                        </c:forEach>
                     </select>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label class="col-form-label" for="product_name">Product Name</label>
                     <input type="text" id="product_name" name="product_name" value=""
                            placeholder="Product Name" class="form-control">
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label class="col-form-label" for="maxPrice">Price</label>
-                    <div class="d-flex flex-row">
-                        <input type="text" id="maxPrice" name="price" value="" placeholder="Max"
-                               class="form-control">
-                        <input type="text" id="minPrice" name="price" value="" placeholder="Min"
-                               class="form-control">
+            <div class="col-md-4">
+                <div class="form-group" id="date_range_transaction">
+                    <label class="col-form-label">Price</label>
+                    <div class="input-daterange input-group" id="datepicker">
+                        <input type="text" class="form-control-sm form-control" name="start"
+                               value="" placeholder="Min">
+                        <span class="input-group-addon">to</span>
+                        <input type="text" class="form-control-sm form-control" name="end"
+                               value="" placeholder="Max">
                     </div>
-
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label class="col-form-label" for="quantity">Quantity</label>
                     <input type="text" id="quantity" name="quantity" value="" placeholder="Quantity"
                            class="form-control">
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label class="col-form-label" for="status">Status</label>
                     <select name="status" id="status" class="form-control">
@@ -106,6 +106,7 @@
         </div>
 
     </div>
+
     <%--    Search--%>
     <%--    Create--%>
     <nav class="navbar navbar-light bg-light">
@@ -139,7 +140,7 @@
                                 <th data-hide="phone" data-sort-ignore="true">
                                     <a href="${sort}&sortField=Name">Product Name</a>
                                 </th>
-<%--                                <th data-hide="all" data-sort-ignore="true">Description</th>--%>
+                                <%--                                <th data-hide="all" data-sort-ignore="true">Description</th>--%>
                                 <th data-hide="all" data-sort-ignore="true">Image</th>
                                 <th data-hide="phone" data-sort-ignore="true">Price</th>
                                 <th data-hide="phone,tablet" data-sort-ignore="true">Quantity</th>
@@ -165,7 +166,10 @@
                                     </td>
                                     <td class="text-right">
                                         <div class="btn-group">
-                                            <a href="product-view.html">
+                                            <c:url var="viewLink" value="/product/view">
+                                                <c:param name="productID" value="${product.id}"></c:param>
+                                            </c:url>
+                                            <a href="${viewLink}">
                                                 <button class="btn-white btn btn-xs">
                                                     View
                                                 </button>
@@ -244,7 +248,7 @@
     </div>
     <jsp:include page="footer.jsp"></jsp:include>
 </div>
-</div>
+
 
 <!-- Mainly scripts -->
 <script src="../../js/jquery-3.1.1.min.js"></script>
@@ -280,7 +284,7 @@
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <%--if controller return update successful status--%>
-<c:if test="${sessionScope.createStatus!=null}">
+<c:if test="${sessionScope.createStatus != null}">
     <script>
         $(document).ready(function () {
             swal({
@@ -290,6 +294,9 @@
             });
         });
     </script>
+    <%
+        session.removeAttribute("createStatus");
+    %>
 </c:if>
 <script>
     $(document).ready(function () {

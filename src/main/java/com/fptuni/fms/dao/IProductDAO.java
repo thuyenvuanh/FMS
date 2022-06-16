@@ -15,7 +15,7 @@ import java.util.List;
 * */
 public interface IProductDAO extends GenericDAO<Product> {
 
-    Product getProduct(int id);
+    Product getProduct(String id);
 
     List<Product> getProducts(Pageable pageable);
 

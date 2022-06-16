@@ -9,7 +9,7 @@ import java.util.List;
 public interface IProductService {
     List<Product> getProducts(HttpServletRequest request, HttpServletResponse response);
 
-    Product getProductById(int productId);
+    Product getProductById(String productId);
 
     Integer insertProduct(HttpServletRequest request, HttpServletResponse response);
 

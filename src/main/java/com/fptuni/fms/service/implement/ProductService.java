@@ -49,8 +49,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product getProductById(int productId) {
-        return null;
+    public Product getProductById(String productId) {
+        if (productId == null || productId.isEmpty()) return null;
+        IProductDAO productDAO = new ProductDAO();
+        return productDAO.getProduct(productId);
     }
 
     @Override

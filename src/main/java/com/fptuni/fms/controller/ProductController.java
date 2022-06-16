@@ -30,17 +30,18 @@ public class ProductController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         HttpSession session = request.getSession();
-        session.removeAttribute("createStatus");
         if (path.equals("/list")) {
             int pageSize = 3;
-            IProductService productService = new ProductService(); // check valid in product service
+            IProductService productService = new ProductService();
+            ICategoryService categoryService = new CategoryService();
             List<Product> products = productService.getProducts(request, response);
             int totalPages = productService.countProduct() / pageSize;
             if (productService.countProduct() % pageSize != 0) totalPages++;
+            List<Category> categories = categoryService.getCategories();
+            request.setAttribute("categories", categories);
             request.setAttribute("productList", products);
             request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("/view/store/productList.jsp").forward(request, response);
-
         } else if (path.equals("/createPage")) {
             ICategoryService categoryService = new CategoryService();
             List<Category> categories = categoryService.getCategories();
@@ -55,8 +56,12 @@ public class ProductController extends HttpServlet {
                 request.setAttribute("createStatus", "fail");
                 request.getRequestDispatcher("/view/store/productCreate.jsp").forward(request, response);
             }
-//            request.getRequestDispatcher("/product/list").forward(request, response);
-
+        }else if(path.equals("/view")){
+            String productID = request.getParameter("productID");
+            IProductService productService = new ProductService();
+            Product product = productService.getProductById(productID);
+            request.setAttribute("product",product);
+            request.getRequestDispatcher("/view/store/productDetail.jsp").forward(request,response);
         }
     }
 
