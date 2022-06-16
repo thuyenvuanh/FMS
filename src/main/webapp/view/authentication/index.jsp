@@ -28,6 +28,11 @@
                 width: 80% !important;
             }
         }
+        @media screen and (max-width: 900px) {
+            .login-section {
+                width: 90% !important;
+            }
+        }
         .login-section {
             width: 95%;
         }
@@ -73,7 +78,7 @@
                 <!-- Submit button -->
                 <div class="row px-2">
                     <button type="submit" class="btn mx-auto shadow" formaction="<c:url
-        value="/auth/login"/>" style="background-color: #4fc284; color: #ffffff; width: 98%;">Sign in
+        value="/account/login"/>" style="background-color: #4fc284; color: #ffffff; width: 98%;">Sign in
                     </button>
                     <span class="text-danger">${message}</span>
                 </div>
