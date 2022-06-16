@@ -15,7 +15,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
 
     @Override
     public List<Account> getListAccount() {
-        String sql = "SELECT ID, Username, Fullname, RoleID FROM dbo.Account";
+        String sql = "SELECT ID, Username, Fullname, RoleID FROM dbo.Account WHERE IsDeleted = 0";
         List<Account> acc = query(sql, new AccountMapper());
         return acc.isEmpty() ? null : acc;
     }
@@ -28,20 +28,20 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
 
     @Override
     public boolean Delete(String username) {
-        String sql = "DELETE FROM news WHERE Username = ?";
+        String sql = "DELETE FROM news WHERE Username = ? AND IsDeleted = 0";
         return update(sql, username);
     }
 
     @Override
     public boolean Update(String Username, String Password, String Fullname, int RoleID) {
-        String sql = "UPDATE dbo.Account SET Password=?, Fullname=?, RoleID=? WHERE Username=?";
+        String sql = "UPDATE dbo.Account SET Password=?, Fullname=?, RoleID=? WHERE Username=? AND IsDeleted = 0";
         return update(sql, Password, Fullname, RoleID, Username);
     }
 
     @Override
     public Account checkLogin(String username, String password) {
         try {
-            String sql = "SELECT ID, Username, FullName, RoleID FROM dbo.Account WHERE Username=? AND Password=?";
+            String sql = "SELECT ID, Username, FullName, RoleID FROM dbo.Account WHERE Username=? AND Password=? AND IsDeleted = 0";
             String hashPassword = SecurityUtils.createHash(username, password);
             List<Account> acc = query(sql, new AccountMapper(), username, hashPassword);
             return acc.isEmpty() ? null : acc.get(0);

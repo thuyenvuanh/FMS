@@ -22,9 +22,6 @@ public class AccountController extends HttpServlet {
             case "/login":
                 accountService.login(request, response);
                 break;
-            case "/forgot":
-//                forgot(request, response);
-                break;
             case "/logout":
                 accountService.logout(request, response);
                 break;

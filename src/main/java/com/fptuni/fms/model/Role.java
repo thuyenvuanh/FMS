@@ -46,7 +46,7 @@ public class Role implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "Name")
     private String name;
-    @OneToMany(mappedBy = "roleID")
+    @OneToMany(mappedBy = "role")
     private List<Account> accountList;
 
     public Role() {

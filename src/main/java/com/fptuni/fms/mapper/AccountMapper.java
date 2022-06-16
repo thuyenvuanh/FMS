@@ -20,7 +20,7 @@ public class AccountMapper extends AbstractDAO<Account> implements RowMapper {
             acc.setId(rs.getInt("ID"));
             acc.setUsername(rs.getString("Username"));
             acc.setFullName(rs.getString("FullName"));
-            acc.setRoleID(new Role(rs.getInt("RoleID")));
+            acc.setRole(new Role(rs.getInt("RoleID")));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
