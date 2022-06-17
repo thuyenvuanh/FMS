@@ -23,6 +23,7 @@ public class CategoryMapper implements RowMapper<Category>{
             category.setId(rs.getInt("ID"));
             category.setName(rs.getString("Name"));
             category.setShortName(rs.getString("ShortName"));
+            category.setIsDeleted(rs.getBoolean("IsDeleted"));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

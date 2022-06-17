@@ -1,15 +1,7 @@
 package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.dao.IProductDAO;
-import com.fptuni.fms.model.Product;
-import com.fptuni.fms.paging.PageRequest;
-import com.fptuni.fms.paging.Pageable;
-import com.fptuni.fms.service.IProductService;
-import com.fptuni.fms.service.implement.ProductService;
-import com.fptuni.fms.sort.Sorter;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

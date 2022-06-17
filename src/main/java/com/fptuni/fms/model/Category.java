@@ -47,6 +47,8 @@ public class Category implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "Name")
     private String name;
+    @Column(name = "IsDeleted")
+    private boolean isDeleted;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
@@ -95,6 +97,14 @@ public class Category implements Serializable {
 
     public void setShortName(String shortName) {
         this.shortName = shortName;
+    }
+
+    public boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @XmlTransient

@@ -3,7 +3,6 @@ package com.fptuni.fms.service.implement;
 import com.fptuni.fms.dao.ICategoryDAO;
 import com.fptuni.fms.dao.implement.CategoryDAO;
 import com.fptuni.fms.model.Category;
-import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.ICategoryService;
 
 import java.util.List;

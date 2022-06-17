@@ -80,7 +80,7 @@
                     <button type="submit" class="btn mx-auto shadow" formaction="<c:url
         value="/account/login"/>" style="background-color: #4fc284; color: #ffffff; width: 98%;">Sign in
                     </button>
-                    <span class="text-danger">${message}</span>
+                    <span class="text-danger">${sessionScope.message}</span>
                 </div>
             </form>
         </div>
@@ -89,3 +89,7 @@
 </body>
 
 </html>
+
+<%
+    request.getSession().removeAttribute("message");
+%>

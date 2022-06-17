@@ -6,6 +6,8 @@
 package com.fptuni.fms.dao;
 
 import com.fptuni.fms.model.Category;
+import com.fptuni.fms.model.Store;
+
 import java.util.List;
 
 /**
@@ -19,4 +21,6 @@ public interface ICategoryDAO extends GenericDAO<Category>{
     Category getCategory(int id);
     List<Category> getCategoryByName(String name);
     int count();
+
+    List<Category> getCategoriesByStore(Store store);
 }

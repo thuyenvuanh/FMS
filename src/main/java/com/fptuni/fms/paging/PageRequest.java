@@ -3,11 +3,14 @@ package com.fptuni.fms.paging;
 import com.fptuni.fms.sort.Sorter;
 
 public class PageRequest implements Pageable {
-    private Integer page;
-    private Integer maxItemInPage;
-    private Sorter sorter;
+    private final Integer page;
+    private final Integer maxItemInPage;
+    private final Sorter sorter;
 
     public PageRequest() {
+        page = 1;
+        maxItemInPage = 0;
+        sorter = null;
     }
 
     public PageRequest(Integer page, Integer maxPageItem, Sorter sorter) {

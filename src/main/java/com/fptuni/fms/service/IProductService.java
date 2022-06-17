@@ -9,13 +9,15 @@ import java.util.List;
 public interface IProductService {
     List<Product> getProducts(HttpServletRequest request, HttpServletResponse response);
 
-    Product getProductById(int productId);
+    Product getProductById(String productId);
 
     Integer insertProduct(HttpServletRequest request, HttpServletResponse response);
 
     boolean updateProduct(Product product);
 
-    boolean deleteProduct(int productId);
+    boolean updateProduct(HttpServletRequest request, HttpServletResponse response);
+
+    boolean deleteProduct(String productId);
 
     int countProduct();
 }

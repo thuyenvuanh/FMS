@@ -2,12 +2,9 @@ package com.fptuni.fms.sort;
 
 public class Sorter {
     private String sortField;
-    private Boolean isAscending;
+    private boolean isAscending; // true: ASC; false: DESC
 
-    public Sorter() {
-    }
-
-    public Sorter(String sortField, boolean isAscending){
+    public Sorter(String sortField, boolean isAscending) {
         this.sortField = sortField;
         this.isAscending = isAscending;
     }

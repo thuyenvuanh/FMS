@@ -1,10 +1,8 @@
 package com.fptuni.fms.dao.implement;
 
-import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.model.IdentityCard;
 import com.fptuni.fms.paging.PageRequest;
-import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.sort.Sorter;
 import org.junit.After;
 import org.junit.Before;
