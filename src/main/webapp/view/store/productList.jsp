@@ -1,3 +1,6 @@
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.fptuni.fms.model.Product" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -155,8 +158,6 @@
                             <tbody>
 
                             <c:forEach var="product" items="${requestScope.productList}">
-                                <c:url var="deleteLink" value="${requestScope.contextPath}/product/delete"></c:url>
-<%--                                <form action="${deleteLink}" class="deleteForm">--%>
                                     <tr>
 
                                         <td>
@@ -169,17 +170,21 @@
                                         </td>
                                         <td>${product.price}</td>
                                         <td>${product.qtyAvailable}</td>
-                                        <c:if test="${product.isDeleted == false}">
+                                        <c:if test="${product.qtyAvailable != 0}">
                                             <td>
                                                 <span class="label label-primary">Enable</span>
                                             </td>
                                         </c:if>
-                                        <c:if test="${product.isDeleted == true}">
+                                        <c:if test="${product.qtyAvailable == 0}">
                                             <td>
                                                 <span class="label label-danger">Disable</span>
                                             </td>
                                         </c:if>
                                         <td class="text-right">
+                                            <c:url var="deleteLink" value="${requestScope.contextPath}/product/delete">
+                                            </c:url>
+                                            <form class="deleteForm-${product.id}" action="${deleteLink}">
+                                                <input  type="hidden" name="productID" value="${product.id}"/>
                                             <div class="btn-group">
                                                 <c:url var="viewLink" value="/product/view">
                                                     <c:param name="productID" value="${product.id}"></c:param>
@@ -187,26 +192,20 @@
                                                 <c:url var="updateLink" value="/product/updatePage">
                                                     <c:param name="productID" value="${product.id}"></c:param>
                                                 </c:url>
-
-                                                <a href="${viewLink}">
-                                                    <button class="btn-white btn btn-xs">
+                                                    <button class="btn-white btn btn-xs" formmethod="post" formaction="${viewLink}">
                                                         View
                                                     </button>
-                                                </a>
-                                                <a href="${updateLink}">
-                                                    <button class="btn-white btn btn-xs">
+                                                    <button class="btn-white btn btn-xs" formmethod="post" formaction="${updateLink}">
                                                         Edit
                                                     </button>
-                                                </a>
                                                 <button type="button"
-                                                        class="btn-white btn btn-xs btn_delete_product" ${product.isDeleted == true ? "disabled" : ""} >
+                                                        class="btn-white btn btn-xs btn_delete_product_${product.id}" ${product.isDeleted == true ? "disabled" : ""} >
                                                     Delete
                                                 </button>
                                             </div>
+                                            </form>
                                         </td>
-
                                     </tr>
-<%--                                </form>--%>
                             </c:forEach>
 
                             </tbody>
@@ -339,8 +338,9 @@
     %>
 </c:if>
 <script>
+    <c:forEach var="product" items="${requestScope.productList}" varStatus="loop">
     $(document).ready(function () {
-        $(".btn_delete_product").click(function () {
+        $(".btn_delete_product_${product.id}").click(function () {
             swal({
                     title: "Are you sure?",
                     text: "Your will not be able to recover this product!",
@@ -354,7 +354,7 @@
                 },
                 function (isConfirm) {
                     if (isConfirm) {
-                        $(".deleteForm").submit();
+                        $(".deleteForm-${product.id}").submit();
                         swal("Deleted!", "Your product has been deleted.", "success");
                     } else {
                         swal("Cancelled", "", "error");
@@ -362,6 +362,7 @@
                 });
         });
     });
+    </c:forEach>
     <%
         session.removeAttribute("deleteStatus");
     %>

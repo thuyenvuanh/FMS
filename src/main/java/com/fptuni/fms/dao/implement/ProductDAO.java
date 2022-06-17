@@ -21,7 +21,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
     public Product getProduct(String id) {// Get single product
         String sql = "SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID, IsDeleted\n" +
                 "FROM Product\n" +
-                "WHERE ID = ?";
+                "WHERE ID = ? AND IsDeleted = 0";
         List<Product> products = query(sql, new ProductMapper(), id);
         return products == null ? null : products.get(0);
     }
@@ -32,8 +32,8 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
         // Neu chon sortField khac thi cac Product moi trang se thay doi
         // Vi du: sortField = ID ==> list ID ASC ==> paging
         String sql = "SELECT * FROM \n" +
-                "(SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID, IsDeleted \n" +
-                "FROM Product\n";
+                "(SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID \n" +
+                "FROM Product WHERE IsDeleted = 0\n";
         String orderBy;
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
             orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
