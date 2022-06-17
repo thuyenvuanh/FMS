@@ -156,7 +156,7 @@
 
                             <c:forEach var="product" items="${requestScope.productList}">
                                 <c:url var="deleteLink" value="${requestScope.contextPath}/product/delete"></c:url>
-                                <form action="${deleteLink}" class="deleteForm">
+<%--                                <form action="${deleteLink}" class="deleteForm">--%>
                                     <tr>
 
                                         <td>
@@ -206,7 +206,7 @@
                                         </td>
 
                                     </tr>
-                                </form>
+<%--                                </form>--%>
                             </c:forEach>
 
                             </tbody>
@@ -354,7 +354,7 @@
                 },
                 function (isConfirm) {
                     if (isConfirm) {
-                        // $(".deleteForm").submit();
+                        $(".deleteForm").submit();
                         swal("Deleted!", "Your product has been deleted.", "success");
                     } else {
                         swal("Cancelled", "", "error");
