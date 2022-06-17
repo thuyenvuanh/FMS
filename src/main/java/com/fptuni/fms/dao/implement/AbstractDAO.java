@@ -6,23 +6,17 @@ package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.dao.GenericDAO;
 import com.fptuni.fms.mapper.RowMapper;
-import static com.fptuni.fms.utils.DBUtils.getConnection;
+
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
+import static com.fptuni.fms.utils.DBUtils.getConnection;
 
 /**
- *
- * @author LucasBV
  * @param <T>
+ * @author LucasBV
  */
 public class AbstractDAO<T> implements GenericDAO<T> {
 
@@ -36,7 +30,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                 } else if (parameter instanceof Double) {
                     ps.setDouble(index, (Double) parameter);
                 } else if (parameter instanceof String) {
-                    ps.setString(index, (String) parameter);    
+                    ps.setString(index, (String) parameter);
                 } else if (parameter instanceof Timestamp) {
                     ps.setTimestamp(index, (Timestamp) parameter);
                 } else if (parameter instanceof Boolean) {
@@ -45,8 +39,9 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                     ps.setBigDecimal(index, (BigDecimal) parameter);
                 } else if (parameter instanceof Date) {
                     ps.setDate(index, new java.sql.Date(((Date) parameter).getTime()));
+                } else if (parameter instanceof Short) {
+                    ps.setShort(index, (Short) parameter);
                 }
-                
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -136,7 +131,6 @@ public class AbstractDAO<T> implements GenericDAO<T> {
         ResultSet rs = null;
         Integer id = null;
         try {
-
             conn = getConnection();
             if (conn != null) {
                 conn.setAutoCommit(false);
@@ -146,9 +140,18 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                 //get auto generate key (IDENTITY)
                 rs = ps.getGeneratedKeys();
                 if (rs.next()) {
-                    id = rs.getInt(1);
+                    try {
+                        id = rs.getInt(1);
+                        conn.commit();
+                    } catch (Exception exception) {
+                        if (!rs.getString(1).isEmpty()) {
+                            id = 1;
+                            conn.commit();
+                        } else {
+                            System.out.println(exception.getMessage());
+                        }
+                    }
                 }
-                conn.commit();
             }
         } catch (Exception e) {
             if (conn != null) {
@@ -187,7 +190,7 @@ public class AbstractDAO<T> implements GenericDAO<T> {
             ps = conn.prepareStatement(sql);
             setParameters(ps, params);
             rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 count = rs.getInt(1);
             }
         } catch (Exception e) {

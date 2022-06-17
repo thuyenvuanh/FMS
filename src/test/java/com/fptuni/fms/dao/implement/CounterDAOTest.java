@@ -4,13 +4,8 @@
  */
 package com.fptuni.fms.dao.implement;
 
-import com.fptuni.fms.model.Counter;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *

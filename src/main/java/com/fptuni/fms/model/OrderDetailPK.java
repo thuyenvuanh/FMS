@@ -56,7 +56,7 @@ public class OrderDetailPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) orderID;
+        hash += orderID;
         hash += (proID != null ? proID.hashCode() : 0);
         return hash;
     }
@@ -71,10 +71,7 @@ public class OrderDetailPK implements Serializable {
         if (this.orderID != other.orderID) {
             return false;
         }
-        if ((this.proID == null && other.proID != null) || (this.proID != null && !this.proID.equals(other.proID))) {
-            return false;
-        }
-        return true;
+        return (this.proID != null || other.proID == null) && (this.proID == null || this.proID.equals(other.proID));
     }
 
     @Override

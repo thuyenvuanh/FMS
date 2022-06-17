@@ -7,6 +7,7 @@ package com.fptuni.fms.dao.implement;
 import com.fptuni.fms.model.Category;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,42 +34,42 @@ public class CategoryDAOTest {
         categoryDAO = null;
     }
     
-//    @Test
-//    public void testInsert(){
-//        Category cate1 = new Category("Drink", "D");
-//        Category cate2 = new Category("Food", "F");
-//        int result1 = categoryDAO.insert(cate1);
-//        int result2 = categoryDAO.insert(cate2);
-//        assertEquals(1, result1);
-//        assertEquals(2, result2);
-//    }
-//
-//    @Test
-//    public void testGetAll() {
-//        List<Category> listC = categoryDAO.getAll();
-//        List<Category> expecteds = new ArrayList<>();
-//        expecteds.add(new Category(1, "Drink", "D"));
-//        expecteds.add(new Category(2, "Food", "F"));
-//        assertArrayEquals(expecteds.toArray(), listC.toArray());
-//    }
-//
-//    @Test
-//    public void testGet() {
-//        Category category = categoryDAO.get(3);
-//        Category expected = new Category(3, "Food1", "F1");
-//        System.out.println(category);
-//        assertEquals(expected, category);
-//    }
-//
-//    @Test
-//    public void testGetByName() {
-//        List<Category> listC = categoryDAO.getByName("o");
-//        List<Category> expecteds = new ArrayList<>();
-//        expecteds.add(new Category(1, "Food", "F"));
-//        expecteds.add(new Category(3, "Food1", "F1"));
-//        for (Category expected : listC) {
-//            System.out.println(expected);
-//        }
-//        assertArrayEquals(expecteds.toArray(), listC.toArray());
-//    }
+    @Test
+    public void testInsert(){
+        Category cate1 = new Category("Drink", "D");
+        Category cate2 = new Category("Food", "F");
+        int result1 = categoryDAO.insertCategory(cate1);
+        int result2 = categoryDAO.insertCategory(cate2);
+        assertEquals(1, result1);
+        assertEquals(2, result2);
+    }
+
+    @Test
+    public void testGetAll() {
+        List<Category> listC = categoryDAO.getCategories();
+        List<Category> expecteds = new ArrayList<>();
+        expecteds.add(new Category(1, "Drink", "D"));
+        expecteds.add(new Category(2, "Food", "F"));
+        assertArrayEquals(expecteds.toArray(), listC.toArray());
+    }
+
+    @Test
+    public void testGet() {
+        Category category = categoryDAO.getCategory(1);
+        Category expected = new Category(1, "Food", "FF");
+        System.out.println(category);
+        assertEquals(expected, category);
+    }
+
+    @Test
+    public void testGetByName() {
+        List<Category> listC = categoryDAO.getCategoryByName("o");
+        List<Category> expecteds = new ArrayList<>();
+        expecteds.add(new Category(1, "Food", "F"));
+        expecteds.add(new Category(3, "Food1", "F1"));
+        for (Category expected : listC) {
+            System.out.println(expected);
+        }
+        assertArrayEquals(expecteds.toArray(), listC.toArray());
+    }
 }

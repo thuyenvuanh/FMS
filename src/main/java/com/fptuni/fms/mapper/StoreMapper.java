@@ -22,10 +22,7 @@ public class StoreMapper implements RowMapper<Store> {
             store = new Store();
             store.setId(rs.getInt("ID"));
             store.setName(rs.getString("Name"));
-            Account account = new Account();
-            account.setId(rs.getInt("ID"));
-            account.setFullName(rs.getString("FullName"));
-            store.setAccountID(account);
+            store.setAccountID(new Account(rs.getInt("AccountID")));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

@@ -2,13 +2,12 @@ package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.dao.IStoreDAO;
 import com.fptuni.fms.model.Account;
-import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Product;
 import com.fptuni.fms.model.Store;
 import com.fptuni.mapper.ProductMapper;
 import com.fptuni.mapper.StoreMapper;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,13 +16,21 @@ import java.util.List;
  */
 public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
 
-    @Override
-    public Store getStore(String Name) { //get 1 store
-        String sql = "SELECT Store.ID, Name, Store.AccountID, Account.FullName from Store\n" +
-                "Join Account on Store.AccountID = Account.ID\n" +
-                "Where upper(Name) = upper('?');";
-        List<Store> stores = query(sql, new StoreMapper(), Name);
-        return stores.isEmpty() ? null : stores.get(0);
+    private final StoreMapper mapper = new StoreMapper();
+
+//    @Override
+//    public Store getStore(String Name) { //get 1 store
+//        String sql = "SELECT Store.ID, Name, Store.AccountID, Account.FullName from Store\n" +
+//                "Join Account on Store.AccountID = Account.ID\n" +
+//                "Where upper(Name) = upper('?');";
+//        List<Store> stores = query(sql, new StoreMapper(), Name);
+//        return stores.isEmpty() ? null : stores.get(0);
+//    }
+
+    public Store getStoreByAccount(Account account) {
+        String sql = "SELECT ID, Name FROM Account WHERE AccountID = ? AND IsDeleted = 0";
+        List<Store> list = query(sql, mapper, account.getId());
+        return (list != null && !list.isEmpty()) ? list.get(0) : null;
     }
 
     @Override

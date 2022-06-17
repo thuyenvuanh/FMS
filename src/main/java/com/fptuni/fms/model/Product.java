@@ -7,6 +7,7 @@ package com.fptuni.fms.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -25,19 +26,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
  * @author LucasBV
  */
 @Entity
 @Table(name = "Product")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
-    @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
-    @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
-    @NamedQuery(name = "Product.findByUnit", query = "SELECT p FROM Product p WHERE p.unit = :unit"),
-    @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
-    @NamedQuery(name = "Product.findByQtyAvailable", query = "SELECT p FROM Product p WHERE p.qtyAvailable = :qtyAvailable")})
+        @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+        @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
+        @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
+        @NamedQuery(name = "Product.findByImagePath", query = "SELECT p FROM Product p WHERE p.imagePath = :imagePath"),
+        @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
+        @NamedQuery(name = "Product.findByQtyAvailable", query = "SELECT p FROM Product p WHERE p.qtyAvailable = :qtyAvailable") })
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,15 +55,18 @@ public class Product implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "Unit")
-    private String unit;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "ImagePath")
+    private String imagePath;
+    // @Max(value=?) @Min(value=?)//if you know range of your decimal fields
+    // consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "Price")
     private BigDecimal price;
     @Column(name = "QtyAvailable")
     private Short qtyAvailable;
+    @Column(name = "IsDeleted")
+    private boolean isDeleted;
     @JoinColumn(name = "CateID", referencedColumnName = "ID")
     @ManyToOne
     private Category cateID;
@@ -80,11 +83,22 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public Product(String id, String name, String unit, BigDecimal price) {
+    public Product(String id, String name, String imagePath, BigDecimal price) {
         this.id = id;
         this.name = name;
-        this.unit = unit;
+        this.imagePath = imagePath;
         this.price = price;
+    }
+
+    public Product(String id, String name, String imagePath, BigDecimal price, Short qtyAvailable, Category cateID,
+            Store storeID) {
+        this.id = id;
+        this.name = name;
+        this.imagePath = imagePath;
+        this.price = price;
+        this.qtyAvailable = qtyAvailable;
+        this.cateID = cateID;
+        this.storeID = storeID;
     }
 
     public String getId() {
@@ -103,12 +117,12 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public String getUnit() {
-        return unit;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public BigDecimal getPrice() {
@@ -143,6 +157,14 @@ public class Product implements Serializable {
         this.storeID = storeID;
     }
 
+    public boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.isDeleted = deleted;
+    }
+
     @XmlTransient
     public List<OrderDetail> getOrderDetailList() {
         return orderDetailList;
@@ -166,10 +188,7 @@ public class Product implements Serializable {
             return false;
         }
         Product other = (Product) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override

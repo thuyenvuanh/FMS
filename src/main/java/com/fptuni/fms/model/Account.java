@@ -6,9 +6,7 @@
 package com.fptuni.fms.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,26 +16,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
  * @author LucasBV
  */
 @Entity
 @Table(name = "Account")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
-    @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id"),
-    @NamedQuery(name = "Account.findByUsername", query = "SELECT a FROM Account a WHERE a.username = :username"),
-    @NamedQuery(name = "Account.findByPassword", query = "SELECT a FROM Account a WHERE a.password = :password"),
-    @NamedQuery(name = "Account.findByFullName", query = "SELECT a FROM Account a WHERE a.fullName = :fullName")})
+        @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
+        @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id"),
+        @NamedQuery(name = "Account.findByUsername", query = "SELECT a FROM Account a WHERE a.username = :username"),
+        @NamedQuery(name = "Account.findByPassword", query = "SELECT a FROM Account a WHERE a.password = :password"),
+        @NamedQuery(name = "Account.findByFullName", query = "SELECT a FROM Account a WHERE a.fullName = :fullName")})
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -63,9 +58,10 @@ public class Account implements Serializable {
     private String fullName;
     @JoinColumn(name = "RoleID", referencedColumnName = "ID")
     @ManyToOne
-    private Role roleID;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountID")
-    private List<Store> storeList;
+    private Role role;
+    @NotNull
+    private boolean isDeleted;
+
 
     public Account() {
     }
@@ -74,11 +70,12 @@ public class Account implements Serializable {
         this.id = id;
     }
 
-    public Account(Integer id, String username, String password, String fullName) {
+    public Account(Integer id, String username, String password, String fullName, boolean isDeleted) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.fullName = fullName;
+        this.isDeleted = isDeleted;
     }
 
     public Integer getId() {
@@ -113,21 +110,20 @@ public class Account implements Serializable {
         this.fullName = fullName;
     }
 
-    public Role getRoleID() {
-        return roleID;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleID(Role roleID) {
-        this.roleID = roleID;
+    public void setRole(Role roleID) {
+        this.role = roleID;
     }
 
-    @XmlTransient
-    public List<Store> getStoreList() {
-        return storeList;
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
-    public void setStoreList(List<Store> storeList) {
-        this.storeList = storeList;
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override
@@ -144,10 +140,7 @@ public class Account implements Serializable {
             return false;
         }
         Account other = (Account) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override

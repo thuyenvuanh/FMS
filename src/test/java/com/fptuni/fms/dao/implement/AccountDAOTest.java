@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
+
 package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.model.Account;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +45,13 @@ public class AccountDAOTest {
         expResult.add(new Account(1));
         List<Account> result = instance.getListAccount();
         assertEquals(expResult.size(), result.size());
-        fail("fail");
     }
 
+    @Test
+    public void getAccounts() {
+        List<Account> accounts = new AccountDAO().getListAccount();
+//        accounts.forEach(account -> System.out.println(account.getUsername() + ".Password: " + account.getFullName()));
+        assertEquals(9, accounts.size());
+    }
 }
+
