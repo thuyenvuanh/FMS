@@ -52,7 +52,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 
     @Override
     public Integer insertProduct(Product product) {
-        String sql = "INSERT INTO Product\n" +
+        String sql = "INSERT INTO Product (ID, Name, Price, ImagePath, QtyAvailable, CateID, StoreID)\n" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
         return insert(sql, product.getId(),
                 product.getName(),
