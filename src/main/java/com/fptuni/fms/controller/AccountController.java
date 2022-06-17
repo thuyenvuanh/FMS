@@ -14,8 +14,6 @@ public class AccountController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getPathInfo();
-        System.out.println(request.getServletPath());
-        System.out.println("path info: " + action);
         String redirectUrl = null;
         switch (action) {
             case "/login":
