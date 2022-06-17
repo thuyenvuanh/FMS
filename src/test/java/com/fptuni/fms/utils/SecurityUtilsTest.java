@@ -5,16 +5,17 @@ import org.junit.jupiter.api.Timeout;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 class SecurityUtilsTest {
     @Test
     public void TestOutput() {
-        String email = "anhthuyn2412@gmail.com";
-        String password = "123456789";
+        String[] email = {"admin1", "stm1", "cashier", "counter"};
+        String[] password = {"root", "123456789", "123456789", "123456789"};
 
         try {
-            String result = SecurityUtils.createHash(password, email);
-            System.out.println(result);
+            for (int i = 0; i < 4; i++) {
+                String result = SecurityUtils.createHash(password[i], email[i]);
+                System.out.println(result);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -26,7 +27,7 @@ class SecurityUtilsTest {
     public void checkingHash() {
         String email = "anhthuyn2412@gmail.com";
         String password = "123456789";
-        String goodHash = "db7ebff983ce5a76a8b3964e4e5d3961";
+        String goodHash = "ba6b2c4f4ca8a419d26bae718812c528";
         try {
             assertTrue(SecurityUtils.validateHash(password, email, goodHash));
         } catch (Exception e) {

@@ -47,6 +47,8 @@ public class Category implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "Name")
     private String name;
+    @Column(name = "IsDeleted")
+    private boolean isDeleted;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
@@ -97,6 +99,14 @@ public class Category implements Serializable {
         this.shortName = shortName;
     }
 
+    public boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @XmlTransient
     public List<Product> getProductList() {
         return productList;
@@ -120,10 +130,7 @@ public class Category implements Serializable {
             return false;
         }
         Category other = (Category) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
     }
 
     @Override

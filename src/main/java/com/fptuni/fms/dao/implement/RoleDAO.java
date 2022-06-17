@@ -1,13 +1,9 @@
 package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.dao.IRoleDAO;
-import com.fptuni.fms.model.Category;
-import com.fptuni.fms.model.Product;
 import com.fptuni.fms.model.Role;
-import com.fptuni.fms.model.Store;
 import com.fptuni.mapper.RoleMapper;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class RoleDAO extends AbstractDAO<Role> implements IRoleDAO {

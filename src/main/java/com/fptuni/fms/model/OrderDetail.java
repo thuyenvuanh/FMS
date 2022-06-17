@@ -135,10 +135,7 @@ public class OrderDetail implements Serializable {
             return false;
         }
         OrderDetail other = (OrderDetail) object;
-        if ((this.orderDetailPK == null && other.orderDetailPK != null) || (this.orderDetailPK != null && !this.orderDetailPK.equals(other.orderDetailPK))) {
-            return false;
-        }
-        return true;
+        return (this.orderDetailPK != null || other.orderDetailPK == null) && (this.orderDetailPK == null || this.orderDetailPK.equals(other.orderDetailPK));
     }
 
     @Override

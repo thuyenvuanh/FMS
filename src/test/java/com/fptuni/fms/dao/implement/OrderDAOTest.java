@@ -5,11 +5,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
@@ -34,9 +32,7 @@ public class OrderDAOTest {
         for (Orders orders : result) {
             System.out.println(orders.getCreatedDate());
         }
-
-        assertEquals(expResult.size(), result.size());
-        fail("fail");
+        assertEquals(4, result.size());
     }
 
     /**
@@ -48,11 +44,13 @@ public class OrderDAOTest {
         int id = 1;
         OrderDAO instance = new OrderDAO();
         Orders expResult = new Orders(1);
-        Orders result = instance.getOrderById(id);
-        assertEquals(expResult.getId(), result.getId());
-        System.out.println(result.getId() + " " + result.getCreatedDate());
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            Orders result = instance.getOrderById(id);
+            assertEquals(expResult.getId(), result.getId());
+            System.out.println(result.getId() + " " + result.getCreatedDate());
+        }catch (Exception e){
+            fail("not found order");
+        }
     }
 
     /**
@@ -72,7 +70,7 @@ public class OrderDAOTest {
         System.out.println(o.getId() + " " + o.getCreatedDate());
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        fail("The test case is a prototype.");
     }
 
 }
