@@ -37,9 +37,19 @@ public class IdentityCard implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    @Column(name = "IsDeleted")
+    private boolean isDeleted;
     @JoinColumn(name = "CustomerID", referencedColumnName = "ID")
     @ManyToOne
     private Customer customerID;
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
 
     public IdentityCard() {
     }
