@@ -23,13 +23,19 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
 
     @Override
     public int Create(String Username, String Password, String Fullname, int RoleID) {
-        String sql = "INSERT INTO dbo.Account(Username, Password, Fullname, RoleID) VALUES (?,?,?,?)";
-        return insert(sql, Username, Password, Fullname, RoleID);
+        try {
+            String hashedPassword = SecurityUtils.createHash(Password, Username);
+            String sql = "INSERT INTO dbo.Account(Username, Password, Fullname, RoleID) VALUES (?,?,?,?)";
+            return insert(sql, Username, Password, Fullname, RoleID);
+        } catch (Exception e) {
+            System.out.println("Error on creating account: " + e.getMessage());
+        }
+        return 0;
     }
 
     @Override
     public boolean Delete(String username) {
-        String sql = "DELETE FROM news WHERE Username = ? AND IsDeleted = 0";
+        String sql = "UPDATE Account SET IsDeleted = 1 WHERE Username = ?";
         return update(sql, username);
     }
 
@@ -47,7 +53,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
             List<Account> acc = query(sql, mapper, username, hashPassword);
             return acc == null ? null : (acc.isEmpty() ? null : acc.get(0));
         } catch (Exception e) {
-            System.out.println("Database query error: " + e.getMessage());
+            System.out.println("Error on login: " + e.getMessage());
         }
         return null;
     }

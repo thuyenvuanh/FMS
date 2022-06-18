@@ -1,0 +1,37 @@
+[
+  {
+    "role": "none",
+    "permissions": [
+      "/view/authentication/index.jsp",
+      "/images/Background.jsp",
+      "/account/login"
+    ]
+  },
+  {
+    "role": "Cashier",
+    "permissions": [
+      "/order/index",
+      "/order/add",
+      "/order/remove",
+      "/cashier",
+      "/account/logout"
+    ]
+  },
+  {
+    "role": "Store Manager",
+    "permissions": [
+      "/product/list",
+      "/product/createPage",
+      "/product/create",
+      "/product/updatePage",
+      "/product/update",
+      "/product/view",
+      "/product/delete",
+      "/account/logout",
+      "/js",
+      "/css",
+      "/img",
+      "/IMG"
+    ]
+  }
+]

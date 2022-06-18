@@ -24,7 +24,6 @@ public class OrderController extends HttpServlet {
                 orderService.index(request, response);
                 break;
             case "/add":
-                System.out.println("Controller called: " + request.getParameter("id"));
                 orderService.addNewProduct(request, response);
                 break;
             case"/remove":

@@ -16,14 +16,15 @@ public class AccountController extends HttpServlet {
         String action = request.getPathInfo();
         String redirectUrl = null;
         switch (action) {
+            case "/index":
+                redirectUrl = request.getContextPath();
+                 break;
             case "/login":
                 redirectUrl = accountService.login(request, response);
                 break;
             case "/logout":
                 redirectUrl = accountService.logout(request, response);
                 break;
-            default:
-                //chuyen huong den trang error
         }
         response.sendRedirect(redirectUrl);
     }
