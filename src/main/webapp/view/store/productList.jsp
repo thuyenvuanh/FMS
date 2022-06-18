@@ -78,10 +78,10 @@
                 <div class="form-group" id="date_range_transaction">
                     <label class="col-form-label">Price</label>
                     <div class="input-daterange input-group" id="datepicker">
-                        <input type="text" class="form-control-sm form-control" name="start"
+                        <input type="text" class="form-control" name="start"
                                value="" placeholder="Min">
                         <span class="input-group-addon">to</span>
-                        <input type="text" class="form-control-sm form-control" name="end"
+                        <input type="text" class="form-control" name="end"
                                value="" placeholder="Max">
                     </div>
                 </div>
