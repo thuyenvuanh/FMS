@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: LEGION
   Date: 6/18/2022
-  Time: 2:57 PM
+  Time: 10:28 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Account Create</title>
+    <title>Store Create</title>
 
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -56,48 +56,23 @@
             <div class="col-lg-12">
                 <div class="tabs-container">
                     <ul class="nav nav-tabs">
-                        <li><a class="nav-link active" data-toggle="tab" href="#tab-1">Account info</a></li>
+                        <li><a class="nav-link active" data-toggle="tab" href="#tab-1">Store info</a></li>
                     </ul>
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane active">
                             <div class="panel-body">
+
                                 <fieldset>
                                     <div class="form-group row"><label
-                                            class="col-sm-2 col-form-label">Username:</label>
+                                            class="col-sm-2 col-form-label">Name:</label>
                                         <div class="col-sm-10"><input type="text" class="form-control"
-                                                                      placeholder="Username"></div>
+                                                                      placeholder="Store name"></div>
                                     </div>
-                                    <div class="form-group row"><label
-                                            class="col-sm-2 col-form-label">Fullname:</label>
-                                        <div class="col-sm-10"><input type="text" class="form-control"
-                                                                      placeholder="Fullname"></div>
-                                    </div>
-                                    <div class="form-group row"><label
-                                            class="col-sm-2 col-form-label">Password:</label>
-                                        <div class="col-sm-10"><input type="password" class="form-control"
-                                                                      placeholder="password"></div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Confirm
-                                        password:</label>
-                                        <div class="col-sm-10"><input type="password" class="form-control"
-                                                                      placeholder=" confirm password"></div>
-                                    </div>
-                                    <div class="form-group row"><label
-                                            class="col-sm-2 col-form-label">Role:</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control m-b" name="role">
-                                                <option selected disabled></option>
-                                                <option>role 1</option>
-                                                <option>role 2</option>
-                                                <option>role 3</option>
-                                                <option>role 4</option>
-                                            </select>
-                                        </div>
                                 </fieldset>
                                 <div class="form-layout-footer text-center">
                                     <button class="btn btn-primary bd-0 create_product_form">Submit
                                         Form</button>
-                                    <a href="account_list.html"> <button
+                                    <a href="store_list.html"> <button
                                             class="btn btn-secondary bd-0">Cancel</button></a>
 
                                 </div>
