@@ -35,7 +35,7 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
     public Integer insertCustomer(Customer customer) {
         String sql = "insert into [dbo].[Customer] (Name, Phone)\n" +
                 "values (?,?)";
-        return insert(sql, customer.getName() , customer.getPhone());
+        return insert(sql, customer.getName(), customer.getPhone());
     }
 
     @Override
@@ -50,5 +50,12 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
     @Override
     public Customer getByName(String name) {
         return null;
+    }
+
+    @Override
+    public Integer count() {
+        String sql = "select count(c.ID)\n" +
+                "from [dbo].[Customer] c";
+        return count(sql);
     }
 }

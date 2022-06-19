@@ -12,6 +12,7 @@ public interface ICustomerService {
     Customer getCustomerByPhoneNum (String PhoneNum);
 
     Integer addnewCustomer (HttpServletRequest request , HttpServletResponse response);
-
+    
+    Integer CountCustomer ();
 
 }

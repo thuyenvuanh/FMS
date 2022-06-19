@@ -10,5 +10,6 @@ public interface ICustomerDAO extends GenericDAO<Customer>{
     Integer insertCustomer(Customer customer);
     Customer getByPhoneNum(String phoneNum);
     Customer getByName(String name);
+    Integer count ();
 
 }
