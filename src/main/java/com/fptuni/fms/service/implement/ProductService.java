@@ -37,8 +37,8 @@ public class ProductService implements IProductService {
         int pageSize = 3;
         String sortField = "ID";
         boolean isAsc = true;
-        if (request.getParameter("page") != null) {
-            pageIndex = Integer.parseInt(request.getParameter("page"));
+        if (request.getParameter("currentPage") != null) {
+            pageIndex = Integer.parseInt(request.getParameter("currentPage"));
         }
         if (request.getParameter("sortField") != null) {
             sortField = request.getParameter("sortField");
@@ -49,14 +49,28 @@ public class ProductService implements IProductService {
         Sorter sorter = new Sorter(sortField, isAsc);
         Pageable pageable = new PageRequest(pageIndex, pageSize, sorter);
         Map<String, String> searcher = new HashMap<>(); // key: param name; value: param value
-        searcher.put("storeID", String.valueOf(store.getId()));
         // Search
-        them cac field search vao map default = null
+        searcher.put("storeID", String.valueOf(store.getId()));
+        searcher.put("categoryID", request.getParameter("categoryID"));
+        searcher.put("productName", request.getParameter("productName"));
+        searcher.put("minPrice", request.getParameter("minPrice"));
+        searcher.put("maxPrice", request.getParameter("maxPrice"));
+        searcher.put("quantity", request.getParameter("quantity"));
+        // status = enable when quantity > 0
+        if (request.getParameter("status") != null) searcher.put("status", request.getParameter("status"));
         List<Product> products = productDAO.getProducts(pageable, searcher);
         request.setAttribute("currentPage", pageIndex);
         request.setAttribute("sortField", sortField);
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
-        request.setAttribute("isAsc", !isAsc);
+        request.setAttribute("isAscending", !isAsc);
+        // forward map input param so as not to reset entered field in searching
+        for (Map.Entry<String, String> entries : searcher.entrySet()) {
+            if (entries.getValue() != null && !entries.getValue().trim().isEmpty()) {
+                // param name= key | param value=map value
+                request.setAttribute(entries.getKey(), entries.getValue());
+            }
+        }
+
         return products;
     }
 

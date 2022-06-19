@@ -10,6 +10,7 @@ import com.fptuni.fms.service.ICategoryService;
 import com.fptuni.fms.service.IProductService;
 import com.fptuni.fms.service.implement.CategoryService;
 import com.fptuni.fms.service.implement.ProductService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -33,13 +34,14 @@ public class ProductController extends HttpServlet {
         IStoreDAO storeDAO = new StoreDAO();
         Account account = (Account) session.getAttribute("account");
         if (path.equals("/list")) {
+            System.out.println(request.getParameter("test"));
             int pageSize = 3;
             List<Product> products = productService.getProducts(request, response);
             int totalPages = productService.countProduct() / pageSize;
             if (productService.countProduct() % pageSize != 0) totalPages++;
             List<Category> categories = categoryService.getCategories();
             Store store = storeDAO.getStoreByAccount(account);
-            request.setAttribute("store",store);
+            request.setAttribute("store", store);
             request.setAttribute("categories", categories);
             request.setAttribute("productList", products);
             request.setAttribute("totalPages", totalPages);
