@@ -138,7 +138,7 @@
                                data-page-size="15">
                             <thead>
                             <c:url var="sort" value="${requestScope.contextPath}/product/list">
-                                <c:param name="page" value="${requestScope.currentPage}"></c:param>
+                                <c:param name="currentPage" value="${requestScope.currentPage}"></c:param>
                                 <c:param name="isAscending" value="${requestScope.isAscending}"></c:param>
                                 <c:param name="minPrice" value="${requestScope.minPrice}"></c:param>
                                 <c:param name="maxPrice" value="${requestScope.maxPrice}"></c:param>
@@ -250,12 +250,14 @@
                                             <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
                                                 <c:url var="previousPage"
                                                        value="${requestScope.contextPath}/product/list">
-                                                    <c:param name="currentPage"
-                                                             value="${requestScope.currentPage - 1}"></c:param>
-                                                    <c:param name="sortField"
-                                                             value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending"
-                                                             value="${!requestScope.isAscending}"></c:param>
+                                                    <c:param name="sortField" value="${requestScope.sortField}"></c:param>
+                                                    <c:param name="currentPage" value="${requestScope.currentPage - 1}"></c:param>
+                                                    <c:param name="isAscending" value="${!requestScope.isAscending}"></c:param>
+                                                    <c:param name="minPrice" value="${requestScope.minPrice}"></c:param>
+                                                    <c:param name="maxPrice" value="${requestScope.maxPrice}"></c:param>
+                                                    <c:param name="quantity" value="${requestScope.quantity}"></c:param>
+                                                    <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
+                                                    <c:param name="productName" value="${requestScope.productName}"></c:param>
                                                 </c:url>
                                                 <a
                                                         class="page-link"
@@ -269,11 +271,14 @@
                                             <c:forEach begin="1" end="${requestScope.totalPages}" var="page">
                                                 <c:url var="paging"
                                                        value="${requestScope.contextPath}/product/list">
+                                                    <c:param name="sortField" value="${requestScope.sortField}"></c:param>
                                                     <c:param name="currentPage" value="${page}"></c:param>
-                                                    <c:param name="sortField"
-                                                             value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending"
-                                                             value="${!requestScope.isAscending}"></c:param>
+                                                    <c:param name="isAscending" value="${!requestScope.isAscending}"></c:param>
+                                                    <c:param name="minPrice" value="${requestScope.minPrice}"></c:param>
+                                                    <c:param name="maxPrice" value="${requestScope.maxPrice}"></c:param>
+                                                    <c:param name="quantity" value="${requestScope.quantity}"></c:param>
+                                                    <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
+                                                    <c:param name="productName" value="${requestScope.productName}"></c:param>
                                                 </c:url>
                                                 <li class="page-item ${requestScope.currentPage == page ?"active":""}">
                                                     <a class="page-link "
@@ -283,12 +288,14 @@
                                             <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
                                                 <c:url var="nextPage"
                                                        value="${requestScope.contextPath}/product/list">
-                                                    <c:param name="currentPage"
-                                                             value="${requestScope.currentPage + 1}"></c:param>
-                                                    <c:param name="sortField"
-                                                             value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending"
-                                                             value="${!requestScope.isAscending}"></c:param>
+                                                    <c:param name="sortField" value="${requestScope.sortField}"></c:param>
+                                                    <c:param name="currentPage" value="${requestScope.currentPage + 1}"></c:param>
+                                                    <c:param name="isAscending" value="${!requestScope.isAscending}"></c:param>
+                                                    <c:param name="minPrice" value="${requestScope.minPrice}"></c:param>
+                                                    <c:param name="maxPrice" value="${requestScope.maxPrice}"></c:param>
+                                                    <c:param name="quantity" value="${requestScope.quantity}"></c:param>
+                                                    <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
+                                                    <c:param name="productName" value="${requestScope.productName}"></c:param>
                                                 </c:url>
                                                 <a class="page-link" href="${nextPage}" aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>

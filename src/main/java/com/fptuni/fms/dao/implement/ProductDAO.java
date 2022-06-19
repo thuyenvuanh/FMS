@@ -114,6 +114,31 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
     }
 
     @Override
+    public int countBySearch(Map<String, String> searcher) {
+        String sql = "SELECT COUNT(ID) \n" +
+                "FROM Product WHERE IsDeleted = 0 \n";
+        if (searcher.getOrDefault("storeID", null) != null) sql += " AND StoreID = " + searcher.get("storeID");
+        if (searcher.getOrDefault("categoryID", null) != null && !searcher.get("categoryID").equals("0")&& !searcher.get("categoryID").isEmpty())
+            sql += " AND CateID = " + searcher.get("categoryID");
+        if (searcher.getOrDefault("productName", null) != null && !searcher.get("productName").isEmpty())
+            sql += " AND Name LIKE  '%" + searcher.get("productName") + "%'";
+        if (searcher.getOrDefault("minPrice", null) != null && !searcher.get("minPrice").isEmpty())
+            sql += " AND Price >= " + searcher.get("minPrice");
+        if (searcher.getOrDefault("maxPrice", null) != null && !searcher.get("maxPrice").isEmpty())
+            sql += " AND Price <= " + searcher.get("maxPrice");
+        if (searcher.getOrDefault("quantity", null) != null && !searcher.get("quantity").isEmpty())
+            sql += " AND QtyAvailable = " + searcher.get("quantity");
+        if (searcher.getOrDefault("status", null) != null) {
+            if (searcher.get("status").equals(String.valueOf(0))) {
+                sql += " AND QtyAvailable < 0 ";
+            } else {
+                sql += " AND QtyAvailable > 0 ";
+            }
+        }
+        return count(sql);
+    }
+
+    @Override
     public ArrayList<Product> getProductsByStoreAndCategory(Store store, Category category) {
         String sql = "SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID " +
                 " FROM  Product" +

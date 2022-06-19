@@ -29,5 +29,7 @@ public interface IProductDAO extends GenericDAO<Product> {
 
     int count();
 
+    int countBySearch(Map<String,String> searcher);
+
     ArrayList<Product> getProductsByStoreAndCategory(Store store, Category category);
 }

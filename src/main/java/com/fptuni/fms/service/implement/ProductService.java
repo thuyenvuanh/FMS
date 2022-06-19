@@ -34,7 +34,7 @@ public class ProductService implements IProductService {
         IStoreDAO storeDAO = new StoreDAO();
         Store store = storeDAO.getStoreByAccount(account);
         int pageIndex = 1;
-        int pageSize = 3;
+        int pageSize = 5;
         String sortField = "ID";
         boolean isAsc = true;
         if (request.getParameter("currentPage") != null) {
@@ -49,7 +49,7 @@ public class ProductService implements IProductService {
         Sorter sorter = new Sorter(sortField, isAsc);
         Pageable pageable = new PageRequest(pageIndex, pageSize, sorter);
         Map<String, String> searcher = new HashMap<>(); // key: param name; value: param value
-        // Search
+        // Search field
         searcher.put("storeID", String.valueOf(store.getId()));
         searcher.put("categoryID", request.getParameter("categoryID"));
         searcher.put("productName", request.getParameter("productName"));
@@ -224,5 +224,40 @@ public class ProductService implements IProductService {
     public int countProduct() {
         IProductDAO productDAO = new ProductDAO();
         return productDAO.count();
+    }
+
+    @Override
+    public int countProductBySearch(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        IProductDAO productDAO = new ProductDAO();
+        IStoreDAO storeDAO = new StoreDAO();
+        Store store = storeDAO.getStoreByAccount(account);
+        int pageIndex = 1;
+        int pageSize = 5;
+        String sortField = "ID";
+        boolean isAsc = true;
+        if (request.getParameter("currentPage") != null) {
+            pageIndex = Integer.parseInt(request.getParameter("currentPage"));
+        }
+        if (request.getParameter("sortField") != null) {
+            sortField = request.getParameter("sortField");
+        }
+        if (request.getParameter("isAscending") != null) {
+            isAsc = Boolean.parseBoolean(request.getParameter("isAscending"));
+        }
+        Map<String, String> searcher = new HashMap<>(); // key: param name; value: param value
+        // Search field
+        searcher.put("storeID", String.valueOf(store.getId()));
+        searcher.put("categoryID", request.getParameter("categoryID"));
+        searcher.put("productName", request.getParameter("productName"));
+        searcher.put("minPrice", request.getParameter("minPrice"));
+        searcher.put("maxPrice", request.getParameter("maxPrice"));
+        searcher.put("quantity", request.getParameter("quantity"));
+        // status = enable when quantity > 0
+        if (request.getParameter("status") != null) searcher.put("status", request.getParameter("status"));
+        int count = productDAO.countBySearch(searcher);
+
+        return count;
     }
 }
