@@ -22,6 +22,7 @@ public class ProductController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
+        System.out.println("Path info: " + path);
         HttpSession session = request.getSession();
         session.removeAttribute("createStatus");
         if (path.equals("/list")) {
@@ -81,6 +82,7 @@ public class ProductController extends HttpServlet {
         } else if (path.equals("/delete")) {
             IProductService productService = new ProductService();
             String productID = request.getParameter("productID");
+            System.out.println(productID);
             if (productService.deleteProduct(productID)) {
                 session.setAttribute("deleteStatus", "success");
             } else {
