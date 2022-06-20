@@ -37,21 +37,21 @@ public class AccountDAOTest {
     public void tearDown() {
     }
 
-    @Test
-    public void testGetListAccount() {
-        System.out.println("getListAccount");
-        AccountDAO instance = new AccountDAO();
-        List<Account> expResult = new ArrayList<>();
-        expResult.add(new Account(1));
-        List<Account> result = instance.getListAccount();
-        assertEquals(expResult.size(), result.size());
-    }
-
-    @Test
-    public void getAccounts() {
-        List<Account> accounts = new AccountDAO().getListAccount();
-//        accounts.forEach(account -> System.out.println(account.getUsername() + ".Password: " + account.getFullName()));
-        assertEquals(9, accounts.size());
-    }
+//    @Test
+//    public void testGetListAccount() {
+//        System.out.println("getListAccount");
+//        AccountDAO instance = new AccountDAO();
+//        List<Account> expResult = new ArrayList<>();
+//        expResult.add(new Account(1));
+//        List<Account> result = instance.getListAccount();
+//        assertEquals(expResult.size(), result.size());
+//    }
+//
+//    @Test
+//    public void getAccounts() {
+//        List<Account> accounts = new AccountDAO().getListAccount();
+////        accounts.forEach(account -> System.out.println(account.getUsername() + ".Password: " + account.getFullName()));
+//        assertEquals(9, accounts.size());
+//    }
 }
 

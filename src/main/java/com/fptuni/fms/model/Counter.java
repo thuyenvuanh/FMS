@@ -38,6 +38,8 @@ public class Counter implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    @Column(name = "IsDeleted")
+    private boolean isDeleted;
     @OneToMany(mappedBy = "counterID")
     private List<MoneyTransaction> moneyTransactionList;
 
@@ -46,6 +48,14 @@ public class Counter implements Serializable {
 
     public Counter(Integer id) {
         this.id = id;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public Integer getId() {

@@ -20,8 +20,12 @@ public class IdentityCardMapper implements RowMapper<IdentityCard>{
         IdentityCard identityCard = null;
         try {
             identityCard = new IdentityCard();
+            if(rs.getObject("ID") != null)
             identityCard.setId(rs.getInt("ID"));
+            if(rs.getObject("CustomerID") != null)
             identityCard.setCustomerID(new Customer(rs.getInt("CustomerID")));
+            if(rs.getObject("IsDeleted") != null)
+            identityCard.setIsDeleted(rs.getBoolean("IsDeleted"));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

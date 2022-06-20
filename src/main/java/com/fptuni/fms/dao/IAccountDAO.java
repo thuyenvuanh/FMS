@@ -1,6 +1,7 @@
 package com.fptuni.fms.dao;
 
 import com.fptuni.fms.model.Account;
+import com.fptuni.fms.paging.Pageable;
 import java.util.List;
 
 /**
@@ -9,7 +10,11 @@ import java.util.List;
  */
 public interface IAccountDAO extends GenericDAO<Account> {
 
-    List<Account> getListAccount();
+    List<Account> getListAccount(Pageable pageable);
+
+    Account getAccount(int id);
+
+    Account getAccountUpdate(int id);
 
     int Create(String Username, String Password, String Fullname, int RoleID);
 
@@ -18,5 +23,7 @@ public interface IAccountDAO extends GenericDAO<Account> {
     boolean Update(String Username, String Password, String Fullname, int RoleID);
 
     Account checkLogin(String username, String password);
+
+    int count();
 
 }

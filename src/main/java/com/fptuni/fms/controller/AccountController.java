@@ -14,18 +14,47 @@ public class AccountController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getPathInfo();
-        String redirectUrl = null;
+        String Url = null;
         switch (action) {
             case "/login":
-                redirectUrl = accountService.login(request, response);
+                Url = accountService.login(request, response);
+                response.sendRedirect(Url);
                 break;
             case "/logout":
-                redirectUrl = accountService.logout(request, response);
+                Url = accountService.logout(request, response);
+                response.sendRedirect(Url);
+                break;
+            case "/create":
+                Url = accountService.create(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
+                break;
+            case "/createPage":
+                Url = accountService.getRole(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
+                break;
+            case "/list":
+                Url = accountService.getListAccount(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
+                break;
+            case "/update":
+                Url = accountService.update(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
+                break;
+            case "/updatePage":
+                Url = accountService.getAccountUpdate(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
+                break;
+            case "/view":
+                Url = accountService.getAccount(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
+                break;
+            case "/delete":
+                Url = accountService.delete(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             default:
-                //chuyen huong den trang error
+            //chuyen huong den trang error
         }
-        response.sendRedirect(redirectUrl);
     }
 
     @Override
