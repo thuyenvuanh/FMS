@@ -46,7 +46,7 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
     public Integer insertStore(Store store){
         String sql = "INSERT INTO Store\n" +
                 "VALUES(?,?);";
-        return insert(store.getName(),store.getAccountID());
+        return insert(sql, store.getName(),store.getAccountID());
     }
 
     @Override
@@ -56,7 +56,7 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
                 "Name=?,\n" +
                 "AccountID=?\n" +
                 "Where ID = ?;";
-        update(Name, AccountID,id);
+        update(sql, Name, AccountID, id);
     }
 
 }

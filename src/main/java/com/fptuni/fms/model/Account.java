@@ -70,13 +70,14 @@ public class Account implements Serializable {
         this.id = id;
     }
 
-    public Account(Integer id, String username, String password, String fullName, boolean isDeleted) {
-        this.id = id;
+    public Account(String username, String password, String fullName, Role role) {
         this.username = username;
         this.password = password;
         this.fullName = fullName;
-        this.isDeleted = isDeleted;
+        this.role = role;
     }
+
+    
 
     public Integer getId() {
         return id;
