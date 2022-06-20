@@ -17,15 +17,16 @@ public class CounterDAO extends AbstractDAO<Counter> implements ICounterDAO {
 
     @Override
     public List<Counter> getAll() {
-        String sql = "SELECT ID FROM Counter";
+        String sql = "SELECT ID, IsDeleted FROM Counter\n" +
+                "WHERE IsDeleted = 0";
         List<Counter> counters = query(sql, new CounterMapper());
         return counters.isEmpty() ? null : counters;
     }
 
     @Override
     public Counter get(int id) {
-        String sql = "SELECT ID FROM Counter\n"
-                + "Where ID = ?";
+        String sql = "SELECT ID, IsDeleted FROM Counter\n"
+                + "Where ID = ? and IsDeleted = 0";
         List<Counter> counters = query(sql, new CounterMapper(), id);
         return counters.isEmpty() ? null : counters.get(0);
     }
