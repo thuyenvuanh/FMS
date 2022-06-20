@@ -81,18 +81,16 @@
                     <table class="table table-striped my-0" style="width: 100%;">
                         <colgroup>
                             <col span="1" style="width: 10%;">
+                            <col span="1" style="width: 40%;">
+                            <col span="1" style="width: 20%;">
                             <col span="1" style="width: 30%;">
-                            <col span="1" style="width: 20%;">
-                            <col span="1" style="width: 20%;">
-                            <col span="1" style="width: 20%;">
                         </colgroup>
 
                         <thead>
                         <tr>
                             <th scope="col" class="text-end">Qty</th>
                             <th scope="col">Name</th>
-                            <th scope="col" class="text-end">Note</th>
-                            <th scope="col" class="text-center">Price</th>
+                            <th scope="col" class="text-end">Price</th>
                             <th scope="col" class="text-center">Remove</th>
                         </tr>
                         </thead>
@@ -115,8 +113,7 @@
                             <tr class="align-middle">
                                 <th scope="row" class="text-end">${orderDetail.quantity}</th>
                                 <td>${orderDetail.product.name}</td>
-                                <td class="text-end"></td>
-                                <td class="text-center"> <fmt:formatNumber value="${orderDetail.amount}" type="currency"/> </td>
+                                <td class="text-end"> <fmt:formatNumber value="${orderDetail.amount}" type="currency"/> </td>
                                 <td class="text-center">
                                     <form>
                                         <input name="id" type="hidden" value="${orderDetail.product.id}"/>
