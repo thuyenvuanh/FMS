@@ -211,68 +211,7 @@
                                 </c:forEach>
 
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <!--<td colspan="7">
-                                        <ul class="pagination float-right"></ul>
-                                    </td>-->
 
-                                    <td colspan="6">
-                                        <!-- <ul class="pagination float-right"></ul> -->
-                                        <nav aria-label="Page navigation example">
-                                            <ul class="paginations">
-                                                <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
-                                                    <c:url var="previousPage"
-                                                           value="${requestScope.contextPath}/product/list">
-                                                        <c:param name="page"
-                                                                 value="${requestScope.currentPage - 1}"></c:param>
-                                                        <c:param name="sortField"
-                                                                 value="${requestScope.sortField}"></c:param>
-                                                        <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
-                                                    </c:url>
-                                                    <a
-                                                            class="page-link"
-                                                            href="${previousPage}"
-                                                            aria-label="Previous"
-                                                    >
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                        <span class="sr-only">Previous</span>
-                                                    </a>
-                                                </li>
-                                                <c:forEach begin="1" end="${requestScope.totalPages}" var="page">
-                                                    <c:url var="paging"
-                                                           value="${requestScope.contextPath}/customer/list">
-                                                        <c:param name="page" value="${page}"></c:param>
-                                                        <c:param name="sortField"
-                                                                 value="${requestScope.sortField}"></c:param>
-                                                        <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
-                                                    </c:url>
-                                                    <li class="page-item ${requestScope.currentPage == page ?"active":""}">
-                                                        <a class="page-link "
-                                                           href="${paging}">${page}</a>
-                                                    </li>
-                                                </c:forEach>
-                                                <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
-                                                    <c:url var="nextPage"
-                                                           value="${requestScope.contextPath}/product/list">
-                                                        <c:param name="page"
-                                                                 value="${requestScope.currentPage + 1}"></c:param>
-                                                        <c:param name="sortField"
-                                                                 value="${requestScope.sortField}"></c:param>
-                                                        <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
-                                                    </c:url>
-                                                    <a class="page-link" href="${nextPage}" aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                        <span class="sr-only">Next</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </td>
-
-
-                                </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>

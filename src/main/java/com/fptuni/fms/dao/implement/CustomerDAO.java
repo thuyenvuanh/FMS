@@ -11,22 +11,22 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
 
     @Override
     public List<Customer> getAllCustomer(Pageable pageable) {
-        String sql = "select c.Name , c.Phone, c.IsDeleted , m.Amount\n" +
-                "from [dbo].[Customer] c join [dbo].[MoneyTransaction] m\n" +
-                "on c.ID = m.CustomerID";
+        String sql = "select Name , Phone\n" +
+                "from [dbo].[Customer]\n";
+
         String order;
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
             order = pageable.getSorter().isAscending() ? "ASC" : "DESC";
-            sql += "ORDER BY " + pageable.getSorter().getSortField() + "  " + order;
+            sql += " ORDER BY " + pageable.getSorter().getSortField() + "  " + order;
         }
         if (pageable.getOffset() != null && pageable.getLimit() != null) {
             sql += " OFFSET " + pageable.getOffset() + " ROWS\n" +
-                    " FETCH NEXT " + pageable.getLimit() + " ROWS ONLY ) AS A \n";
+                    " FETCH NEXT " + pageable.getLimit() + " ROWS ONLY  \n";
         }
-        if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
+        /*if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
             order = pageable.getSorter().isAscending() ? "ASC" : "DESC";
-            sql += "ORDER BY A." + pageable.getSorter().getSortField() + " " + order;
-        }
+            sql += "ORDER BY " + pageable.getSorter().getSortField() + " " + order;
+        }*/
         List<Customer> cus = query(sql, new CustomerMapper());
         return cus.isEmpty() ? null : cus;
     }

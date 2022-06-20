@@ -10,6 +10,7 @@ import com.fptuni.fms.service.IProductService;
 import com.fptuni.fms.service.implement.CategoryService;
 import com.fptuni.fms.service.implement.CustomerService;
 import com.fptuni.fms.service.implement.ProductService;
+import com.sun.xml.internal.ws.addressing.EPRSDDocumentFilter;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -18,11 +19,12 @@ import java.io.IOException;
 import java.util.List;
 
 
+@MultipartConfig
 @WebServlet(name = "CustomerController", urlPatterns = "/customer/*")
 public class CustomerController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String path = request.getContextPath();
-        System.out.println("path");
+        String path = request.getPathInfo();
+        System.out.println(path);
         if (path.equals("/addnewcustomer")) {
             ICustomerService customerService = new CustomerService();
             if (customerService.addnewCustomer(request, response) == 1) {
@@ -66,11 +68,12 @@ public class CustomerController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
 
     }
 }
