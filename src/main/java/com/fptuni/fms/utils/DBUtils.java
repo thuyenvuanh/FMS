@@ -12,7 +12,7 @@ import java.sql.DriverManager;
  * @author LucasBV
  */
 public class DBUtils {
-    private final static String SERVERNAME = "localhost";//"13.215.207.31";
+    private final static String SERVERNAME = "13.215.207.31";
     private final static String DBNAME = "FMS";
     private final static String PORTNUMBER = "1433";
     private final static String INSTANCE = "";// LEAVE THIS ONE EMPTY IF YOUR SQL IS A SINGLE INSTANCE
