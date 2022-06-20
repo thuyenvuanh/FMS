@@ -20,9 +20,13 @@ public class CategoryMapper implements RowMapper<Category>{
         Category category = null;
         try {
             category = new Category();
+            if(rs.getObject("ID") != null)
             category.setId(rs.getInt("ID"));
+            if(rs.getObject("Name") != null)
             category.setName(rs.getString("Name"));
+            if(rs.getObject("ShortName") != null)
             category.setShortName(rs.getString("ShortName"));
+            if(rs.getObject("IsDeleted") != null)
             category.setIsDeleted(rs.getBoolean("IsDeleted"));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
