@@ -28,7 +28,7 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
 //    }
 
     public Store getStoreByAccount(Account account) {
-        String sql = "SELECT ID, Name FROM Account WHERE AccountID = ? AND IsDeleted = 0";
+        String sql = "SELECT ID, Name, AccountID FROM Store WHERE AccountID = ? AND IsDeleted = 0";
         List<Store> list = query(sql, mapper, account.getId());
         return (list != null && !list.isEmpty()) ? list.get(0) : null;
     }

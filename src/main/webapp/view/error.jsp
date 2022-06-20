@@ -11,6 +11,6 @@
     <title>Error</title>
 </head>
 <body>
-    <h1>There's something wrong</h1>
+    <h1>Forbidden - Access Denied</h1>
 </body>
 </html>

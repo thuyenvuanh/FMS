@@ -3,7 +3,7 @@
     "role": "none",
     "permissions": [
       "/view/authentication/index.jsp",
-      "/images/Background.jsp",
+      "/images/Background.jpg",
       "/account/login"
     ]
   },
@@ -11,8 +11,7 @@
     "role": "Cashier",
     "permissions": [
       "/order/index",
-      "/order/add",
-      "/order/remove",
+      "/order",
       "/cashier",
       "/account/logout"
     ]
@@ -21,17 +20,24 @@
     "role": "Store Manager",
     "permissions": [
       "/product/list",
-      "/product/createPage",
-      "/product/create",
-      "/product/updatePage",
-      "/product/update",
-      "/product/view",
-      "/product/delete",
+      "/product",
       "/account/logout",
       "/js",
       "/css",
       "/img",
-      "/IMG"
+      "/IMG",
+      "/font-awesome"
+    ]
+  },
+  {
+    "role": "Admin",
+    "permissions": [
+    ]
+  },
+  {
+    "role": "Counter",
+    "permissions": [
+
     ]
   }
 ]

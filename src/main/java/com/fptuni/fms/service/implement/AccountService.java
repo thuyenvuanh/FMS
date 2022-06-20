@@ -38,6 +38,7 @@ public class AccountService implements IAccountService {
                     case "Cashier":
                         //response toi link cua cashier
                         Store store = new StoreDAO().getStoreByAccount(account);
+                        System.out.println("Store: " + store);
                         if (store != null) request.getSession().setAttribute("store", store);
                         url = request.getContextPath() + "/order/index";
                         break;

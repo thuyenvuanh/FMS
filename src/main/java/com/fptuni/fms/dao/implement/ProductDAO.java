@@ -7,11 +7,11 @@ package com.fptuni.fms.dao.implement;
  * */
 
 import com.fptuni.fms.dao.IProductDAO;
-import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Product;
 import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.mapper.ProductMapper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,8 +101,10 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
     }
 
     @Override
-    public ArrayList<Product> getProductsByStoreAndCategory(Store store, Category category) {
-        String sql = "SELECT ID, Name, Price, ImagePath, QtyAvailable, StoreID, CateID WHERE StoreID = ? AND CateID = ? AND IsDeleted = 0";
-        return (ArrayList<Product>) query(sql, new ProductMapper(), store.getId(), category.getId());
+    public ArrayList<Product> getProductsByStore(Store store) {
+        String sql = "SELECT [ID], [Name], [Price], [ImagePath], [QtyAvailable], [StoreID], [CateID]\n" +
+                "FROM Product\n" +
+                "WHERE StoreID = ? AND IsDeleted = 0";
+        return (ArrayList<Product>) query(sql, new ProductMapper(), store.getId());
     }
 }

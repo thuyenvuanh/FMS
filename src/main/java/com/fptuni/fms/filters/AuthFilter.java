@@ -39,14 +39,7 @@ public class AuthFilter implements Filter {
         } else if (account == null) {
             System.out.println("not sign in");
             List<String> available = servletMapper.get("none");
-            for (String path : available) {
-                if (svl.contains(path) || (svl+pInfo).contains(path)) {
-                    System.out.println("svl = " + svl);
-                    System.out.println("path = " + path);
-                    chain.doFilter(request, response);
-                    return;
-                }
-            }
+            if (hasPermission(request, response, chain, svl, pInfo, available)) return;
 //            req.getSession().setAttribute("message", "Sign in to continue");
             ((HttpServletResponse) response).sendRedirect(req.getContextPath());
         } else {
@@ -55,14 +48,20 @@ public class AuthFilter implements Filter {
                 ((HttpServletResponse) response).sendRedirect(req.getContextPath() + available.get(0));
                 return;
             }
-            for (String path: available) {
-                if (svl.contains(path) || (svl+pInfo).contains(path)){
-                    chain.doFilter(request, response);
-                    return;
-                }
-            }
-            req.getRequestDispatcher("/view/error.jsp").forward(request, response);
-            chain.doFilter(request, response);
+            if (hasPermission(request, response, chain, svl, pInfo, available)) return;
+            ((HttpServletResponse) response).sendError(403);
         }
+    }
+
+    private boolean hasPermission(ServletRequest request, ServletResponse response, FilterChain chain, String svl, String pInfo, List<String> available) throws IOException, ServletException {
+        for (String path: available) {
+            if (svl.contains(path) || (svl+pInfo).contains(path)){
+                System.out.println("svl = " + svl);
+                System.out.println("path = " + path);
+                chain.doFilter(request, response);
+                return true;
+            }
+        }
+        return false;
     }
 }

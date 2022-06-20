@@ -1,5 +1,7 @@
 package com.fptuni.fms.controller;
 
+import com.fptuni.fms.model.Category;
+import com.fptuni.fms.model.Product;
 import com.fptuni.fms.service.implement.OrderService;
 
 import javax.servlet.ServletException;
@@ -8,20 +10,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 @WebServlet(name = "OrderController", value = "/order/*")
 public class OrderController extends HttpServlet {
 
-    private final OrderService orderService = new OrderService();
+    private static final OrderService orderService = new OrderService();
+    private static HashMap<Category, List<Product>> productMap;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+    }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Servlet Path: " + request.getServletPath());
-        System.out.println("Path Info: " + request.getPathInfo());
-        //lay order tu session hoac tao moi
+        if(productMap == null){
+            productMap = orderService.loadData(request);
+        }
         String action = request.getPathInfo();
         switch (action) {
             case "/index":
-                orderService.index(request, response);
+                orderService.index(request, response, productMap);
                 break;
             case "/add":
                 orderService.addNewProduct(request, response);
