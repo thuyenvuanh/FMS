@@ -32,6 +32,15 @@
   {
     "role": "Admin",
     "permissions": [
+      "/account/list",
+      "/account",
+      "/store",
+      "/transaction",
+      "/js",
+      "/css",
+      "/img",
+      "/IMG",
+      "/font-awesome"
     ]
   },
   {
