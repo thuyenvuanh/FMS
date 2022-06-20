@@ -19,12 +19,13 @@ public class IdentityCardDAO extends AbstractDAO<IdentityCard> implements IIdent
 
     @Override
     public List<IdentityCard> getList(Boolean status, Pageable pageable) {
-        String sql = "SELECT ID, CustomerID FROM IdentityCard";
+        String sql = "SELECT ID, CustomerID, IsDeleted FROM IdentityCard\n" +
+                "WHERE IsDeleted = 0";
         if(status != null){
             if(status)
-                sql += "\nWHERE CustomerID is not null";
+                sql += " and CustomerID is not null";
             else
-                sql += "\nWHERE CustomerID is null";
+                sql += " and CustomerID is null";
         }
         if(pageable != null){
             if(pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty() && pageable.getSorter().isAscending() != null){
@@ -42,8 +43,8 @@ public class IdentityCardDAO extends AbstractDAO<IdentityCard> implements IIdent
 
     @Override
     public IdentityCard get(int id) {
-        String sql = "SELECT ID, CustomerID FROM IdentityCard\n"
-                + "Where ID = ?";
+        String sql = "SELECT ID, CustomerID, IsDeleted FROM IdentityCard\n"
+                + "Where ID = ? and IsDeleted = 0";
         List<IdentityCard> identityCards = query(sql, new IdentityCardMapper(), id);
         return identityCards.isEmpty() ? null : identityCards.get(0);
     }
@@ -58,7 +59,7 @@ public class IdentityCardDAO extends AbstractDAO<IdentityCard> implements IIdent
 
     @Override
     public int getTotalItem() {
-        String sql = "SELECT count(*) FROM IdentityCard";
+        String sql = "SELECT count(*) FROM IdentityCard WHERE IsDeleted = 0";
         return count(sql);
     }
 }

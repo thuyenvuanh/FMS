@@ -19,7 +19,10 @@ public class CounterMapper implements RowMapper<Counter> {
         Counter counter = null;
         try {
             counter = new Counter();
+            if(rs.getObject("ID") != null)
             counter.setId(rs.getInt("ID"));
+            if(rs.getObject("IsDeleted") != null)
+            counter.setIsDeleted(rs.getBoolean("IsDeleted"));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
