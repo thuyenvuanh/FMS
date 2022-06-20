@@ -16,9 +16,15 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
     private final AccountMapper mapper = new AccountMapper();
 
     @Override
-    public int Create(String Username, String Password, String Fullname, int RoleID) {
-        String sql = "INSERT INTO dbo.Account(Username, Password, Fullname, RoleID, IsDeleted) VALUES (?,?,?,?,0)";
-        return insert(sql, Username, Password, Fullname, RoleID);
+    public Integer Create(String Username, String Password, String Fullname, int RoleID) {
+        try {
+            String sql = "INSERT INTO dbo.Account(Username, Password, Fullname, RoleID, IsDeleted) VALUES (?,?,?,?,0)";
+            String hashPassword = SecurityUtils.createHash(Password, Username);
+            return insert(sql, Username, hashPassword, Fullname, RoleID);
+        } catch (Exception e) {
+            System.out.println("Database query error: " + e.getMessage());
+        }
+        return null;
     }
 
     @Override
@@ -29,8 +35,14 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
 
     @Override
     public boolean Update(String Username, String Password, String Fullname, int RoleID) {
-        String sql = "UPDATE dbo.Account SET Password=?, Fullname=?, RoleID=? WHERE Username=? AND IsDeleted = 0";
-        return update(sql, Password, Fullname, RoleID, Username);
+        try {
+            String sql = "UPDATE dbo.Account SET Password=?, Fullname=?, RoleID=? WHERE Username=? AND IsDeleted = 0";
+            String hashPassword = SecurityUtils.createHash(Password, Username);
+            return update(sql, Password, Fullname, RoleID, Username);
+        } catch (Exception e) {
+            System.out.println("Database query error: " + e.getMessage());
+        }
+        return false;
     }
 
     @Override
