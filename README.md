@@ -1,4 +1,4 @@
-﻿# [food-court-management](http://13.215.207.31:8080)
+﻿# [food-court-management](http://13.215.207.31:8080/FMS)
   Project môn học SWP391 - Hệ thống quản lý khu ẩm thực
   
 ### Members
