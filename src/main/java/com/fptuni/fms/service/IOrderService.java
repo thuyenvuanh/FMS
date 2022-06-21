@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IOrderService {
 
-    void index (HttpServletRequest request, HttpServletResponse response);
+    void index(HttpServletRequest request, HttpServletResponse response);
 
     void addNewProduct(HttpServletRequest request, HttpServletResponse response);
 

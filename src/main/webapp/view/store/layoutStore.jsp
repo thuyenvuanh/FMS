@@ -1,5 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<c:url var="contextPath" value="${requestScope.contextPath}"></c:url>
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
@@ -32,7 +32,8 @@
                 >
             </li>
             <li class="active">
-                <a href="ecommerce_product_list.html"
+                <c:url var="productListLink" value="${requestScope.contextPath}/product/list"></c:url>
+                <a href="${productListLink}"
                 ><i class="fa fa-dropbox"></i>
                     <span class="nav-label">Products</span></a
                 >

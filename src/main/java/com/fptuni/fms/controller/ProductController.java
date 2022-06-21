@@ -35,10 +35,10 @@ public class ProductController extends HttpServlet {
         Account account = (Account) session.getAttribute("account");
         if (path.equals("/list")) {
             System.out.println(request.getParameter("test"));
-            int pageSize = 3;
+            int pageSize = 5;
             List<Product> products = productService.getProducts(request, response);
-            int totalPages = productService.countProduct() / pageSize;
-            if (productService.countProduct() % pageSize != 0) totalPages++;
+            int totalPages = productService.countProductBySearch(request,response) / pageSize;
+            if (productService.countProductBySearch(request,response) % pageSize != 0) totalPages++;
             List<Category> categories = categoryService.getCategories();
             Store store = storeDAO.getStoreByAccount(account);
             request.setAttribute("store", store);
