@@ -74,10 +74,10 @@
                                             <label class="col-sm-2 col-form-label">Phone</label>
                                             <div class="col-sm-10">
                                                 <input type="text" name="phoneNumber"
-                                                       class="form-control" data-mask="(000) 000-0000"
+                                                       class="form-control" data-mask="000 000 0000"
                                                        placeholder=""
                                                        autocomplete="off" maxlength="14" required />
-                                                <span class="form-text">(000) 000-0000</span>
+                                                <span class="form-text">000 000 0000</span>
                                             </div>
                                         </div>
                                     </fieldset>

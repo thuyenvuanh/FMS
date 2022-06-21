@@ -76,8 +76,8 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>Luffy</td>
-                                    <td>19001009</td>
+                                    <td>${requestScope.CUSTOMER.getName()}</td>
+                                    <td>${requestScope.CUSTOMER.getPhone()}</td>
                                     <td>100k</td>
 
                                 </tr>

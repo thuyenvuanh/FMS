@@ -1,5 +1,9 @@
 package com.fptuni.fms.controller;
 
+import com.fptuni.fms.model.Customer;
+import com.fptuni.fms.service.ICustomerService;
+import com.fptuni.fms.service.implement.CustomerService;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -17,7 +21,15 @@ public class CounterController extends HttpServlet {
             
         } else if(path.equals("/check")){
             System.out.println(request.getParameter("phoneNumber"));
-            request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
+            ICustomerService customerService = new CustomerService();
+            Customer customer = customerService.getCustomerByPhoneNum(request, response);
+            if(customer != null){
+                request.setAttribute("CUSTOMER", customer);
+                request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
+            }
+             else{
+                 response.sendRedirect("error.jsp");
+            }
         }
 
 

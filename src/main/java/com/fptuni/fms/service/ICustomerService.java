@@ -9,7 +9,7 @@ import java.util.List;
 public interface ICustomerService {
     List<Customer> getList (HttpServletRequest request , HttpServletResponse response);
 
-    Customer getCustomerByPhoneNum (String PhoneNum);
+    Customer getCustomerByPhoneNum (HttpServletRequest request , HttpServletResponse response);
 
     Integer addnewCustomer (HttpServletRequest request , HttpServletResponse response);
     

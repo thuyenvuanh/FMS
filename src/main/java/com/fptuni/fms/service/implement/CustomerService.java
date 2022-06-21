@@ -47,9 +47,15 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer getCustomerByPhoneNum(String PhoneNum) {
+    public Customer getCustomerByPhoneNum(HttpServletRequest request , HttpServletResponse response) {
+        Customer customer = null;
+        String phoneNumber = request.getParameter("phoneNumber").trim();
+        CustomerDAO customerDAO = new CustomerDAO();
+        if(phoneNumber != null && !phoneNumber.equals("")){
+            customer = customerDAO.getByPhoneNum(phoneNumber);
+        }
 
-        return null;
+        return customer;
     }
 
     @Override
