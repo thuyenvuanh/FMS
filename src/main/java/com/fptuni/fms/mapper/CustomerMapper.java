@@ -11,9 +11,9 @@ public class CustomerMapper implements RowMapper<Customer>{
         Customer cus = null;
         try {
             cus = new Customer();
+            cus.setId(rs.getInt("ID"));
             cus.setName(rs.getString("Name"));
-            cus.setPhone((rs.getString("phone")));
-
+            cus.setPhone((rs.getString("Phone")));
         }
         catch (Exception e){
             System.out.println(e.getMessage());

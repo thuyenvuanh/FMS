@@ -49,7 +49,12 @@ public class CustomerService implements ICustomerService {
     @Override
     public Customer getCustomerByPhoneNum(HttpServletRequest request , HttpServletResponse response) {
         Customer customer = null;
-        String phoneNumber = request.getParameter("phoneNumber").trim();
+        String[] phoneNumbers = request.getParameter("phoneNumber").trim().split(" ");
+        String phoneNumber = "";
+        for (String s : phoneNumbers) {
+            phoneNumber += s;
+        }
+        System.out.println(phoneNumber);
         CustomerDAO customerDAO = new CustomerDAO();
         if(phoneNumber != null && !phoneNumber.equals("")){
             customer = customerDAO.getByPhoneNum(phoneNumber);
