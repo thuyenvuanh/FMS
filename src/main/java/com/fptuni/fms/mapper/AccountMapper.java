@@ -20,6 +20,7 @@ public class AccountMapper implements RowMapper<Account> {
             acc.setUsername(rs.getString("Username"));
             acc.setFullName(rs.getString("FullName"));
             acc.setRole(new Role(rs.getInt("RoleID")));
+            acc.setDeleted(rs.getBoolean("IsDeleted"));
         } catch (SQLException e) {
             System.out.println("Mapping error: " + e.getMessage());
         }

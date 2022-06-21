@@ -1,6 +1,5 @@
 package com.fptuni.mapper;
 
-
 import com.fptuni.fms.mapper.RowMapper;
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Store;
@@ -14,7 +13,7 @@ import java.sql.SQLException;
 *
 * */
 public class StoreMapper implements RowMapper<Store> {
-
+    
     @Override
     public Store mapRow(ResultSet rs) {
         Store store = null;
@@ -22,7 +21,9 @@ public class StoreMapper implements RowMapper<Store> {
             store = new Store();
             store.setId(rs.getInt("ID"));
             store.setName(rs.getString("Name"));
-            store.setAccountID(new Account(rs.getInt("AccountID")));
+            Account acc = new Account(rs.getInt("AccountID"));
+            acc.setFullName(rs.getString("FullName"));
+            store.setAccountID(acc);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
