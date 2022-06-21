@@ -63,7 +63,7 @@
                 </li>
             </ul>
             <form class="d-flex">
-                <a href="#" class="navbar-brand">Tai Cashier</a>
+                <a href="#" class="navbar-brand">${sessionScope.account.username}</a>
                 <button class="btn btn-outline-success" type="submit" formaction="<c:url value="/account/logout"/>"
                         name="Signout">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -91,37 +91,25 @@
                             <th scope="col" class="text-end">Qty</th>
                             <th scope="col">Name</th>
                             <th scope="col" class="text-end">Price</th>
-                            <th scope="col" class="text-center">Remove</th>
+                            <th scope="col" class="text-center"></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <%--                        <c:forEach var="orderDetail" items="${sessionScope.order.orderDetailList}" varStatus="loop">--%>
-                        <%--                            <tr class="align-middle">--%>
-                        <%--                                <th scope="row" class="text-end">${orderDetail.quantity}</th>--%>
-                        <%--                                <td>${orderDetail.product.name}</td>--%>
-                        <%--                                <td class="text-end"></td>--%>
-                        <%--                                <td class="text-center">{orderDetail.Quantity * orderDetail.product.Price}</td>--%>
-                        <%--                                <td class="text-center">--%>
-                        <%--                                    <button type="submit" class="btn btn-outline-danger" formmethod="post" formaction="<c:url value="/order/add?id=1"/>">--%>
-                        <%--                                        <i class="bi bi-x"></i>--%>
-                        <%--                                    </button>--%>
-                        <%--                                </td>--%>
-                        <%--                            </tr>--%>
-                        <%--                        </c:forEach>--%>
                         <jsp:useBean id="order" scope="session" type="com.fptuni.fms.model.Orders"/>
                         <c:forEach var="orderDetail" items="${order.orderDetailList}" varStatus="loop">
                             <tr class="align-middle">
                                 <th scope="row" class="text-end">${orderDetail.quantity}</th>
                                 <td>${orderDetail.product.name}</td>
-                                <td class="text-end"> <fmt:formatNumber value="${orderDetail.amount}" type="currency"/> </td>
+                                <td class="text-end"><fmt:formatNumber value="${orderDetail.amount}"
+                                                                       type="currency"/></td>
                                 <td class="text-center">
                                     <form>
                                         <input name="id" type="hidden" value="${orderDetail.product.id}"/>
-                                        <button type="submit" class="btn btn-outline-success" formmethod="post"
+                                        <button type="submit" class="btn btn-link text-success" formmethod="post"
                                                 formaction="<c:url value="/order/remove"/>">
                                             <i class="bi bi-dash-circle-fill"></i>
                                         </button>
-                                        <button type="submit" class="btn btn-success" formmethod="post"
+                                        <button type="submit" class="btn btn-link text-success" formmethod="post"
                                                 formaction="<c:url value="/order/add"/>">
                                             <i class="bi bi-plus-circle-fill"></i>
                                         </button>
@@ -140,7 +128,8 @@
                 <table class="h-75" style="margin: 0 16px">
                     <tr>
                         <th class="col ps-3">SubTotal</th>
-                        <td class="col pe-3 text-end fs-3"><fmt:formatNumber value="${order.total}" type="currency"/></td>
+                        <td class="col pe-3 text-end fs-3"><fmt:formatNumber minIntegerDigits="1" value="${order.total}"
+                                                                             type="currency"/></td>
                     </tr>
                     <tr>
                         <th class="col ps-3">Tax</th>
@@ -148,26 +137,30 @@
                     </tr>
                     <tr>
                         <th class="col ps-3">Total</th>
-                        <td class="col pe-3 text-end fs-3 fw-bold"><fmt:formatNumber value="${order.total}" type="currency"/></td>
+                        <td class="col pe-3 text-end fs-3 fw-bold"><fmt:formatNumber minIntegerDigits="1" value="${order.total}"
+                                                                                     type="currency"/></td>
                     </tr>
                 </table>
-                <div class="row pb-3 h-25 w-100">
+                <form class="row pb-3 h-25 w-100">
                     <div class="row d-flex justify-content-between align-items-stretch"
                          style="height: 100%; margin-right: 0;margin-left: 0; padding: 0;">
                         <div class="col flex-grow-1 d-flex justify-content-start align-items-stretch"
                              style="padding-left: 0; padding-right: 12px;">
                             <!-- <input type="submit" class="btn btn-success" value="Take-Away" /> -->
                             <button style="width: 100% !important;"
-                                    class="btn btn-outline-success">Take-Away
+                                    formaction="<c:url value="/order/voidAll"/>" formmethod="post"
+                                    class="btn btn-outline-success">Void All
                             </button>
                         </div>
                         <div class="col flex-grow-1 d-flex justify-content-center align-items-stretch"
                              style="padding-left: 12px; padding-right: 0;">
                             <!-- <input type="submit" class="btn btn-outline-success" value="Take-Away" /> -->
-                            <button style="width: 100% !important;" class="btn btn-success">Check out</button>
+                            <button style="width: 100% !important;" class="btn btn-success" formmethod="post" <c:if test="${order.orderDetailList.size() == 0}">disabled</c:if>
+                                formaction="<c:url value="/payment/checkout"/>"
+                            >Check out</button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
         <!-- product select btn, category btn -->
@@ -181,7 +174,8 @@
                     <div class="row p-0">
                         <jsp:useBean id="products" scope="session" type="java.util.List"/>
                         <c:forEach var="product" items="${products}">
-                            <a href="<c:url value="/order/add?id=${product.id}"/> " class="col-md-4 col-xxl-3 d-flex align-items-center h-25 py-2" style="
+                            <a href="<c:url value="/order/add?id=${product.id}"/> "
+                               class="col-md-4 col-xxl-3 d-flex align-items-center h-25 py-2" style="
                             position: relative;">
                                 <img style="object-fit: cover; height: 100%;width: 100%; max-height: 160px;"
                                      class="rounded-2"
@@ -202,23 +196,30 @@
                 <h3 class="fs4 text-center m-0 text-center p-0" style="height: fit-content;">Categories</h3>
                 <div class="row mx-0 p-0 d-flex justify-content-start align-items-start"
                      style="height: 85%;width: 100%;">
-                    <div class="row m-0 h-100">
-                        <jsp:useBean id="categories" scope="session" type="java.util.List"/>
-                        <c:forEach var="category" items="${categories}">
-                            <div class="col-3 d-flex align-items-center py-2" style="height: 50%; width: 25%">
-                                <c:if test="${category.id != sessionScope.currentCate.id}">
-                                    <button type="submit" class="btn btn-outline-success"
-                                            style="height: 100%; width: 100%;">${category.name}
-                                    </button>
-                                </c:if>
-                                <c:if test="${category.id == sessionScope.currentCate.id}">
-                                    <button type="submit" class="btn btn-success"
-                                            style="height: 100%; width: 100%;">${category.name}
-                                    </button>
-                                </c:if>
-                            </div>
-                        </c:forEach>
-                    </div>
+                    <form class="h-100 m-0">
+                        <div class="row m-0 h-100">
+                            <jsp:useBean id="categories" scope="session" type="java.util.List"/>
+                            <c:forEach var="category" items="${categories}">
+                                <c:url value="/order/category" var="getProducts">
+                                    <c:param name="catID" value="${category.id}"/>
+                                </c:url>
+                                <div class="col-3 d-flex align-items-center py-2" style="height: 50%; width: 25%">
+                                    <c:if test="${category.id != sessionScope.currentCate.id}">
+                                        <button type="submit" class="btn btn-outline-success"
+                                                formaction="${getProducts}" formmethod="post"
+                                                style="height: 100%; width: 100%;">${category.name}
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${category.id == sessionScope.currentCate.id}">
+                                        <button type="submit" class="btn btn-success"
+                                                formaction="${getProducts}" formmethod="post"
+                                                style="height: 100%; width: 100%;">${category.name}
+                                        </button>
+                                    </c:if>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

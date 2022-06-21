@@ -11,9 +11,11 @@ import java.util.Map;
 
 public interface IOrderService {
 
-    void index (HttpServletRequest request, HttpServletResponse response, Map<Category, List<Product>> productMap);
+    void index (HttpServletRequest request, HttpServletResponse response);
 
     void addNewProduct(HttpServletRequest request, HttpServletResponse response);
 
     void removeProduct(HttpServletRequest request, HttpServletResponse response);
+
+    void voidAll(HttpServletRequest request, HttpServletResponse response);
 }

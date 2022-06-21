@@ -17,7 +17,6 @@ import java.util.List;
 public class OrderController extends HttpServlet {
 
     private static final OrderService orderService = new OrderService();
-    private static HashMap<Category, List<Product>> productMap;
 
     @Override
     public void init() throws ServletException {
@@ -25,16 +24,19 @@ public class OrderController extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(productMap == null){
-            productMap = orderService.loadData(request);
-        }
         String action = request.getPathInfo();
         switch (action) {
             case "/index":
-                orderService.index(request, response, productMap);
+                orderService.index(request, response);
+                break;
+            case "/category":
+                orderService.loadProducts(request, response);
                 break;
             case "/add":
                 orderService.addNewProduct(request, response);
+                break;
+            case "/voidAll":
+                orderService.voidAll(request, response);
                 break;
             case"/remove":
                 orderService.removeProduct(request, response);

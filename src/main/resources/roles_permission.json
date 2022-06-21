@@ -13,7 +13,12 @@
       "/order/index",
       "/order",
       "/cashier",
-      "/account/logout"
+      "/payment/checkout",
+      "/account/logout",
+      "/js",
+      "/css",
+      "/img",
+      "/IMG"
     ]
   },
   {

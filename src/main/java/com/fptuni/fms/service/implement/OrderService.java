@@ -16,7 +16,7 @@ public class OrderService implements IOrderService {
 
 
     @Override
-    public void index(HttpServletRequest request, HttpServletResponse response, Map<Category, List<Product>> productMap) {
+    public void index(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         Orders order = (Orders) session.getAttribute("order");
         if (order == null) {
@@ -25,23 +25,45 @@ public class OrderService implements IOrderService {
             order.setOrderDetailList(new ArrayList<>());
             order.setStoreID((Store) session.getAttribute("store"));
             order.setPaymentList(new ArrayList<>());
+            order.calcTotal();
         }
         session.setAttribute("order", order);
-        loadProducts(request, response, productMap);
+
+        if (request.getSession().getAttribute("categoryListMap") == null) {
+            request.getSession().setAttribute("productsMap", loadData(request));
+        }
+
+        loadProducts(request, response);
     }
 
-    private void loadProducts(HttpServletRequest request, HttpServletResponse response, Map<Category, List<Product>> productMap) {
+    public void loadProducts(HttpServletRequest request, HttpServletResponse response) {
+        Map<Category, List<Product>> categoryListMap = (Map<Category, List<Product>>) request.getSession().getAttribute("productsMap");
         List<Category> categories = (List<Category>) request.getSession().getAttribute("categories");
         if (categories == null) {
-            categories = new ArrayList<Category>(productMap.keySet());
+            categories = new ArrayList<Category>(categoryListMap.keySet());
             request.getSession().setAttribute("categories", categories);
         }
-        Category currentCate = (Category) request.getSession().getAttribute("currentCate");
-        if (currentCate == null) {
+        String catID = request.getParameter("catID");
+        Category currentCate = null;
+        if (catID == null){
             currentCate = categories.get(0);
-            request.getSession().setAttribute("currentCate", currentCate);
         }
-        List<Product> products = productMap.get(currentCate);
+        else {
+            for (Category category : categories) {
+                if (String.valueOf(category.getId()).equals(catID)){
+                    currentCate = category;
+                    request.getSession().setAttribute("currentCate", currentCate);
+                    break;
+                }
+            }
+        }
+//        Category currentCate = (Category) request.getSession().getAttribute("currentCate");
+//        if (currentCate == null) {
+//            currentCate = categories.get(0);
+//
+//        }
+
+        List<Product> products = categoryListMap.get(currentCate);
         request.getSession().setAttribute("products", products);
 
     }
@@ -87,6 +109,14 @@ public class OrderService implements IOrderService {
             }
         }
         details.removeIf(orderDetail -> orderDetail.getQuantity() == 0);
+        orders.calcTotal();
+        request.getSession().setAttribute("order", orders);
+    }
+
+    @Override
+    public void voidAll(HttpServletRequest request, HttpServletResponse response) {
+        Orders orders = (Orders) request.getSession().getAttribute("order");
+        orders.setOrderDetailList( new ArrayList<>());
         orders.calcTotal();
         request.getSession().setAttribute("order", orders);
     }

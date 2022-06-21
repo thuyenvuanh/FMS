@@ -36,9 +36,12 @@ public class AccountService implements IAccountService {
                 //kiem tra role va dieu huong vao man hinh
                 account.setRole(new RoleDAO().getRole(account.getRole().getId()));
                 request.getSession().setAttribute("account", account);
-                System.out.println(account.getRole().getName());
+                System.out.println("Account role: "+account.getRole().getName());
                 Store store = new StoreDAO().getStoreByAccount(account);
-                if (store != null) request.getSession().setAttribute("store", store);
+                if (store != null) {
+                    request.getSession().setAttribute("store", store);
+                    System.out.println("Store Name: " + store.getName());
+                }
                 switch (account.getRole().getName()) {
                     case "Admin":
                         //response toi link cua admin
