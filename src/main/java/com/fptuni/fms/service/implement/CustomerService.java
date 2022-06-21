@@ -48,25 +48,24 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer getCustomerByPhoneNum(String PhoneNum) {
-
         return null;
     }
 
     @Override
     public Integer addnewCustomer(HttpServletRequest request, HttpServletResponse response) {
-        ICustomerDAO customerDAO = new CustomerDAO();
+       ICustomerDAO customerDAO = new CustomerDAO();
         String name = "";
         String phone = "";
-        if (request.getParameter("name") != null
-                || !request.getParameter("name").equals("")) {
-            name = request.getParameter("name");
+        if (request.getParameter("Cusname") != null
+                && !request.getParameter("Cusname").equals("")) {
+            name = request.getParameter("Cusname");
         }
-        if (request.getParameter("phone") != null
-                || !request.getParameter("phone").equals("")) {
-            phone = request.getParameter("phone");
+        if (request.getParameter("Cusphone") != null
+                && !request.getParameter("Cusphone").equals("")) {
+            phone = request.getParameter("Cusphone");
         }
         Customer customer = new Customer(name, phone);
-        request.setAttribute("customer", customer);
+        //request.setAttribute("customer", customer);
         Map<String, String> paramMap = RequestUtils.getParameters(request.getQueryString());
         for (Map.Entry<String, String> entry : paramMap.entrySet()) {
             if (entry.getValue().isEmpty())

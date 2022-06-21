@@ -13,12 +13,10 @@ public class CustomerMapper implements RowMapper<Customer>{
             cus = new Customer();
             cus.setName(rs.getString("Name"));
             cus.setPhone((rs.getString("phone")));
-
         }
         catch (Exception e){
             System.out.println(e.getMessage());
         }
-
         return cus;
     }
 }

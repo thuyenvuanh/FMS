@@ -44,7 +44,7 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
                 "from [dbo].[Customer]\n" +
                 "where Phone = ? ";
         List<Customer> cus = query(sql, new CustomerMapper(), phoneNum);
-        return cus == null ? null : cus.get(0);
+        return cus.isEmpty() ? null : cus.get(0);
     }
 
     @Override

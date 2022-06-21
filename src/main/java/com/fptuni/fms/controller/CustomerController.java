@@ -1,5 +1,6 @@
 package com.fptuni.fms.controller;
 
+import com.fptuni.fms.dao.ICustomerDAO;
 import com.fptuni.fms.dao.implement.CustomerDAO;
 import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Customer;
@@ -25,16 +26,26 @@ public class CustomerController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         System.out.println(path);
-        if (path.equals("/addnewcustomer")) {
+        if (path.equals("/addcustomer")) {
             ICustomerService customerService = new CustomerService();
-            if (customerService.addnewCustomer(request, response) == 1) {
-                request.setAttribute("createStatus", "success");
-                response.sendRedirect(request.getContextPath() + "/product/list");
-            } else {
-                request.setAttribute("createStatus", "fail");
-                request.getRequestDispatcher("/view/store/productCreate.jsp").forward(request, response);
+            String name = request.getParameter("Cusname");
+            String phone = request.getParameter("Cusphone");
+            if(name != null && !name.equals("") && phone != null && !phone.equals("")){
+                ICustomerDAO customerDAO = new CustomerDAO();
+                Customer c = customerDAO.getByPhoneNum(phone);
+                if(c != null){
+                    request.setAttribute("msg-1","This phone number is already exist");
+                }else {
+                    if (customerService.addnewCustomer(request, response) == 0) {
+                        request.setAttribute("createStatus", "fail");
+                        request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
+                                .forward(request, response);
+                    }else {
+                        request.setAttribute("createStatus", "success");
+                        response.sendRedirect(request.getContextPath() + "/customer/list");
+                    }
+                }
             }
-            
         }else if(path.equals("/search")){
             CustomerDAO customerDAO = new CustomerDAO();
             String index = "";
