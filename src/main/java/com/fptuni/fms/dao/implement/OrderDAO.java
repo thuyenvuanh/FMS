@@ -15,11 +15,13 @@ import java.util.Map;
 public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
 
     @Override
-    public List<Orders> getOrders(Pageable pageable, Map<String,String> searcher) {
+    public List<Orders> getOrders(Pageable pageable, Map<String, String> searcher) {
         String sql = "SELECT ID, StoreID, Total, CreatedDate\n" +
                 "FROM Orders\n" +
-                "WHERE IsDeleted = 0";
-        List<Orders> orders = query(sql, new OrderMapper());
+                "WHERE IsDeleted = 0 AND StoreID = ? ";
+        if (searcher.get("totalAmount") != null && !searcher.get("totalAmount").isEmpty())
+            sql += "AND Total = " + searcher.get("totalAmount");
+        List<Orders> orders = query(sql, new OrderMapper(), searcher.get("storeID"));
         return orders;
     }
 

@@ -10,7 +10,6 @@ import com.fptuni.fms.paging.PageRequest;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.IOrderService;
 import com.fptuni.fms.sort.Sorter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -83,13 +82,18 @@ public class OrderService implements IOrderService {
         Map<String, String> searcher = new HashMap<>();
         Store store = storeDAO.getStoreByAccount(account);
         searcher.put("totalAmount", request.getParameter("totalAmount"));
+        searcher.put("storeID", String.valueOf(store.getId()));
 
-        List<Orders> orders = orderDAO.getOrders(null, null);
+        List<Orders> orders = orderDAO.getOrders(pageable, searcher);
 
         request.setAttribute("currentPage", page);
         request.setAttribute("sortField", sortField);
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
         request.setAttribute("isAscending", !isAsc);
+        for (Map.Entry<String, String> entry : searcher.entrySet()) {
+            // attribute key = entry key |  attribute value = entry value
+            request.setAttribute(entry.getKey(), entry.getValue());
+        }
         return orders;
     }
 }

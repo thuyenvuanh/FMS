@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: LEGION
   Date: 6/18/2022
@@ -7,7 +8,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,7 +121,7 @@
     <div class="wrapper wrapper-content animated fadeInRight ecommerce">
         <div class="ibox-content m-b-sm border-bottom">
             <c:url var="searchFormLink" value="${requestScope.contextPath}/order/list"></c:url>
-            <form action="${searchFormLink}" method="post">
+            <form action="${searchFormLink}" method="post" autocomplete="off">
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="form-group">
@@ -158,7 +159,8 @@
                     <div class="col-lg-2">
                         <div class="form-group">
                             <label class="col-form-label">Amount</label>
-                            <input type="text" class="form-control" name="totalAmount" data-mask="000.000 VND"
+                            <input type="text" class="form-control" name="totalAmount"
+                                   value="${requestScope.totalAmount}"
                                    autocomplete="off" maxlength="16">
                         </div>
                     </div>
@@ -191,7 +193,11 @@
                                 <tr>
                                     <td>${order.id}</td>
                                     <td>${order.total}</td>
-                                    <td>${order.createdDate}</td>
+                                    <td>
+                                        <fmt:formatDate value="${order.createdDate}" var="formattedDate" type="date"
+                                                        pattern="dd/MM/yyyy"></fmt:formatDate>
+                                        ${formattedDate}
+                                    </td>
                                     <td class="text-right">
                                         <div class="btn-group">
                                             <c:url var="viewOrderDetail"
