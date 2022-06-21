@@ -85,28 +85,49 @@
                                value="" placeholder="Max">
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="col-form-label" for="product_name">Product Name</label>
+                        <input type="text" id="product_name" name="productName" value="${requestScope.productName}"
+                               placeholder="Product Name" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" id="date_range_transaction">
+                        <label class="col-form-label">Price</label>
+                        <div class="input-daterange input-group" id="datepicker">
+                            <input type="number" class="form-control-sm form-control" name="minPrice"
+                                   placeholder="Min" value="${requestScope.minPrice}">
+                            <span class="input-group-addon">to</span>
+                            <input type="number" class="form-control-sm form-control" name="maxPrice"
+                                   placeholder="Max" value="${requestScope.maxPrice}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" col-md-2">
+                    <div class="form-group">
+                        <label class="col-form-label" for="quantity">Quantity</label>
+                        <input type="number" id="quantity" name="quantity" placeholder="Quantity"
+                               value="${requestScope.quantity}"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="col-form-label" for="status">Status</label>
+                        <select name="status" id="status" class="form-control">
+                            <option value="1" ${requestScope.status == 1 ? "selected":"" }>Enabled</option>
+                            <option value="0" ${requestScope.status == 0 ? "selected":"" }>Disabled</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <button class="btn btn-outline-success  float-right" type="submit">Search</button>
+                </div>
             </div>
 
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label class="col-form-label" for="quantity">Quantity</label>
-                    <input type="text" id="quantity" name="quantity" value="" placeholder="Quantity"
-                           class="form-control">
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label class="col-form-label" for="status">Status</label>
-                    <select name="status" id="status" class="form-control">
-                        <option value="1" selected>Enabled</option>
-                        <option value="0">Disabled</option>
-                    </select>
-                </div>
-            </div>
-            <div class="container-fluid">
-                <button class="btn btn-outline-success  float-right" type="submit">Search</button>
-            </div>
-        </div>
+        </form>
 
     </div>
     <%--    Search--%>
@@ -133,58 +154,82 @@
                             <thead>
                             <c:url var="sort" value="${requestScope.contextPath}/product/list">
                                 <c:param name="page" value="${requestScope.currentPage}"></c:param>
-                                <c:param name="isAscending" value="${requestScope.isAsc}"></c:param>
+                                <c:param name="isAscending" value="${requestScope.isAscending}"></c:param>
+                                <c:param name="minPrice" value="${requestScope.minPrice}"></c:param>
+                                <c:param name="maxPrice" value="${requestScope.maxPrice}"></c:param>
+                                <c:param name="quantity" value="${requestScope.quantity}"></c:param>
+                                <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
+                                <c:param name="productName" value="${requestScope.productName}"></c:param>
                             </c:url>
-                            <tr>
-                                <th data-toggle="true" data-sort-ignore="true">
-                                    <a href="${sort}&sortField=ID">Product ID</a>
-                                </th>
-                                <th data-hide="phone" data-sort-ignore="true">
-                                    <a href="${sort}&sortField=Name">Product Name</a>
-                                </th>
-                                <th data-hide="all" data-sort-ignore="true">Image</th>
-                                <th data-hide="phone" data-sort-ignore="true">
-                                    <a href="${sort}&sortField=Price">Price</a>
-                                </th>
-                                <th data-hide="phone,tablet" data-sort-ignore="true">
-                                    <a href="${sort}&sortField=QtyAvailable">Quantity</a>
-                                </th>
-                                <th data-hide="phone" data-sort-ignore="true">Status</th>
-                                <th class="text-right" data-sort-ignore="true">
-                                    Action
-                                </th>
-                            </tr>
+                            <c:url var="sortFromLink" value="${requestScope.contextPath}/product/list"></c:url>
+
+                            <form action="${sortFromLink}" method="post" id="sortFrom" style="display: none">
+                                <input type="hidden" name="currentPage" value="${requestScope.currentPage}"/>
+                                <input type="hidden" name="isAscending" value="${requestScope.isAscending}">
+                                <input type="hidden" name="minPrice" value="${requestScope.minPrice}">
+                                <input type="hidden" name="maxPrice" value="${requestScope.maxPrice}">
+                                <input type="hidden" name="quantity" value="${requestScope.quantity}">
+                                <input type="hidden" name="categoryID" value="${requestScope.categoryID}">
+                                <input type="hidden" name="productName" value="${requestScope.productName}">
+                                <%--                                <input type="hidden" id="sortFieldInput" name="sortField" value="${requestScope.sortField}">--%>
+                                <input type="hidden" id="sortFieldInput" name="sortField">
+
+                                <tr style="color: dodgerblue">
+                                    <th data-toggle="true" data-sort-ignore="true">
+                                        <%--                                    <a href="${sort}&sortField=ID">Product ID</a>--%>
+                                        <a onclick="document.getElementById('sortFieldInput').value = 'ID'; document.getElementById('sortFrom').submit();">Product ID</a>
+                                    </th>
+                                    <th data-hide="phone" data-sort-ignore="true">
+                                        <%--                                    <a href="${sort}&sortField=Name">Product Name</a>--%>
+                                        <a onclick="document.getElementById('sortFieldInput').value = 'Name';document.getElementById('sortFrom').submit();">Product
+                                            Name</a>
+                                    </th>
+                                    <th data-hide="all" data-sort-ignore="true">Image</th>
+                                    <th data-hide="phone" data-sort-ignore="true">
+                                        <%--                                        <a href="${sort}&sortField=Price">Price</a>--%>
+                                        <a onclick="document.getElementById('sortFieldInput').value = 'Price';document.getElementById('sortFrom').submit();">Price</a>
+                                    </th>
+                                    <th data-hide="phone,tablet" data-sort-ignore="true">
+                                        <%--                                        <a href="${sort}&sortField=QtyAvailable">Quantity</a>--%>
+                                        <a onclick="document.getElementById('sortFieldInput').value = 'QtyAvailable';document.getElementById('sortFrom').submit();">Quantity</a>
+                                    </th>
+                                    <th data-hide="phone" data-sort-ignore="true">Status</th>
+                                    <th class="text-right" data-sort-ignore="true">
+                                        Action
+                                    </th>
+                                </tr>
+                            </form>
                             </thead>
+
                             <tbody>
 
                             <c:forEach var="product" items="${requestScope.productList}">
-                                    <tr>
-
+                                <tr>
+                                    <td>
+                                            ${product.id}
+                                        <input type="hidden" name="productID" value="${product.id}"/>
+                                    </td>
+                                    <td>${product.name}</td>
+                                    <td>
+                                        <img src="${product.imagePath}" alt="${product.name}" style="width: 35%"/>
+                                    </td>
+                                    <td>${product.price}</td>
+                                    <td>${product.qtyAvailable}</td>
+                                    <c:if test="${product.qtyAvailable != 0}">
                                         <td>
-                                                ${product.id}
+                                            <span class="label label-primary">Enable</span>
+                                        </td>
+                                    </c:if>
+                                    <c:if test="${product.qtyAvailable == 0}">
+                                        <td>
+                                            <span class="label label-danger">Disable</span>
+                                        </td>
+                                    </c:if>
+                                    <td class="text-right">
+                                        <c:url var="deleteLink" value="${requestScope.contextPath}/product/delete">
+                                        </c:url>
+                                        <form class="deleteForm-${product.id}" action="${deleteLink}">
                                             <input type="hidden" name="productID" value="${product.id}"/>
-                                        </td>
-                                        <td>${product.name}</td>
-                                        <td>
-                                            <img src="${product.imagePath}" alt="${product.name}" style="width: 35%"/>
-                                        </td>
-                                        <td>${product.price}</td>
-                                        <td>${product.qtyAvailable}</td>
-                                        <c:if test="${product.qtyAvailable != 0}">
-                                            <td>
-                                                <span class="label label-primary">Enable</span>
-                                            </td>
-                                        </c:if>
-                                        <c:if test="${product.qtyAvailable == 0}">
-                                            <td>
-                                                <span class="label label-danger">Disable</span>
-                                            </td>
-                                        </c:if>
-                                        <td class="text-right">
-                                            <c:url var="deleteLink" value="${requestScope.contextPath}/product/delete">
-                                            </c:url>
-                                            <form class="deleteForm-${product.id}" action="${deleteLink}">
-                                                <input  type="hidden" name="productID" value="${product.id}"/>
                                             <div class="btn-group">
                                                 <c:url var="viewLink" value="/product/view">
                                                     <c:param name="productID" value="${product.id}"></c:param>
@@ -192,20 +237,22 @@
                                                 <c:url var="updateLink" value="/product/updatePage">
                                                     <c:param name="productID" value="${product.id}"></c:param>
                                                 </c:url>
-                                                    <button class="btn-white btn btn-xs" formmethod="post" formaction="${viewLink}">
-                                                        View
-                                                    </button>
-                                                    <button class="btn-white btn btn-xs" formmethod="post" formaction="${updateLink}">
-                                                        Edit
-                                                    </button>
+                                                <button class="btn-white btn btn-xs" formmethod="post"
+                                                        formaction="${viewLink}">
+                                                    View
+                                                </button>
+                                                <button class="btn-white btn btn-xs" formmethod="post"
+                                                        formaction="${updateLink}">
+                                                    Edit
+                                                </button>
                                                 <button type="button"
-                                                        class="btn-white btn btn-xs btn_delete_product_${product.id}" ${product.isDeleted == true ? "disabled" : ""} >
+                                                        class="btn-white btn btn-xs btn_delete_product_${product.id}" }>
                                                     Delete
                                                 </button>
                                             </div>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                        </form>
+                                    </td>
+                                </tr>
                             </c:forEach>
 
                             </tbody>
@@ -218,11 +265,12 @@
                                             <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
                                                 <c:url var="previousPage"
                                                        value="${requestScope.contextPath}/product/list">
-                                                    <c:param name="page"
+                                                    <c:param name="currentPage"
                                                              value="${requestScope.currentPage - 1}"></c:param>
                                                     <c:param name="sortField"
                                                              value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
+                                                    <c:param name="isAscending"
+                                                             value="${!requestScope.isAscending}"></c:param>
                                                 </c:url>
                                                 <a
                                                         class="page-link"
@@ -236,10 +284,11 @@
                                             <c:forEach begin="1" end="${requestScope.totalPages}" var="page">
                                                 <c:url var="paging"
                                                        value="${requestScope.contextPath}/product/list">
-                                                    <c:param name="page" value="${page}"></c:param>
+                                                    <c:param name="currentPage" value="${page}"></c:param>
                                                     <c:param name="sortField"
                                                              value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
+                                                    <c:param name="isAscending"
+                                                             value="${!requestScope.isAscending}"></c:param>
                                                 </c:url>
                                                 <li class="page-item ${requestScope.currentPage == page ?"active":""}">
                                                     <a class="page-link "
@@ -249,11 +298,12 @@
                                             <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
                                                 <c:url var="nextPage"
                                                        value="${requestScope.contextPath}/product/list">
-                                                    <c:param name="page"
+                                                    <c:param name="currentPage"
                                                              value="${requestScope.currentPage + 1}"></c:param>
                                                     <c:param name="sortField"
                                                              value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
+                                                    <c:param name="isAscending"
+                                                             value="${!requestScope.isAscending}"></c:param>
                                                 </c:url>
                                                 <a class="page-link" href="${nextPage}" aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
@@ -307,7 +357,7 @@
 <!-- Sweet alert -->
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
-<%--if controller return update successful status--%>
+<%--if controller return create successful status--%>
 <c:if test="${sessionScope.createStatus != null}">
     <script>
         $(document).ready(function () {

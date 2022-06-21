@@ -19,24 +19,25 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
 
     private final StoreMapper mapper = new StoreMapper();
 
-//    @Override
-//    public Store getStore(String Name) { //get 1 store
-//        String sql = "SELECT Store.ID, Name, Store.AccountID, Account.FullName from Store\n" +
-//                "Join Account on Store.AccountID = Account.ID\n" +
-//                "Where upper(Name) = upper('?');";
-//        List<Store> stores = query(sql, new StoreMapper(), Name);
-//        return stores.isEmpty() ? null : stores.get(0);
-//    }
+    // @Override
+    // public Store getStore(String Name) { //get 1 store
+    // String sql = "SELECT Store.ID, Name, Store.AccountID, Account.FullName from
+    // Store\n" +
+    // "Join Account on Store.AccountID = Account.ID\n" +
+    // "Where upper(Name) = upper('?');";
+    // List<Store> stores = query(sql, new StoreMapper(), Name);
+    // return stores.isEmpty() ? null : stores.get(0);
+    // }
     public Store getStoreByAccount(Account account) {
-        String sql = "SELECT ID, Name FROM Store WHERE AccountID = ? AND IsDeleted = 0";
+        String sql = "SELECT ID, Name, AccountID FROM Store WHERE AccountID = ? AND IsDeleted = 0";
         List<Store> list = query(sql, mapper, account.getId());
         return (list != null && !list.isEmpty()) ? list.get(0) : null;
     }
 
     @Override
-    public List<Store> getStore() {
-        String sql = "SELECT Store.ID, Name, Store.AccountID, Account.FullName from Store\n"
-                + "Join Account on Store.AccountID = Account.ID\n";
+    public List<Store> getStores() {
+        String sql = "SELECT Store.ID, Name, Store.AccountID, Account.FullName from Store\n" +
+                "Join Account on Store.AccountID = Account.ID\n";
         List<Product> products = query(sql, new ProductMapper());
         List<Store> stores = query(sql, new StoreMapper());
         return stores.isEmpty() ? null : stores;
