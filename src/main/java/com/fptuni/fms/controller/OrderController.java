@@ -18,8 +18,7 @@ public class OrderController extends HttpServlet {
     private final IOrderService orderService = new OrderService();
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Servlet Path: " + request.getServletPath());
-        System.out.println("Path Info: " + request.getPathInfo());
+
         //lay order tu session hoac tao moi
         String action = request.getPathInfo();
         switch (action) {

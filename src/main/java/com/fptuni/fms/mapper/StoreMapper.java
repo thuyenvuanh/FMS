@@ -1,4 +1,4 @@
-package com.fptuni.mapper;
+package com.fptuni.fms.mapper;
 
 import com.fptuni.fms.mapper.RowMapper;
 import com.fptuni.fms.model.Account;
@@ -22,7 +22,7 @@ public class StoreMapper implements RowMapper<Store> {
             store.setId(rs.getInt("ID"));
             store.setName(rs.getString("Name"));
             Account acc = new Account(rs.getInt("AccountID"));
-            acc.setFullName(rs.getString("FullName"));
+//            acc.setFullName(rs.getString("FullName")); k nen de full name o day
             store.setAccountID(acc);
         } catch (SQLException e) {
             System.out.println(e.getMessage());

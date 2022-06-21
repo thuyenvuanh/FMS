@@ -18,7 +18,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
     @Override
     public Integer Create(String Username, String Password, String Fullname, int RoleID) {
         try {
-            String sql = "INSERT INTO dbo.Account(Username, Password, Fullname, RoleID, IsDeleted) VALUES (?,?,?,?,0)";
+            String sql = "INSERT INTO dbo.Account(Username, Password, FullName, RoleID, IsDeleted) VALUES (?,?,?,?,0)";
             String hashPassword = SecurityUtils.createHash(Password, Username);
             return insert(sql, Username, hashPassword, Fullname, RoleID);
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
     @Override
     public boolean Update(String Username, String Password, String Fullname, int RoleID) {
         try {
-            String sql = "UPDATE dbo.Account SET Password=?, Fullname=?, RoleID=? WHERE Username=? AND IsDeleted = 0";
+            String sql = "UPDATE dbo.Account SET Password=?, FullName=?, RoleID=? WHERE Username=? AND IsDeleted = 0";
             String hashPassword = SecurityUtils.createHash(Password, Username);
             return update(sql, Password, Fullname, RoleID, Username);
         } catch (Exception e) {
@@ -64,12 +64,12 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         // Neu chon sortField khac thi cac Product moi trang se thay doi
         // Vi du: sortField = ID ==> list ID ASC ==> paging
         String sql = "SELECT * FROM \n"
-                + "(SELECT ID, Username, Fullname, RoleID \n"
+                + "(SELECT ID, Username, FullName, RoleID \n"
                 + "FROM dbo.Account WHERE IsDeleted = 0\n";
         String orderBy;
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
             orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
-            sql += "ORDER BY " + pageable.getSorter().getSortField() + "  " + orderBy;
+            sql += " ORDER BY " + pageable.getSorter().getSortField() + "  " + orderBy;
         }
         if (pageable.getOffset() != null && pageable.getLimit() != null) {
             sql += " OFFSET " + pageable.getOffset() + " ROWS\n"
@@ -77,7 +77,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         }
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
             orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
-            sql += "ORDER BY A." + pageable.getSorter().getSortField() + " " + orderBy;
+            sql += " ORDER BY A." + pageable.getSorter().getSortField() + " " + orderBy;
         }
 
         List<Account> listAcc = query(sql, new AccountMapper());
@@ -86,14 +86,14 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
 
     @Override
     public Account getAccount(int id) {
-        String sql = "SELECT ID, Username, Fullname, RoleID FROM dbo.Account WHERE ID = ?";
+        String sql = "SELECT ID, Username, FullName, RoleID FROM dbo.Account WHERE ID = ?";
         List<Account> listAcc = query(sql, new AccountMapper(), id);
         return listAcc == null ? null : listAcc.get(0);
     }
 
     @Override
     public Account getAccountUpdate(int id) {
-        String sql = "SELECT ID, Username, Password, Fullname, RoleID FROM dbo.Account WHERE ID = ? AND IsDeleted = 0";
+        String sql = "SELECT ID, Username, Password, FullName, RoleID FROM dbo.Account WHERE ID = ? AND IsDeleted = 0";
         List<Account> listAcc = query(sql, new AccountMapper(), id);
         return listAcc == null ? null : listAcc.get(0);
     }

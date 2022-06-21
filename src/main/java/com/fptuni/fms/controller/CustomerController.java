@@ -1,20 +1,16 @@
 package com.fptuni.fms.controller;
 
 import com.fptuni.fms.dao.implement.CustomerDAO;
-import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Customer;
-import com.fptuni.fms.model.Product;
-import com.fptuni.fms.service.ICategoryService;
 import com.fptuni.fms.service.ICustomerService;
-import com.fptuni.fms.service.IProductService;
-import com.fptuni.fms.service.implement.CategoryService;
 import com.fptuni.fms.service.implement.CustomerService;
-import com.fptuni.fms.service.implement.ProductService;
-import com.sun.xml.internal.ws.addressing.EPRSDDocumentFilter;
-
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
