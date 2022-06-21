@@ -17,4 +17,6 @@ public interface IWalletDAO extends GenericDAO<Wallet> {
 
     Wallet getWalletWithID(int ID);
 
+    Wallet getWalletWithCustomerID(int cusID);
+
 }

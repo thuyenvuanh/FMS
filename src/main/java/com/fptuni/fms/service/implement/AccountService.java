@@ -52,7 +52,7 @@ public class AccountService implements IAccountService {
                         break;
                     case "Counter":
                         //respone toi link cua counter
-                        url = request.getContextPath() + "/customer/index";
+                        url = request.getContextPath() + "/counter/index";
                         break;
                     case "Store Manager":
                         url = request.getContextPath() + "/product/list";
