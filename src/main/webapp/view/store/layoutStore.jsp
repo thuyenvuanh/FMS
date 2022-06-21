@@ -38,7 +38,8 @@
                 >
             </li>
             <li class="active">
-                <a href="ecommerce-orders.html"
+                <c:url var="orderListLink" value="${requestScope.contextPath}/order/list"></c:url>
+                <a href="${orderListLink}"
                 ><i class="fa fa-table"></i> <span class="nav-label">Orders</span></a
                 >
             </li>

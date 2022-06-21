@@ -1,8 +1,11 @@
 package com.fptuni.fms.dao;
 
 import com.fptuni.fms.model.Orders;
+import com.fptuni.fms.paging.Pageable;
+
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -10,7 +13,7 @@ import java.util.List;
  */
 public interface IOrderDAO extends GenericDAO<Orders> {
 
-    List<Orders> getOrders();
+    List<Orders> getOrders(Pageable pageable, Map<String,String> searcher);
 
     Orders getOrderById(int id);
     Integer insertOrder(Orders orders);

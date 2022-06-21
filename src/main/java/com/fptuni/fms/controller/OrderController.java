@@ -1,5 +1,7 @@
 package com.fptuni.fms.controller;
 
+import com.fptuni.fms.model.Orders;
+import com.fptuni.fms.service.IOrderService;
 import com.fptuni.fms.service.implement.OrderService;
 
 import javax.servlet.ServletException;
@@ -8,11 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "OrderController", value = "/order/*")
 public class OrderController extends HttpServlet {
 
-    private final OrderService orderService = new OrderService();
+    private final IOrderService orderService = new OrderService();
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Servlet Path: " + request.getServletPath());
@@ -27,11 +30,16 @@ public class OrderController extends HttpServlet {
                 System.out.println("Controller called: " + request.getParameter("id"));
                 orderService.addNewProduct(request, response);
                 break;
-            case"/remove":
+            case "/remove":
                 orderService.removeProduct(request, response);
                 break;
+            case "/list":
+                List<Orders> orders = orderService.getOrders(request, response);
+
+                request.setAttribute("orders", orders);
+                request.getRequestDispatcher( "/view/store/orderList.jsp").forward(request, response);
         }
-        response.sendRedirect(request.getContextPath()+"/cashier");
+//        response.sendRedirect(request.getContextPath()+"/cashier");
     }
 
     @Override
