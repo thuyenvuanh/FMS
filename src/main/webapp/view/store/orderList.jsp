@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -81,7 +82,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="form-group">
-                        <label class="col-form-label" for="customer">Customer phone</label>
+                        <label class="col-form-label" >Customer phone</label>
                         <input type="text" class="form-control" data-mask="(000) 000-0000" placeholder="(000) 000-0000" autocomplete="off" maxlength="14">
                     </div>
                 </div>
@@ -110,8 +111,8 @@
 
                 <div class="col-lg-2">
                     <div class="form-group">
-                        <label class="col-form-label" for="amount">Amount</label>
-                        <input type="text" class="form-control" data-mask="$ 000000000.00" placeholder="" autocomplete="off" maxlength="16">
+                        <label class="col-form-label">Amount</label>
+                        <input type="text" class="form-control" data-mask="000.000 VND" placeholder="" autocomplete="off" maxlength="16">
                     </div>
                 </div>
                 <div class="container-fluid"><button class="btn btn-outline-success  float-right"

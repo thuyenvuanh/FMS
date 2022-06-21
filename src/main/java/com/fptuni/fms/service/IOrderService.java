@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface IOrderService {
 
-    void index (HttpServletRequest request, HttpServletResponse response);
+    void index(HttpServletRequest request, HttpServletResponse response);
 
     void addNewProduct(HttpServletRequest request, HttpServletResponse response);
 
