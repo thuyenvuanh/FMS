@@ -22,8 +22,6 @@ public interface IStoreDAO extends GenericDAO<Store> {
   
     Store getStoreByAccount(Account account);
 
-    Store getStoreByAccount(Account account);
-
     boolean updateStore(int id, String name);
 
     List<Store> getListStore(Pageable pageable);
