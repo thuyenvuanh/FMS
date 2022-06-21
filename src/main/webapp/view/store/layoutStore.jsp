@@ -32,6 +32,7 @@
                 >
             </li>
             <li class="active">
+
                 <c:url var="productListLink" value="${requestScope.contextPath}/product/list"></c:url>
                 <a href="${productListLink}"
                 ><i class="fa fa-dropbox"></i>

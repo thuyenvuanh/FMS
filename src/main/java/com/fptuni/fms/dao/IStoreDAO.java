@@ -17,8 +17,10 @@ public interface IStoreDAO extends GenericDAO<Store> {
     List<Store> getStores();
 
     Store getStore(int id);
-
+  
     Integer insertStore(Store store);
+  
+    Store getStoreByAccount(Account account);
 
     Store getStoreByAccount(Account account);
 
