@@ -37,7 +37,7 @@
 
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
-                        <h2>E-commerce product list</h2>
+                        <h2>E-commerce account list</h2>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="index.html">Home</a>
@@ -46,7 +46,7 @@
                                 <a>E-commerce</a>
                             </li>
                             <li class="breadcrumb-item active">
-                                <strong>Product list</strong>
+                                <strong>Account list</strong>
                             </li>
                         </ol>
                     </div>
@@ -59,28 +59,46 @@
 
 
             <div class="ibox-content m-b-sm border-bottom">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="product_name">Name</label>
-                            <input type="text" id="product_name" name="product_name" value=""
-                                   placeholder="Name" class="form-control">
+                <form>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="username">Username</label>
+                                <input type="text" id="username" name="username" value="${username}"
+                                       placeholder="Username" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="account_name">Full Name</label>
+                                <input type="text" id="account_name" name="fullName" value="${fullName}"
+                                       placeholder="Full Name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="role">Role</label>
+                                <select class="form-control m-b" id="role" name="roleId">
+                                    <c:forEach var="role" items="${requestScope.roleList}">
+                                        <option value="${role.id}" ${role.id==roleId?"selected":""} >${role.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="status">Status</label>
+                                <select name="status" id="status" class="form-control">
+                                    <option value="0" ${status == 0 ? "selected" : ""}>Enabled</option>
+                                    <option value="1" ${status == 1 ? "selected" : ""}>Disabled</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <button class="btn btn-outline-success  float-right" type="submit" formaction="<c:url value="/account/search"/>">Search</button>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="status">Status</label>
-                            <select name="status" id="status" class="form-control">
-                                <option value="1" selected>Enabled</option>
-                                <option value="0">Disabled</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="container-fluid">
-                        <button class="btn btn-outline-success  float-right" type="submit">Search</button>
-                    </div>
-                </div>
-
+                </form>
             </div>
 
             <nav class="navbar navbar-light bg-light">
@@ -121,7 +139,7 @@
                                             <tr>
                                                 <td>${acc.username}</td>
                                                 <td>${acc.fullName}</td>
-                                                <td>${acc.role.id}</td>
+                                                <td>${acc.role.name}</td>
                                                 <c:if test="${acc.isDeleted()==false}">
                                                     <td>
                                                         <span class="label label-primary">Enable</span>

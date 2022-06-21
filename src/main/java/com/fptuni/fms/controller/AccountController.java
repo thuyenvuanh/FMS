@@ -52,8 +52,13 @@ public class AccountController extends HttpServlet {
                 Url = accountService.delete(request, response);
                 request.getRequestDispatcher(Url).forward(request, response);
                 break;
+            case "/search":
+                Url = accountService.search(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
+                break;
             default:
-            //chuyen huong den trang error
+                //chuyen huong den trang error
+                request.getRequestDispatcher("/").forward(request, response);
         }
     }
 

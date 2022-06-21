@@ -64,8 +64,9 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         // Neu chon sortField khac thi cac Product moi trang se thay doi
         // Vi du: sortField = ID ==> list ID ASC ==> paging
         String sql = "SELECT * FROM \n"
-                + "(SELECT ID, Username, Fullname, RoleID \n"
-                + "FROM dbo.Account WHERE IsDeleted = 0\n";
+                + "(SELECT Account.ID, Username, FullName, RoleID, Name "
+                + "FROM Account Join Role On Account.RoleID = Role.ID "
+                + "WHERE Account.IsDeleted = 0\n";
         String orderBy;
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
             orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
@@ -85,15 +86,42 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
     }
 
     @Override
+    public List<Account> search(Pageable pageable, int isDelete, String username, String fullName, int roleId) {
+        // Sort theo field xong moi paging
+        // Neu chon sortField khac thi cac Product moi trang se thay doi
+        // Vi du: sortField = ID ==> list ID ASC ==> paging
+        String sql = "SELECT * FROM \n"
+                + "(SELECT Account.ID, Username, FullName, RoleID, Name "
+                + "FROM Account Join Role On Account.RoleID = Role.ID "
+                + "WHERE Account.IsDeleted = ? AND Username LIKE ? AND FullName LIKE ? AND RoleID = ?\n";
+        String orderBy;
+        if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
+            orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
+            sql += "ORDER BY " + pageable.getSorter().getSortField() + "  " + orderBy;
+        }
+        if (pageable.getOffset() != null && pageable.getLimit() != null) {
+            sql += " OFFSET " + pageable.getOffset() + " ROWS\n"
+                    + " FETCH NEXT " + pageable.getLimit() + " ROWS ONLY ) AS A \n";
+        }
+        if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
+            orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
+            sql += "ORDER BY A." + pageable.getSorter().getSortField() + " " + orderBy;
+        }
+
+        List<Account> listAcc = query(sql, new AccountMapper(), isDelete, "%" + username + "%", "%" + fullName + "%", roleId);
+        return listAcc;
+    }
+
+    @Override
     public Account getAccount(int id) {
-        String sql = "SELECT ID, Username, Fullname, RoleID FROM dbo.Account WHERE ID = ?";
+        String sql = "SELECT Account.ID, Username, FullName, RoleID, Name FROM Account Join Role On Account.RoleID = Role.ID WHERE Account.ID = ?";
         List<Account> listAcc = query(sql, new AccountMapper(), id);
         return listAcc == null ? null : listAcc.get(0);
     }
 
     @Override
     public Account getAccountUpdate(int id) {
-        String sql = "SELECT ID, Username, Password, Fullname, RoleID FROM dbo.Account WHERE ID = ? AND IsDeleted = 0";
+        String sql = "SELECT Account.ID, Username, FullName, RoleID, Name FROM Account Join Role On Account.RoleID = Role.ID WHERE Account.ID = ? AND Account.IsDeleted = 0";
         List<Account> listAcc = query(sql, new AccountMapper(), id);
         return listAcc == null ? null : listAcc.get(0);
     }
