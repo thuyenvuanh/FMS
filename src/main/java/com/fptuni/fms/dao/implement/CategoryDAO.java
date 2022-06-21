@@ -21,7 +21,7 @@ public class CategoryDAO extends AbstractDAO<Category> implements ICategoryDAO {
         @Override
         public List<Category> getCategories() {
                 String sql = "SELECT ID, Name, ShortName, IsDeleted FROM Category" +
-                        "Where IsDeleted = 0";
+                        " WHERE IsDeleted = 0";
                 return query(sql, new CategoryMapper());
         }
 
