@@ -37,6 +37,8 @@ public class AccountService implements IAccountService {
                 account.setRole(new RoleDAO().getRole(account.getRole().getId()));
                 request.getSession().setAttribute("account", account);
                 System.out.println(account.getRole().getName());
+                Store store = new StoreDAO().getStoreByAccount(account);
+                if (store != null) request.getSession().setAttribute("store", store);
                 switch (account.getRole().getName()) {
                     case "Admin":
                         //response toi link cua admin
@@ -44,8 +46,6 @@ public class AccountService implements IAccountService {
                         break;
                     case "Cashier":
                         //response toi link cua cashier
-                        Store store = new StoreDAO().getStoreByAccount(account);
-                        if (store != null) request.getSession().setAttribute("store", store);
                         url = request.getContextPath() + "/order/index";
                         break;
                     case "Counter":

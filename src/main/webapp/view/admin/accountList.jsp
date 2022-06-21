@@ -13,22 +13,22 @@
 
   <title>Account List</title>
 
-  <link href="../../css/bootstrap.min.css" rel="stylesheet">
-  <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
 
   <!-- FooTable -->
-  <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet">
+  <link href="../css/plugins/footable/footable.core.css" rel="stylesheet">
 
   <!-- Sweet Alert -->
-  <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+  <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 
-  <link href="../../css/animate.css" rel="stylesheet">
-  <link href="../../css/style.css" rel="stylesheet">
+  <link href="../css/animate.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
 
 <div id="wrapper">
-  <jsp:include page="layoutAdmin.jsp"></jsp:include>
+  <jsp:include page="layoutAdmin.jsp"/>
 
   <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
@@ -121,7 +121,7 @@
                     <a href="account_view.html"><button
                             class="btn-white btn btn-xs">View</button></a>
                     <a href="account_update.html"><button
-                            class="btn-white btn btn-xs">Edit</button<></a>
+                            class="btn-white btn btn-xs">Edit</button></a>
 
 
                   </div>
@@ -169,18 +169,18 @@
 </div>
 
 <!-- Mainly scripts -->
-<script src="../../js/jquery-3.1.1.min.js"></script>
-<script src="../../js/popper.min.js"></script>
-<script src="../../js/bootstrap.js"></script>
-<script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 <!-- Custom and plugin javascript -->
-<script src="../../js/inspinia.js"></script>
-<script src="../../js/plugins/pace/pace.min.js"></script>
+<script src="../js/inspinia.js"></script>
+<script src="../js/plugins/pace/pace.min.js"></script>
 
 <!-- FooTable -->
-<script src="../../js/plugins/footable/footable.all.min.js"></script>
+<script src="../js/plugins/footable/footable.all.min.js"></script>
 
 <!-- Page-Level Scripts -->
 <script>
@@ -193,13 +193,13 @@
 </script>
 
 <!-- Sweet alert -->
-<script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <script>
   $(document).ready(function () {
     swal({
-      title: "Create Success!",
-      text: "You clicked the button!",
+      title: "Log in successful",
+      text: "Click the button to turn off this dialog",
       type: "success"
     });
   });
@@ -246,7 +246,8 @@
     <button class="cancel" tabindex="2" style="display: none; box-shadow: none;">Cancel</button>
 
     <button class="confirm" tabindex="1"
-            style="display: inline-block; background-color: rgb(174, 222, 244); box-shadow: rgba(174, 222, 244, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">OK</button>
+            style="
+            display: inline-block; background-color: rgb(174, 222, 244); box-shadow: rgba(174, 222, 244, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">OK</button>
   </div>
 </div>
 </body>
