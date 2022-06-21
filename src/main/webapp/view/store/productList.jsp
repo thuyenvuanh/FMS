@@ -57,7 +57,7 @@
     <%--    Search--%>
     <div class="ibox-content m-b-sm border-bottom">
         <c:url var="searchLink" value="${requestScope.contextPath}/product/list"></c:url>
-        <form action="${searchLink}" autocomplete="off" method="post">
+        <form id="form_product_search" action="${searchLink}" autocomplete="off" method="post">
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
@@ -80,12 +80,12 @@
                 <div class="col-md-4">
                     <div class="form-group" id="date_range_transaction">
                         <label class="col-form-label">Price</label>
-                        <div class="input-daterange input-group" id="datepicker">
+                        <div class="input-daterange input-group">
                             <input type="text" class="form-control" data-mask="0000000000000" placeholder="Min"
-                                   name="minPrice" autocomplete="off" maxlength="17" value="${requestScope.minPrice}">
+                                   name="minPrice" id="minPrice" maxlength="17" value="${requestScope.minPrice}">
                             <span class="input-group-addon">to</span>
                             <input type="text" class="form-control" data-mask="0000000000000" placeholder="Max"
-                                   name="maxPrice" autocomplete="off" maxlength="17" value="${requestScope.maxPrice}">
+                                   name="maxPrice" id="maxPrice" maxlength="17" value="${requestScope.maxPrice}">
                         </div>
                     </div>
 
@@ -446,6 +446,12 @@
 <!-- Sweet alert -->
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
+<!-- Jquery Validate -->
+<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
+
 <%--if controller return create successful status--%>
 <c:if test="${sessionScope.createStatus != null}">
     <script>
@@ -509,7 +515,38 @@
 <script>
     $(document).ready(function () {
         $(".footable").footable();
+
+        $.validator.addMethod('greaterThan', function (value, element, param) {
+            return this.optional(element) || parseInt(value) >= parseInt($(param).val());
+        }, 'Invalid value');
+
+
+
+
+
+            $("#form_product_search").validate({
+
+                rules: {
+                    maxPrice: {
+                        greaterThan: '#minPrice',
+                        number: true
+                    },
+                },
+                messages: {
+                    maxPrice: {
+                        greaterThan: "Max price must be greater than Min price"
+                    }
+                }
+
+            })
+
+
+
+
+
+
     });
+
 </script>
 
 <%--<!-- Alert -->--%>
