@@ -12,7 +12,6 @@ import java.sql.DriverManager;
  * @author LucasBV
  */
 public class DBUtils {
-
     private final static String SERVERNAME = "HUY\\SQLEXPRESS";//"13.215.207.31";
 
     private final static String DBNAME = "FMS";
