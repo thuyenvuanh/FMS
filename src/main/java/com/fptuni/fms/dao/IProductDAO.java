@@ -8,7 +8,6 @@ import com.fptuni.fms.paging.Pageable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /*
  *
@@ -19,7 +18,7 @@ public interface IProductDAO extends GenericDAO<Product> {
 
     Product getProduct(String id);
 
-    List<Product> getProducts(Pageable pageable, Map<String,String> searcher);
+    List<Product> getProducts(Pageable pageable);
 
     Integer insertProduct(Product product);
 
@@ -28,8 +27,6 @@ public interface IProductDAO extends GenericDAO<Product> {
     boolean deleteProduct(String id);
 
     int count();
-
-    int countBySearch(Map<String,String> searcher);
 
     ArrayList<Product> getProductsByStoreAndCategory(Store store, Category category);
 }

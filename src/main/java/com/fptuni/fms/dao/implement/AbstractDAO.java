@@ -142,7 +142,6 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                 if (rs.next()) {
                     try {
                         id = rs.getInt(1);
-                        id = 1;
                         conn.commit();
                     } catch (Exception exception) {
                         if (!rs.getString(1).isEmpty()) {

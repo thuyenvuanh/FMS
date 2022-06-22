@@ -37,14 +37,13 @@
         <link href="../../css/style.css" rel="stylesheet"/>
     </head>
     <body>
-
         <div id="wrapper">
 
             <jsp:include page="layoutAdmin.jsp"></jsp:include>
 
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
-                        <h2>Product edit</h2>
+                        <h2>Account Update</h2>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="index.html">Home</a>
@@ -53,10 +52,10 @@
                                 <a>E-commerce</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a>Products list</a>
+                                <a>Account list</a>
                             </li>
                             <li class="breadcrumb-item active">
-                                <strong>Product edit</strong>
+                                <strong>Account update</strong>
                             </li>
                         </ol>
                     </div>
@@ -68,13 +67,13 @@
                         <div class="col-lg-12">
                             <div class="tabs-container">
                                 <ul class="nav nav-tabs">
-                                    <li><a class="nav-link active" data-toggle="tab" href="#tab-1"> Account Update</a></li>
+                                    <li><a class="nav-link active" data-toggle="tab" href="#tab-1">Account update</a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
                                         <div class="panel-body">
                                             <form class="updateForm" action="${pageContext.servletContext.contextPath}/account/update" autocomplete="off">
-                                                <fieldset>
+                                            <fieldset>
                                                 <c:set var="acc" value="${requestScope.account}"></c:set>
                                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Username:</label>
                                                         <div class="col-sm-10">
@@ -108,9 +107,8 @@
                                                 </div>
                                             </fieldset>
                                             <div class="form-layout-footer text-center">
-                                                <button type="submit" id="update_product_form" class="btn btn-primary bd-0 update_product_form">Submit</button>
+                                                <button type="submit" id="update_account_form" class="btn btn-primary bd-0 update_account_form">Submit</button>
                                                 <button onclick="history.back()" type="button" class="btn btn-dark">Back to list</button>
-
                                             </div>
                                         </form>
                                     </div>
@@ -119,12 +117,11 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <jsp:include page="footer.jsp"></jsp:include>
-            </div>
+        </div>
 
-        <%--Script--%>
+        <!-- Mainly scripts -->
         <script src="../../js/jquery-3.1.1.min.js"></script>
         <script src="../../js/popper.min.js"></script>
         <script src="../../js/bootstrap.js"></script>
@@ -137,36 +134,51 @@
 
         <!-- FooTable -->
         <script src="../../js/plugins/footable/footable.all.min.js"></script>
+        <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
+
+        <!-- Mainly scripts -->
+        <script src="../js/jquery-3.1.1.min.js"></script>
+        <script src="../js/popper.min.js"></script>
+        <script src="../js/bootstrap.js"></script>
+        <script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+        <!-- Custom and plugin javascript -->
+        <script src="../js/inspinia.js"></script>
+        <script src="../js/plugins/pace/pace.min.js"></script>
+
+        <!-- FooTable -->
+        <script src="../js/plugins/footable/footable.all.min.js"></script>
 
         <!-- Page-Level Scripts -->
+        <!-- Sweet alert -->
+        <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+        <!-- Page-Level Scripts -->
         <script>
-                                                    $(document).ready(function () {
-
-                                                        $('.footable').footable();
-
-                                                    });
-
+            $(document).ready(function () {
+                $('.footable').footable();
+            });
         </script>
 
         <!-- Alert -->
         <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
         <script>
 
-                                                    $(document).ready(function () {
-                                                        $('.update_product_form').click(function () {
-                                                            swal({
-                                                                title: "Are you sure Update?",
-                                                                type: "warning",
-                                                                showCancelButton: true,
-                                                                confirmButtonColor: "#DD6B55",
-                                                                confirmButtonText: "Yes, update it!",
-                                                                closeOnConfirm: false
-                                                            });
-                                                        });
-                                                        $('.confirm').click(function () {
-                                                            $(".updateForm").submit();
-                                                        });
-                                                    });
+            $(document).ready(function () {
+                $('.update_account_form').click(function () {
+                    swal({
+                        title: "Are you sure Update?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, update it!",
+                        closeOnConfirm: false
+                    });
+                });
+                $('.confirm').click(function () {
+                    $(".updateForm").submit();
+                });
+            });
         </script>
 
         <!-- Alert -->
@@ -210,5 +222,8 @@
                         style="display: inline-block; background-color: rgb(174, 222, 244); box-shadow: rgba(174, 222, 244, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">a</button>
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+                crossorigin="anonymous"></script>
     </body>
 </html>

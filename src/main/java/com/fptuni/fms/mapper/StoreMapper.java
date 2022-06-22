@@ -1,7 +1,5 @@
-package com.fptuni.mapper;
+package com.fptuni.fms.mapper;
 
-
-import com.fptuni.fms.mapper.RowMapper;
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Store;
 
@@ -22,7 +20,10 @@ public class StoreMapper implements RowMapper<Store> {
             store = new Store();
             store.setId(rs.getInt("ID"));
             store.setName(rs.getString("Name"));
-            store.setAccountID(new Account(rs.getInt("AccountID")));
+            Account acc = new Account(rs.getInt("AccountID"));
+            acc.setFullName(rs.getString("FullName"));
+            store.setAccountID(acc);
+            store.setDeleted(rs.getBoolean("IsDeleted"));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

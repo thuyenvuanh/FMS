@@ -13,6 +13,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
         <title>Account Create</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet"/>
@@ -44,7 +46,7 @@
 
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
-                        <h2>Product edit</h2>
+                        <h2>Account Create</h2>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="index.html">Home</a>
@@ -53,10 +55,10 @@
                                 <a>E-commerce</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a>Products list</a>
+                                <a>Account list</a>
                             </li>
                             <li class="breadcrumb-item active">
-                                <strong>Product edit</strong>
+                                <strong>Account create</strong>
                             </li>
                         </ol>
                     </div>
@@ -80,18 +82,18 @@
                                                     <div class="col-sm-10"><input name="username" type="text" class="form-control" placeholder="Username"></div>
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Full Name:</label>
-                                                    <div class="col-sm-10"><input name="fullName" type="text" class="form-control" placeholder="Fullname"></div>
+                                                    <div class="col-sm-10"><input name="fullName" type="text" class="form-control" placeholder="Full Name"></div>
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Password:</label>
                                                     <div class="col-sm-10"><input name="password" type="password" class="form-control" placeholder="password"></div>
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Confirm password:</label>
-                                                    <div class="col-sm-10"><input name="cfPassword" type="password" class="form-control" placeholder=" confirm password"></div>
+                                                    <div class="col-sm-10"><input name="cfPassword" type="password" class="form-control" placeholder="Confirm password"></div>
                                                 </div>
                                                 <div class="form-group row"><label  class="col-sm-2 col-form-label">Role:</label>
                                                     <div class="col-sm-10">
                                                         <select class="form-control m-b" name="roleId">
-                                                            <c:forEach var="role" items="${requestScope.ListRole}">
+                                                            <c:forEach var="role" items="${requestScope.listRole}">
                                                                 <option value="${role.id}" ${category.id==1?"selected":""} >${role.name}</option>
                                                             </c:forEach>
                                                         </select>
@@ -112,22 +114,46 @@
 
             </div>
             <jsp:include page="footer.jsp"></jsp:include>
-            </div>
         </div>
 
-    <%--Script--%>
-    <script src="../../js/jquery-3.1.1.min.js"></script>
-    <script src="../../js/popper.min.js"></script>
-    <script src="../../js/bootstrap.js"></script>
-    <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+        <!-- Mainly scripts -->
+        <script src="../../js/jquery-3.1.1.min.js"></script>
+        <script src="../../js/popper.min.js"></script>
+        <script src="../../js/bootstrap.js"></script>
+        <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+        <!-- Custom and plugin javascript -->
+        <script src="../../js/inspinia.js"></script>
+        <script src="../../js/plugins/pace/pace.min.js"></script>
+
+        <!-- FooTable -->
+        <script src="../../js/plugins/footable/footable.all.min.js"></script>
+    <%--SweetAlert--%>
+    <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- CodeMirror -->
+    <script src="../../js/plugins/codemirror/codemirror.js"></script>
+    <script src="../../js/plugins/codemirror/mode/xml/xml.js"></script>
+    <!-- CodeMirror -->
+    <script src="../js/plugins/codemirror/codemirror.js"></script>
+    <script src="../js/plugins/codemirror/mode/xml/xml.js"></script>
+    <!-- Mainly scripts -->
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
     <!-- Custom and plugin javascript -->
-    <script src="../../js/inspinia.js"></script>
-    <script src="../../js/plugins/pace/pace.min.js"></script>
+    <script src="../js/inspinia.js"></script>
+    <script src="../js/plugins/pace/pace.min.js"></script>
 
     <!-- FooTable -->
-    <script src="../../js/plugins/footable/footable.all.min.js"></script>
+    <script src="../js/plugins/footable/footable.all.min.js"></script>
+
+    <!-- Page-Level Scripts -->
+    <!-- Sweet alert -->
+    <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
     <!-- Page-Level Scripts -->
     <script>

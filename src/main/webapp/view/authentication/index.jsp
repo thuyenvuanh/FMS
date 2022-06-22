@@ -50,7 +50,7 @@
     </div>
     <div class="col-md-6 align-items-md-center justify-content-md-start col-12 justify-content-center d-flex">
         <div class="bg-light shadow-lg rounded-3 p-4 d-flex align-items-start login-section" style="min-height: 500px;">
-            <form method="post" class="w-100" autocomplete="off">
+            <form method="post" class="w-100">
                 <p class="fw-bold fs-1 text-center mb-5 mt-3">SIGN IN</p>
                 <!--Username-->
                 <div class="mb-3">

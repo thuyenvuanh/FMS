@@ -5,7 +5,6 @@ import com.fptuni.fms.model.Product;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
 
 public interface IProductService {
     List<Product> getProducts(HttpServletRequest request, HttpServletResponse response);
@@ -21,6 +20,4 @@ public interface IProductService {
     boolean deleteProduct(String productId);
 
     int countProduct();
-
-    int countProductBySearch(HttpServletRequest request, HttpServletResponse response);
 }
