@@ -18,10 +18,15 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
     public List<Orders> getOrders(Pageable pageable, Map<String, String> searcher) {
         String sql = "SELECT ID, StoreID, Total, CreatedDate\n" +
                 "FROM Orders\n" +
-                "WHERE IsDeleted = 0 AND StoreID = ? ";
+                "WHERE IsDeleted = 0 AND StoreID =  ?" ;
         if (searcher.get("totalAmount") != null && !searcher.get("totalAmount").isEmpty())
-            sql += "AND Total = " + searcher.get("totalAmount");
-        List<Orders> orders = query(sql, new OrderMapper(), searcher.get("storeID"));
+            sql += " AND Total = " + searcher.get("totalAmount");
+        if (searcher.get("startDate") != null && !searcher.get("startDate").isEmpty())
+            sql += " AND CONVERT(VARCHAR, CreatedDate, 103)  >= CONVERT(VARCHAR, '"+searcher.get("startDate")+"', 103)";
+        if (searcher.get("endDate") != null && !searcher.get("endDate").isEmpty())
+            sql += " AND CONVERT(VARCHAR, CreatedDate, 103)  <= CONVERT(VARCHAR, '"+searcher.get("endDate")+"', 103)";
+
+        List<Orders> orders = query(sql, new OrderMapper(),searcher.get("storeID"));
         return orders;
     }
 

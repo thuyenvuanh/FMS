@@ -18,6 +18,8 @@ public interface IAccountService {
 
     String getListAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
+    String search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+
     String getAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
     String getAccountUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;

@@ -42,7 +42,7 @@
 
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
-                        <h2>Product edit</h2>
+                        <h2>Account view</h2>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="index.html">Home</a>
@@ -51,10 +51,10 @@
                                 <a>E-commerce</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a>Products list</a>
+                                <a>Account list</a>
                             </li>
                             <li class="breadcrumb-item active">
-                                <strong>Product view</strong>
+                                <strong>Account view</strong>
                             </li>
                         </ol>
                     </div>
@@ -66,7 +66,7 @@
                         <div class="col-lg-12">
                             <div class="tabs-container">
                                 <ul class="nav nav-tabs">
-                                    <li><a class="nav-link active" data-toggle="tab" href="#">Account manage</a></li>
+                                    <li><a class="nav-link active" data-toggle="tab" href="#">Account detail</a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
@@ -81,11 +81,7 @@
                                                 <div class="col-sm-10 text-align">${acc.username}</div>
                                             </div>
                                             <div class="form-group row"><label class="col-sm-2 col-form-label">Role:</label>
-                                                <div class="col-sm-10 text-align">
-                                                    <c:forEach var="role" items="${requestScope.roleList}">
-                                                        ${role.id == acc.role.id ? role.name : ""}
-                                                    </c:forEach>
-                                                </div>
+                                                <div class="col-sm-10 text-align">${acc.role.name}</div>
                                             </div>
                                             <div class="form-group row"><label class="col-sm-2 col-form-label">Status:</label>
                                                 <div class="col-sm-10 text-align">
@@ -124,10 +120,10 @@
 
             </div>
             <jsp:include page="footer.jsp"></jsp:include>
-            </div>
+        </div>
 
 
-        <%--Script--%>
+        <!-- Mainly scripts -->
         <script src="../../js/jquery-3.1.1.min.js"></script>
         <script src="../../js/popper.min.js"></script>
         <script src="../../js/bootstrap.js"></script>
@@ -140,6 +136,25 @@
 
         <!-- FooTable -->
         <script src="../../js/plugins/footable/footable.all.min.js"></script>
+        <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
+
+        <!-- Mainly scripts -->
+        <script src="../js/jquery-3.1.1.min.js"></script>
+        <script src="../js/popper.min.js"></script>
+        <script src="../js/bootstrap.js"></script>
+        <script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+        <!-- Custom and plugin javascript -->
+        <script src="../js/inspinia.js"></script>
+        <script src="../js/plugins/pace/pace.min.js"></script>
+
+        <!-- FooTable -->
+        <script src="../js/plugins/footable/footable.all.min.js"></script>
+
+        <!-- Page-Level Scripts -->
+        <!-- Sweet alert -->
+        <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
         <!-- Page-Level Scripts -->
         <script>
