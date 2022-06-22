@@ -32,16 +32,17 @@ public class StoreService implements IStoreService {
     public String create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.removeAttribute("createStatus");
-        String name = request.getParameter("name");
-        String accountId = request.getParameter("accountId");
-        Account acc = new Account(Integer.parseInt(accountId));
+        String name = request.getParameter("storeName");
+        Account accLogin = (Account) session.getAttribute("account");
+//        Account acc = new Account(accLogin.getId());
+        Account acc = new Account(1);
         Store store = new Store();
         store.setName(name);
         store.setAccountID(acc);
         Integer check = storeDAO.insertStore(store);
         if (check == null) {
             session.setAttribute("createStatus", "fail");
-            return request.getContextPath() + "/store/createPage";
+            return "/store/createPage";
         }
         session.setAttribute("createStatus", "success");
         return "/store/list";
@@ -54,7 +55,6 @@ public class StoreService implements IStoreService {
 //        request.setAttribute("listAccount", listAcc);
 //        return "/view/admin/accountCreate.jsp";
 //    }
-
     @Override
     public String getListStore(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pageIndex = 1;
@@ -115,13 +115,12 @@ public class StoreService implements IStoreService {
         session.removeAttribute("updateStatus");
         String id = request.getParameter("storeId");
         String name = request.getParameter("name");
-        String accountId = request.getParameter("accountId");
-        boolean check = storeDAO.updateStore(Integer.parseInt(id), name, Integer.parseInt(accountId));
+        boolean check = storeDAO.updateStore(Integer.parseInt(id), name);
         if (check == false) {
             session.setAttribute("updateStatus", "fail");
             return request.getContextPath() + "/store/list";
         }
-        session.setAttribute("updateStatus", "success");
+
         return "/store/list";
     }
 
@@ -136,6 +135,46 @@ public class StoreService implements IStoreService {
         if (!storeDAO.Delete(Integer.parseInt(id))) {
             session.setAttribute("deleteStatus", "fail");
         }
+        session.setAttribute("deleteStatus", "success");
         return "/store/list";
+    }
+
+    @Override
+    public String search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int pageIndex = 1;
+        int pageSize = 10;
+        String sortField = "ID";
+        boolean isAsc = true;
+        if (request.getParameter("page") != null) {
+            pageIndex = Integer.parseInt(request.getParameter("page"));
+        }
+        if (request.getParameter("sortField") != null) {
+            sortField = request.getParameter("sortField");
+        }
+        if (request.getParameter("isAscending") != null) {
+            isAsc = Boolean.parseBoolean(request.getParameter("isAscending"));
+        }
+        Sorter sorter = new Sorter(sortField, isAsc);
+        Pageable pageable = new PageRequest(pageIndex, pageSize, sorter);
+        int isDelete = Integer.parseInt(request.getParameter("status"));
+        String name = request.getParameter("name");
+        String storeManager = request.getParameter("storeManager");
+        List<Store> listStore = storeDAO.search(pageable, isDelete, name, storeManager);
+        request.setAttribute("currentPage", pageIndex);
+        request.setAttribute("sortField", sortField);
+        // Tu dong dao nguoc khi nhan nhieu lan vao sortField
+        request.setAttribute("isAsc", !isAsc);
+
+        int totalPages = storeDAO.count() / pageSize;
+        if (storeDAO.count() % pageSize != 0) {
+            totalPages++;
+        }
+        request.setAttribute("status", isDelete);
+        request.setAttribute("name", name);
+        request.setAttribute("storeManager", storeManager);
+
+        request.setAttribute("storeList", listStore);
+        request.setAttribute("totalPages", totalPages);
+        return "/view/admin/storeList.jsp";
     }
 }

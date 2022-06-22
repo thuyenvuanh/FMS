@@ -17,15 +17,16 @@ public interface IStoreDAO extends GenericDAO<Store> {
     List<Store> getStores();
 
     Store getStore(int id);
-  
+
     Integer insertStore(Store store);
-  
+
     Store getStoreByAccount(Account account);
 
-
-    boolean updateStore(int id, String name, int AccountID);
+    boolean updateStore(int id, String name);
 
     List<Store> getListStore(Pageable pageable);
+
+    List<Store> search(Pageable pageable, int isDelete, String name, String storeManager);
 
     int count();
 
