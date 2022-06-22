@@ -125,57 +125,62 @@
 
         <div class="wrapper wrapper-content animated fadeInRight ecommerce">
             <div class="ibox-content m-b-sm border-bottom">
-                <div class="row">
-
-                    <div class="col-lg-2">
-                        <div class="form-group">
-                            <label class="col-form-label" for="status"
-                            >Order status</label
-                            >
-                            <select name="status" id="status" class="form-control">
-                                <option value="" selected="">None</option>
-                                <option value="1">Online</option>
-                                <option value="0">Offline</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="col-form-label" for="status">Search by</label>
-                            <div class="input-group m-b">
-                                <div class="input-group-prepend">
-                                    <select name="" id="" class="form-control">
-                                        <option value="">Customer name</option>
-                                        <option value="">Phone</option>
-                                    </select>
-                                </div>
-                                <input type="text" class="form-control"/>
+                <c:url var="searchfield"
+                       value="${requestScope.contextPath}/customer/search"></c:url>
+                <form action="${searchfield}">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label class="col-form-label" for="status"
+                                >Order status</label
+                                >
+                                <select name="status" id="status" class="form-control">
+                                    <option value="" selected="">None</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
                             </div>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="col-form-label" for="status">Search by</label>
+                                <div class="input-group m-b">
+                                    <div class="input-group-prepend">
+                                        <select name="" id="" class="form-control">
+                                            <option value="">Customer name</option>
+                                            <option value="">Phone</option>
+                                        </select>
+                                    </div>
+                                    <input name="searchItem"
+                                           type="text" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <button name="action"
+                                    class="btn btn-outline-success float-right"
+                                    type="submit"
+                            >
+                                Search
+                            </button>
+                        </div>
                     </div>
+                </form>
 
-                    <div class="container-fluid">
-                        <button
-                                class="btn btn-outline-success float-right"
-                                type="submit"
-                        >
-                            Search
-                        </button>
-                    </div>
-                </div>
             </div>
 
-            <nav class="navbar navbar-light bg-light">
-                <div class="container-fluid">
-                    <a href="customer-create.html" class=""
-                    >
-                        <button class="btn btn-outline-primary" type="submit">
-                            Create
-                        </button>
-                    </a
-                    >
-                </div>
-            </nav>
+            <%--For create button--%>
+            <%--            <nav class="navbar navbar-light bg-light">--%>
+            <%--                <div class="container-fluid">--%>
+            <%--                    <a href="customer-create.html" class=""--%>
+            <%--                    >--%>
+            <%--                        <button class="btn btn-outline-primary" type="submit">--%>
+            <%--                            Create--%>
+            <%--                        </button>--%>
+            <%--                    </a--%>
+            <%--                    >--%>
+            <%--                </div>--%>
+            <%--            </nav>--%>
 
             <div class="row">
                 <div class="col-lg-12">
@@ -229,7 +234,8 @@
                                                                  value="${requestScope.currentPage - 1}"></c:param>
                                                         <c:param name="sortField"
                                                                  value="${requestScope.sortField}"></c:param>
-                                                        <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
+                                                        <c:param name="isAscending"
+                                                                 value="${!requestScope.isAsc}"></c:param>
                                                     </c:url>
                                                     <a
                                                             class="page-link"
@@ -246,7 +252,8 @@
                                                         <c:param name="page" value="${page}"></c:param>
                                                         <c:param name="sortField"
                                                                  value="${requestScope.sortField}"></c:param>
-                                                        <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
+                                                        <c:param name="isAscending"
+                                                                 value="${!requestScope.isAsc}"></c:param>
                                                     </c:url>
                                                     <li class="page-item ${requestScope.currentPage == page ?"active":""}">
                                                         <a class="page-link "
@@ -260,7 +267,8 @@
                                                                  value="${requestScope.currentPage + 1}"></c:param>
                                                         <c:param name="sortField"
                                                                  value="${requestScope.sortField}"></c:param>
-                                                        <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
+                                                        <c:param name="isAscending"
+                                                                 value="${!requestScope.isAsc}"></c:param>
                                                     </c:url>
                                                     <a class="page-link" href="${nextPage}" aria-label="Next">
                                                         <span aria-hidden="true">&raquo;</span>

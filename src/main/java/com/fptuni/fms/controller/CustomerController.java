@@ -17,6 +17,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,50 +31,57 @@ public class CustomerController extends HttpServlet {
             ICustomerService customerService = new CustomerService();
             String name = request.getParameter("Cusname");
             String phone = request.getParameter("Cusphone");
-            if(name != null && !name.equals("") && phone != null && !phone.equals("")){
+            if (name != null && !name.equals("") && phone != null && !phone.equals("")) {
                 ICustomerDAO customerDAO = new CustomerDAO();
                 Customer c = customerDAO.getByPhoneNum(phone);
-                if(c != null){
-                    request.setAttribute("msg-1","This phone number is already exist");
-                }else {
+                if (c != null) {
+                    request.setAttribute("msg-1", "This phone number is already exist");
+                    request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
+                            .forward(request, response);
+                } else {
                     if (customerService.addnewCustomer(request, response) == 0) {
                         request.setAttribute("createStatus", "fail");
                         request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
                                 .forward(request, response);
-                    }else {
+                    } else {
                         request.setAttribute("createStatus", "success");
                         response.sendRedirect(request.getContextPath() + "/customer/list");
                     }
                 }
             }
-        }else if(path.equals("/search")){
+        } else if (path.equals("/search")) {
             CustomerDAO customerDAO = new CustomerDAO();
-            String index = "";
-            if(request.getParameter("searchItem") != null ||
-                    !request.getParameter("searchItem").equals("")){
-                index = request.getParameter("searchItem");
+            String phoneNum = request.getParameter("searchItem");
+            System.out.println(phoneNum);
+            if (phoneNum != null &&
+                    !phoneNum.equals("")) {
+                List<Customer> customer = new ArrayList<>();
+                Customer cus = customerDAO.getByPhoneNum(phoneNum);
+                customer.add(cus);
+                request.setAttribute("customerList", customer);
+                request.getRequestDispatcher("/view/customer/Customer_List.jsp")
+                        .forward(request,response);
+            }else {
+                response.sendRedirect(request.getContextPath() + "/customer/list");
             }
-            Customer cus = customerDAO.getByPhoneNum(index);
-            request.setAttribute("list", cus);
-            RequestDispatcher rd = request.getRequestDispatcher("/");
-            rd.forward(request,response);
-            
+
         } else if (path.equals("/list")) {
             int pageSize = 3;
             ICustomerService customerService = new CustomerService();
-
-            List<Customer> customers = customerService.getList(request,response);
-            int totalPages = customerService.CountCustomer() / pageSize;
-            if (customerService.CountCustomer() % pageSize != 0){
-                totalPages++;
-            }
+//            Customer customer = (Customer) request.getAttribute("cusByPhone");
+                List<Customer> customers = customerService.getList(request, response);
             /*Change to wallet or transaction
             List<Category> categories = categoryService.getCategories();
             request.setAttribute("categories", categories);*/
-            request.setAttribute("customerList", customers);
-            request.setAttribute("totalPages", totalPages);
-            request.getRequestDispatcher("/view/customer/Customer_List.jsp")
-                    .forward(request, response);
+                int totalPages = customerService.CountCustomer() / pageSize;
+                if (customerService.CountCustomer() % pageSize != 0) {
+                    totalPages++;
+                }
+                request.setAttribute("customerList", customers);
+                request.setAttribute("totalPages", totalPages);
+                request.getRequestDispatcher("/view/customer/Customer_List.jsp")
+                        .forward(request, response);
+
         }
     }
 
