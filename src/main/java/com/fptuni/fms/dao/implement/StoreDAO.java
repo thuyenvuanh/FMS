@@ -25,6 +25,7 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
 //        List<Store> stores = query(sql, new StoreMapper(), Name);
 //        return stores.isEmpty() ? null : stores.get(0);
 //    }
+    @Override
     public Store getStoreByAccount(Account account) {
         String sql = "SELECT ID, Name FROM Store WHERE AccountID = ? AND IsDeleted = 0";
         List<Store> list = query(sql, mapper, account.getId());
@@ -108,7 +109,7 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
             orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
             sql += "ORDER BY A." + pageable.getSorter().getSortField() + " " + orderBy;
         }
-        List<Store> listStore = query(sql, new StoreMapper(), isDelete, "%"+name+"%", "%"+storeManager+"%");
+        List<Store> listStore = query(sql, new StoreMapper(), isDelete, "%" + name + "%", "%" + storeManager + "%");
         return listStore;
     }
 
