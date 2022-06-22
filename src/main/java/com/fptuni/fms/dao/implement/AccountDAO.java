@@ -16,7 +16,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
     private final AccountMapper mapper = new AccountMapper();
 
     @Override
-    public int Create(String Username, String Password, String Fullname, int RoleID) {
+    public Integer Create(String Username, String Password, String Fullname, int RoleID) {
         try {
             String hashedPassword = SecurityUtils.createHash(Password, Username);
             String sql = "INSERT INTO dbo.Account(Username, Password, Fullname, RoleID) VALUES (?,?,?,?)";
