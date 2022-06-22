@@ -19,5 +19,6 @@ public interface ITransactionShared extends GenericDAO<TransactionShared>{
     TransactionShared getLatestTransactionOf(int WalletID);
     
     List<TransactionShared> getHistoryOf(int WalletID, Boolean... isAscending);
-    
+
+    int insertTransaction(TransactionShared transactionShared);
 }
