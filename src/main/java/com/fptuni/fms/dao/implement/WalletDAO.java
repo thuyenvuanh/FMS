@@ -34,5 +34,13 @@ public class WalletDAO extends AbstractDAO<Wallet> implements IWalletDAO {
         List<Wallet> wallets = query(sql, mapper, ID);
         return wallets.isEmpty() ? null : wallets.get(0);
     }
-    
+
+    @Override
+    public Wallet getWalletWithCustomerID(int cusID) {
+        String sql = "SELECT * FROM Wallet where CustomerID = ?";
+        List<Wallet> wallets = query(sql, mapper, cusID);
+        return wallets.isEmpty() ? null : wallets.get(0);
+    }
+
+
 }

@@ -80,6 +80,15 @@ public class Orders implements Serializable {
         this.createdDate = createdDate;
     }
 
+    public BigDecimal calcTotal() {
+        BigDecimal temp = new BigDecimal(0);
+        for (OrderDetail orderDetail : this.orderDetailList) {
+            temp = temp.add(orderDetail.getAmount());
+        }
+        this.total = temp;
+        return temp;
+    }
+
     public Integer getId() {
         return id;
     }

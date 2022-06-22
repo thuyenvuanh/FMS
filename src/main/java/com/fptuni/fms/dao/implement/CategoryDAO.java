@@ -20,14 +20,15 @@ public class CategoryDAO extends AbstractDAO<Category> implements ICategoryDAO {
 
         @Override
         public List<Category> getCategories() {
-                String sql = "SELECT ID, Name, ShortName, IsDeleted FROM Category";
+                String sql = "SELECT ID, Name, ShortName, IsDeleted FROM Category" +
+                        " WHERE IsDeleted = 0";
                 return query(sql, new CategoryMapper());
         }
 
         @Override
         public Category getCategory(int id) {
                 String sql = "SELECT ID, Name, ShortName, IsDeleted FROM Category\n"
-                                + "WHERE ID = ?";
+                                + "WHERE ID = ? and IsDeleted = 0";
                 List<Category> categories = query(sql, new CategoryMapper(), id);
                 return categories.isEmpty() ? null : categories.get(0);
         }
@@ -35,14 +36,15 @@ public class CategoryDAO extends AbstractDAO<Category> implements ICategoryDAO {
         @Override
         public List<Category> getCategoryByName(String name) {
                 String sql = "SELECT ID, Name, ShortName, IsDeleted FROM Category\n"
-                                + "WHERE Name like ?";
+                                + "WHERE Name like ? and IsDeleted = 0";
                 List<Category> categories = query(sql, new CategoryMapper(), "%" + name + "%");
                 return categories.isEmpty() ? null : categories;
         }
 
         @Override
         public int count() {
-                String sql = "SELECT COUNT(ID) FROM Category";
+                String sql = "SELECT COUNT(ID) FROM Category\n" +
+                        "Where IsDeleted = 0";
                 int count = count(sql, new CategoryMapper());
                 return count;
         }
@@ -55,8 +57,8 @@ public class CategoryDAO extends AbstractDAO<Category> implements ICategoryDAO {
 
     @Override
     public int insertCategory(Category category) {
-            String sql = "INSERT INTO Category(Name, ShortName)\n"
-                    + "VALUES (?,?);";
+            String sql = "INSERT INTO Category(Name, ShortName, IsDeleted)\n"
+                    + "VALUES (?,?, 0);";
         return insert(sql, category.getName(), category.getShortName());
     }
 

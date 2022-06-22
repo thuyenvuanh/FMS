@@ -14,18 +14,49 @@ public class AccountController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getPathInfo();
-        String redirectUrl = null;
+        String url = null;
         switch (action) {
+            case "/index":
+                url = request.getContextPath();
+                response.sendRedirect(url);
+                break;
             case "/login":
-                redirectUrl = accountService.login(request, response);
+                url = accountService.login(request, response);
+                response.sendRedirect(url);
                 break;
             case "/logout":
-                redirectUrl = accountService.logout(request, response);
+                url = accountService.logout(request, response);
+                response.sendRedirect(url);
                 break;
-            default:
-                //chuyen huong den trang error
+            case "/create":
+                url = accountService.create(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
+                break;
+            case "/createPage":
+                url = accountService.getRole(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
+                break;
+            case "/list":
+                url = accountService.getListAccount(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
+                break;
+            case "/update":
+                url = accountService.update(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
+                break;
+            case "/updatePage":
+                url = accountService.getAccountUpdate(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
+                break;
+            case "/view":
+                url = accountService.getAccount(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
+                break;
+            case "/delete":
+                url = accountService.delete(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
+                break;
         }
-        response.sendRedirect(redirectUrl);
     }
 
     @Override
