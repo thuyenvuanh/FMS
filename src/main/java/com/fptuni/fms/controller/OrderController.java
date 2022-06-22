@@ -1,5 +1,7 @@
 package com.fptuni.fms.controller;
 
+import com.fptuni.fms.model.Category;
+import com.fptuni.fms.model.Product;
 import com.fptuni.fms.model.Orders;
 import com.fptuni.fms.service.IOrderService;
 import com.fptuni.fms.service.implement.OrderService;
@@ -10,26 +12,35 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @WebServlet(name = "OrderController", value = "/order/*")
 public class OrderController extends HttpServlet {
 
-    private final IOrderService orderService = new OrderService();
+    private static final OrderService orderService = new OrderService();
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+    }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        //lay order tu session hoac tao moi
         String action = request.getPathInfo();
         switch (action) {
             case "/index":
                 orderService.index(request, response);
                 break;
+            case "/category":
+                orderService.loadProducts(request, response);
+                break;
             case "/add":
-                System.out.println("Controller called: " + request.getParameter("id"));
                 orderService.addNewProduct(request, response);
                 break;
-            case "/remove":
+            case "/voidAll":
+                orderService.voidAll(request, response);
+                break;
+            case"/remove":
                 orderService.removeProduct(request, response);
                 break;
             case "/list":

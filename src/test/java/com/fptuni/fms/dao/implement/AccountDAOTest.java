@@ -5,6 +5,7 @@ import com.fptuni.fms.model.Account;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.persistence.annotations.DeleteAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,6 +36,12 @@ public class AccountDAOTest {
 
     @AfterEach
     public void tearDown() {
+    }
+
+    @Test
+    public void testCreate() {
+        AccountDAO accountDAO = new AccountDAO();
+        int check = accountDAO.Create("an", "123456", "Nguyen Nguyen An", 2);
     }
 
 //    @Test

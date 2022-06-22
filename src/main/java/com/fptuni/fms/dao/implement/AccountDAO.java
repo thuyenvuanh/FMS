@@ -18,13 +18,13 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
     @Override
     public Integer Create(String Username, String Password, String Fullname, int RoleID) {
         try {
-            String sql = "INSERT INTO dbo.Account(Username, Password, Fullname, RoleID, IsDeleted) VALUES (?,?,?,?,0)";
-            String hashPassword = SecurityUtils.createHash(Password, Username);
-            return insert(sql, Username, hashPassword, Fullname, RoleID);
+            String hashedPassword = SecurityUtils.createHash(Password, Username);
+            String sql = "INSERT INTO dbo.Account(Username, Password, Fullname, RoleID) VALUES (?,?,?,?)";
+            return insert(sql, Username, Password, Fullname, RoleID);
         } catch (Exception e) {
-            System.out.println("Database query error: " + e.getMessage());
+            System.out.println("Error on creating account: " + e.getMessage());
         }
-        return null;
+        return 0;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
             List<Account> acc = query(sql, mapper, username, hashPassword);
             return acc == null ? null : (acc.isEmpty() ? null : acc.get(0));
         } catch (Exception e) {
-            System.out.println("Database query error: " + e.getMessage());
+            System.out.println("Error on login: " + e.getMessage());
         }
         return null;
     }
@@ -108,7 +108,8 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
             sql += "ORDER BY A." + pageable.getSorter().getSortField() + " " + orderBy;
         }
 
-        List<Account> listAcc = query(sql, new AccountMapper(), isDelete, "%" + username + "%", "%" + fullName + "%", roleId);
+        List<Account> listAcc = query(sql, new AccountMapper(), isDelete, "%" + username + "%", "%" + fullName + "%",
+                roleId);
         return listAcc;
     }
 

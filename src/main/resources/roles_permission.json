@@ -1,0 +1,58 @@
+[
+  {
+    "role": "none",
+    "permissions": [
+      "/view/authentication/index.jsp",
+      "/images/Background.jpg",
+      "/account/login"
+    ]
+  },
+  {
+    "role": "Cashier",
+    "permissions": [
+      "/order/index",
+      "/order",
+      "/cashier",
+      "/payment/checkout",
+      "/pay",
+      "/account/logout",
+      "/js",
+      "/css",
+      "/img",
+      "/IMG"
+    ]
+  },
+  {
+    "role": "Store Manager",
+    "permissions": [
+      "/product/list",
+      "/product",
+      "/account/logout",
+      "/js",
+      "/css",
+      "/img",
+      "/IMG",
+      "/font-awesome"
+    ]
+  },
+  {
+    "role": "Admin",
+    "permissions": [
+      "/account/list",
+      "/account",
+      "/store",
+      "/transaction",
+      "/js",
+      "/css",
+      "/img",
+      "/IMG",
+      "/font-awesome"
+    ]
+  },
+  {
+    "role": "Counter",
+    "permissions": [
+
+    ]
+  }
+]

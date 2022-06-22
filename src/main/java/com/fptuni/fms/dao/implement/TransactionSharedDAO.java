@@ -49,4 +49,9 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
         return query(sql, mapper, WalletID);
     }
 
+    @Override
+    public int insertTransaction(TransactionShared transactionShared) {
+        return 0;
+    }
+
 }
