@@ -114,7 +114,7 @@ public class AccountService implements IAccountService {
     @Override
     public String getListAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pageIndex = 1;
-        int pageSize = 10;
+        int pageSize = 6;
         String sortField = "ID";
         boolean isAsc = true;
         if (request.getParameter("page") != null) {
@@ -149,7 +149,7 @@ public class AccountService implements IAccountService {
     @Override
     public String search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pageIndex = 1;
-        int pageSize = 10;
+        int pageSize = 6;
         String sortField = "ID";
         boolean isAsc = true;
         if (request.getParameter("page") != null) {
