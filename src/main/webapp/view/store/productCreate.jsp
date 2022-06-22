@@ -306,19 +306,28 @@
     $(document).ready(function () {
         $(".footable").footable();
 
+        $.validator.addMethod('positiveNumber',
+            function (value) {
+                return Number(value) > 0;
+            }, 'Enter a positive number.');
+
         $("#form_product_create").validate({
             rules: {
                 name: {
-                    required: true
+                    required: true,
                 },
                 price: {
-                    required: true
+                    required: true,
+                    positiveNumber: true,
+                    number: true
                 },
                 quantity: {
-                    required: true
+                    required: true,
+                    positiveNumber: true,
+                    number: true
                 },
             },
-            message: {
+            messages: {
               name: {
                   required: "Please enter product name"
               },

@@ -263,6 +263,11 @@
 <!-- Page-Level Scripts -->
 <!-- Sweet alert -->
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+<!-- Jquery Validate -->
+<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -279,6 +284,8 @@
         $(".confirm").click(function () {
             window.location = "productList.jsp";
         });
+
+        
     });
 </script>
 <script>

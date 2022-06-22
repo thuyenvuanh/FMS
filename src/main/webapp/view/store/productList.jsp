@@ -520,25 +520,42 @@
             return this.optional(element) || parseInt(value) >= parseInt($(param).val());
         }, 'Invalid value');
 
+        let selectInput = document.querySelector("#minPrice");
+
+        selectInput.addEventListener("keydown", function(e){
+            const key = e.key;
+            if(key === "Backspace"){
+                <%
+//                    request.removeAttribute("minPrice");
+                    request.setAttribute("minPrice", 0);
+                %>
+                selectInput.value = 0;
+
+                console.log(selectInput.value);
+            }
+        })
 
 
-
-
+        // if($("#minPrice").val() != "" && $("#maxPrice").val() != ""){
             $("#form_product_search").validate({
 
                 rules: {
                     maxPrice: {
                         greaterThan: '#minPrice',
-                        number: true
+                        number: true,
+                        maxlength: 9
                     },
                 },
                 messages: {
                     maxPrice: {
-                        greaterThan: "Max price must be greater than Min price"
+                        greaterThan: 'Max price must be greater than min price',
+                        maxlength: 'Invalid input cause over amount format'
                     }
                 }
 
             })
+        // }
+
 
 
 
@@ -595,5 +612,3 @@
 </body>
 
 </html>
-
-
