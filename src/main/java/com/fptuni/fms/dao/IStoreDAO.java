@@ -13,20 +13,21 @@ import java.util.List;
 public interface IStoreDAO extends GenericDAO<Store> {
 
     // Store getStore(String name);
+    //List<Store> getStores();
 
-    List<Store> getStores();
+    List<Store> getStore();
 
     Store getStore(int id);
-  
+
     Integer insertStore(Store store);
-  
-    Store getStoreByAccount(Account account);
 
     Store getStoreByAccount(Account account);
 
-    boolean updateStore(int id, String name, int AccountID);
+    boolean updateStore(int id, String name);
 
     List<Store> getListStore(Pageable pageable);
+
+    List<Store> search(Pageable pageable, int isDelete, String name, String storeManager);
 
     int count();
 

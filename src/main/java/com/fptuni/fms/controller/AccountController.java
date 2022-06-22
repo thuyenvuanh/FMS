@@ -12,7 +12,8 @@ public class AccountController extends HttpServlet {
 
     private final AccountService accountService = new AccountService();
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getPathInfo();
         String url = null;
         switch (action) {
@@ -56,6 +57,13 @@ public class AccountController extends HttpServlet {
                 url = accountService.delete(request, response);
                 request.getRequestDispatcher(url).forward(request, response);
                 break;
+            case "/search":
+                url = accountService.search(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
+                break;
+            default:
+                // chuyen huong den trang error
+                request.getRequestDispatcher("/").forward(request, response);
         }
     }
 
