@@ -74,7 +74,7 @@
                         <div id="tab-1" class="tab-pane active">
                             <div class="panel-body">
                                 <c:url var="updateProductLink" value="${requestScope.contextPath}/product/update"></c:url>
-                                <form class="updateForm" action="${updateProductLink}" autocomplete="off">
+                                <form class="updateForm" action="${updateProductLink}" autocomplete="off" enctype="multipart/form-data">
                                 <fieldset>
                                     <c:set var="productDetail" value="${requestScope.product}"></c:set>
                                     <div class="form-group row"><label class="col-sm-2 col-form-label">ID:</label>

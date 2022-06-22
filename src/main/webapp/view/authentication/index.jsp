@@ -83,7 +83,7 @@
                 <div class="mb-3">
                     <label for="loginUsername" class="form-label">Username</label>
                     <input type="text" class="form-control" id="loginUsername" placeholder="Enter username"
-                           name="username"
+                           name="username", autofocus
                            required/>
                 </div>
                 <!-- Password input -->

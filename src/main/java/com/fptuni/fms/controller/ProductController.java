@@ -10,15 +10,16 @@ import com.fptuni.fms.service.ICategoryService;
 import com.fptuni.fms.service.IProductService;
 import com.fptuni.fms.service.implement.CategoryService;
 import com.fptuni.fms.service.implement.ProductService;
+import java.io.File;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @MultipartConfig
@@ -37,8 +38,10 @@ public class ProductController extends HttpServlet {
             System.out.println(request.getParameter("test"));
             int pageSize = 5;
             List<Product> products = productService.getProducts(request, response);
-            int totalPages = productService.countProductBySearch(request,response) / pageSize;
-            if (productService.countProductBySearch(request,response) % pageSize != 0) totalPages++;
+            int totalPages = productService.countProductBySearch(request, response) / pageSize;
+            if (productService.countProductBySearch(request, response) % pageSize != 0) {
+                totalPages++;
+            }
             List<Category> categories = categoryService.getCategories();
             Store store = storeDAO.getStoreByAccount(account);
             request.setAttribute("store", store);
@@ -75,6 +78,7 @@ public class ProductController extends HttpServlet {
             request.setAttribute("categories", categories);
             request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
         } else if (path.equals("/update")) {
+            Part part;
             if (productService.updateProduct(request, response)) {
                 session.setAttribute("updateStatus", "success");
                 response.sendRedirect(request.getContextPath() + "/product/list");

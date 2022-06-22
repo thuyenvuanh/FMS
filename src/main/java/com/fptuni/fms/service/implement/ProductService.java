@@ -18,6 +18,8 @@ import com.fptuni.fms.utils.RequestUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,7 +108,8 @@ public class ProductService implements IProductService {
             price = BigDecimal.valueOf(Double.parseDouble(request.getParameter("price")));
         }
         // if (request.getParameter("imagePath") != null) {
-        String imgPath = request.getParameter("imagePath");
+//        String imgPath = request.getParameter("imagePath");
+        String imgPath = "/images/product/coca-cola-6090176__340.jpg";
         // }
         if (request.getParameter("categoryID") != null) {
             cateID = Integer.parseInt(request.getParameter("categoryID"));
@@ -170,8 +173,20 @@ public class ProductService implements IProductService {
             price = BigDecimal.valueOf(Double.parseDouble(request.getParameter("price")));
         }
         // if (request.getParameter("imagePath") != null) {
-        String imgPath = request.getParameter("imagePath") == null ? "n/a" : request.getParameter("imagePath");
+//        String imgPath = request.getParameter("imagePath") == null ? "n/a" : request.getParameter("imagePath");
+        String imgPath = "/images/product/coca-cola-6090176__340.jpg";
         // }
+        try {
+            Part filePart = request.getPart("file");
+            String fileName = "coca-cola-6090176__340.jpg";
+            for (Part part : request.getParts()) {
+                part.write("E:\\FPT\\SEM5_SWP391\\FMS\\src\\main\\webapp\\images\\" + fileName);
+            }
+
+        } catch (Exception exception) {
+
+        }
+
         if (request.getParameter("categoryID") != null) {
             cateID = Integer.parseInt(request.getParameter("categoryID"));
             // get category info by id
@@ -260,4 +275,5 @@ public class ProductService implements IProductService {
 
         return count;
     }
+
 }

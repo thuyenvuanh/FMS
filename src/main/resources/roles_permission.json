@@ -26,7 +26,10 @@
     "role": "Store Manager",
     "permissions": [
       "/product/list",
+      "/product/update",
       "/product",
+      "/order",
+      "/order/list",
       "/account/logout",
       "/js",
       "/css",
