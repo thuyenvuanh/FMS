@@ -14,6 +14,7 @@
       "/order",
       "/cashier",
       "/payment/checkout",
+      "/pay",
       "/account/logout",
       "/js",
       "/css",

@@ -14,6 +14,5 @@ public interface IOrderDAO extends GenericDAO<Orders> {
 
     Orders getOrderById(int id);
     Integer insertOrder(Orders orders);
-
     boolean updateOrder(int id, int storeID, double total, Timestamp createdDate);
 }

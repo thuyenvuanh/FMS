@@ -26,7 +26,26 @@
           integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
           crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-  <script src="../js/pay-screen.js"></script>
+  <script>
+    function dis(digit) {
+      let val = document.getElementById("result").value;
+      if (digit !== '.')
+        document.getElementById("result").value = val + digit;
+    }
+
+    //function that evaluates the digit and return result
+    //  function solve()
+    //  {
+    //      let x = document.getElementById("result").value
+    //      let y = eval(x)
+    //      document.getElementById("result").value = y
+    //  }
+
+    //function that clear the display
+    function clr() {
+      document.getElementById("result").value = ""
+    }
+  </script>
   <style>
     @media screen and (min-width: 1200px) and (min-height: 600px) {
       .show-block {
