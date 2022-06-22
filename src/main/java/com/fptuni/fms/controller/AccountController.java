@@ -58,8 +58,8 @@ public class AccountController extends HttpServlet {
                 request.getRequestDispatcher(url).forward(request, response);
                 break;
             case "/search":
-                Url = accountService.search(request, response);
-                request.getRequestDispatcher(Url).forward(request, response);
+                url = accountService.search(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
                 break;
             default:
                 // chuyen huong den trang error
