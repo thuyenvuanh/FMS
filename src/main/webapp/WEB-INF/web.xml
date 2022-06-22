@@ -12,7 +12,6 @@
         <servlet-name>cashier</servlet-name>
         <url-pattern>/cashier</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>payment</servlet-name>
         <jsp-file>/view/cashier/payment.jsp</jsp-file>
@@ -22,7 +21,6 @@
         <servlet-name>payment</servlet-name>
         <url-pattern>/pay</url-pattern>
     </servlet-mapping>
-
     <filter>
         <filter-name>authentication</filter-name>
         <filter-class>com.fptuni.fms.filters.AuthFilter</filter-class>

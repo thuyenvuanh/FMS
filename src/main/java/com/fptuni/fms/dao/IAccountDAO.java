@@ -16,7 +16,7 @@ public interface IAccountDAO extends GenericDAO<Account> {
 
     Account getAccountUpdate(int id);
 
-    int Create(String Username, String Password, String Fullname, int RoleID);
+    Integer Create(String Username, String Password, String Fullname, int RoleID);
 
     boolean Delete(String username);
 

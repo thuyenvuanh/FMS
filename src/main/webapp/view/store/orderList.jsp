@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: LEGION
   Date: 6/18/2022
@@ -6,6 +7,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -49,16 +53,54 @@
 
     <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
 
-
-
     <link href="../../css/animate.css" rel="stylesheet">
     <link href="../../css/style.css" rel="stylesheet">
+
+    <%--    --------------------%>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- FooTable -->
+    <link href="../css/plugins/footable/footable.core.css" rel="stylesheet">
+
+    <!-- Date picker -->
+    <link href="../css/plugins/iCheck/custom.css" rel="stylesheet">
+
+    <link href="../css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
+
+    <link href="../css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+    <link href="../css/plugins/cropper/cropper.min.css" rel="stylesheet">
+
+    <link href="../css/plugins/switchery/switchery.css" rel="stylesheet">
+
+    <link href="../css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+
+    <link href="../css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+    <link href="../css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+
+    <link href="../css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+    <link href="../css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+
+    <link href="../css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+
+    <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+
+    <link href="../css/plugins/touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
+
+    <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+
+    <link href="../css/animate.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
 <div id="wrapper">
     <jsp:include page="layoutStore.jsp"></jsp:include>
 
-<%--  Content  --%>
+    <%--  Content  --%>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>E-commerce orders</h2>
@@ -78,46 +120,42 @@
 
     <div class="wrapper wrapper-content animated fadeInRight ecommerce">
         <div class="ibox-content m-b-sm border-bottom">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="form-group">
-                        <label class="col-form-label" for="customer">Customer phone</label>
-                        <input type="text" class="form-control" data-mask="(000) 000-0000" placeholder="(000) 000-0000" autocomplete="off" maxlength="14">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="form-group">
-                        <label class="col-form-label" for="status">Order status</label>
-                        <select name="status" id="status" class="form-control">
-                            <option value="" selected="">None</option>
-                            <option value="1">Enabled</option>
-                            <option value="0">Disabled</option>
-                        </select>
+            <c:url var="searchFormLink" value="${requestScope.contextPath}/order/list"></c:url>
+            <form action="${searchFormLink}" method="get" autocomplete="off">
+                <div class="row">
 
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-group" id="date_range_order">
-                        <label class="col-form-label">Range Date</label>
-                        <div class="input-daterange input-group" id="datepicker">
+                    <div class="col-lg-4">
+                        <div class="form-group" id="date_range_order">
+                            <label class="col-form-label">Range Date</label>
+                            <div class="input-daterange input-group" id="datepicker">
 
-                            <input type="text" class="form-control" name="start" value="" data-mask="00/00/0000" placeholder="" autocomplete="on" maxlength="10">
-                            <span class="input-group-addon">to</span>
-                            <input type="text" class="form-control" name="end" value="" data-mask="00/00/0000" placeholder="" autocomplete="on" maxlength="10">
+                                <input type="text" class="form-control" name="startDate" id="datePickerStart"
+                                       value="${requestScope.startDate}" data-mask="00/00/0000"
+                                       placeholder="" autocomplete="on" maxlength="10">
+                                <span class="input-group-addon">to</span>
+                                <input type="text" class="form-control" name="endDate" id="datePickerEnd"
+                                       value="${requestScope.endDate}" data-mask="00/00/0000"
+                                       placeholder="" autocomplete="on" maxlength="10">
+                            </div>
+                            ${requestScope.dateError}
                         </div>
                     </div>
-                </div>
 
-                <div class="col-lg-2">
-                    <div class="form-group">
-                        <label class="col-form-label" for="amount">Amount</label>
-                        <input type="text" class="form-control" data-mask="$ 000000000.00" placeholder="" autocomplete="off" maxlength="16">
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label class="col-form-label">Amount</label>
+                            <input type="text" class="form-control" name="totalAmount"
+                                   value="${requestScope.totalAmount}"
+                                   autocomplete="off" maxlength="16">
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <button class="btn btn-outline-success  float-right"
+                                type="submit">Search
+                        </button>
                     </div>
                 </div>
-                <div class="container-fluid"><button class="btn btn-outline-success  float-right"
-                                                     type="submit">Search</button></div>
-            </div>
-
+            </form>
         </div>
         <div class="row">
             <div class="col-lg-12">
@@ -129,42 +167,35 @@
                             <tr>
 
                                 <th>Order ID</th>
-                                <th data-hide="phone">Customer</th>
                                 <th data-hide="phone">Amount</th>
                                 <th data-hide="phone">Date added</th>
-                                <th data-hide="phone">Status</th>
                                 <th class="text-right" data-sort-ignore="true">Action</th>
 
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>
-                                    3214
-                                </td>
-                                <td>
-                                    Customer example
-                                </td>
-                                <td>
-                                    $500.00
-                                </td>
-                                <td>
-                                    03/04/2015
-                                </td>
-                                <td>
-                                    <span class="label label-primary">Pending</span>
-                                </td>
-                                <td class="text-right">
-                                    <div class="btn-group">
-                                        <a href="order-detail.html"><button
-                                                class="btn-white btn btn-xs">View</button></a>
-                                    </div>
-                                </td>
-                            </tr>
-
-
-
-
+                            <c:forEach var="order" items="${requestScope.orders}">
+                                <tr>
+                                    <td>${order.id}</td>
+                                    <td>${order.total}</td>
+                                    <td>
+                                        <fmt:formatDate value="${order.createdDate}" var="formattedDate" type="date"
+                                                        pattern="dd/MM/yyyy"></fmt:formatDate>
+                                            ${formattedDate}
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                            <c:url var="viewOrderDetail"
+                                                   value="${requestScope.contextPath}/order/view"></c:url>
+                                            <a href="${viewOrderDetail}">
+                                                <button
+                                                        class="btn-white btn btn-xs">View
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                             </tbody>
                             <tfoot>
                             <tr>
@@ -198,11 +229,9 @@
         </div>
     </div>
     <jsp:include page="footer.jsp"></jsp:include>
-    </div>
-
 </div>
 
-
+</div>
 
 <%--Script--%>
 <script src="../../js/jquery-3.1.1.min.js"></script>
@@ -217,16 +246,6 @@
 
 <!-- FooTable -->
 <script src="../../js/plugins/footable/footable.all.min.js"></script>
-
-<!-- Page-Level Scripts -->
-<script>
-    $(document).ready(function () {
-
-        $('.footable').footable();
-
-    });
-
-</script>
 
 <!-- Data picker -->
 <script src="../../js/plugins/datapicker/bootstrap-datepicker.js"></script>
@@ -245,9 +264,48 @@
 
 <!-- Input Mask-->
 <script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>
+<%-------------------------------------%>
 
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
+<!-- Custom and plugin javascript -->
+<script src="../js/inspinia.js"></script>
+<script src="../js/plugins/pace/pace.min.js"></script>
 
+<!-- FooTable -->
+<script src="../js/plugins/footable/footable.all.min.js"></script>
+
+<!-- Data picker -->
+<script src="../js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+<!-- Image cropper -->
+<script src="../js/plugins/cropper/cropper.min.js"></script>
+
+<!-- Date range use moment.js same as full calendar plugin -->
+<script src="../js/plugins/fullcalendar/moment.min.js"></script>
+
+<!-- Date range picker -->
+<script src="../js/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- Tags Input -->
+<script src="../js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+
+<!-- Input Mask-->
+<script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+    $(document).ready(function () {
+
+        $('.footable').footable();
+
+    });
+
+</script>
 
 <script>
     $(document).ready(function () {
@@ -261,6 +319,11 @@
             });
         });
     });
+</script>
+<script>
+    var today = moment().format('DD/MM/YYYY');
+    $('#datePickerStart').val(today);
+    $('#datePickerEnd').val(today);
 </script>
 <!-- Date picker -->
 <div class="datepicker datepicker-dropdown dropdown-menu datepicker-orient-left datepicker-orient-bottom"

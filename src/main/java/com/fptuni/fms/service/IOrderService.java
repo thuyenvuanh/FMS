@@ -11,11 +11,13 @@ import java.util.Map;
 
 public interface IOrderService {
 
-    void index (HttpServletRequest request, HttpServletResponse response);
+    void index(HttpServletRequest request, HttpServletResponse response);
 
     void addNewProduct(HttpServletRequest request, HttpServletResponse response);
 
     void removeProduct(HttpServletRequest request, HttpServletResponse response);
 
     void voidAll(HttpServletRequest request, HttpServletResponse response);
+  
+    List<Orders> getOrders(HttpServletRequest request, HttpServletResponse response);
 }

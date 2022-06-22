@@ -2,6 +2,8 @@ package com.fptuni.fms.controller;
 
 import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Product;
+import com.fptuni.fms.model.Orders;
+import com.fptuni.fms.service.IOrderService;
 import com.fptuni.fms.service.implement.OrderService;
 
 import javax.servlet.ServletException;
@@ -41,8 +43,13 @@ public class OrderController extends HttpServlet {
             case"/remove":
                 orderService.removeProduct(request, response);
                 break;
+            case "/list":
+                List<Orders> orders = orderService.getOrders(request, response);
+
+                request.setAttribute("orders", orders);
+                request.getRequestDispatcher( "/view/store/orderList.jsp").forward(request, response);
         }
-        response.sendRedirect(request.getContextPath()+"/cashier");
+//        response.sendRedirect(request.getContextPath()+"/cashier");
     }
 
     @Override
