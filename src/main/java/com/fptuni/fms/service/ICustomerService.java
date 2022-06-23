@@ -8,11 +8,8 @@ import java.util.List;
 
 public interface ICustomerService {
     List<Customer> getList (HttpServletRequest request , HttpServletResponse response);
-
     Customer getCustomerByPhoneNum (String PhoneNum);
-
     Integer addnewCustomer (HttpServletRequest request , HttpServletResponse response);
-    
     Integer CountCustomer ();
-
+    Integer DeleteCustomer(String phoneNum);
 }

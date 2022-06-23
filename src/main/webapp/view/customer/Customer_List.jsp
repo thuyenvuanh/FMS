@@ -205,16 +205,17 @@
 
                                 <c:forEach var="list" items="${requestScope.customerList}">
                                     <tr>
-                                        <td>${list.name}</td>
+                                        <td><a id="detail">${list.name}</a></td>
                                         <td class="text-left">${list.phone}</td>
                                         <td>
-                                            <span class="label label-primary">Alive</span>
+                                            <span class="label label-primary">Active</span>
                                         </td>
 
                                         <td class="text-right">100k</td>
-                                    </tr>
-                                </c:forEach>
 
+                                    </tr>
+
+                                </c:forEach>
                                 </tbody>
 
                                 <tfoot>
@@ -318,5 +319,7 @@
         $(".footable").footable();
     });
 </script>
+
+
 </body>
 </html>

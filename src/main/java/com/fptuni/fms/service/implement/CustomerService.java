@@ -42,7 +42,6 @@ public class CustomerService implements ICustomerService {
         request.setAttribute("sortField", sortField);
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
         request.setAttribute("isAsc", !isAsc);
-
         return customers;
     }
 
@@ -78,5 +77,12 @@ public class CustomerService implements ICustomerService {
     public Integer CountCustomer() {
         ICustomerDAO customerDAO = new CustomerDAO();
         return customerDAO.count();
+    }
+
+    @Override
+    public Integer DeleteCustomer(String phoneNum) {
+        ICustomerDAO customerDAO = new CustomerDAO();
+        int isDeleted = customerDAO.deleteCus(phoneNum);
+        return isDeleted;
     }
 }

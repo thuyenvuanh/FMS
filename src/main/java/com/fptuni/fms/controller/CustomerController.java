@@ -82,6 +82,13 @@ public class CustomerController extends HttpServlet {
                 request.getRequestDispatcher("/view/customer/Customer_List.jsp")
                         .forward(request, response);
 
+        } else if(path.equals("/remove")){
+            String phoneNum = request.getParameter("");
+            ICustomerDAO customerDAO = new CustomerDAO();
+            int isDeleted = customerDAO.deleteCus(phoneNum);
+            if (isDeleted == 1){
+
+            }
         }
     }
 
