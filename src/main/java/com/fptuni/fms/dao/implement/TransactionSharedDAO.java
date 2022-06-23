@@ -44,9 +44,18 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
     public List<TransactionShared> getHistoryOf(int WalletID, Boolean... isAscending) {
         String sql =  "select * from TransactionShared\n"
                     + "where TransactionShared.WalletID = ?\n"
-                    + "order by TransactionCreate\n";
+                    + "order by CreatedDate\n";
         sql += ((isAscending[0] != null && isAscending[0]) ? "ASC" : "DESC");
         return query(sql, mapper, WalletID);
+    }
+
+    @Override
+    public TransactionShared getLatestTransaction() {
+        String sql =  "select top(1) * from TransactionShared\n"
+                + "order by TransacitonShared.CreatedDate\n"
+                + "DESC";
+        List<TransactionShared> list = query(sql, mapper);
+        return list == null ? null : list.get(0);
     }
 
     @Override
