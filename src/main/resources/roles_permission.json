@@ -14,6 +14,7 @@
       "/order/index",
       "/order",
       "/payment/checkout",
+      "/category/category",
       "/pay",
       "/account/logout",
       "/js",
