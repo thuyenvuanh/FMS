@@ -60,17 +60,11 @@ public class CategoryService implements ICategoryService {
             for (Category category : categories) {
                 if (String.valueOf(category.getId()).equals(catID)){
                     currentCate = category;
-                    request.getSession().setAttribute("currentCate", currentCate);
                     break;
                 }
             }
         }
-//        Category currentCate = (Category) request.getSession().getAttribute("currentCate");
-//        if (currentCate == null) {
-//            currentCate = categories.get(0);
-//
-//        }
-
+        request.getSession().setAttribute("currentCate", currentCate);
         List<Product> products = categoryListMap.get(currentCate);
         request.getSession().setAttribute("products", products);
 

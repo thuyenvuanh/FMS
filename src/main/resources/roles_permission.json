@@ -16,6 +16,7 @@
       "/payment/checkout",
       "/category/category",
       "/pay",
+      "/payment/create",
       "/account/logout",
       "/js",
       "/css",

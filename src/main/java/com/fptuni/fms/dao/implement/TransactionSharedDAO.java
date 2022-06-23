@@ -34,7 +34,7 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
     public TransactionShared getLatestTransactionOf(int WalletID) {
         String sql =  "select top(1) * from TransactionShared\n"
                     + "where TransactionShared.WalletID = ?\n"
-                    + "order by TransacitonShared.CreatedDate\n"
+                    + "order by TransactionShared.CreatedDate\n"
                     + "DESC";
         List<TransactionShared> list = query(sql, mapper, WalletID);
         return list.isEmpty() ? null : list.get(0);
@@ -52,15 +52,26 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
     @Override
     public TransactionShared getLatestTransaction() {
         String sql =  "select top(1) * from TransactionShared\n"
-                + "order by TransacitonShared.CreatedDate\n"
+                + "order by TransactionShared.CreatedDate\n"
                 + "DESC";
         List<TransactionShared> list = query(sql, mapper);
-        return list == null ? null : list.get(0);
+        return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
     public int insertTransaction(TransactionShared transactionShared) {
-        return 0;
+        String sql = "INSERT INTO TransactionShared (Amount, WalletID, PreviousHash, HashValue, PreviousBalance, CreatedDate, Status, MoneyTransactionID, PaymentID)\n" +
+                "values (?,?,?,?,?,?,?,?,?)";
+        return insert(sql,
+                transactionShared.getAmount(),
+                transactionShared.getWalletID().getId(),
+                transactionShared.getPreviousHash(),
+                transactionShared.getHashValue(),
+                transactionShared.getPreviousBalance(),
+                transactionShared.getCreatedDate(),
+                transactionShared.getStatus(),
+                transactionShared.getMoneyTransactionID() == null ? null : transactionShared.getMoneyTransactionID().getId(),
+                transactionShared.getPaymentID() == null ? null: transactionShared.getPaymentID().getId());
     }
 
 }

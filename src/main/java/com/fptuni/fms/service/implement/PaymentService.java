@@ -43,10 +43,16 @@ public class PaymentService implements IPaymentService {
                     String previousHash = latest == null ? "00000000000000000000000000000000" : latest.getHashValue();
                     TransactionShared newTransaction = new TransactionShared(-1, payment.getAmount(), previousHash, null, balance, orders.getCreatedDate());
                     newTransaction.setHashValue(SecurityUtils.createHash(newTransaction.toString(), String.valueOf(newTransaction.getCreatedDate().getTime())));
+                    newTransaction.setPaymentID(payment);
+                    newTransaction.setMoneyTransactionID(null);
+                    newTransaction.setPreviousBalance(balance);
+                    newTransaction.setStatus(true);
+                    newTransaction.setWalletID(wallet);
                     //insert order, orderDetail, payment and transaction to database;
                     orderDAO.insertOrder(orders);
                     orders.getOrderDetailList().forEach(orderDetail -> orderDetailDAO.createOrderDetail(orderDetail));
                     paymentDAO.insertPayment(payment);
+                    transactionSharedDAO.insertTransaction(newTransaction);
                     //
 
                 } else throw new Exception("Balance insufficient");
