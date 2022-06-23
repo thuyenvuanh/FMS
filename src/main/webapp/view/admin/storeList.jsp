@@ -119,7 +119,7 @@
                                                 <a href="${sort}&sortField=fullName">Store Manager</a>
                                             </th>
                                             <th data-hide="phone" data-sort-ignore="true">Status</th>
-                                            <th data-hide="phone" data-sort-ignore="true">Action</th>
+                                            <th class="text-right" data-sort-ignore="true">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>

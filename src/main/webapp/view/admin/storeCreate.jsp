@@ -74,14 +74,14 @@
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
                                         <div class="panel-body">
-                                            <form class="createForm" action="${requestScope.contextPath}/store/create" autocomplete="off">
+                                            <form class="createForm" action="${pageContext.servletContext.contextPath}/store/create" autocomplete="off">
                                                 <fieldset>
                                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
                                                         <div class="col-sm-10"><input name="storeName" type="text" class="form-control" placeholder="Store name"></div>
                                                     </div>
                                                 </fieldset>
                                                 <div class="form-layout-footer text-center">
-                                                    <button class="btn btn-primary bd-0" id="create_store_form" formaction="<c:url value="/store/create"/>">Submit Form</button>
+                                                    <button type="submit" class="btn btn-primary bd-0 create_store_form" id="create_store_form">Submit</button>
                                                     <button onclick="history.back()" type="button" class="btn btn-dark">Cancel</button>
                                                 </div>
                                             </form>

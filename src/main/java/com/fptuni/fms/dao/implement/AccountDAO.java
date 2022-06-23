@@ -64,7 +64,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         // Neu chon sortField khac thi cac Product moi trang se thay doi
         // Vi du: sortField = ID ==> list ID ASC ==> paging
         String sql = "SELECT * FROM \n"
-                + "(SELECT Account.ID, Username, FullName, RoleID, Name "
+                + "(SELECT Account.ID, Username, FullName, RoleID, Name, Account.IsDeleted "
                 + "FROM Account Join Role On Account.RoleID = Role.ID "
                 + "WHERE Account.IsDeleted = 0\n";
         String orderBy;
@@ -91,7 +91,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         // Neu chon sortField khac thi cac Product moi trang se thay doi
         // Vi du: sortField = ID ==> list ID ASC ==> paging
         String sql = "SELECT * FROM \n"
-                + "(SELECT Account.ID, Username, FullName, RoleID, Name "
+                + "(SELECT Account.ID, Username, FullName, RoleID, Name, Account.IsDeleted "
                 + "FROM Account Join Role On Account.RoleID = Role.ID "
                 + "WHERE Account.IsDeleted = ? AND Username LIKE ? AND FullName LIKE ? AND RoleID = ?\n";
         String orderBy;

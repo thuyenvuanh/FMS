@@ -4,8 +4,6 @@
  */
 package com.fptuni.fms.service.implement;
 
-import com.fptuni.fms.dao.IStoreDAO;
-import com.fptuni.fms.dao.implement.AccountDAO;
 import com.fptuni.fms.dao.implement.StoreDAO;
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Store;
@@ -120,7 +118,7 @@ public class StoreService implements IStoreService {
             session.setAttribute("updateStatus", "fail");
             return request.getContextPath() + "/store/list";
         }
-
+        session.setAttribute("updateStatus", "success");
         return "/store/list";
     }
 

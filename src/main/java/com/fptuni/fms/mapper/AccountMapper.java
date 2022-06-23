@@ -29,6 +29,8 @@ public class AccountMapper implements RowMapper<Account> {
                     acc.setFullName(rs.getString(i));
                 if (metaData.getColumnLabel(i).equals("RoleID"))
                     acc.setRole(new Role(rs.getInt(i)));
+                if (metaData.getColumnLabel(i).equals("Name"))
+                    acc.getRole().setName(rs.getString(i));
                 if (metaData.getColumnLabel(i).equals("IsDeleted"))
                     acc.setDeleted(rs.getBoolean(i));
             }

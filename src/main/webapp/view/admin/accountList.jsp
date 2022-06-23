@@ -1,6 +1,5 @@
-<%@ page import="java.util.ArrayList" %>
+
 <%@ page import="com.fptuni.fms.model.Account" %>
-<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -307,9 +306,6 @@
                 $('.footable').footable();
             });
         </script>
-
-        <!-- Sweet alert -->
-        <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
         <!-- ------- -->
         <!-- Alert -->
