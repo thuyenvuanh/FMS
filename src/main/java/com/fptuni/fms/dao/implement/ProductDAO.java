@@ -101,6 +101,12 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
     }
 
     @Override
+    public ArrayList<Product> getProductsByStore(Store store) {
+        String sql = "SELECT [ID], [Name], [Price], [ImagePath], [QtyAvailable], [StoreID], [CateID]\n" +
+                "FROM Product\n" +
+                "WHERE StoreID = ? AND IsDeleted = 0";
+        return (ArrayList<Product>) query(sql, new ProductMapper(), store.getId());
+    }
     public ArrayList<Product> getProductsByStoreAndCategory(Store store, Category category) {
         String sql = "SELECT ID, Name, Price, ImagePath, QtyAvailable, StoreID, CateID WHERE StoreID = ? AND CateID = ? AND IsDeleted = 0";
         return (ArrayList<Product>) query(sql, new ProductMapper(), store.getId(), category.getId());

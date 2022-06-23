@@ -69,6 +69,20 @@ public class OrderDetail implements Serializable {
         this.quantity = quantity;
     }
 
+    public void increaseOne() {
+        this.quantity++;
+        calcAmount();
+    }
+    public void decreaseOne() {
+        this.quantity--;
+        calcAmount();
+    }
+
+    public BigDecimal calcAmount() {
+        this.amount = this.price.multiply(new BigDecimal(this.quantity));
+        return this.amount;
+    }
+
     public OrderDetail(int orderID, String proID) {
         this.orderDetailPK = new OrderDetailPK(orderID, proID);
     }

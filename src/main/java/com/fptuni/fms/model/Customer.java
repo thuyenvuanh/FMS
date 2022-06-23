@@ -88,6 +88,11 @@ public class Customer implements Serializable {
         this.gender = gender;
     }
 
+    public Customer(String name, String phoneNum) {
+        this.name = name;
+        this.phone = phoneNum;
+    }
+
     public Integer getId() {
         return id;
     }
