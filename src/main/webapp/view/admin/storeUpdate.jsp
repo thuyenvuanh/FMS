@@ -91,7 +91,7 @@
                                                 </div>
                                             </fieldset>
                                             <div class="form-layout-footer text-center">
-                                                <button type="submit" id="update_store_form" class="btn btn-primary bd-0 update_store_form">Submit</button>
+                                                <button type="button" id="update_store_form" class="btn btn-primary bd-0 update_store_form">Submit</button>
                                                 <button onclick="history.back()" type="button" class="btn btn-dark">Back to list</button>
                                             </div>
                                         </form>

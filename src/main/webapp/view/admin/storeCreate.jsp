@@ -81,7 +81,7 @@
                                                     </div>
                                                 </fieldset>
                                                 <div class="form-layout-footer text-center">
-                                                    <button type="submit" class="btn btn-primary bd-0 create_store_form" id="create_store_form">Submit</button>
+                                                    <button type="button" class="btn btn-primary bd-0 create_store_form" id="create_store_form">Submit</button>
                                                     <button onclick="history.back()" type="button" class="btn btn-dark">Cancel</button>
                                                 </div>
                                             </form>

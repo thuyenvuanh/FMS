@@ -32,11 +32,9 @@ public class StoreService implements IStoreService {
         session.removeAttribute("createStatus");
         String name = request.getParameter("storeName");
         Account accLogin = (Account) session.getAttribute("account");
-//        Account acc = new Account(accLogin.getId());
-        Account acc = new Account(1);
         Store store = new Store();
         store.setName(name);
-        store.setAccountID(acc);
+        store.setAccountID(accLogin);
         Integer check = storeDAO.insertStore(store);
         if (check == null) {
             session.setAttribute("createStatus", "fail");

@@ -72,7 +72,8 @@
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
                                         <div class="panel-body">
-                                            <form class="updateForm" action="${pageContext.servletContext.contextPath}/account/update" autocomplete="off">
+                                            <c:url var="updateAccountLink" value="${requestScope.contextPath}/account/update"></c:url>
+                                            <form class="updateForm" action="${updateAccountLink}" autocomplete="off">
                                             <fieldset>
                                                 <c:set var="acc" value="${requestScope.account}"></c:set>
                                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Username:</label>
@@ -107,7 +108,7 @@
                                                 </div>
                                             </fieldset>
                                             <div class="form-layout-footer text-center">
-                                                <button type="submit" id="update_account_form" class="btn btn-primary bd-0 update_account_form">Submit</button>
+                                                <button type="button" id="update_account_form" class="btn btn-primary bd-0 update_account_form">Submit</button>
                                                 <button onclick="history.back()" type="button" class="btn btn-dark">Back to list</button>
                                             </div>
                                         </form>
@@ -121,65 +122,6 @@
             <jsp:include page="footer.jsp"></jsp:include>
         </div>
 
-        <!-- Mainly scripts -->
-        <script src="../../js/jquery-3.1.1.min.js"></script>
-        <script src="../../js/popper.min.js"></script>
-        <script src="../../js/bootstrap.js"></script>
-        <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-        <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-        <!-- Custom and plugin javascript -->
-        <script src="../../js/inspinia.js"></script>
-        <script src="../../js/plugins/pace/pace.min.js"></script>
-
-        <!-- FooTable -->
-        <script src="../../js/plugins/footable/footable.all.min.js"></script>
-        <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
-
-        <!-- Mainly scripts -->
-        <script src="../js/jquery-3.1.1.min.js"></script>
-        <script src="../js/popper.min.js"></script>
-        <script src="../js/bootstrap.js"></script>
-        <script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-        <script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-        <!-- Custom and plugin javascript -->
-        <script src="../js/inspinia.js"></script>
-        <script src="../js/plugins/pace/pace.min.js"></script>
-
-        <!-- FooTable -->
-        <script src="../js/plugins/footable/footable.all.min.js"></script>
-
-        <!-- Page-Level Scripts -->
-        <!-- Sweet alert -->
-        <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
-        <!-- Page-Level Scripts -->
-        <script>
-            $(document).ready(function () {
-                $('.footable').footable();
-            });
-        </script>
-
-        <!-- Alert -->
-        <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
-        <script>
-
-            $(document).ready(function () {
-                $('.update_account_form').click(function () {
-                    swal({
-                        title: "Are you sure Update?",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Yes, update it!",
-                        closeOnConfirm: false
-                    });
-                });
-                $('.confirm').click(function () {
-                    $(".updateForm").submit();
-                });
-            });
-        </script>
 
         <!-- Alert -->
         <div class="sweet-overlay" tabindex="-1" style="opacity: -0.03; display: none;"></div>
@@ -222,8 +164,65 @@
                         style="display: inline-block; background-color: rgb(174, 222, 244); box-shadow: rgba(174, 222, 244, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">a</button>
             </div>
         </div>
+
+        <!-- Mainly scripts -->
+        <script src="../../js/jquery-3.1.1.min.js"></script>
+        <script src="../../js/popper.min.js"></script>
+        <script src="../../js/bootstrap.js"></script>
+        <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+        <!-- Custom and plugin javascript -->
+        <script src="../../js/inspinia.js"></script>
+        <script src="../../js/plugins/pace/pace.min.js"></script>
+
+        <!-- FooTable -->
+        <script src="../../js/plugins/footable/footable.all.min.js"></script>
+        <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
+
+        <!-- Mainly scripts -->
+        <script src="../js/jquery-3.1.1.min.js"></script>
+        <script src="../js/popper.min.js"></script>
+        <script src="../js/bootstrap.js"></script>
+        <script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+        <!-- Custom and plugin javascript -->
+        <script src="../js/inspinia.js"></script>
+        <script src="../js/plugins/pace/pace.min.js"></script>
+
+        <!-- FooTable -->
+        <script src="../js/plugins/footable/footable.all.min.js"></script>
+
+        <!-- Page-Level Scripts -->
+        <!-- Sweet alert -->
+        <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+        <!-- Page-Level Scripts -->
+        <script>
+
+                                            $(document).ready(function () {
+                                                $('.update_account_form').click(function () {
+                                                    swal({
+                                                        title: "Are you sure Update?",
+                                                        type: "info",
+                                                        showCancelButton: true,
+                                                        confirmButtonColor: "#DD6B55",
+                                                        confirmButtonText: "Yes, update it!",
+                                                        closeOnConfirm: false,
+                                                    });
+                                                });
+                                                $('.confirm').click(function () {
+                                                    $(".updateForm").submit();
+                                                });
+                                            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('.footable').footable();
+            });
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-                crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     </body>
 </html>
