@@ -21,6 +21,7 @@ public class PaymentController extends HttpServlet {
                 break;
             case "/create":
                 paymentService.makePayment(request);
+                url = request.getContextPath() +"/cashier   ";
                 break;
         }
         response.sendRedirect(url);

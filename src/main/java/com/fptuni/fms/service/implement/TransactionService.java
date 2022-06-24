@@ -6,6 +6,9 @@ import com.fptuni.fms.service.ITransactionService;
 import com.fptuni.fms.utils.SecurityUtils;
 
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 
 public class TransactionService implements ITransactionService {
@@ -28,10 +31,30 @@ public class TransactionService implements ITransactionService {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         }
+        return null;
+    }
 
+    @Override
+    public TransactionShared getLatestTransaction() {
+        TransactionShared transactionShared = null;
+        TransactionSharedDAO dao = new TransactionSharedDAO();
+        transactionShared = dao.getLatestTransaction();
+        if (transactionShared != null){
+            String target = transactionShared.toString();
+            String salt = String.valueOf(transactionShared.getCreatedDate().getTime());
+            String compareString = transactionShared.getHashValue();
+            try {
+                if (SecurityUtils.validateHash(target, salt, compareString)){
+                    return transactionShared;
+                }
+            } catch (NoSuchAlgorithmException e) {
+                System.out.println("Cannot hash");
+            } catch (InvalidKeySpecException e) {
+                System.out.println("Invalid Key Spec");
+            }
+        }
         return null;
     }
 

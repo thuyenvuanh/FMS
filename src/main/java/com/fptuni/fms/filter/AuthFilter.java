@@ -56,24 +56,11 @@ public class AuthFilter implements Filter {
                 ((HttpServletResponse) response).sendError(403, "This account do not meet requirements to access this site");
             }
         }
-//        if (account == null) {
-//            if (hasPermission(request, response, chain, svl, pInfo, available)) {
-//                chain.doFilter(request, response);
-//            } else {
-//            }
-//        } else {
-//            if (hasPermission(request, response, chain, svl, pInfo, available))
-//                chain.doFilter(request, response);
-//            else
-//                ((HttpServletResponse) response).sendError(403, "This account do not meet requirements to access this site");
-//        }
     }
 
     private boolean hasPermission(String svl, String pInfo) throws IOException, ServletException {
 
         Optional<String> value = available.stream().filter(s -> svl.contains(s) || (svl+pInfo).contains(s)).findFirst();
         return value.isPresent();
-
-//        return available.stream().anyMatch(s -> s.equals(svl) || s.equals(svl + pInfo));
     }
 }
