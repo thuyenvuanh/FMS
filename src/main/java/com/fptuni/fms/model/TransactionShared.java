@@ -200,7 +200,10 @@ public class TransactionShared implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fptuni.fms.model.TransactionShared[ id=" + id + " ]";
+        return String.valueOf(id) + String.valueOf(amount) + String.valueOf(walletID) + String.valueOf(previousHash)
+                + String.valueOf(previousBalance) + String.valueOf(createdDate.getTime()) + String.valueOf(status)
+                + String.valueOf(moneyTransactionID == null ? "" : moneyTransactionID.getId())
+                + String.valueOf(paymentID == null ? "": paymentID.getId());
     }
 
 }

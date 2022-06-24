@@ -43,7 +43,7 @@ public class SecurityUtils {
 
 
     //Compares the plain input string with the hashed output
-    public static boolean validateHash(String target, String salt, String goodHash) throws Exception {
+    public static boolean validateHash(String target, String salt, String goodHash) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
 
         byte[] saltBytes = fromHex(mix(salt,target));

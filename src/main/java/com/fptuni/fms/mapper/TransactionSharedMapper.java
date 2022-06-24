@@ -26,14 +26,14 @@ public class TransactionSharedMapper implements RowMapper<TransactionShared> {
         try {
             result = new TransactionShared(rs.getInt("ID"));
             result.setAmount(rs.getBigDecimal("Amount"));
-            result.setWalletID(rs.getObject("WalletID", Wallet.class));
+            result.setWalletID(new Wallet(rs.getInt("WalletID")));
             result.setPreviousHash(rs.getString("PreviousHash"));
             result.setHashValue(rs.getString("HashValue"));
             result.setPreviousBalance(rs.getBigDecimal("PreviousBalance"));
             result.setCreatedDate(rs.getDate("CreatedDate"));
             result.setStatus(rs.getBoolean("Status"));
-            result.setMoneyTransactionID(rs.getObject("MoneyTransactionID", MoneyTransaction.class));
-            result.setPaymentID(rs.getObject("PaymentID", Payment.class));
+            result.setMoneyTransactionID(new MoneyTransaction(rs.getInt("MoneyTransactionID")));
+            result.setPaymentID(new Payment(rs.getInt("PaymentID")));
         } catch (SQLException ex) {
             Logger.getLogger(TransactionSharedMapper.class.getName()).log(Level.SEVERE, null, ex);
         }

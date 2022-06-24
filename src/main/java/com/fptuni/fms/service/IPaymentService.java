@@ -5,6 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface IPaymentService {
 
-    public void makePayment(HttpServletRequest request, HttpServletResponse response);
+    public void makePayment(HttpServletRequest request);
 
 }

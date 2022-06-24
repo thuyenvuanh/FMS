@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AuthFilter implements Filter {
     private static HashMap<String, List<String>> servletMapper;
@@ -54,22 +56,13 @@ public class AuthFilter implements Filter {
                 ((HttpServletResponse) response).sendError(403, "This account do not meet requirements to access this site");
             }
         }
-//        if (account == null) {
-//            if (hasPermission(request, response, chain, svl, pInfo, available)) {
-//                chain.doFilter(request, response);
-//            } else {
-//            }
-//        } else {
-//            if (hasPermission(request, response, chain, svl, pInfo, available))
-//                chain.doFilter(request, response);
-//            else
-//                ((HttpServletResponse) response).sendError(403, "This account do not meet requirements to access this site");
-//        }
     }
 
     private boolean hasPermission(String svl, String pInfo) throws IOException, ServletException {
-        if (available.stream().anyMatch(s -> s.equals(svl) || s.equals(svl + pInfo)))
-            return true;
-        return false;
+
+        Optional<String> value = available.stream().filter(s -> svl.contains(s) || (svl+pInfo).contains(s)).findFirst();
+        return value.isPresent();
+
+//        return available.stream().anyMatch(s -> s.equals(svl) || s.equals(svl + pInfo));
     }
 }

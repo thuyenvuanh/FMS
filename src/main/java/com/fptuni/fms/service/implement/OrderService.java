@@ -13,10 +13,14 @@ import com.fptuni.fms.paging.PageRequest;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.IOrderService;
 import com.fptuni.fms.sort.Sorter;
+import com.sun.javaws.exceptions.ErrorCodeResponseException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -41,39 +45,7 @@ public class OrderService implements IOrderService {
             request.getSession().setAttribute("productsMap", loadData(request));
         }
 
-        loadProducts(request, response);
-    }
-
-    public void loadProducts(HttpServletRequest request, HttpServletResponse response) {
-        Map<Category, List<Product>> categoryListMap = (Map<Category, List<Product>>) request.getSession().getAttribute("productsMap");
-        List<Category> categories = (List<Category>) request.getSession().getAttribute("categories");
-        if (categories == null) {
-            categories = new ArrayList<Category>(categoryListMap.keySet());
-            request.getSession().setAttribute("categories", categories);
-        }
-        String catID = request.getParameter("catID");
-        Category currentCate = null;
-        if (catID == null){
-            currentCate = categories.get(0);
-        }
-        else {
-            for (Category category : categories) {
-                if (String.valueOf(category.getId()).equals(catID)){
-                    currentCate = category;
-                    request.getSession().setAttribute("currentCate", currentCate);
-                    break;
-                }
-            }
-        }
-//        Category currentCate = (Category) request.getSession().getAttribute("currentCate");
-//        if (currentCate == null) {
-//            currentCate = categories.get(0);
-//
-//        }
-
-        List<Product> products = categoryListMap.get(currentCate);
-        request.getSession().setAttribute("products", products);
-
+        new CategoryService().loadProducts(request, response);
     }
 
     @Override
