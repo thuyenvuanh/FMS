@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package com.fptuni.fms.model;
 
 import java.io.Serializable;
@@ -20,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -53,6 +53,8 @@ public class Store implements Serializable {
     @JoinColumn(name = "AccountID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Account accountID;
+    @NotNull
+    private boolean isDeleted;
 
     public Store() {
     }
@@ -101,6 +103,14 @@ public class Store implements Serializable {
 
     public void setAccountID(Account accountID) {
         this.accountID = accountID;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override

@@ -1,16 +1,22 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package com.fptuni.fms.controller;
 
 import com.fptuni.fms.service.IStoreService;
 import com.fptuni.fms.service.implement.StoreService;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
 import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "StoreController", value = "/store/*")
+@WebServlet(name = "StoreController", urlPatterns = {"/store/*"})
 public class StoreController extends HttpServlet {
 
-    private final IStoreService storeService = new StoreService();
+    private final StoreService storeService = new StoreService();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,6 +50,10 @@ public class StoreController extends HttpServlet {
                 Url = storeService.delete(request, response);
                 request.getRequestDispatcher(Url).forward(request, response);
                 break;
+            case "/search":
+                Url = storeService.search(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
+                break;
             default:
             //chuyen huong den trang error
         }
@@ -52,12 +62,12 @@ public class StoreController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 }

@@ -108,14 +108,14 @@ public class AccountService implements IAccountService {
     public String getRole(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RoleDAO role = new RoleDAO();
         List<Role> listRole = role.getListRole();
-        request.setAttribute("ListRole", listRole);
+        request.setAttribute("listRole", listRole);
         return "/view/admin/accountCreate.jsp";
     }
 
     @Override
     public String getListAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pageIndex = 1;
-        int pageSize = 10;
+        int pageSize = 5;
         String sortField = "ID";
         boolean isAsc = true;
         if (request.getParameter("page") != null) {
@@ -141,7 +141,51 @@ public class AccountService implements IAccountService {
         }
         RoleDAO role = new RoleDAO();
         List<Role> listRole = role.getListRole();
-        request.setAttribute("roleList", role);
+        request.setAttribute("roleList", listRole);
+        request.setAttribute("accountList", listAcc);
+        request.setAttribute("totalPages", totalPages);
+        return "/view/admin/accountList.jsp";
+    }
+
+    @Override
+    public String search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int pageIndex = 1;
+        int pageSize = 6;
+        String sortField = "ID";
+        boolean isAsc = true;
+        if (request.getParameter("page") != null) {
+            pageIndex = Integer.parseInt(request.getParameter("page"));
+        }
+        if (request.getParameter("sortField") != null) {
+            sortField = request.getParameter("sortField");
+        }
+        if (request.getParameter("isAscending") != null) {
+            isAsc = Boolean.parseBoolean(request.getParameter("isAscending"));
+        }
+        Sorter sorter = new Sorter(sortField, isAsc);
+        Pageable pageable = new PageRequest(pageIndex, pageSize, sorter);
+        int isDelete = Integer.parseInt(request.getParameter("status"));
+        String username = request.getParameter("username");
+        String fullName = request.getParameter("fullName");
+        int roleId = Integer.parseInt(request.getParameter("roleId"));
+        List<Account> listAcc = accountDAO.search(pageable, isDelete, username, fullName, roleId);
+        request.setAttribute("currentPage", pageIndex);
+        request.setAttribute("sortField", sortField);
+        // Tu dong dao nguoc khi nhan nhieu lan vao sortField
+        request.setAttribute("isAsc", !isAsc);
+
+        int totalPages = accountDAO.count() / pageSize;
+        if (accountDAO.count() % pageSize != 0) {
+            totalPages++;
+        }
+        request.setAttribute("status", isDelete);
+        request.setAttribute("username", username);
+        request.setAttribute("fullName", fullName);
+        request.setAttribute("roleId", roleId);
+
+        RoleDAO role = new RoleDAO();
+        List<Role> listRole = role.getListRole();
+        request.setAttribute("roleList", listRole);
         request.setAttribute("accountList", listAcc);
         request.setAttribute("totalPages", totalPages);
         return "/view/admin/accountList.jsp";
@@ -156,7 +200,6 @@ public class AccountService implements IAccountService {
             return "/account/list";
         }
         Account acc = accountDAO.getAccount(Integer.parseInt(accountID));
-        request.setAttribute("roleList", listRole);
         request.setAttribute("account", acc);
         return "/view/admin/accountView.jsp";
     }
