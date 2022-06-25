@@ -125,7 +125,6 @@
                 </button>
             </a>
         </div>
-        <img src="../images/product/fried-rice-1762493_960_720.jpg" style="max-width: 30%">
     </nav>
     <%--    Create--%>
 

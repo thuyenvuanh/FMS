@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AuthFilter implements Filter {
     private static HashMap<String, List<String>> servletMapper;
-    private static List<String> available = new ArrayList<>();
+    private static final List<String> available = new ArrayList<>();
 
     public void init(FilterConfig config) throws ServletException {
         try {

@@ -29,6 +29,7 @@
     "permissions": [
       "/product/list",
       "/product/update",
+      "/product/upload",
       "/product",
       "/order",
       "/order/list",

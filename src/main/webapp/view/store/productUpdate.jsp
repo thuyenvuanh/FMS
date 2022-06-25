@@ -73,68 +73,91 @@
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane active">
                             <div class="panel-body">
-                                <c:url var="updateProductLink" value="${requestScope.contextPath}/product/update"></c:url>
-                                <form class="updateForm" action="${updateProductLink}" autocomplete="off" enctype="multipart/form-data">
-                                <fieldset>
-                                    <c:set var="productDetail" value="${requestScope.product}"></c:set>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">ID:</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="id" value="${productDetail.id}" readonly/>
+                                <c:url var="updateProductLink" value="/product/update"></c:url>
+                                <%--                                <form action="${updateProductLink}" method="post" enctype="multipart/form-data">--%>
+                                <%--                                    <input type="file" name="imagePath" >--%>
+                                <%--                                    <input type="submit" value="UP">--%>
+                                <%--                                </form>--%>
+                                <form class="updateForm" action="${updateProductLink}" autocomplete="off"
+                                      enctype="multipart/form-data" method="post">
+                                    <fieldset>
+                                        <c:set var="productDetail" value="${requestScope.product}"></c:set>
+                                        <div class="form-group row"><label class="col-sm-2 col-form-label">ID:</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" name="id"
+                                                       value="${productDetail.id}" readonly/>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
-                                        <div class="col-sm-10 ">
-                                            <input type="text" class="form-control" name="name" value="${productDetail.name}"/>
+                                        <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
+                                            <div class="col-sm-10 ">
+                                                <input type="text" class="form-control" name="name"
+                                                       value="${productDetail.name}"/>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Price:</label>
-                                        <div class="col-sm-10 ">
-                                            <input type="number" class="form-control" name="price" value="${productDetail.price}"/>
+                                        <div class="form-group row"><label
+                                                class="col-sm-2 col-form-label">Price:</label>
+                                            <div class="col-sm-10 ">
+                                                <input type="number" class="form-control" name="price"
+                                                       value="${productDetail.price}"/>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Image:</label>
-                                        <div class="col-sm-10 ">
-                                            <img src="${productDetail.imagePath}" alt="${productDetail.name}"
-                                                 style="width: 35%"/>
-                                            <div class="input-group col-sm-3">
-                                                <div class="mb-3">
-                                                    <input class="form-control" type="file" id="formFileMultiple"
-                                                           name="imagePath" placeholder="${productDetail.imagePath}" multiple>
+                                        <div class="form-group row"><label
+                                                class="col-sm-2 col-form-label">Image:</label>
+                                            <div class="col-sm-10 ">
+                                                <img src="${productDetail.imagePath}" alt="${productDetail.name}"
+                                                     style="width: 35%"/>
+                                                <div class="input-group col-sm-3">
+                                                    <div class="mb-3">
+<%--                                                        <input class="form-control" type="file" id="formFileMultiple"--%>
+<%--                                                               name="imagePath" placeholder="${productDetail.imagePath}"--%>
+<%--                                                               multiple>--%>
+                                                        <input type="file" name="imagePath" id="imagePath">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Category</label>
-                                        <div class="col-sm-10">
-                                            <select name="categoryID" class="form-control">
-                                                <c:forEach var="category" items="${requestScope.categories}">
-                                                    <option  value="${category.id}" ${category.id == productDetail.cateID.id ? "selected" : ""}>${category.name}</option>
-                                                </c:forEach>
-                                            </select>
+                                        <div class="form-group row"><label
+                                                class="col-sm-2 col-form-label">Category</label>
+                                            <div class="col-sm-10">
+                                                <select name="categoryID" class="form-control">
+                                                    <c:forEach var="category" items="${requestScope.categories}">
+                                                        <option value="${category.id}" ${category.id == productDetail.cateID.id ? "selected" : ""}>${category.name}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Available quantity:</label>
-                                        <div class="col-sm-10 ">
-                                            <input type="number" name="quantity" class="form-control" value="${productDetail.qtyAvailable}"/>
+                                        <div class="form-group row"><label class="col-sm-2 col-form-label">Available
+                                            quantity:</label>
+                                            <div class="col-sm-10 ">
+                                                <input type="number" name="quantity" class="form-control"
+                                                       value="${productDetail.qtyAvailable}"/>
+                                            </div>
                                         </div>
-                                    </div>
-                                </fieldset>
-                                <div class="form-layout-footer text-center">
-                                    <button
-                                            type="button"
-                                            id="create_product_form"
-                                            class="btn btn-primary bd-0 create_product_form"
-                                    >
-                                        Submit
-                                    </button>
-                                    <a href="${requestScope.contextPath}/view/store/productList.jsp">
-                                        <button class="btn btn-secondary bd-0">
-                                            Cancel
+                                    </fieldset>
+                                    <div class="form-layout-footer text-center">
+                                        <button
+                                                type="submit"
+                                                id="create_product_form"
+                                                class="btn btn-primary bd-0 create_product_form"
+                                        >
+                                            Submit
                                         </button>
-                                    </a
-                                    >
-                                </div>
+                                        <a href="${requestScope.contextPath}/view/store/productList.jsp">
+                                            <button class="btn btn-secondary bd-0">
+                                                Cancel
+                                            </button>
+                                        </a
+                                        >
+                                    </div>
                                 </form>
+                                <c:url var="uploadImgLink" value="/product/upload"></c:url>
+                                <form id="uploadForm" action="${uploadImgLink}" method="post" enctype="multipart/form-data">
+                                    <input type="file" name="imagePath" id="file">
+                                    <input type="hidden" name="id" value="${productDetail.id}">
+                                    <input type="submit" value="Upload" name="upload" id="upload" />
+                                </form>
+<%--                                <input id="ajaxfile" type="file"/> <br/>--%>
+<%--                                <button onclick="uploadFile();"> Upload</button>--%>
                             </div>
                         </div>
                     </div>
@@ -261,6 +284,7 @@
             });
             $(".confirm").click(function () {
                 $(".updateForm").submit();
+                // $(".img-form").submit();
             });
         });
     </script>
@@ -268,6 +292,18 @@
         $(document).ready(function () {
             $(".footable").footable();
         });
+    </script>
+    <script>
+        async function uploadFile() {
+            let formData = new FormData();
+            formData.append("image", ajaxfile.files[0]);
+            await fetch('product/upload', {
+                method: "POST",
+                body: formData
+            });
+            alert('The file upload with Ajax and Java was a success!');
+        }
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

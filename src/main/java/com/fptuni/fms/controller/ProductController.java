@@ -10,14 +10,13 @@ import com.fptuni.fms.service.ICategoryService;
 import com.fptuni.fms.service.IProductService;
 import com.fptuni.fms.service.implement.CategoryService;
 import com.fptuni.fms.service.implement.ProductService;
-import java.io.File;
+
+import java.io.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
@@ -34,6 +33,7 @@ public class ProductController extends HttpServlet {
         ICategoryService categoryService = new CategoryService();
         IStoreDAO storeDAO = new StoreDAO();
         Account account = (Account) session.getAttribute("account");
+        System.out.println("path: " + path);
         if (path.equals("/list")) {
             System.out.println(request.getParameter("test"));
             int pageSize = 5;
@@ -78,16 +78,23 @@ public class ProductController extends HttpServlet {
             request.setAttribute("categories", categories);
             request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
         } else if (path.equals("/update")) {
-            Part part;
             if (productService.updateProduct(request, response)) {
                 session.setAttribute("updateStatus", "success");
                 response.sendRedirect(request.getContextPath() + "/product/list");
-            } else {
+            }
+            else {
                 List<Category> categories = categoryService.getCategories();
                 request.setAttribute("categories", categories);
                 session.setAttribute("updateStatus", "fail");
                 request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
             }
+        } else if (path.equals("/upload")) {
+            ProductService ps = new ProductService();
+            ps.saveUploadFile(request, response);
+//            response.sendRedirect(request.getContextPath() + "/product/list");
+//            StringWriter sWriter = new StringWriter();
+//            PrintWriter out = new PrintWriter(sWriter);
+//            response.getWriter().print(sWriter.toString());
         } else if (path.equals("/delete")) {
             String productID = request.getParameter("productID");
             System.out.println(productID);

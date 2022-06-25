@@ -15,16 +15,20 @@ import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.sort.Sorter;
 import com.fptuni.fms.utils.RequestUtils;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import java.io.File;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+
+import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 public class ProductService implements IProductService {
 
@@ -120,7 +124,7 @@ public class ProductService implements IProductService {
             ArrayList<Product> products = productDAO.getProductsByStoreAndCategory(new Store(storeID), new Category(cateID));
             subID = products.size() + 1;
             // concat short name and the next Id
-            id = category.getShortName() + String.valueOf(subID);
+            id = category.getShortName() + subID;
         }
         if (request.getParameter("quantity") != null) {
             quantity = Short.parseShort(request.getParameter("quantity"));
@@ -156,6 +160,7 @@ public class ProductService implements IProductService {
         Store store = storeDAO.getStoreByAccount(account);
         String id = "";
         String name = "";
+        String imgPath = "";
         BigDecimal price = BigDecimal.valueOf(0.0);
         // String imgPath = "";
         int cateID = 1;
@@ -172,21 +177,10 @@ public class ProductService implements IProductService {
         if (request.getParameter("price") != null) {
             price = BigDecimal.valueOf(Double.parseDouble(request.getParameter("price")));
         }
-        // if (request.getParameter("imagePath") != null) {
-//        String imgPath = request.getParameter("imagePath") == null ? "n/a" : request.getParameter("imagePath");
-        String imgPath = "/images/product/coca-cola-6090176__340.jpg";
-        // }
-        try {
-            Part filePart = request.getPart("file");
-            String fileName = "coca-cola-6090176__340.jpg";
-            for (Part part : request.getParts()) {
-                part.write("E:\\FPT\\SEM5_SWP391\\FMS\\src\\main\\webapp\\images\\" + fileName);
-            }
-
-        } catch (Exception exception) {
-
+        saveUploadFile(request, response);
+        if (request.getParameter("imagePath") != null) {
+            imgPath = request.getParameter("imagePath");
         }
-
         if (request.getParameter("categoryID") != null) {
             cateID = Integer.parseInt(request.getParameter("categoryID"));
             // get category info by id
@@ -205,7 +199,7 @@ public class ProductService implements IProductService {
                     }
                 }
                 // concat short name and the next Id
-                id = category.getShortName() + String.valueOf(subID + 1);
+                id = category.getShortName() + (subID + 1);
             }
         }
         if (request.getParameter("quantity") != null) {
@@ -216,15 +210,88 @@ public class ProductService implements IProductService {
         request.setAttribute("product", product);
         // force all of these param not null except Image
         // Key = param name | Value = param value
-        Map<String, String> paramMap = RequestUtils.getParameters(request.getQueryString());
-        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-            if (entry.getKey().equals("imagePath"))
-                continue;
-            else if (entry.getValue().isEmpty())
-                return false;
-        }
+//        Map<String, String> paramMap = RequestUtils.getParameters(request.getQueryString());
+//        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+//            if (entry.getKey().equals("imagePath"))
+//                continue;
+//            else if (entry.getValue().isEmpty())
+//                return false;
+//        }
 
         return productDAO.updateProduct(product);
+    }
+
+    public void saveUploadFile(HttpServletRequest request, HttpServletResponse response) {
+//        String UPLOAD_DIR = "images/product";
+        String UPLOAD_DIR = "images";
+        Part part = null;
+        try {
+//            part = request.getPart("image");
+//            String fileName = part.getSubmittedFileName();
+//            int index = request.getServletContext().getRealPath("").indexOf("target");
+//            String uploadPath = request.getServletContext().getRealPath("").substring(0, index) + "src\\main\\webapp\\" + UPLOAD_DIR;
+//            File uploadDir = new File(uploadPath);
+//            if (!uploadDir.exists()) uploadDir.mkdir();
+//            // Save to directory
+//            for (Part p : request.getParts()) {
+//                p.write(uploadPath + File.separator + fileName);
+//            }
+//            // Save to DB
+//            System.out.println("pro:" + request.getParameter("productID"));
+
+
+            int index = request.getServletContext().getRealPath("").indexOf("target");
+            String uploadPath = request.getServletContext().getRealPath("").substring(0, index) + "src\\main\\webapp\\" + UPLOAD_DIR;
+            final Part filePart = request.getPart("imagePath");
+            final String fileName = getFileName(filePart);
+            String proID = request.getParameter("id");
+            System.out.println("------" + proID);
+            OutputStream out = null;
+            InputStream filecontent = null;
+            final PrintWriter writer = response.getWriter();
+
+            try {
+                out = new FileOutputStream(new File(uploadPath + File.separator
+                        + fileName));
+                filecontent = filePart.getInputStream();
+
+                int read = 0;
+                final byte[] bytes = new byte[1024];
+
+                while ((read = filecontent.read(bytes)) != -1) {
+                    out.write(bytes, 0, read);
+                }
+
+            } catch (FileNotFoundException fne) {
+                System.out.println("You either did not specify a file to upload or are "
+                        + "trying to upload a file to a protected or nonexistent "
+                        + "location." + fne.getMessage());
+            } finally {
+                if (out != null) {
+                    out.close();
+                }
+                if (filecontent != null) {
+                    filecontent.close();
+                }
+                if (writer != null) {
+                    writer.close();
+                }
+//                response.sendRedirect(request.getContextPath() + "/product/list");
+            }
+        } catch (IOException | ServletException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private String getFileName(final Part part) {
+        final String partHeader = part.getHeader("content-disposition");
+        LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
     }
 
     @Override
