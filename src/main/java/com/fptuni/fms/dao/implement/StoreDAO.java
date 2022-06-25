@@ -33,7 +33,7 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
     }
 
     @Override
-    public List<Store> getStore() {
+    public List<Store> getStores() {
         String sql = "SELECT Store.ID, Name, Store.AccountID, Account.FullName from Store\n"
                 + "Join Account on Store.AccountID = Account.ID\n";
         List<Product> products = query(sql, new ProductMapper());
