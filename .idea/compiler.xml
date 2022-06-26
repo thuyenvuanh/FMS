@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="FMS" options="-endorseddirs D:\FPT-Edu\Summer_2022\SWP391\FMS\target/endorsed" />
+      <module name="FMS" options="-endorseddirs &quot;D:\FPT-edu\Summer 2022\SWP\FMS\target/endorsed&quot;" />
     </option>
   </component>
 </project>

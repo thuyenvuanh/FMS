@@ -60,14 +60,10 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
     }
 
     @Override
-    public Integer deleteCus(String phoneNum) {
+    public boolean deleteCus(String phoneNum) {
         String sql = " UPDATE [dbo].[Customer]\n" +
-                " SET IsDeleted = 1\n" +
+                " SET IsDeleted = 'true'\n" +
                 " WHERE Phone = ? ";
-        boolean isUpdate = update(sql, phoneNum);
-        if(isUpdate == true){
-            return 1;
-        }
-        return 0;
+        return update(sql, phoneNum);
     }
 }

@@ -82,7 +82,7 @@ public class CustomerService implements ICustomerService {
     @Override
     public Integer DeleteCustomer(String phoneNum) {
         ICustomerDAO customerDAO = new CustomerDAO();
-        int isDeleted = customerDAO.deleteCus(phoneNum);
-        return isDeleted;
+        customerDAO.deleteCus(phoneNum);
+        return 1;
     }
 }

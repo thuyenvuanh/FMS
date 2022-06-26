@@ -169,19 +169,6 @@
 
             </div>
 
-            <%--For create button--%>
-            <%--            <nav class="navbar navbar-light bg-light">--%>
-            <%--                <div class="container-fluid">--%>
-            <%--                    <a href="customer-create.html" class=""--%>
-            <%--                    >--%>
-            <%--                        <button class="btn btn-outline-primary" type="submit">--%>
-            <%--                            Create--%>
-            <%--                        </button>--%>
-            <%--                    </a--%>
-            <%--                    >--%>
-            <%--                </div>--%>
-            <%--            </nav>--%>
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox">
@@ -203,9 +190,14 @@
                                 </thead>
                                 <tbody>
 
+                                <%--For listing--%>
                                 <c:forEach var="list" items="${requestScope.customerList}">
+<%--                                    <c:url var="delete"--%>
+<%--                                           value="${request.getContextPath}/customer/delete?phonenum=${list.phone}">--%>
+<%--                                    </c:url>--%>
                                     <tr>
-                                        <td><a id="detail">${list.name}</a></td>
+                                        <td><a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}">
+                                                ${list.name}</a></td>
                                         <td class="text-left">${list.phone}</td>
                                         <td>
                                             <span class="label label-primary">Active</span>

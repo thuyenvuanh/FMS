@@ -52,7 +52,7 @@ public class CustomerController extends HttpServlet {
         } else if (path.equals("/search")) {
             CustomerDAO customerDAO = new CustomerDAO();
             String phoneNum = request.getParameter("searchItem");
-            System.out.println(phoneNum);
+//            System.out.println(phoneNum);
             if (phoneNum != null &&
                     !phoneNum.equals("")) {
                 List<Customer> customer = new ArrayList<>();
@@ -83,11 +83,17 @@ public class CustomerController extends HttpServlet {
                         .forward(request, response);
 
         } else if(path.equals("/remove")){
-            String phoneNum = request.getParameter("");
+            String phoneNum = request.getParameter("phonenum");
             ICustomerDAO customerDAO = new CustomerDAO();
-            int isDeleted = customerDAO.deleteCus(phoneNum);
-            if (isDeleted == 1){
-
+            ICustomerService customerService = new CustomerService();
+            List<Customer> customers = customerService.getList(request, response);
+            for ( Customer customer : customers ){
+                if( customer.getPhone().equals(phoneNum) )
+                {
+                    customerService.DeleteCustomer(phoneNum);
+                    System.out.println(customerService.DeleteCustomer(phoneNum));
+                    response.sendRedirect(request.getContextPath() + "/customer/list");
+                }
             }
         }
     }
