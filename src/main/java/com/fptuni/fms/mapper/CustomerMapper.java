@@ -19,6 +19,7 @@ public class CustomerMapper implements RowMapper<Customer>{
             if(rs.getString("phone") != null){
                 cus.setPhone((rs.getString("phone")));
             }
+
         }
         catch (Exception e){
             System.out.println(e.getMessage());

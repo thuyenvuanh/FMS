@@ -192,21 +192,26 @@
 
                                 <%--For listing--%>
                                 <c:forEach var="list" items="${requestScope.customerList}">
-<%--                                    <c:url var="delete"--%>
-<%--                                           value="${request.getContextPath}/customer/delete?phonenum=${list.phone}">--%>
-<%--                                    </c:url>--%>
                                     <tr>
-                                        <td><a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}">
-                                                ${list.name}</a></td>
-                                        <td class="text-left">${list.phone}</td>
                                         <td>
-                                            <span class="label label-primary">Active</span>
-                                        </td>
+                                            <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}">
+                                                    ${list.name}</a></td>
+                                        <td class="text-left">${list.phone}</td>
+                                        <c:choose>
+                                            <c:when test="${requestScope.isDeleted == 0}">
+                                                <td>
+                                                    <span class="label label-primary">Active</span>
+                                                </td>
+                                            </c:when>
+                                            <c:when test="${requestScope.isDeleted == 1}">
+                                                <td>
+                                                    <span class="label label-primary">Inactive</span>
+                                                </td>
+                                            </c:when>
+                                        </c:choose>
 
-                                        <td class="text-right">100k</td>
-
+                                        <td class="text-right">100$</td>
                                     </tr>
-
                                 </c:forEach>
                                 </tbody>
 

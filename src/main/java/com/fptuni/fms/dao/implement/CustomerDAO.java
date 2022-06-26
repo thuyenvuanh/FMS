@@ -23,10 +23,7 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
             sql += " OFFSET " + pageable.getOffset() + " ROWS\n" +
                     " FETCH NEXT " + pageable.getLimit() + " ROWS ONLY  \n";
         }
-        /*if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
-            order = pageable.getSorter().isAscending() ? "ASC" : "DESC";
-            sql += "ORDER BY " + pageable.getSorter().getSortField() + " " + order;
-        }*/
+
         List<Customer> cus = query(sql, new CustomerMapper());
         return cus.isEmpty() ? null : cus;
     }

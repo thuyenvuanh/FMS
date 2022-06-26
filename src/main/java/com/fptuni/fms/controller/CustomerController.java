@@ -60,38 +60,42 @@ public class CustomerController extends HttpServlet {
                 customer.add(cus);
                 request.setAttribute("customerList", customer);
                 request.getRequestDispatcher("/view/customer/Customer_List.jsp")
-                        .forward(request,response);
-            }else {
+                        .forward(request, response);
+            } else {
                 response.sendRedirect(request.getContextPath() + "/customer/list");
             }
 
         } else if (path.equals("/list")) {
             int pageSize = 3;
             ICustomerService customerService = new CustomerService();
-//            Customer customer = (Customer) request.getAttribute("cusByPhone");
-                List<Customer> customers = customerService.getList(request, response);
+            List<Customer> customers = customerService.getList(request, response);
             /*Change to wallet or transaction
             List<Category> categories = categoryService.getCategories();
             request.setAttribute("categories", categories);*/
-                int totalPages = customerService.CountCustomer() / pageSize;
-                if (customerService.CountCustomer() % pageSize != 0) {
-                    totalPages++;
-                }
-                request.setAttribute("customerList", customers);
-                request.setAttribute("totalPages", totalPages);
-                request.getRequestDispatcher("/view/customer/Customer_List.jsp")
-                        .forward(request, response);
+            int totalPages = customerService.CountCustomer() / pageSize;
+            if (customerService.CountCustomer() % pageSize != 0) {
+                totalPages++;
+            }
+            request.setAttribute("customerList", customers);
+            if(request.getAttribute("isDeleted") == null){
+                request.setAttribute("isDeleted", "0");
+            }else {
+                request.setAttribute("isDeleted", request.getAttribute("isDeleted"));
+            }
+            request.setAttribute("totalPages", totalPages);
+            request.getRequestDispatcher("/view/customer/Customer_List.jsp")
+                    .forward(request, response);
 
-        } else if(path.equals("/remove")){
+        } else if (path.equals("/remove")) {
             String phoneNum = request.getParameter("phonenum");
             ICustomerDAO customerDAO = new CustomerDAO();
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
-            for ( Customer customer : customers ){
-                if( customer.getPhone().equals(phoneNum) )
-                {
-                    customerService.DeleteCustomer(phoneNum);
-                    System.out.println(customerService.DeleteCustomer(phoneNum));
+            for (Customer customer : customers) {
+                int index = 0;
+                if (customer.getPhone().equals(phoneNum)) {
+                    index = customerService.DeleteCustomer(phoneNum);
+                    request.setAttribute("isDeleted", index);
                     response.sendRedirect(request.getContextPath() + "/customer/list");
                 }
             }
