@@ -16,8 +16,11 @@ public class CustomerMapper implements RowMapper<Customer>{
             if(rs.getString("Name") != null){
                 cus.setName(rs.getString("Name"));
             }
-            if(rs.getString("phone") != null){
+            if(rs.getString("Phone") != null){
                 cus.setPhone((rs.getString("phone")));
+            }
+            if(rs.getString("isDeleted") != null){
+                cus.setIsDeleted(rs.getBoolean("isDeleted"));
             }
 
         }

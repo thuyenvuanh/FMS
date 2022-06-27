@@ -198,18 +198,17 @@
                                                     ${list.name}</a></td>
                                         <td class="text-left">${list.phone}</td>
                                         <c:choose>
-                                            <c:when test="${requestScope.isDeleted == 0}">
+                                            <c:when test="${list.isDeleted == false}">
                                                 <td>
                                                     <span class="label label-primary">Active</span>
                                                 </td>
                                             </c:when>
-                                            <c:when test="${requestScope.isDeleted == 1}">
+                                            <c:when test="${list.isDeleted == true}">
                                                 <td>
                                                     <span class="label label-primary">Inactive</span>
                                                 </td>
                                             </c:when>
                                         </c:choose>
-
                                         <td class="text-right">100$</td>
                                     </tr>
                                 </c:forEach>

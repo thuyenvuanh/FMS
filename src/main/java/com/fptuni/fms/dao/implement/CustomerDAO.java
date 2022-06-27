@@ -11,7 +11,7 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
 
     @Override
     public List<Customer> getAllCustomer(Pageable pageable) {
-        String sql = "select Name , Phone\n" +
+        String sql = "select Name , Phone , IsDeleted\n" +
                 "from [dbo].[Customer]\n";
 
         String order;

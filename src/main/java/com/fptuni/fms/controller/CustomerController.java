@@ -12,6 +12,7 @@ import com.fptuni.fms.service.implement.CategoryService;
 import com.fptuni.fms.service.implement.CustomerService;
 import com.fptuni.fms.service.implement.ProductService;
 import com.sun.xml.internal.ws.addressing.EPRSDDocumentFilter;
+import org.eclipse.persistence.sessions.Session;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -27,6 +28,7 @@ public class CustomerController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         System.out.println(path);
+        HttpSession session = request.getSession();
         if (path.equals("/addcustomer")) {
             ICustomerService customerService = new CustomerService();
             String name = request.getParameter("Cusname");
@@ -77,10 +79,10 @@ public class CustomerController extends HttpServlet {
                 totalPages++;
             }
             request.setAttribute("customerList", customers);
-            if(request.getAttribute("isDeleted") == null){
+            if(session.getAttribute("isDeleted") == null){
                 request.setAttribute("isDeleted", "0");
             }else {
-                request.setAttribute("isDeleted", request.getAttribute("isDeleted"));
+                request.setAttribute("isDeleted", session.getAttribute("isDeleted"));
             }
             request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("/view/customer/Customer_List.jsp")
@@ -88,17 +90,22 @@ public class CustomerController extends HttpServlet {
 
         } else if (path.equals("/remove")) {
             String phoneNum = request.getParameter("phonenum");
-            ICustomerDAO customerDAO = new CustomerDAO();
+//            ICustomerDAO customerDAO = new CustomerDAO();
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
+            int index = 0;
+
             for (Customer customer : customers) {
-                int index = 0;
                 if (customer.getPhone().equals(phoneNum)) {
                     index = customerService.DeleteCustomer(phoneNum);
-                    request.setAttribute("isDeleted", index);
-                    response.sendRedirect(request.getContextPath() + "/customer/list");
+//                    request.setAttribute("isDeleted", index);
+//                    session.setAttribute("isDeleted", index);
+//                    response.sendRedirect(request.getContextPath() + "/customer/list");
+                    break;
                 }
             }
+//            session.setAttribute("isDeleted", index);
+            response.sendRedirect(request.getContextPath() + "/customer/list");
         }
     }
 
