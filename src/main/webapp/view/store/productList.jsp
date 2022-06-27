@@ -3,6 +3,8 @@
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <!-- Mirrored from webapplayers.com/inspinia_admin-v2.9.4/ecommerce_product_list.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jun 2022 04:37:12 GMT -->
@@ -202,7 +204,8 @@
                                     <td>
                                         <img src="${product.imagePath}" alt="${product.name}" style="width: 35%"/>
                                     </td>
-                                    <td>${product.price}</td>
+                                    <fmt:setLocale value="vi_VN"/>
+                                    <td><fmt:formatNumber value="${product.price}" type="currency"/></td>
                                     <td>${product.qtyAvailable}</td>
                                     <c:if test="${product.qtyAvailable != 0}">
                                         <td>
