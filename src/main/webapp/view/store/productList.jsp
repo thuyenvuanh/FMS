@@ -28,6 +28,14 @@
     <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
+    <!-- Select2 -->
+    <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+    <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+    <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+    <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+
     <!-- FooTable -->
     <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
 
@@ -64,7 +72,13 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label class="col-form-label" for="product_name">Category</label>
-                        <select name="categoryID" class="form-control">
+<%--                        <select name="categoryID" class="select_category form-control">--%>
+<%--                            <option value="0">All</option>--%>
+<%--                            <c:forEach var="category" items="${requestScope.categories}">--%>
+<%--                                <option value="${category.id}" ${requestScope.categoryID == category.id ? "selected":"" }>${category.name}</option>--%>
+<%--                            </c:forEach>--%>
+<%--                        </select>--%>
+                        <select name="categoryID" class="select_category form-control" data-select2-id="6" tabindex="-1" aria-hidden="true">
                             <option value="0">All</option>
                             <c:forEach var="category" items="${requestScope.categories}">
                                 <option value="${category.id}" ${requestScope.categoryID == category.id ? "selected":"" }>${category.name}</option>
@@ -414,6 +428,8 @@
 <!-- FooTable -->
 <script src="../../js/plugins/footable/footable.all.min.js"></script>
 <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="../js/plugins/footable/footable.all.min.js"></script>
+<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <!-- Mainly scripts -->
 <script src="../js/jquery-3.1.1.min.js"></script>
@@ -436,6 +452,9 @@
 <!-- Page-Level Scripts -->
 <!-- Sweet alert -->
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<%-- Select2 --%>
+<script src="../js/plugins/select2/select2.full.min.js"></script>
 
 <!-- Jquery Validate -->
 <script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -507,6 +526,9 @@
     $(document).ready(function () {
         $(".footable").footable();
 
+        $(".select_category").select2({
+            theme: 'bootstrap4',
+        });
         // $.validator.addMethod('greaterThan', function (value, element, param) {
         //     return this.optional(element) || parseInt(value) >= parseInt($(param).val());
         // }, 'Invalid value');

@@ -11,9 +11,6 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
-    <!-- FooTable -->
-    <link href="../css/plugins/footable/footable.core.css" rel="stylesheet"/>
-
     <link href="../css/animate.css" rel="stylesheet"/>
     <link href="../css/style.css" rel="stylesheet"/>
     <!-- Sweet Alert -->
@@ -24,6 +21,7 @@
 
     <!-- FooTable -->
     <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
+    <link href="../css/plugins/footable/footable.core.css" rel="stylesheet"/>
 
     <link href="../../css/animate.css" rel="stylesheet"/>
     <link href="../../css/style.css" rel="stylesheet"/>
@@ -68,37 +66,50 @@
                         <div id="tab-1" class="tab-pane active">
                             <div class="panel-body">
 
-                                <fieldset>
-                                    <c:set var="productDetail" value="${requestScope.product}"></c:set>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">ID:</label>
-                                        <div class="col-sm-10 text-align">${productDetail.id}</div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
-                                        <div class="col-sm-10 text-align">${productDetail.name}</div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Price:</label>
-                                        <fmt:setLocale value="vi_VN"/>
-                                        <div class="col-sm-10 text-align"><fmt:formatNumber value="${product.price}" type="currency"/></div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Image:</label>
+                                <div class="ibox">
+                                    <div class="ibox-content">
+                                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
 
-                                        <div class="col-sm-10 text-align">
-                                            <img src="${productDetail.imagePath}" alt="${productDetail.name}"
-                                                 style="width: 35%"/>
-                                        </div>
+                                            <thead>
+                                            <tr>
+                                                <th data-toggle="true" data-sort-ignore="true">ID</th>
+
+                                                <th data-sort-ignore="true">Name</th>
+
+                                                <th data-hide="all" data-sort-ignore="true">Image</th>
+
+                                                <th data-hide="phone" data-sort-ignore="true">Price</th>
+
+                                                <th data-hide="phone" data-sort-ignore="true">Category</th>
+
+                                                <th class="text-right" data-sort-ignore="true">Available quantity</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:set var="productDetail" value="${requestScope.product}"></c:set>
+                                            <tr>
+                                                <td>${productDetail.id}</td>
+                                                <td>${productDetail.name}</td>
+                                                <td>
+                                                    <img src="${productDetail.imagePath}" alt="${productDetail.name}"
+                                                         style="width: 35%"/>
+                                                </td>
+                                                <fmt:setLocale value="vi_VN"/>
+                                                <td ><fmt:formatNumber value="${productDetail.price}" type="currency"/></td>
+
+                                                <td>${category.name}</td>
+
+                                                <td class="text-right">${productDetail.qtyAvailable}</td>
+
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
                                     </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Category</label>
-                                        <div class="col-sm-10">
-                                            <select name="status" class="form-control" disabled>
-                                                <option value="${requestScope.category.id}">${requestScope.category.name}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Avaialable
-                                        quantity:</label>
-                                        <div class="col-sm-10 text-align">${productDetail.qtyAvailable}</div>
-                                    </div>
-                                </fieldset>
+                                </div>
+
+
+
                                 <div class="form-layout-footer text-center">
                                     <c:url var="updateProductLink"
                                            value="${requestScope.contextPath}/product/updatePage">
@@ -144,6 +155,8 @@
 <!-- FooTable -->
 <script src="../../js/plugins/footable/footable.all.min.js"></script>
 <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="../js/plugins/footable/footable.all.min.js"></script>
+<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <!-- Mainly scripts -->
 <script src="../js/jquery-3.1.1.min.js"></script>
@@ -157,10 +170,12 @@
 <script src="../js/plugins/pace/pace.min.js"></script>
 
 <!-- FooTable -->
+<script src="../../js/plugins/footable/footable.all.min.js"></script>
 <script src="../js/plugins/footable/footable.all.min.js"></script>
 
 <!-- Page-Level Scripts -->
 <!-- Sweet alert -->
+<script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <script>

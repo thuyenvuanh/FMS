@@ -135,8 +135,7 @@
                                         <button class="btn btn-secondary bd-0">
                                             Cancel
                                         </button>
-                                    </a
-                                    >
+                                    </a>
                                 </div>
                                 </form>
                             </div>

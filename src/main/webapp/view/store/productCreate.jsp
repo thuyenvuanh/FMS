@@ -24,6 +24,14 @@
     <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
+    <!-- Select2 -->
+    <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+    <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+    <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+    <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+
     <!-- FooTable -->
     <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
 
@@ -99,14 +107,7 @@
                                             <label class="col-sm-1 col-form-label"
                                             >Image:</label
                                             >
-                                            <div class="col-sm-6">
-<%--                                                <input--%>
-<%--                                                        type="text"--%>
-<%--                                                        class="form-control"--%>
-<%--                                                        placeholder="url"--%>
-<%--                                                        name="imagePath"--%>
-<%--                                                />--%>
-                                            </div>
+
                                             <div class="input-group col-sm-3">
                                                 <%--                                                <div class="custom-file">--%>
                                                 <%--                                                    <input id="inputGroupFile01" type="file" class="custom-file-input">--%>
@@ -122,7 +123,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-1 col-form-label" for="category">Category</label>
                                             <div class="col-sm-4">
-                                                <select name="categoryID" id="category" class="form-control">
+                                                <select name="categoryID" id="category" class="select_category form-control">
                                                     <c:forEach var="category" items="${requestScope.categories}">
                                                         <option value="${category.id}" ${category.id==1?"selected":""} >
                                                                 ${category.name} (${category.shortName})
@@ -274,6 +275,9 @@
 <script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
 <script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>
 
+<%-- Select2 --%>
+<script src="../js/plugins/select2/select2.full.min.js"></script>
+
 <!-- Page-Level Scripts -->
 <!-- Sweet alert -->
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
@@ -305,6 +309,10 @@
 <script>
     $(document).ready(function () {
         $(".footable").footable();
+
+        $(".select_category").select2({
+            theme: 'bootstrap4',
+        });
 
         $.validator.addMethod('positiveNumber',
             function (value) {
