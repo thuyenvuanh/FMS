@@ -177,17 +177,18 @@ public class ProductService implements IProductService {
         if (request.getParameter("price") != null) {
             price = BigDecimal.valueOf(Double.parseDouble(request.getParameter("price")));
         }
-        saveUploadFile(request, response);
         if (request.getParameter("imagePath") != null) {
             imgPath = request.getParameter("imagePath");
         }
+
+                saveUploadFile(request, response);
+
         if (request.getParameter("categoryID") != null) {
             cateID = Integer.parseInt(request.getParameter("categoryID"));
             // get category info by id
             category = categoryService.getCategory(cateID);
             List<Category> categories = categoryService.getCategories();
-            // if change category: short cate name in id != choosen cate then create new pro
-            // id
+            // if change category: short cate name in id != choosen cate then create new proid
             // else not change pro id
             if (!id.contains(category.getShortName())) {
                 int subID = 1;
@@ -198,7 +199,7 @@ public class ProductService implements IProductService {
                         break;
                     }
                 }
-                // concat short name and the next Id
+                // concat short name and the next ID
                 id = category.getShortName() + (subID + 1);
             }
         }
@@ -222,34 +223,16 @@ public class ProductService implements IProductService {
     }
 
     public void saveUploadFile(HttpServletRequest request, HttpServletResponse response) {
-//        String UPLOAD_DIR = "images/product";
-        String UPLOAD_DIR = "images";
+        String UPLOAD_DIR = "images/product";
+//        String UPLOAD_DIR = "images";
         Part part = null;
         try {
-//            part = request.getPart("image");
-//            String fileName = part.getSubmittedFileName();
-//            int index = request.getServletContext().getRealPath("").indexOf("target");
-//            String uploadPath = request.getServletContext().getRealPath("").substring(0, index) + "src\\main\\webapp\\" + UPLOAD_DIR;
-//            File uploadDir = new File(uploadPath);
-//            if (!uploadDir.exists()) uploadDir.mkdir();
-//            // Save to directory
-//            for (Part p : request.getParts()) {
-//                p.write(uploadPath + File.separator + fileName);
-//            }
-//            // Save to DB
-//            System.out.println("pro:" + request.getParameter("productID"));
-
-
             int index = request.getServletContext().getRealPath("").indexOf("target");
             String uploadPath = request.getServletContext().getRealPath("").substring(0, index) + "src\\main\\webapp\\" + UPLOAD_DIR;
             final Part filePart = request.getPart("imagePath");
             final String fileName = getFileName(filePart);
-            String proID = request.getParameter("id");
-            System.out.println("------" + proID);
             OutputStream out = null;
             InputStream filecontent = null;
-            final PrintWriter writer = response.getWriter();
-
             try {
                 out = new FileOutputStream(new File(uploadPath + File.separator
                         + fileName));
@@ -273,10 +256,6 @@ public class ProductService implements IProductService {
                 if (filecontent != null) {
                     filecontent.close();
                 }
-                if (writer != null) {
-                    writer.close();
-                }
-//                response.sendRedirect(request.getContextPath() + "/product/list");
             }
         } catch (IOException | ServletException e) {
             throw new RuntimeException(e);

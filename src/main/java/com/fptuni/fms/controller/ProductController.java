@@ -35,7 +35,6 @@ public class ProductController extends HttpServlet {
         Account account = (Account) session.getAttribute("account");
         System.out.println("path: " + path);
         if (path.equals("/list")) {
-            System.out.println(request.getParameter("test"));
             int pageSize = 5;
             List<Product> products = productService.getProducts(request, response);
             int totalPages = productService.countProductBySearch(request, response) / pageSize;
@@ -81,20 +80,12 @@ public class ProductController extends HttpServlet {
             if (productService.updateProduct(request, response)) {
                 session.setAttribute("updateStatus", "success");
                 response.sendRedirect(request.getContextPath() + "/product/list");
-            }
-            else {
+            } else {
                 List<Category> categories = categoryService.getCategories();
                 request.setAttribute("categories", categories);
                 session.setAttribute("updateStatus", "fail");
                 request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
             }
-        } else if (path.equals("/upload")) {
-            ProductService ps = new ProductService();
-            ps.saveUploadFile(request, response);
-//            response.sendRedirect(request.getContextPath() + "/product/list");
-//            StringWriter sWriter = new StringWriter();
-//            PrintWriter out = new PrintWriter(sWriter);
-//            response.getWriter().print(sWriter.toString());
         } else if (path.equals("/delete")) {
             String productID = request.getParameter("productID");
             System.out.println(productID);

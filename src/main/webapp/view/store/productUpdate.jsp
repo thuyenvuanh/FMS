@@ -74,10 +74,6 @@
                         <div id="tab-1" class="tab-pane active">
                             <div class="panel-body">
                                 <c:url var="updateProductLink" value="/product/update"></c:url>
-                                <%--                                <form action="${updateProductLink}" method="post" enctype="multipart/form-data">--%>
-                                <%--                                    <input type="file" name="imagePath" >--%>
-                                <%--                                    <input type="submit" value="UP">--%>
-                                <%--                                </form>--%>
                                 <form class="updateForm" action="${updateProductLink}" autocomplete="off"
                                       enctype="multipart/form-data" method="post">
                                     <fieldset>
@@ -108,10 +104,10 @@
                                                      style="width: 35%"/>
                                                 <div class="input-group col-sm-3">
                                                     <div class="mb-3">
-<%--                                                        <input class="form-control" type="file" id="formFileMultiple"--%>
-<%--                                                               name="imagePath" placeholder="${productDetail.imagePath}"--%>
-<%--                                                               multiple>--%>
-                                                        <input type="file" name="imagePath" id="imagePath">
+                                                        <input class="form-control" type="file" id="formFileMultiple"
+                                                               name="imagePath" placeholder="${productDetail.imagePath}"
+                                                               multiple>
+<%--                                                        <input type="file" name="imagePath" id="imagePath">--%>
                                                     </div>
                                                 </div>
                                             </div>
@@ -136,8 +132,7 @@
                                     </fieldset>
                                     <div class="form-layout-footer text-center">
                                         <button
-                                                type="submit"
-                                                id="create_product_form"
+                                                type="button"
                                                 class="btn btn-primary bd-0 create_product_form"
                                         >
                                             Submit
@@ -151,13 +146,6 @@
                                     </div>
                                 </form>
                                 <c:url var="uploadImgLink" value="/product/upload"></c:url>
-                                <form id="uploadForm" action="${uploadImgLink}" method="post" enctype="multipart/form-data">
-                                    <input type="file" name="imagePath" id="file">
-                                    <input type="hidden" name="id" value="${productDetail.id}">
-                                    <input type="submit" value="Upload" name="upload" id="upload" />
-                                </form>
-<%--                                <input id="ajaxfile" type="file"/> <br/>--%>
-<%--                                <button onclick="uploadFile();"> Upload</button>--%>
                             </div>
                         </div>
                     </div>
@@ -284,7 +272,6 @@
             });
             $(".confirm").click(function () {
                 $(".updateForm").submit();
-                // $(".img-form").submit();
             });
         });
     </script>
@@ -292,18 +279,6 @@
         $(document).ready(function () {
             $(".footable").footable();
         });
-    </script>
-    <script>
-        async function uploadFile() {
-            let formData = new FormData();
-            formData.append("image", ajaxfile.files[0]);
-            await fetch('product/upload', {
-                method: "POST",
-                body: formData
-            });
-            alert('The file upload with Ajax and Java was a success!');
-        }
-
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
