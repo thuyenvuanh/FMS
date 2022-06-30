@@ -152,16 +152,14 @@
     <div class="col-9 d-flex justify-content-center align-items-center">
       <!-- product select field -->
       <div class="h-75 rounded-3 shadow-lg" style="width: 40%;">
-        <div class="row gx-2 px-2 pt-2" style="height: 20%;">
+        <form action="/payment/create" method="post" class="row gx-2 px-2 pt-2" style="height: 20%;">
           <div class="col-8 h-100" style="height: 66.6666%;">
-            <input autofocus class="form-control form-control-lg h-100 fs-1 fw-bold text-success" style="direction: rtl;" type="text" id="result" placeholder="Enter ID">
+            <input name="walletID" autofocus class="form-control form-control-lg h-100 fs-1 fw-bold text-success" style="direction: rtl;" type="text" id="result" placeholder="Enter ID">
           </div>
           <div class="col-4 h-100" style="height: 33.3333%;">
-            <form class="h-100 w-100" action="/payment/create" method="post" >
               <button type="submit"  class="btn btn-success h-100 w-100 fs-1 fw-bold">PAY</button>
-            </form>
           </div>
-        </div>
+        </form>
         <div class="mx-2 gx-2" style="height: 80%;">
           <div class="row h-25 px-2">
             <div class="col-4 px-1 pt-2">

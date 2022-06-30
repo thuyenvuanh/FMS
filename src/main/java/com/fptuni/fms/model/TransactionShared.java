@@ -200,18 +200,10 @@ public class TransactionShared implements Serializable {
 
     @Override
     public String toString() {
-        return String.valueOf(this.id)
-                + String.valueOf(this.amount)
-                + this.previousHash
-                + String.valueOf(this.previousBalance)
-                + String.valueOf(this.createdDate.getTime())
-                + String.valueOf(this.status)
-                + String.valueOf(this.moneyTransactionID == null ? ""
-                : this.moneyTransactionID.getId())
-                + String.valueOf(this.paymentID == null ? ""
-                : this.paymentID.getId())
-                + String.valueOf(this.walletID == null ? ""
-                : this.walletID.getId());
+        return String.valueOf(amount) + String.valueOf(walletID) + String.valueOf(previousHash)
+                + String.valueOf(previousBalance) + String.valueOf(createdDate.getTime()) + String.valueOf(status)
+                + String.valueOf(moneyTransactionID == null ? "" : moneyTransactionID.getId())
+                + String.valueOf(paymentID == null ? "": paymentID.getId());
     }
 
 }

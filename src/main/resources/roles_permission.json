@@ -10,11 +10,13 @@
   {
     "role": "Cashier",
     "permissions": [
+      "/cashier",
       "/order/index",
       "/order",
-      "/cashier",
       "/payment/checkout",
+      "/category/category",
       "/pay",
+      "/payment/create",
       "/account/logout",
       "/js",
       "/css",

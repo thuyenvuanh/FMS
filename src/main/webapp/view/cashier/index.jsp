@@ -200,7 +200,7 @@
                         <div class="row m-0 h-100">
                             <jsp:useBean id="categories" scope="session" type="java.util.List"/>
                             <c:forEach var="category" items="${categories}">
-                                <c:url value="/order/category" var="getProducts">
+                                <c:url value="/category/category" var="getProducts">
                                     <c:param name="catID" value="${category.id}"/>
                                 </c:url>
                                 <div class="col-3 d-flex align-items-center py-2" style="height: 50%; width: 25%">

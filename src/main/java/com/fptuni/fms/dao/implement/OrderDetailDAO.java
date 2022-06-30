@@ -33,4 +33,6 @@ public class OrderDetailDAO extends AbstractDAO<OrderDetail> implements IOrderDe
         List<OrderDetail> orderdetail = query(sql, new OrderDetailMapper(), orderID);
         return orderdetail.isEmpty() ? null : orderdetail;
     }
+
+
 }
