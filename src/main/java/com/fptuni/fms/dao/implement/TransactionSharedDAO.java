@@ -8,10 +8,10 @@ import com.fptuni.fms.dao.ITransactionShared;
 import com.fptuni.fms.mapper.RowMapper;
 import com.fptuni.fms.model.TransactionShared;
 import com.fptuni.fms.mapper.TransactionSharedMapper;
+
 import java.util.List;
 
 /**
- *
  * @author anhthuyn2412@gmail.com - Vu Anh Thuyen
  */
 public class TransactionSharedDAO extends AbstractDAO<TransactionShared> implements ITransactionShared {
@@ -25,35 +25,32 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
     @Override
     public List<TransactionShared> getAll() {
         String sql = "select * from TransactionShared\n"
-                + "order by TransactionShared.CreatedDate\n"
-                + "DESC";
+                + "order by TransactionShared.CreatedDate DESC";
         return query(sql, mapper);
     }
 
     @Override
     public TransactionShared getLatestTransactionOf(int WalletID) {
-        String sql =  "select top(1) * from TransactionShared\n"
-                    + "where TransactionShared.WalletID = ?\n"
-                    + "order by TransactionShared.CreatedDate\n"
-                    + "DESC";
+        String sql = "select top(1) * from TransactionShared\n" +
+                "where WalletID = ?\n" +
+                "order by CreatedDate DESC, ID desc";
         List<TransactionShared> list = query(sql, mapper, WalletID);
         return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
     public List<TransactionShared> getHistoryOf(int WalletID, Boolean... isAscending) {
-        String sql =  "select * from TransactionShared\n"
-                    + "where TransactionShared.WalletID = ?\n"
-                    + "order by CreatedDate\n";
+        String sql = "select * from TransactionShared\n" +
+                "where WalletID = ?\n" +
+                "order by CreatedDate ";
         sql += ((isAscending[0] != null && isAscending[0]) ? "ASC" : "DESC");
         return query(sql, mapper, WalletID);
     }
 
     @Override
     public TransactionShared getLatestTransaction() {
-        String sql =  "select top(1) * from TransactionShared\n"
-                + "order by TransactionShared.CreatedDate\n"
-                + "DESC";
+        String sql = "select top(1) * from TransactionShared\n" +
+                "order by ID desc";
         List<TransactionShared> list = query(sql, mapper);
         return list.isEmpty() ? null : list.get(0);
     }
@@ -71,7 +68,7 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
                 transactionShared.getCreatedDate(),
                 transactionShared.getStatus(),
                 transactionShared.getMoneyTransactionID() == null ? null : transactionShared.getMoneyTransactionID().getId(),
-                transactionShared.getPaymentID() == null ? null: transactionShared.getPaymentID().getId());
+                transactionShared.getPaymentID() == null ? null : transactionShared.getPaymentID().getId());
     }
 
 }

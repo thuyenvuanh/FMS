@@ -20,7 +20,9 @@ public class PaymentService implements IPaymentService {
     private final OrderDAO orderDAO = new OrderDAO();
     private final OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
 
+    private final TransactionService transactionService = new TransactionService();
     private final PaymentDAO paymentDAO = new PaymentDAO();
+
     @Override
     public void makePayment(HttpServletRequest request) {
         //check if the wallet exist and have enough money
@@ -30,31 +32,25 @@ public class PaymentService implements IPaymentService {
         Orders orders = (Orders) request.getSession().getAttribute("order");
         try {
             if (wallet == null) throw new Exception("Wallet not found");
-            TransactionShared temp = transactionSharedDAO.getLatestTransactionOf(wallet.getId());
-            if (SecurityUtils.validateHash(temp.toString(), String.valueOf(temp.getCreatedDate().getTime()), temp.getHashValue())) {
-                BigDecimal balance = new BigDecimal(0).add(temp.getPreviousBalance()).add(temp.getAmount());
+            if (orders == null) throw new Exception("Order not found");
+            TransactionShared temp = transactionService.getTransactionSharedByWalletID(wallet.getId());
+            if (temp != null) {
+                BigDecimal balance = transactionService.getCustomerAmount(temp);
                 if (balance.compareTo(orders.getTotal()) >= 0) {
                     //all criteria meet
                     //create order and order detail, payment
-                    Payment payment = new Payment();
+                    Payment payment = new Payment(0, orders.getTotal());
                     payment.setOrderID(orders);
-                    payment.setAmount(orders.getTotal());
-                    TransactionShared latest = transactionSharedDAO.getLatestTransaction();
+                    TransactionShared latest = transactionService.getLatestTransaction();
                     String previousHash = latest == null ? "00000000000000000000000000000000" : latest.getHashValue();
-                    TransactionShared newTransaction = new TransactionShared(-1, payment.getAmount(), previousHash, null, balance, orders.getCreatedDate());
-                    newTransaction.setHashValue(SecurityUtils.createHash(newTransaction.toString(), String.valueOf(newTransaction.getCreatedDate().getTime())));
-                    newTransaction.setPaymentID(payment);
-                    newTransaction.setMoneyTransactionID(null);
-                    newTransaction.setPreviousBalance(balance);
-                    newTransaction.setStatus(true);
-                    newTransaction.setWalletID(wallet);
+                    TransactionShared newTransaction = new TransactionShared(payment.getAmount(),
+                    previousHash, null, temp.getPreviousBalance(), orders.getCreatedDate(),
+                            true, null, payment, wallet);
                     //insert order, orderDetail, payment and transaction to database;
                     orderDAO.insertOrder(orders);
                     orders.getOrderDetailList().forEach(orderDetail -> orderDetailDAO.createOrderDetail(orderDetail));
                     paymentDAO.insertPayment(payment);
                     transactionSharedDAO.insertTransaction(newTransaction);
-                    //
-
                 } else throw new Exception("Balance insufficient");
             }
         } catch (Exception e) {
