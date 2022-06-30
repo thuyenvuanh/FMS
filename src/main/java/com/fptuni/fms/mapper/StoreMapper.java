@@ -4,6 +4,7 @@ import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Store;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 /*
@@ -16,14 +17,23 @@ public class StoreMapper implements RowMapper<Store> {
     @Override
     public Store mapRow(ResultSet rs) {
         Store store = null;
+        ResultSetMetaData metaData = null;
         try {
+            metaData = rs.getMetaData();
             store = new Store();
-            store.setId(rs.getInt("ID"));
-            store.setName(rs.getString("Name"));
-            Account acc = new Account(rs.getInt("AccountID"));
-//            acc.setFullName(rs.getString("FullName")); k nen de full name o day
-            store.setAccountID(acc);
-            store.setDeleted(rs.getBoolean("IsDeleted"));
+            int rsColumns = metaData.getColumnCount();
+            for (int i = 1; i <= rsColumns; i++) {
+                if (metaData.getColumnLabel(i).equals("ID"))
+                    store.setId(rs.getInt(i));
+                if (metaData.getColumnLabel(i).equals("Name"))
+                    store.setName(rs.getString(i));
+                if (metaData.getColumnLabel(i).equals("AccountID"))
+                    store.setAccountID(new Account(rs.getInt(i)));
+                if (metaData.getColumnLabel(i).equals("FullName"))
+                    store.getAccountID().setFullName(rs.getString(i));
+                if (metaData.getColumnLabel(i).equals("IsDeleted"))
+                    store.setDeleted(rs.getBoolean(i));
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

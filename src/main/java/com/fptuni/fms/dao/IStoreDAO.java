@@ -12,16 +12,14 @@ import java.util.List;
  */
 public interface IStoreDAO extends GenericDAO<Store> {
 
-    // Store getStore(String name);
-    //List<Store> getStores();
+//    Store getStore(String name);
+    Store getStoreByAccount(Account account);
 
     List<Store> getStore();
 
     Store getStore(int id);
 
     Integer insertStore(Store store);
-
-    Store getStoreByAccount(Account account);
 
     boolean updateStore(int id, String name);
 

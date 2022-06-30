@@ -4,8 +4,6 @@
  */
 package com.fptuni.fms.service.implement;
 
-import com.fptuni.fms.dao.IStoreDAO;
-import com.fptuni.fms.dao.implement.AccountDAO;
 import com.fptuni.fms.dao.implement.StoreDAO;
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Store;
@@ -34,11 +32,9 @@ public class StoreService implements IStoreService {
         session.removeAttribute("createStatus");
         String name = request.getParameter("storeName");
         Account accLogin = (Account) session.getAttribute("account");
-//        Account acc = new Account(accLogin.getId());
-        Account acc = new Account(1);
         Store store = new Store();
         store.setName(name);
-        store.setAccountID(acc);
+        store.setAccountID(accLogin);
         Integer check = storeDAO.insertStore(store);
         if (check == null) {
             session.setAttribute("createStatus", "fail");

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "StoreController", urlPatterns = {"/store/*"})
 public class StoreController extends HttpServlet {
 
-    private final IStoreService storeService = new StoreService();
+    private final StoreService storeService = new StoreService();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

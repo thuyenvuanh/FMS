@@ -91,7 +91,7 @@
                                                 </div>
                                             </fieldset>
                                             <div class="form-layout-footer text-center">
-                                                <button type="submit" id="update_store_form" class="btn btn-primary bd-0 update_store_form">Submit</button>
+                                                <button type="button" id="update_store_form" class="btn btn-primary bd-0 update_store_form">Submit</button>
                                                 <button onclick="history.back()" type="button" class="btn btn-dark">Back to list</button>
                                             </div>
                                         </form>
@@ -108,18 +108,38 @@
         </div>
 
     <%--Script--%>
-    <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- Mainly scripts -->
+        <script src="../../js/jquery-3.1.1.min.js"></script>
+        <script src="../../js/popper.min.js"></script>
+        <script src="../../js/bootstrap.js"></script>
+        <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-    <!-- Custom and plugin javascript -->
-    <script src="js/inspinia.js"></script>
-    <script src="js/plugins/pace/pace.min.js"></script>
+        <!-- Custom and plugin javascript -->
+        <script src="../../js/inspinia.js"></script>
+        <script src="../../js/plugins/pace/pace.min.js"></script>
 
-    <!-- FooTable -->
-    <script src="js/plugins/footable/footable.all.min.js"></script>
+        <!-- FooTable -->
+        <script src="../../js/plugins/footable/footable.all.min.js"></script>
+        <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
+
+        <!-- Mainly scripts -->
+        <script src="../js/jquery-3.1.1.min.js"></script>
+        <script src="../js/popper.min.js"></script>
+        <script src="../js/bootstrap.js"></script>
+        <script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+        <!-- Custom and plugin javascript -->
+        <script src="../js/inspinia.js"></script>
+        <script src="../js/plugins/pace/pace.min.js"></script>
+
+        <!-- FooTable -->
+        <script src="../js/plugins/footable/footable.all.min.js"></script>
+
+        <!-- Page-Level Scripts -->
+        <!-- Sweet alert -->
+        <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
     <!-- Page-Level Scripts -->
     <script>

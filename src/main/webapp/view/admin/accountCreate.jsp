@@ -76,7 +76,7 @@
                                     <div id="tab-1" class="tab-pane active">
                                         <div class="panel-body">
 
-                                            <form class="createForm" action="${requestScope.contextPath}/account/create" autocomplete="off">
+                                            <form class="createForm" action="${pageContext.servletContext.contextPath}/account/create" autocomplete="off">
                                             <fieldset>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Username:</label>
                                                     <div class="col-sm-10"><input name="username" type="text" class="form-control" placeholder="Username"></div>
@@ -100,7 +100,7 @@
                                                     </div>
                                             </fieldset>
                                             <div class="form-layout-footer text-center">
-                                                <button class="btn btn-primary bd-0" id="create_account_form" formaction="<c:url value="/account/create"/>">Submit Form</button>
+                                                <button type="button" class="btn btn-primary bd-0 create_account_form" id="create_account_form">Submit</button>
                                                 <button onclick="history.back()" type="button" class="btn btn-dark">Cancel</button>
 
                                             </div>
@@ -165,8 +165,6 @@
 
     </script>
 
-    <!-- Alert -->
-    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>
 
                                                     $(document).ready(function () {
