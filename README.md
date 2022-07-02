@@ -10,7 +10,7 @@
   6. Nguyễn Nguyên An - SE150166
 
 ### Other Resources:
-  [Drive's folder](https://drive.google.com/drive/folders/1_WuyQYssM2AEVp5XTrDbah6VnuUgZ3sS)
+  [Drive's folder](https://fptuniversity-my.sharepoint.com/:f:/g/personal/thuyenvase161502_fpt_edu_vn/Eo5QfuC-3rlDmWtrCPxe68EBAK3BNhQb2GaJyxejyeaB4w?e=HrdA8Z)
 
 ### Lưu ý:
   - Branch master để chứa các code đã ổn định để devOps build và đưa lên host. Không push code đang phát triển lên branch này. 
