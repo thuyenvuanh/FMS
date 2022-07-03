@@ -185,6 +185,8 @@
 
                                     <th>Status</th>
 
+                                    <th class="text-center">Actions</th>
+
                                     <th class="text-right">Amounts</th>
                                 </tr>
                                 </thead>
@@ -193,22 +195,24 @@
                                 <%--For listing--%>
                                 <c:forEach var="list" items="${requestScope.customerList}">
                                     <tr>
-                                        <td>
-                                            <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}">
-                                                    ${list.name}</a></td>
+                                        <td>${list.name}</td>
                                         <td class="text-left">${list.phone}</td>
-                                        <c:choose>
-                                            <c:when test="${list.isDeleted == false}">
-                                                <td>
-                                                    <span class="label label-primary">Active</span>
-                                                </td>
-                                            </c:when>
-                                            <c:when test="${list.isDeleted == true}">
-                                                <td>
-                                                    <span class="label label-primary">Inactive</span>
-                                                </td>
-                                            </c:when>
-                                        </c:choose>
+                                            <c:choose>
+                                                <c:when test="${list.isDeleted == false}">
+                                                    <td style="padding-top: 17px" class="">
+                                                        <span class="label label-primary">Active</span>
+                                                    </td>
+                                                </c:when>
+                                                <c:when test="${list.isDeleted == true}">
+                                                    <td style="padding-top: 17px">
+                                                        <span class="label label-danger">Inactive</span>
+                                                    </td>
+                                                </c:when>
+                                            </c:choose>
+
+                                        <td class="text-center">
+                                            <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}"
+                                               class="btn btn-primary btn-sm">Delete</a></td>
                                         <td class="text-right">100$</td>
                                     </tr>
                                 </c:forEach>
