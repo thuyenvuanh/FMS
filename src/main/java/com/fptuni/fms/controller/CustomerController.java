@@ -55,7 +55,6 @@ public class CustomerController extends HttpServlet {
         } else if (path.equals("/search")) {
             CustomerDAO customerDAO = new CustomerDAO();
             String phoneNum = request.getParameter("searchItem");
-//            System.out.println(phoneNum);
             if (phoneNum != null &&
                     !phoneNum.equals("")) {
                 List<Customer> customer = new ArrayList<>();
@@ -98,17 +97,6 @@ public class CustomerController extends HttpServlet {
             }
             response.sendRedirect(request.getContextPath() + "/customer/list");
 
-        } else if (path.equals("/detail")) {
-            ICustomerService customerService = new CustomerService();
-            HttpSession session = request.getSession(true);
-            String phone = request.getParameter("phoneNum");
-            List<Customer> list = new ArrayList<>();
-            Customer customer = customerService.getDetail(phone);
-            if(customer != null){
-                list.add(customer);
-            }
-            session.setAttribute("detail", list);
-            response.sendRedirect(request.getContextPath() + "/customer/list");
         }
     }
 
