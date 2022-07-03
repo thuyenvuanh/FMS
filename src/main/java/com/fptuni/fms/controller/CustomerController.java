@@ -19,6 +19,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -28,7 +29,7 @@ public class CustomerController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         System.out.println(path);
-        HttpSession session = request.getSession();
+
         if (path.equals("/addcustomer")) {
             ICustomerService customerService = new CustomerService();
             String name = request.getParameter("Cusname");
@@ -74,32 +75,39 @@ public class CustomerController extends HttpServlet {
             /*Change to wallet or transaction
             List<Category> categories = categoryService.getCategories();
             request.setAttribute("categories", categories);*/
-            int totalPages = customerService.CountCustomer() / pageSize;
-            if (customerService.CountCustomer() % pageSize != 0) {
-                totalPages++;
-            }
-            request.setAttribute("customerList", customers);
-            if(session.getAttribute("isDeleted") == null){
-                request.setAttribute("isDeleted", "0");
-            }else {
-                request.setAttribute("isDeleted", session.getAttribute("isDeleted"));
-            }
-            request.setAttribute("totalPages", totalPages);
-            request.getRequestDispatcher("/view/customer/Customer_List.jsp")
-                    .forward(request, response);
+                int totalPages = customerService.CountCustomer() / pageSize;
+                if (customerService.CountCustomer() % pageSize != 0) {
+                    totalPages++;
+                }
+                request.setAttribute("customerList", customers);
+
+                request.setAttribute("totalPages", totalPages);
+                request.getRequestDispatcher("/view/customer/Customer_List.jsp")
+                        .forward(request, response);
 
         } else if (path.equals("/remove")) {
             String phoneNum = request.getParameter("phonenum");
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
             int index = 0;
-
             for (Customer customer : customers) {
                 if (customer.getPhone().equals(phoneNum)) {
                     index = customerService.DeleteCustomer(phoneNum);
                     break;
                 }
             }
+            response.sendRedirect(request.getContextPath() + "/customer/list");
+
+        } else if (path.equals("/detail")) {
+            ICustomerService customerService = new CustomerService();
+            HttpSession session = request.getSession(true);
+            String phone = request.getParameter("phoneNum");
+            List<Customer> list = new ArrayList<>();
+            Customer customer = customerService.getDetail(phone);
+            if(customer != null){
+                list.add(customer);
+            }
+            session.setAttribute("detail", list);
             response.sendRedirect(request.getContextPath() + "/customer/list");
         }
     }

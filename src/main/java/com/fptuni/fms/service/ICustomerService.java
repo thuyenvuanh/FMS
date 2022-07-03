@@ -12,4 +12,5 @@ public interface ICustomerService {
     Integer addnewCustomer (HttpServletRequest request , HttpServletResponse response);
     Integer CountCustomer ();
     Integer DeleteCustomer(String phoneNum);
+    Customer getDetail (String phoneNum);
 }

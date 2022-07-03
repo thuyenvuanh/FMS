@@ -104,6 +104,12 @@ public class Customer implements Serializable {
         this.phone = phoneNum;
     }
 
+    public Customer(Date doB, String address, short gender) {
+        this.doB = doB;
+        this.address = address;
+        this.gender = gender;
+    }
+
     public boolean getIsDeleted() {
         return isDeleted;
     }

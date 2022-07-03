@@ -85,4 +85,10 @@ public class CustomerService implements ICustomerService {
         customerDAO.deleteCus(phoneNum);
         return 1;
     }
+
+    @Override
+    public Customer getDetail(String phoneNum) {
+        ICustomerDAO customerDAO = new CustomerDAO();
+        return customerDAO.getDetail(phoneNum);
+    }
 }

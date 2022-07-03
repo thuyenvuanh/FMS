@@ -129,25 +129,26 @@
                        value="${requestScope.contextPath}/customer/search"></c:url>
                 <form action="${searchfield}">
                     <div class="row">
-<%--                        <div class="col-lg-2">--%>
-<%--                            <div class="form-group">--%>
-<%--                                <label class="col-form-label" for="status"--%>
-<%--                                >Order status</label--%>
-<%--                                >--%>
-<%--                                <select name="status" id="status" class="form-control">--%>
-<%--                                    <option value="" selected="">None</option>--%>
-<%--                                    <option value="1">Active</option>--%>
-<%--                                    <option value="0">Inactive</option>--%>
-<%--                                </select>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
+                        <%--                        <div class="col-lg-2">--%>
+                        <%--                            <div class="form-group">--%>
+                        <%--                                <label class="col-form-label" for="status"--%>
+                        <%--                                >Order status</label--%>
+                        <%--                                >--%>
+                        <%--                                <select name="status" id="status" class="form-control">--%>
+                        <%--                                    <option value="" selected="">None</option>--%>
+                        <%--                                    <option value="1">Active</option>--%>
+                        <%--                                    <option value="0">Inactive</option>--%>
+                        <%--                                </select>--%>
+                        <%--                            </div>--%>
+                        <%--                        </div>--%>
                         <div class="col-lg-10 text-center">
                             <div class="form-group">
-                                <label class="col-form-label" for="status">Search by</label>
+                                <%--                                for="status"--%>
+                                <label class="col-form-label">Search by</label>
                                 <div class="input-group m-b">
                                     <div class="input-group-prepend">
                                         <select name="" id="" class="form-control">
-<%--                                            <option value="">Customer name</option>--%>
+                                            <%--                                            <option value="">Customer name</option>--%>
                                             <option value="">Phone</option>
                                         </select>
                                     </div>
@@ -195,20 +196,21 @@
                                 <%--For listing--%>
                                 <c:forEach var="list" items="${requestScope.customerList}">
                                     <tr>
-                                        <td>${list.name}</td>
+                                        <td id="showMore"><a>
+                                                ${list.name}</a></td>
                                         <td class="text-left">${list.phone}</td>
-                                            <c:choose>
-                                                <c:when test="${list.isDeleted == false}">
-                                                    <td style="padding-top: 17px" class="">
-                                                        <span class="label label-primary">Active</span>
-                                                    </td>
-                                                </c:when>
-                                                <c:when test="${list.isDeleted == true}">
-                                                    <td style="padding-top: 17px">
-                                                        <span class="label label-danger">Inactive</span>
-                                                    </td>
-                                                </c:when>
-                                            </c:choose>
+                                        <c:choose>
+                                            <c:when test="${list.isDeleted == false}">
+                                                <td style="padding-top: 17px" class="">
+                                                    <span class="label label-primary">Active</span>
+                                                </td>
+                                            </c:when>
+                                            <c:when test="${list.isDeleted == true}">
+                                                <td style="padding-top: 17px">
+                                                    <span class="label label-danger">Inactive</span>
+                                                </td>
+                                            </c:when>
+                                        </c:choose>
 
                                         <td class="text-center">
                                             <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}"
@@ -221,7 +223,36 @@
                                         <td class="text-right">100$</td>
 
                                     </tr>
+                                    <%--                                    Show detail here--%>
+
+                                    <tr id="cusdetail" style="display:none;">
+                                        <td>
+                                            <p>DoB: ${list.doB}</p>
+                                        </td>
+                                        <td>
+                                            <p>Address: ${list.address}</p>
+                                        </td>
+                                        <c:choose>
+                                            <c:when test="${list.gender == 0}">
+                                                <td>
+                                                    <p>Gender: Male</p>
+                                                </td>
+                                            </c:when>
+                                            <c:when test="${list.gender == 1}">
+                                                <td>
+                                                    <p>Gender: Female</p>
+                                                </td>
+                                            </c:when>
+                                            <c:when test="${list.gender == 2}">
+                                                <td>
+                                                    <p>Gender: LGBT</p>
+                                                </td>
+                                            </c:when>
+                                        </c:choose>
+                                    </tr>
+
                                 </c:forEach>
+
                                 </tbody>
 
                                 <tfoot>
@@ -305,6 +336,7 @@
         </div>
     </div>
     <!-- Body -->
+
 </div>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/popper.min.js"></script>
@@ -323,6 +355,12 @@
 <script>
     $(document).ready(function () {
         $(".footable").footable();
+    });
+</script>
+
+<script>
+    $('#showMore').click(function () {
+        $('#cusdetail').css('display', 'block');
     });
 </script>
 

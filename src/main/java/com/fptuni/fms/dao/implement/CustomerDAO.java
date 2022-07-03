@@ -11,7 +11,7 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
 
     @Override
     public List<Customer> getAllCustomer(Pageable pageable) {
-        String sql = "select Name , Phone , IsDeleted\n" +
+        String sql = "select Name , Phone , IsDeleted, DoB, Address, Gender\n" +
                 "from [dbo].[Customer]\n";
 
         String order;
@@ -62,5 +62,14 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
                 " SET IsDeleted = 'true'\n" +
                 " WHERE Phone = ? ";
         return update(sql, phoneNum);
+    }
+
+    @Override
+    public Customer getDetail(String phoneNum) {
+        String sql = "select DoB, Address, Gender\n" +
+                "from [dbo].[Customer]\n" +
+                "where Phone = ? ";
+        List<Customer> cus = query(sql, new CustomerMapper(), phoneNum);
+        return cus.isEmpty() ? null : cus.get(0);
     }
 }

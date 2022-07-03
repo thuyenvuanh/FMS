@@ -12,4 +12,5 @@ public interface ICustomerDAO extends GenericDAO<Customer>{
     Customer getByName(String name);
     Integer count ();
     boolean deleteCus(String phoneNum);
+    Customer getDetail(String phoneNum);
 }
