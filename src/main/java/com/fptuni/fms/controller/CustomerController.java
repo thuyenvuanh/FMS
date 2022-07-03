@@ -90,7 +90,6 @@ public class CustomerController extends HttpServlet {
 
         } else if (path.equals("/remove")) {
             String phoneNum = request.getParameter("phonenum");
-//            ICustomerDAO customerDAO = new CustomerDAO();
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
             int index = 0;
@@ -98,13 +97,9 @@ public class CustomerController extends HttpServlet {
             for (Customer customer : customers) {
                 if (customer.getPhone().equals(phoneNum)) {
                     index = customerService.DeleteCustomer(phoneNum);
-//                    request.setAttribute("isDeleted", index);
-//                    session.setAttribute("isDeleted", index);
-//                    response.sendRedirect(request.getContextPath() + "/customer/list");
                     break;
                 }
             }
-//            session.setAttribute("isDeleted", index);
             response.sendRedirect(request.getContextPath() + "/customer/list");
         }
     }

@@ -129,25 +129,25 @@
                        value="${requestScope.contextPath}/customer/search"></c:url>
                 <form action="${searchfield}">
                     <div class="row">
-                        <div class="col-lg-2">
-                            <div class="form-group">
-                                <label class="col-form-label" for="status"
-                                >Order status</label
-                                >
-                                <select name="status" id="status" class="form-control">
-                                    <option value="" selected="">None</option>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
+<%--                        <div class="col-lg-2">--%>
+<%--                            <div class="form-group">--%>
+<%--                                <label class="col-form-label" for="status"--%>
+<%--                                >Order status</label--%>
+<%--                                >--%>
+<%--                                <select name="status" id="status" class="form-control">--%>
+<%--                                    <option value="" selected="">None</option>--%>
+<%--                                    <option value="1">Active</option>--%>
+<%--                                    <option value="0">Inactive</option>--%>
+<%--                                </select>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+                        <div class="col-lg-10 text-center">
                             <div class="form-group">
                                 <label class="col-form-label" for="status">Search by</label>
                                 <div class="input-group m-b">
                                     <div class="input-group-prepend">
                                         <select name="" id="" class="form-control">
-                                            <option value="">Customer name</option>
+<%--                                            <option value="">Customer name</option>--%>
                                             <option value="">Phone</option>
                                         </select>
                                     </div>
@@ -156,7 +156,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="container-fluid">
+                        <div class="col-lg-2 container-fluid pt-5">
                             <button name="action"
                                     class="btn btn-outline-success float-right"
                                     type="submit"
@@ -212,8 +212,14 @@
 
                                         <td class="text-center">
                                             <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}"
-                                               class="btn btn-primary btn-sm">Delete</a></td>
+                                               class="btn btn-primary btn-sm">Delete</a>
+                                            <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}"
+                                               class="btn btn-primary btn-sm">Detail</a>
+                                            <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}"
+                                               class="btn btn-primary btn-sm">Update</a>
+                                        </td>
                                         <td class="text-right">100$</td>
+
                                     </tr>
                                 </c:forEach>
                                 </tbody>
