@@ -21,4 +21,5 @@ public interface IOrderService {
     void voidAll(HttpServletRequest request, HttpServletResponse response);
   
     List<Orders> getOrders(HttpServletRequest request, HttpServletResponse response);
+    Orders getOrder(HttpServletRequest request, HttpServletResponse response);
 }

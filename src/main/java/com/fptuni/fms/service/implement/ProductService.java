@@ -14,12 +14,14 @@ import com.fptuni.fms.paging.PageRequest;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.sort.Sorter;
 import com.fptuni.fms.utils.RequestUtils;
+import jdk.nashorn.internal.ir.RuntimeNode;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import javax.websocket.Session;
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -31,14 +33,16 @@ import java.util.logging.Level;
 import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 public class ProductService implements IProductService {
+    private IStoreDAO storeDAO = new StoreDAO();
+    private IProductDAO productDAO = new ProductDAO();
+    private ICategoryService categoryService = new CategoryService();
 
     @Override
     public List<Product> getProducts(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        IProductDAO productDAO = new ProductDAO();
-        IStoreDAO storeDAO = new StoreDAO();
-        Store store = storeDAO.getStoreByAccount(account);
+//        Account account = (Account) session.getAttribute("account");
+//        Store store = storeDAO.getStoreByAccount(account);
+        Store store = (Store) session.getAttribute("store");
         int pageIndex = 1;
         int pageSize = 5;
         String sortField = "ID";
@@ -89,13 +93,28 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    public List<Product> getProductByOrderID(HttpServletRequest request, HttpServletResponse response) {
+        List<Product> products = null;
+        try {
+            int orderID = 0;
+            HttpSession session = request.getSession();
+//            Account account = (Account) session.getAttribute("account");
+//            Store store = storeDAO.getStoreByAccount(account);
+            Store store = (Store) session.getAttribute("store");
+            if (request.getParameter("orderID") != null) orderID = Integer.parseInt(request.getParameter("orderID"));
+            products = productDAO.getProductByOrderID(orderID, store);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
+    @Override
     public Integer insertProduct(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        ICategoryService categoryService = new CategoryService();
-        IProductDAO productDAO = new ProductDAO();
-        IStoreDAO storeDAO = new StoreDAO();
-        Store store = storeDAO.getStoreByAccount(account);
+//        Account account = (Account) session.getAttribute("account");
+//        Store store = storeDAO.getStoreByAccount(account);
+        Store store = (Store) session.getAttribute("store");
         String id = "";
         String name = "";
         BigDecimal price = BigDecimal.valueOf(0.0);
@@ -146,18 +165,11 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public boolean updateProduct(Product product) {
-        return false;
-    }
-
-    @Override
     public boolean updateProduct(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        ICategoryService categoryService = new CategoryService();
-        IProductDAO productDAO = new ProductDAO();
-        IStoreDAO storeDAO = new StoreDAO();
-        Store store = storeDAO.getStoreByAccount(account);
+//        Account account = (Account) session.getAttribute("account");
+//        Store store = storeDAO.getStoreByAccount(account);
+        Store store = (Store) session.getAttribute("store");
         String id = "";
         String name = "";
         String imgPath = "";
@@ -181,7 +193,7 @@ public class ProductService implements IProductService {
             imgPath = request.getParameter("imagePath");
         }
 
-                saveUploadFile(request, response);
+        saveUploadFile(request, response);
 
         if (request.getParameter("categoryID") != null) {
             cateID = Integer.parseInt(request.getParameter("categoryID"));
@@ -222,7 +234,7 @@ public class ProductService implements IProductService {
         return productDAO.updateProduct(product);
     }
 
-    public void saveUploadFile(HttpServletRequest request, HttpServletResponse response) {
+    private void saveUploadFile(HttpServletRequest request, HttpServletResponse response) {
         String UPLOAD_DIR = "images/product";
 //        String UPLOAD_DIR = "images";
         Part part = null;
@@ -261,6 +273,7 @@ public class ProductService implements IProductService {
             throw new RuntimeException(e);
         }
     }
+
     private String getFileName(final Part part) {
         final String partHeader = part.getHeader("content-disposition");
         LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
@@ -277,23 +290,20 @@ public class ProductService implements IProductService {
     public boolean deleteProduct(String productId) {
         if (productId == null)
             return false;
-        IProductDAO productDAO = new ProductDAO();
         return productDAO.deleteProduct(productId);
     }
 
     @Override
     public int countProduct() {
-        IProductDAO productDAO = new ProductDAO();
         return productDAO.count();
     }
 
     @Override
     public int countProductBySearch(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        IProductDAO productDAO = new ProductDAO();
-        IStoreDAO storeDAO = new StoreDAO();
-        Store store = storeDAO.getStoreByAccount(account);
+//        Account account = (Account) session.getAttribute("account");
+//        Store store = storeDAO.getStoreByAccount(account);
+        Store store = (Store) session.getAttribute("store");
         int pageIndex = 1;
         int pageSize = 5;
         String sortField = "ID";
@@ -318,7 +328,6 @@ public class ProductService implements IProductService {
         // status = enable when quantity > 0
         if (request.getParameter("status") != null) searcher.put("status", request.getParameter("status"));
         int count = productDAO.countBySearch(searcher);
-
         return count;
     }
 

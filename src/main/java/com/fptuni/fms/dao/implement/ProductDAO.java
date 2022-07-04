@@ -7,6 +7,7 @@ package com.fptuni.fms.dao.implement;
  * */
 
 import com.fptuni.fms.dao.IProductDAO;
+import com.fptuni.fms.mapper.OrderDetailMapper;
 import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Product;
 import com.fptuni.fms.model.Store;
@@ -36,7 +37,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
         String sql = "SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID \n" +
                 "FROM Product WHERE IsDeleted = 0 \n";
         if (searcher.getOrDefault("storeID", null) != null) sql += " AND StoreID = " + searcher.get("storeID");
-        if (searcher.getOrDefault("categoryID", null) != null && !searcher.get("categoryID").equals("0")&& !searcher.get("categoryID").isEmpty())
+        if (searcher.getOrDefault("categoryID", null) != null && !searcher.get("categoryID").equals("0") && !searcher.get("categoryID").isEmpty())
             sql += " AND CateID = " + searcher.get("categoryID");
         if (searcher.getOrDefault("productName", null) != null && !searcher.get("productName").isEmpty())
             sql += " AND Name LIKE  '%" + searcher.get("productName") + "%'";
@@ -118,7 +119,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
         String sql = "SELECT COUNT(ID) \n" +
                 "FROM Product WHERE IsDeleted = 0 \n";
         if (searcher.getOrDefault("storeID", null) != null) sql += " AND StoreID = " + searcher.get("storeID");
-        if (searcher.getOrDefault("categoryID", null) != null && !searcher.get("categoryID").equals("0")&& !searcher.get("categoryID").isEmpty())
+        if (searcher.getOrDefault("categoryID", null) != null && !searcher.get("categoryID").equals("0") && !searcher.get("categoryID").isEmpty())
             sql += " AND CateID = " + searcher.get("categoryID");
         if (searcher.getOrDefault("productName", null) != null && !searcher.get("productName").isEmpty())
             sql += " AND Name LIKE  '%" + searcher.get("productName") + "%'";
@@ -145,10 +146,20 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
                 "WHERE StoreID = ? AND IsDeleted = 0";
         return (ArrayList<Product>) query(sql, new ProductMapper(), store.getId());
     }
+
     public ArrayList<Product> getProductsByStoreAndCategory(Store store, Category category) {
         String sql = "SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID " +
                 " FROM  Product" +
                 " WHERE StoreID = ? AND CateID = ? AND IsDeleted = 0";
         return (ArrayList<Product>) query(sql, new ProductMapper(), store.getId(), category.getId());
+    }
+
+    @Override
+    public List<Product> getProductByOrderID(int orderID, Store store) {
+        String sql = "SELECT o.ID, od.ProID, p.Name, p.Price, od.Quantity, od.Amount FROM OrderDetail od\n" +
+                " JOIN Orders o ON o.ID = od.OrderID AND o.ID = ? AND StoreID = " + store.getId() +
+                " AND od.IsDeleted = 0 AND o.IsDeleted = 0\n" +
+                " JOIN Product p on p.ID = od.ProID AND p.IsDeleted = 0";
+        return query(sql, new OrderDetailMapper(), orderID);
     }
 }

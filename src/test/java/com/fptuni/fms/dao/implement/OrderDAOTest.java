@@ -2,8 +2,10 @@ package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.model.OrderDetail;
 import com.fptuni.fms.model.Orders;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +14,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
  * @author Acer
  */
 public class OrderDAOTest {
@@ -49,7 +50,7 @@ public class OrderDAOTest {
             Orders result = instance.getOrderById(id);
             assertEquals(expResult.getId(), result.getId());
             System.out.println(result.getId() + " " + result.getCreatedDate());
-        }catch (Exception e){
+        } catch (Exception e) {
             fail("not found order");
         }
     }
@@ -74,4 +75,13 @@ public class OrderDAOTest {
 //        fail("The test case is a prototype.");
     }
 
+    @Test
+    public void getCreatedDate() {
+        OrderDAO orderDAO = new OrderDAO();
+        Calendar calendar = Calendar.getInstance();
+        List<Orders> orders = orderDAO.getOrders(null,null);
+        System.out.println(orders);
+
+        assertEquals(1, 1);
+    }
 }

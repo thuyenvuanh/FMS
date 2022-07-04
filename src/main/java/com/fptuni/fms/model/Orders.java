@@ -8,6 +8,7 @@ package com.fptuni.fms.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -28,19 +29,19 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 
 /**
- *
  * @author LucasBV
  */
 @Entity
 @Table(name = "Orders")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o"),
-    @NamedQuery(name = "Orders.findById", query = "SELECT o FROM Orders o WHERE o.id = :id"),
-    @NamedQuery(name = "Orders.findByTotal", query = "SELECT o FROM Orders o WHERE o.total = :total"),
-    @NamedQuery(name = "Orders.findByCreatedDate", query = "SELECT o FROM Orders o WHERE o.createdDate = :createdDate")})
+        @NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o"),
+        @NamedQuery(name = "Orders.findById", query = "SELECT o FROM Orders o WHERE o.id = :id"),
+        @NamedQuery(name = "Orders.findByTotal", query = "SELECT o FROM Orders o WHERE o.total = :total"),
+        @NamedQuery(name = "Orders.findByCreatedDate", query = "SELECT o FROM Orders o WHERE o.createdDate = :createdDate")})
 public class Orders implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -66,6 +67,10 @@ public class Orders implements Serializable {
     private List<OrderDetail> orderDetailList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderID")
     private List<Payment> paymentList;
+
+    private Timestamp createdDateTime;
+
+
 
     public Orders() {
     }
@@ -108,11 +113,20 @@ public class Orders implements Serializable {
     public Date getCreatedDate() {
         return createdDate;
     }
+    public Timestamp getCreatedDateTime() {
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(createdDate);
+//        return calendar;
+        return createdDateTime;
+    }
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
+    public void setCreatedDateTime(Timestamp createdDateTime) {
+        this.createdDateTime = createdDateTime;
+    }
     public Store getStoreID() {
         return storeID;
     }

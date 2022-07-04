@@ -33,6 +33,8 @@ public class ProductController extends HttpServlet {
         ICategoryService categoryService = new CategoryService();
         IStoreDAO storeDAO = new StoreDAO();
         Account account = (Account) session.getAttribute("account");
+        Store store = storeDAO.getStoreByAccount(account);
+        session.setAttribute("store", store);
         System.out.println("path: " + path);
         if (path.equals("/list")) {
             int pageSize = 5;
@@ -42,8 +44,6 @@ public class ProductController extends HttpServlet {
                 totalPages++;
             }
             List<Category> categories = categoryService.getCategories();
-            Store store = storeDAO.getStoreByAccount(account);
-            request.setAttribute("store", store);
             request.setAttribute("categories", categories);
             request.setAttribute("productList", products);
             request.setAttribute("totalPages", totalPages);

@@ -21,7 +21,10 @@ import java.util.*;
 
 public class OrderService implements IOrderService {
 
-
+   private  IOrderDAO orderDAO = new OrderDAO();
+    private IStoreDAO storeDAO = new StoreDAO();
+    private  IProductDAO productDAO = new ProductDAO();
+    private ICategoryDAO categoryDAO = new CategoryDAO();
     @Override
     public void index(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
@@ -97,8 +100,6 @@ public class OrderService implements IOrderService {
     }
 
     public HashMap<Category, List<Product>> loadData(HttpServletRequest request) {
-        IProductDAO productDAO = new ProductDAO();
-        ICategoryDAO categoryDAO = new CategoryDAO();
         Store store = (Store) request.getSession().getAttribute("store");
         List<Product> productList = productDAO.getProductsByStore(store);
         HashMap<Category, List<Product>> productMap = new HashMap<>();
@@ -119,8 +120,6 @@ public class OrderService implements IOrderService {
     public List<Orders> getOrders(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-        IOrderDAO orderDAO = new OrderDAO();
-        IStoreDAO storeDAO = new StoreDAO();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         int page = 1;
         int pageSize = 5;
@@ -135,13 +134,10 @@ public class OrderService implements IOrderService {
         if (request.getParameter("isAscending") != null) {
             isAsc = Boolean.parseBoolean(request.getParameter("isAscending"));
         }
-
         Sorter sorter = new Sorter(sortField, isAsc);
         Pageable pageable = new PageRequest(page, pageSize, sorter);
-
         Map<String, String> searcher = new HashMap<>();
-        Account test = new Account(6);
-        Store store = storeDAO.getStoreByAccount(test);
+        Store store = storeDAO.getStoreByAccount(account);
         searcher.put("totalAmount", request.getParameter("totalAmount"));
         searcher.put("storeID", String.valueOf(store.getId()));
         try {
@@ -177,5 +173,12 @@ public class OrderService implements IOrderService {
             return null;
         }
 
+    }
+
+    @Override
+    public Orders getOrder(HttpServletRequest request, HttpServletResponse response) {
+        int orderID = Integer.parseInt(request.getParameter("orderID"));
+        Orders order = orderDAO.getOrderById(orderID);
+        return order;
     }
 }

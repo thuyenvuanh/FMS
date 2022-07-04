@@ -162,7 +162,7 @@
                 <div class="ibox">
                     <div class="ibox-content">
 
-                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+                        <table class="footable table table-stripped toggle-arrow-tiny">
                             <thead>
                             <tr>
 
@@ -175,27 +175,32 @@
                             </thead>
                             <tbody>
                             <c:forEach var="order" items="${requestScope.orders}">
-                                <tr>
-                                    <td>${order.id}</td>
-                                    <td>${order.total}</td>
-                                    <td>
-                                        <fmt:formatDate value="${order.createdDate}" var="formattedDate" type="date"
-                                                        pattern="dd/MM/yyyy"></fmt:formatDate>
-                                            ${formattedDate}
-                                    </td>
-                                    <td class="text-right">
-                                        <div class="btn-group">
-                                            <c:url var="viewOrderDetail" value="${requestScope.contextPath}/order/view">
-                                                <c:param name="orderID" value="${order.id}"></c:param>
-                                            </c:url>
-                                            <a href="${viewOrderDetail}">
-                                                <button
-                                                        class="btn-white btn btn-xs">View
-                                                </button>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>${order.id}</td>
+                                <td>${order.total}</td>
+                                <td>
+                                        <%--                                        <fmt:formatDate value="${order.createdDateTime.time}" var="formattedDate"--%>
+                                        <%--                                                        type="both"--%>
+                                        <%--                                                        dateStyle="short" timeStyle="medium"--%>
+                                        <%--                                                        pattern="dd/MM/yyyy hh:mm:ss"></fmt:formatDate>--%>
+                                        <%--                                            ${formattedDate}--%>
+                                    <fmt:formatDate value="${order.createdDateTime}" var="formattedDate" type="date"
+                                    pattern="dd/MM/yyyy"></fmt:formatDate>
+                                    ${formattedDate}
+                                </td>
+                                <td class="text-right">
+                                    <div class="btn-group">
+                                        <c:url var="viewOrderDetail" value="${requestScope.contextPath}/order/view">
+                                            <c:param name="orderID" value="${order.id}"></c:param>
+                                        </c:url>
+                                        <a href="${viewOrderDetail}">
+                                            <button
+                                                    class="btn-white btn btn-xs">View
+                                            </button>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
                             </c:forEach>
                             </tbody>
                             <tfoot>

@@ -12,9 +12,9 @@ public interface IProductService {
 
     Product getProductById(String productId);
 
-    Integer insertProduct(HttpServletRequest request, HttpServletResponse response);
+    List<Product> getProductByOrderID(HttpServletRequest request, HttpServletResponse response);
 
-    boolean updateProduct(Product product);
+    Integer insertProduct(HttpServletRequest request, HttpServletResponse response);
 
     boolean updateProduct(HttpServletRequest request, HttpServletResponse response);
 
