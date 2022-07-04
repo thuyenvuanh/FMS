@@ -11,14 +11,15 @@ import java.util.List;
  * @author NhatTan
  */
 public class OrderDetailDAO extends AbstractDAO<OrderDetail> implements IOrderDetailDAO {
-
     @Override
-    public List<OrderDetail> getOrderDetail() {
-        String sql = "SELECT OrderID, ProID, Price, Quantity, Amount FROM dbo.OrderDetail";
-        List<OrderDetail> orderdetail = query(sql, new OrderDetailMapper());
-        return orderdetail.isEmpty() ? null : orderdetail;
+    public List<OrderDetail> getOrderDetailsByOrderID(int orderID, int storeID) {
+        String sql = "SELECT OrderID, ProID, Price, Quantity, Amount\n" +
+                "FROM OrderDetail od\n" +
+                "JOIN Orders o \n" +
+                "ON od.OrderID = o.ID AND od.OrderID = ? AND o.IsDeleted = 0 AND od.IsDeleted = 0 AND o.StoreID = " + storeID;
+        List<OrderDetail> orderDetailList = query(sql, new OrderDetailMapper(), orderID);
+        return orderDetailList;
     }
-
     @Override
     public int createOrderDetail(OrderDetail orderDetail) {
         String sql = "INSERT INTO dbo.OrderDetail(OrderID, ProID, Price, Quantity, Amount) VALUES (?,?,?,?,?)";
@@ -26,13 +27,5 @@ public class OrderDetailDAO extends AbstractDAO<OrderDetail> implements IOrderDe
         BigDecimal amount = quantity.multiply(orderDetail.getPrice());
         return insert(sql, orderDetail.getOrders(), orderDetail.getProduct(), orderDetail.getPrice(), orderDetail.getQuantity(), amount);
     }
-
-    @Override
-    public List<OrderDetail> getOrderDetailByOrderID(int orderID) {
-        String sql = "SELECT OrderID, ProID, Price, Quantity, Amount FROM dbo.OrderDetail WHERE OrderID=?";
-        List<OrderDetail> orderdetail = query(sql, new OrderDetailMapper(), orderID);
-        return orderdetail.isEmpty() ? null : orderdetail;
-    }
-
 
 }

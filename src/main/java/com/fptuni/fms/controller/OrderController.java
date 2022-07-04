@@ -52,6 +52,10 @@ public class OrderController extends HttpServlet {
 
                 request.setAttribute("orders", orders);
                 request.getRequestDispatcher( "/view/store/orderList.jsp").forward(request, response);
+                break;
+            case "/view":
+
+                break;
         }
     }
 

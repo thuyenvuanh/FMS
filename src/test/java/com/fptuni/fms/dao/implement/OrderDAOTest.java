@@ -1,5 +1,6 @@
 package com.fptuni.fms.dao.implement;
 
+import com.fptuni.fms.model.OrderDetail;
 import com.fptuni.fms.model.Orders;
 import java.sql.Timestamp;
 import java.util.ArrayList;

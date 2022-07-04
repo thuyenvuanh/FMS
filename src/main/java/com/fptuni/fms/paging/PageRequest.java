@@ -39,9 +39,6 @@ public class PageRequest implements Pageable {
 
     @Override
     public Sorter getSorter() {
-        if (this.sorter != null) {
-            return this.sorter;
-        }
-        return null;
+        return this.sorter;
     }
 }

@@ -147,7 +147,6 @@
     <%--    Create--%>
 
     <div class="wrapper wrapper-content animated fadeInRight ecommerce">
-
         <div class="row">
             <div class="col-lg-12">
                 <div class="ibox">
@@ -182,7 +181,8 @@
                                 <tr style="color: dodgerblue">
                                     <th data-toggle="true" data-sort-ignore="true">
                                         <%--                                    <a href="${sort}&sortField=ID">Product ID</a>--%>
-                                        <a onclick="document.getElementById('sortFieldInput').value = 'ID'; document.getElementById('sortFrom').submit();">Product ID</a>
+                                        <a onclick="document.getElementById('sortFieldInput').value = 'ID'; document.getElementById('sortFrom').submit();">Product
+                                            ID</a>
                                     </th>
                                     <th data-hide="phone" data-sort-ignore="true">
                                         <%--                                    <a href="${sort}&sortField=Name">Product Name</a>--%>
@@ -271,14 +271,19 @@
                                             <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
                                                 <c:url var="previousPage"
                                                        value="${requestScope.contextPath}/product/list">
-                                                    <c:param name="sortField" value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="currentPage" value="${requestScope.currentPage - 1}"></c:param>
-                                                    <c:param name="isAscending" value="${!requestScope.isAscending}"></c:param>
+                                                    <c:param name="sortField"
+                                                             value="${requestScope.sortField}"></c:param>
+                                                    <c:param name="currentPage"
+                                                             value="${requestScope.currentPage - 1}"></c:param>
+                                                    <c:param name="isAscending"
+                                                             value="${!requestScope.isAscending}"></c:param>
                                                     <c:param name="minPrice" value="${requestScope.minPrice}"></c:param>
                                                     <c:param name="maxPrice" value="${requestScope.maxPrice}"></c:param>
                                                     <c:param name="quantity" value="${requestScope.quantity}"></c:param>
-                                                    <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
-                                                    <c:param name="productName" value="${requestScope.productName}"></c:param>
+                                                    <c:param name="categoryID"
+                                                             value="${requestScope.categoryID}"></c:param>
+                                                    <c:param name="productName"
+                                                             value="${requestScope.productName}"></c:param>
                                                 </c:url>
                                                 <c:url var="previousPageLink"
                                                        value="${requestScope.contextPath}/product/list"></c:url>
@@ -317,14 +322,18 @@
                                             <c:forEach begin="1" end="${requestScope.totalPages}" var="page">
                                                 <c:url var="paging"
                                                        value="${requestScope.contextPath}/product/list">
-                                                    <c:param name="sortField" value="${requestScope.sortField}"></c:param>
+                                                    <c:param name="sortField"
+                                                             value="${requestScope.sortField}"></c:param>
                                                     <c:param name="currentPage" value="${page}"></c:param>
-                                                    <c:param name="isAscending" value="${!requestScope.isAscending}"></c:param>
+                                                    <c:param name="isAscending"
+                                                             value="${!requestScope.isAscending}"></c:param>
                                                     <c:param name="minPrice" value="${requestScope.minPrice}"></c:param>
                                                     <c:param name="maxPrice" value="${requestScope.maxPrice}"></c:param>
                                                     <c:param name="quantity" value="${requestScope.quantity}"></c:param>
-                                                    <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
-                                                    <c:param name="productName" value="${requestScope.productName}"></c:param>
+                                                    <c:param name="categoryID"
+                                                             value="${requestScope.categoryID}"></c:param>
+                                                    <c:param name="productName"
+                                                             value="${requestScope.productName}"></c:param>
                                                 </c:url>
                                                 <c:url var="pagingLink"
                                                        value="${requestScope.contextPath}/product/list"></c:url>
@@ -357,22 +366,26 @@
 
 
                                             </c:forEach>
-                                            <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}" style="display: none">
-                                                <c:url var="nextPage"
-                                                       value="${requestScope.contextPath}/product/list">
-                                                    <c:param name="sortField" value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="currentPage" value="${requestScope.currentPage + 1}"></c:param>
-                                                    <c:param name="isAscending" value="${!requestScope.isAscending}"></c:param>
-                                                    <c:param name="minPrice" value="${requestScope.minPrice}"></c:param>
-                                                    <c:param name="maxPrice" value="${requestScope.maxPrice}"></c:param>
-                                                    <c:param name="quantity" value="${requestScope.quantity}"></c:param>
-                                                    <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
-                                                    <c:param name="productName" value="${requestScope.productName}"></c:param>
-                                                </c:url>
+                                            <c:url var="nextPage"
+                                                   value="${requestScope.contextPath}/product/list">
+                                                <c:param name="sortField" value="${requestScope.sortField}"></c:param>
+                                                <c:param name="currentPage"
+                                                         value="${requestScope.currentPage + 1}"></c:param>
+                                                <c:param name="isAscending"
+                                                         value="${!requestScope.isAscending}"></c:param>
+                                                <c:param name="minPrice" value="${requestScope.minPrice}"></c:param>
+                                                <c:param name="maxPrice" value="${requestScope.maxPrice}"></c:param>
+                                                <c:param name="quantity" value="${requestScope.quantity}"></c:param>
+                                                <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
+                                                <c:param name="productName"
+                                                         value="${requestScope.productName}"></c:param>
+                                            </c:url>
 
-                                                <c:url var="nextPageLink" value="${requestScope.contextPath}/product/list"></c:url>
+                                            <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
+                                                <c:url var="nextPageLink"
+                                                       value="${requestScope.contextPath}/product/list"></c:url>
                                                 <form action="${nextPageLink}" method="post"
-                                                      id="nextPagingForm">
+                                                      id="nextPagingForm" style="display: none">
                                                     <input type="hidden" name="currentPage" id="nextPage"/>
                                                     <input type="hidden" name="isAscending"
                                                            value="${!requestScope.isAscending}">
@@ -390,10 +403,10 @@
                                                            value="${requestScope.sortField}">
 
                                                 </form>
-<%--                                                <a class="page-link" href="${nextPage}" aria-label="Next">--%>
-<%--                                                    <span aria-hidden="true">&raquo;</span>--%>
-<%--                                                    <span class="sr-only">Next</span>--%>
-<%--                                                </a>--%>
+                                                <%--                                                <a class="page-link" href="${nextPage}" aria-label="Next">--%>
+                                                <%--                                                    <span aria-hidden="true">&raquo;</span>--%>
+                                                <%--                                                    <span class="sr-only">Next</span>--%>
+                                                <%--                                                </a>--%>
                                                 <a class="page-link" aria-label="Next"
                                                    onclick="document.getElementById('nextPage').value=${requestScope.currentPage + 1}; document.getElementById('nextPagingForm').submit();">
                                                     <span aria-hidden="true">&raquo;</span>

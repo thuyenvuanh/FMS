@@ -121,10 +121,11 @@
                                     <a href="${deleteProductLink}">
                                         <button class="btn btn-danger bd-0">Delete</button>
                                     </a>
-                                    <a href="ecommerce_product_list.html">
-                                        <button class="btn btn-secondary bd-0">Back to list</button>
-                                    </a>
-
+<%--                                    <a href="ecommerce_product_list.html">--%>
+<%--                                        <button class="btn btn-secondary bd-0">Back to list</button>--%>
+<%--                                    </a>--%>
+                                    <button onclick="history.back()" type="button" class="btn btn-dark">Back to list
+                                    </button>
                                 </div>
                             </div>
                         </div>
