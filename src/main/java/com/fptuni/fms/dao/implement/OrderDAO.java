@@ -42,9 +42,9 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
 
     @Override
     public Integer insertOrder(Orders orders) {
-        String sql = "INSERT INTO Orders\n" +
-                "VALUES (?,?,?)";
-        return insert(sql, orders.getStoreID(), orders.getTotal(), orders.getCreatedDate());
+        String sql = "insert into Orders (StoreID, Total, CreatedDate)\n" +
+                "values (?,?,?)";
+        return insert(sql, orders.getStoreID().getId(), orders.getTotal(), orders.getCreatedDate());
     }
 
     @Override

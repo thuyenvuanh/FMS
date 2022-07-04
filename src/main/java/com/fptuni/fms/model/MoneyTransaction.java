@@ -115,11 +115,11 @@ public class MoneyTransaction implements Serializable {
     }
 
     public BigDecimal getAmount() {
-        return amount;
+        return amount.stripTrailingZeros();
     }
 
     public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+        this.amount = amount.stripTrailingZeros();
     }
 
     public String getMethod() {

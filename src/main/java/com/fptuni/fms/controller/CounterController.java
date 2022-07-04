@@ -35,9 +35,9 @@ public class CounterController extends HttpServlet {
             if(customer != null){
                 Wallet wallet = walletService.getWallet(customer.getId());
                 if(wallet != null){
-                    TransactionShared transactionShared = transactionService.getTransactionSharedByWalletID(wallet.getId());
+                    TransactionShared transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
                     if(transactionShared != null){
-                        BigDecimal amount = transactionService.getCustomerAmount(transactionShared);
+                        BigDecimal amount = transactionService.getCustomerBalance(transactionShared);
                         request.setAttribute("CUSTOMER", customer);
                         request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
                     }

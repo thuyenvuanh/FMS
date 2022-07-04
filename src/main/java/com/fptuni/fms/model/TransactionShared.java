@@ -122,11 +122,11 @@ public class TransactionShared implements Serializable {
     }
 
     public BigDecimal getAmount() {
-        return amount;
+        return amount.stripTrailingZeros();
     }
 
     public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+        this.amount = amount.stripTrailingZeros();
     }
 
     public String getPreviousHash() {
@@ -146,11 +146,11 @@ public class TransactionShared implements Serializable {
     }
 
     public BigDecimal getPreviousBalance() {
-        return previousBalance;
+        return previousBalance.stripTrailingZeros();
     }
 
     public void setPreviousBalance(BigDecimal previousBalance) {
-        this.previousBalance = previousBalance;
+        this.previousBalance = previousBalance.stripTrailingZeros();
     }
 
     public Date getCreatedDate() {
@@ -212,8 +212,8 @@ public class TransactionShared implements Serializable {
 
     @Override
     public String toString() {
-        return String.valueOf(id) + String.valueOf(amount) + String.valueOf(previousHash)
-                + String.valueOf(previousBalance) + String.valueOf(createdDate.getTime()) + String.valueOf(status)
+        return String.valueOf(amount.stripTrailingZeros()) + String.valueOf(previousHash)
+                + String.valueOf(previousBalance.stripTrailingZeros()) + String.valueOf(createdDate.getTime()) + String.valueOf(status)
                 + String.valueOf(moneyTransactionID == null ? "" : moneyTransactionID.getId())
                 + String.valueOf(paymentID == null ? "" : paymentID.getId()
                 + String.valueOf(walletID == null ? "" : walletID.getId()));

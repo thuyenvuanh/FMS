@@ -1,17 +1,15 @@
 package com.fptuni.fms.service.implement;
 
 import com.fptuni.fms.dao.implement.*;
-import com.fptuni.fms.model.*;
+import com.fptuni.fms.model.Orders;
+import com.fptuni.fms.model.Payment;
+import com.fptuni.fms.model.TransactionShared;
+import com.fptuni.fms.model.Wallet;
 import com.fptuni.fms.service.IPaymentService;
 import com.fptuni.fms.utils.SecurityUtils;
-import com.sun.org.apache.xalan.internal.extensions.ExpressionContext;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.swing.plaf.basic.BasicIconFactory;
 import java.math.BigDecimal;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 public class PaymentService implements IPaymentService {
 
@@ -24,7 +22,7 @@ public class PaymentService implements IPaymentService {
     private final PaymentDAO paymentDAO = new PaymentDAO();
 
     @Override
-    public void makePayment(HttpServletRequest request) {
+    public boolean makePayment(HttpServletRequest request) {
         //check if the wallet exist and have enough money
         //if fulfill the criteria write order, orderDetail, payment, and transaction to the database
         //else return to the cashier screen and notify error message
@@ -33,28 +31,36 @@ public class PaymentService implements IPaymentService {
         try {
             if (wallet == null) throw new Exception("Wallet not found");
             if (orders == null) throw new Exception("Order not found");
-            TransactionShared temp = transactionService.getTransactionSharedByWalletID(wallet.getId());
-            if (temp != null) {
-                BigDecimal balance = transactionService.getCustomerAmount(temp);
+            //get the latest transaction of the wallet
+            TransactionShared latestTransactionSharedByWalletID = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
+            if (latestTransactionSharedByWalletID != null) {
+                BigDecimal balance = transactionService.getCustomerBalance(latestTransactionSharedByWalletID);
                 if (balance.compareTo(orders.getTotal()) >= 0) {
-                    //all criteria meet
-                    //create order and order detail, payment
-                    Payment payment = new Payment(0, orders.getTotal());
-                    payment.setOrderID(orders);
-                    TransactionShared latest = transactionService.getLatestTransaction();
-                    String previousHash = latest == null ? "00000000000000000000000000000000" : latest.getHashValue();
+                    int orderID = orderDAO.insertOrder(orders);
+                    orders.setId(orderID);
+                    orders.getOrderDetailList().forEach(
+                            orderDetail -> {
+                                orderDetail.setOrders(orders);
+                                orderDetailDAO.createOrderDetail(orderDetail);
+                            }
+                    );
+                    Payment payment = new Payment(orders.getTotal(), orders);
+                    payment.setId(paymentDAO.insertPayment(payment));
+                    TransactionShared latestTransaction = transactionService.getLatestTransaction();
+                    String previousHash = latestTransaction == null
+                            ? "00000000000000000000000000000000"
+                            : latestTransaction.getHashValue();
                     TransactionShared newTransaction = new TransactionShared(payment.getAmount(),
-                    previousHash, null, temp.getPreviousBalance(), orders.getCreatedDate(),
+                            previousHash, null, balance, orders.getCreatedDate(),
                             true, null, payment, wallet);
-                    //insert order, orderDetail, payment and transaction to database;
-                    orderDAO.insertOrder(orders);
-                    orders.getOrderDetailList().forEach(orderDetail -> orderDetailDAO.createOrderDetail(orderDetail));
-                    paymentDAO.insertPayment(payment);
+                    newTransaction.setHashValue(SecurityUtils.createHash(newTransaction.toString(), String.valueOf(newTransaction.getCreatedDate().getTime())));
                     transactionSharedDAO.insertTransaction(newTransaction);
+                    return true;
                 } else throw new Exception("Balance insufficient");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return false;
     }
 }
