@@ -16,6 +16,8 @@
     <title>Customer List</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
+<%--    Jquery--%>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- FooTable -->
     <link href="../css/plugins/footable/footable.core.css" rel="stylesheet"/>
@@ -196,8 +198,9 @@
                                 <%--For listing--%>
                                 <c:forEach var="list" items="${requestScope.customerList}">
                                     <tr>
-                                        <td id="showMore"><a>
-                                                ${list.name}</a></td>
+                                        <td>
+                                            <a id="showMore">${list.name}</a>
+                                        </td>
                                         <td class="text-left">${list.phone}</td>
                                         <c:choose>
                                             <c:when test="${list.isDeleted == false}">
@@ -225,34 +228,33 @@
                                     </tr>
                                     <%--                                    Show detail here--%>
 
-                                    <tr id="cusdetail" style="display:none;">
-                                        <td>
-                                            <p>DoB: ${list.doB}</p>
-                                        </td>
-                                        <td>
-                                            <p>Address: ${list.address}</p>
-                                        </td>
-                                        <c:choose>
-                                            <c:when test="${list.gender == 0}">
-                                                <td>
-                                                    <p>Gender: Male</p>
-                                                </td>
-                                            </c:when>
-                                            <c:when test="${list.gender == 1}">
-                                                <td>
-                                                    <p>Gender: Female</p>
-                                                </td>
-                                            </c:when>
-                                            <c:when test="${list.gender == 2}">
-                                                <td>
-                                                    <p>Gender: LGBT</p>
-                                                </td>
-                                            </c:when>
-                                        </c:choose>
-                                    </tr>
+                                        <tr id="cusdetail" style="display: none">
+                                            <td class="col-sm-3">
+                                                <p>DoB: ${list.doB}</p>
+                                            </td>
+                                            <td class="col-sm-3">
+                                                <p>Address: ${list.address}</p>
+                                            </td>
+                                            <c:choose>
+                                                <c:when test="${list.gender == 0}">
+                                                    <td class="col-sm-3">
+                                                        <p>Gender: Male</p>
+                                                    </td>
+                                                </c:when>
+                                                <c:when test="${list.gender == 1}">
+                                                    <td class="col-sm-3">
+                                                        <p>Gender: Female</p>
+                                                    </td>
+                                                </c:when>
+                                                <c:when test="${list.gender == 2}">
+                                                    <td class="col-sm-3">
+                                                        <p>Gender: LGBT</p>
+                                                    </td>
+                                                </c:when>
+                                            </c:choose>
+                                        </tr>
 
                                 </c:forEach>
-
                                 </tbody>
 
                                 <tfoot>
@@ -359,11 +361,22 @@
 </script>
 
 <script>
-    $('#showMore').click(function () {
-        $('#cusdetail').css('display', 'block');
+    $("#showMore").click(function() {
+        var searchString = $('#showMore').val();
+
+        if($("#cusdetail").css("display","none")){
+            $("#cusdetail").css("display","block").filter(function() {
+                return $(this).text().trim() === searchString;
+
+            })
+        }else if ($("#cusdetail").css("display","block")){
+            $("#cusdetail").css("display","none").filter(function() {
+                return $(this).text().trim() === searchString;
+            })
+        }
+
     });
 </script>
-
 
 </body>
 </html>
