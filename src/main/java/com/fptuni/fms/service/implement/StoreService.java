@@ -116,6 +116,7 @@ public class StoreService implements IStoreService {
             session.setAttribute("updateStatus", "fail");
             return request.getContextPath() + "/store/list";
         }
+        session.setAttribute("updateStatus", "success");
 
         return "/store/list";
     }

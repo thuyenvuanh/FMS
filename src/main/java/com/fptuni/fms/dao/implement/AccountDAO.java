@@ -6,6 +6,7 @@ import com.fptuni.fms.model.Account;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.utils.SecurityUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -90,10 +91,22 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         // Sort theo field xong moi paging
         // Neu chon sortField khac thi cac Product moi trang se thay doi
         // Vi du: sortField = ID ==> list ID ASC ==> paging
-        String sql = "SELECT * FROM \n"
-                + "(SELECT Account.ID, Username, FullName, RoleID, Name, Account.IsDeleted "
-                + "FROM Account Join Role On Account.RoleID = Role.ID "
-                + "WHERE Account.IsDeleted = ? AND Username LIKE ? AND FullName LIKE ? AND RoleID = ?\n";
+
+        String sql = "";
+
+        if(roleId == 0){
+            sql = "SELECT * FROM \n"
+                    + "(SELECT Account.ID, Username, FullName, RoleID, Name, Account.IsDeleted "
+                    + "FROM Account Join Role On Account.RoleID = Role.ID "
+                    + "WHERE Account.IsDeleted = ? AND Username LIKE ? AND FullName LIKE ?\n";
+        }
+        else {
+            sql = "SELECT * FROM \n"
+                    + "(SELECT Account.ID, Username, FullName, RoleID, Name, Account.IsDeleted "
+                    + "FROM Account Join Role On Account.RoleID = Role.ID "
+                    + "WHERE Account.IsDeleted = ? AND Username LIKE ? AND FullName LIKE ? AND RoleID = ?\n";
+        }
+
         String orderBy;
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
             orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
@@ -108,8 +121,14 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
             sql += "ORDER BY A." + pageable.getSorter().getSortField() + " " + orderBy;
         }
 
-        List<Account> listAcc = query(sql, new AccountMapper(), isDelete, "%" + username + "%", "%" + fullName + "%", roleId);
-        return listAcc;
+
+        if(roleId == 0){
+            return query(sql, new AccountMapper(), isDelete, "%" + username + "%", "%" + fullName + "%");
+        }
+        else {
+            return query(sql, new AccountMapper(), isDelete, "%" + username + "%", "%" + fullName + "%", roleId);
+        }
+
     }
 
     @Override
