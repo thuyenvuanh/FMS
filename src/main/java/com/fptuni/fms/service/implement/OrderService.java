@@ -121,7 +121,7 @@ public class OrderService implements IOrderService {
         Account account = (Account) session.getAttribute("account");
         IOrderDAO orderDAO = new OrderDAO();
         IStoreDAO storeDAO = new StoreDAO();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         int page = 1;
         int pageSize = 5;
         String sortField = "ID";

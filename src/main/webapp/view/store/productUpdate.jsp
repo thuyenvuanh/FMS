@@ -137,12 +137,13 @@
                                         >
                                             Submit
                                         </button>
-                                        <a href="${requestScope.contextPath}/view/store/productList.jsp">
-                                            <button class="btn btn-secondary bd-0">
-                                                Cancel
-                                            </button>
-                                        </a
-                                        >
+<%--                                        <a href="${requestScope.contextPath}/view/store/productList.jsp">--%>
+<%--                                            <button class="btn btn-secondary bd-0 btn-cancel">--%>
+<%--                                                Cancel--%>
+<%--                                            </button>--%>
+<%--                                        </a>--%>
+                                        <button onclick="history.back()" type="button" class="btn btn-dark">Cancel
+                                        </button>
                                     </div>
                                 </form>
                                 <c:url var="uploadImgLink" value="/product/upload"></c:url>
