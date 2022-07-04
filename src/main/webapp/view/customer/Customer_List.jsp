@@ -198,9 +198,7 @@
                                 <%--For listing--%>
                                 <c:forEach var="list" items="${requestScope.customerList}">
                                     <tr>
-                                        <td>
-                                            <a id="showMore">${list.name}</a>
-                                        </td>
+                                        <td>${list.name}</td>
                                         <td class="text-left">${list.phone}</td>
                                         <c:choose>
                                             <c:when test="${list.isDeleted == false}">
@@ -218,9 +216,9 @@
                                         <td class="text-center">
                                             <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}"
                                                class="btn btn-primary btn-sm">Delete</a>
-                                            <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}"
+                                            <a id="showMore"
                                                class="btn btn-primary btn-sm">Detail</a>
-                                            <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}"
+                                            <a href="<%=request.getContextPath()%>/customer/update?phonenum=${list.phone}"
                                                class="btn btn-primary btn-sm">Update</a>
                                         </td>
                                         <td class="text-right">100$</td>
@@ -364,17 +362,15 @@
     $("#showMore").click(function() {
         var searchString = $('#showMore').val();
 
-        if($("#cusdetail").css("display","none")){
+        if($("#cusdetail").css('display') == 'none'){
             $("#cusdetail").css("display","block").filter(function() {
                 return $(this).text().trim() === searchString;
-
             })
-        }else if ($("#cusdetail").css("display","block")){
+        }else if ($("#cusdetail").css('display') == 'block'){
             $("#cusdetail").css("display","none").filter(function() {
                 return $(this).text().trim() === searchString;
             })
         }
-
     });
 </script>
 

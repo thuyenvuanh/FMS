@@ -13,4 +13,5 @@ public interface ICustomerService {
     Integer CountCustomer ();
     Integer DeleteCustomer(String phoneNum);
     Customer getDetail (String phoneNum);
+    boolean updateCustomerInfo (Customer customer);
 }

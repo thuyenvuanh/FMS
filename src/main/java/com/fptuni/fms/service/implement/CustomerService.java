@@ -91,4 +91,10 @@ public class CustomerService implements ICustomerService {
         ICustomerDAO customerDAO = new CustomerDAO();
         return customerDAO.getDetail(phoneNum);
     }
+
+    @Override
+    public boolean updateCustomerInfo(Customer customer) {
+        ICustomerDAO customerDAO = new CustomerDAO();
+        return customerDAO.updateCustomerInfo(customer);
+    }
 }

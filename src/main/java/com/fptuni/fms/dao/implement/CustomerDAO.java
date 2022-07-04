@@ -5,6 +5,7 @@ import com.fptuni.fms.mapper.CustomerMapper;
 import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.paging.Pageable;
 
+import javax.naming.Name;
 import java.util.List;
 
 public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
@@ -71,5 +72,19 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
                 "where Phone = ? ";
         List<Customer> cus = query(sql, new CustomerMapper(), phoneNum);
         return cus.isEmpty() ? null : cus.get(0);
+    }
+
+    @Override
+    public boolean updateCustomerInfo(Customer customer) {
+        String sql = " UPDATE [dbo].[Customer]\n" +
+                " SET Name = ?, DoB = ?, Address = ?, Gender = ?, Phone = ?\n" +
+                " WHERE Phone = ? ";
+        return update(sql,
+                customer.getName(),
+                customer.getDoB(),
+                customer.getAddress(),
+                customer.getGender(),
+                customer.getPhone(),
+                customer.getPhone());
     }
 }

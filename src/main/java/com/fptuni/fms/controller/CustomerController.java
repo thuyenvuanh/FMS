@@ -96,6 +96,16 @@ public class CustomerController extends HttpServlet {
                 }
             }
             response.sendRedirect(request.getContextPath() + "/customer/list");
+            
+        } else if (path.equals("/Movetoupdate")) {
+            ICustomerService customerService = new CustomerService();
+            String phone = request.getParameter("phonenum");
+            Customer customer = customerService.getCustomerByPhoneNum(phone);
+            request.setAttribute("customerinfo",customer);
+            request.getRequestDispatcher("/view/customer/Customer_Update.jsp")
+                    .forward(request, response);
+
+        } else if (path.equals("/update")) {
 
         }
     }
