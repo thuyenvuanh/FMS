@@ -138,23 +138,23 @@
                             <div class="col-lg-8">
                                 <div class="form-group">
                                     <label>Username *</label>
-                                    <input id="userName" name="userName" type="text" class="form-control required" aria-required="true">
+                                    <input placeholder="" id="userName" name="userName" type="text" class="form-control required" aria-required="true">
                                 </div>
                                 <div class="form-group">
                                     <label>Phone *</label>
-                                    <input id="phone" name="phone" type="text" class="form-control required" aria-required="true">
+                                    <input placeholder="" id="phone" name="phone" type="text" class="form-control required" aria-required="true">
                                 </div>
                                 <div class="form-group">
                                     <label>Date of Birth</label>
-                                    <input id="dob" name="DoB" type="text" class="form-control required" aria-required="true">
+                                    <input placeholder="" id="dob" name="DoB" type="text" class="form-control required" aria-required="true">
                                 </div>
                                 <div class="form-group">
                                     <label>Address</label>
-                                    <input id="address" name="address" type="text" class="form-control required" aria-required="true">
+                                    <input placeholder="" id="address" name="address" type="text" class="form-control required" aria-required="true">
                                 </div>
                                 <div class="form-group">
                                     <label>Gender</label>
-                                    <input id="gender" name="gender" type="text" class="form-control required" aria-required="true">
+                                    <input placeholder="" id="gender" name="gender" type="text" class="form-control required" aria-required="true">
                                 </div>
                             </div>
                             <div class="col-lg-4">
