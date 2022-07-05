@@ -218,7 +218,7 @@
                                                class="btn btn-primary btn-sm">Delete</a>
                                             <a id="showMore"
                                                class="btn btn-primary btn-sm">Detail</a>
-                                            <a href="<%=request.getContextPath()%>/customer/update?phonenum=${list.phone}"
+                                            <a href="<%=request.getContextPath()%>/customer/Movetoupdate?phonenum=${list.phone}"
                                                class="btn btn-primary btn-sm">Update</a>
                                         </td>
                                         <td class="text-right">100$</td>

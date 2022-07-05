@@ -47,7 +47,8 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer getCustomerByPhoneNum(String PhoneNum) {
-        return null;
+        ICustomerDAO customerDAO = new CustomerDAO();
+        return customerDAO.getByPhoneNum(PhoneNum);
     }
 
     @Override

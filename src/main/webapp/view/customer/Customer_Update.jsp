@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <!-- Mirrored from webapplayers.com/inspinia_admin-v2.9.4/ecommerce_product_list.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jun 2022 04:37:12 GMT -->
 
@@ -135,38 +136,64 @@
                     <fieldset id="form-p-0" role="tabpanel" aria-labelledby="form-h-0" class="body current" aria-hidden="false">
                         <h2>Update Information</h2>
                         <div class="row">
-                            <div class="col-lg-8">
-                                <div class="form-group">
-                                    <label>Username *</label>
-                                    <input placeholder="" id="userName" name="userName" type="text" class="form-control required" aria-required="true">
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone *</label>
-                                    <input placeholder="" id="phone" name="phone" type="text" class="form-control required" aria-required="true">
-                                </div>
-                                <div class="form-group">
-                                    <label>Date of Birth</label>
-                                    <input placeholder="" id="dob" name="DoB" type="text" class="form-control required" aria-required="true">
-                                </div>
-                                <div class="form-group">
-                                    <label>Address</label>
-                                    <input placeholder="" id="address" name="address" type="text" class="form-control required" aria-required="true">
-                                </div>
-                                <div class="form-group">
-                                    <label>Gender</label>
-                                    <input placeholder="" id="gender" name="gender" type="text" class="form-control required" aria-required="true">
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="text-center">
-                                    <div style="margin-top: 20px">
-                                        <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+
+                                <c:forEach var="update" items="${requestScope.info}">
+                                    <c:url var="CustomerUpdate" value="${requestScope.contextPath}/customer/update" >
+                                    </c:url>
+                                    <form action="${CustomerUpdate}">
+                                    <div class="col-lg-8">
+                                        <div class="form-group">
+                                            <label>Username *</label>
+                                            <input placeholder="${update.name}" disabled="disabled" class="form-control required" aria-required="true">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Phone *</label>
+                                            <input placeholder="${update.phone}" name="phone" value="${update.phone}" disabled="disabled" class="form-control required" aria-required="true">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Date of Birth</label>
+                                            <input placeholder="${update.doB}" name="DoB" type="text" class="form-control required" aria-required="true">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <input placeholder="${update.address}" name="address" type="text" class="form-control required" aria-required="true">
+                                        </div>
+
+                                        <c:choose>
+                                            <c:when test="${update.gender == 0}">
+                                                <div class="form-group">
+                                                    <label>Gender</label>
+                                                    <input placeholder="Male" name="gender" type="text" class="form-control required" aria-required="true">
+                                                </div>
+                                            </c:when>
+                                            <c:when test="${update.gender == 1}">
+                                                <div class="form-group">
+                                                    <label>Gender</label>
+                                                    <input placeholder="Female" name="gender" type="text" class="form-control required" aria-required="true">
+                                                </div>
+                                            </c:when>
+                                            <c:when test="${update.gender == 2}">
+                                                <div class="form-group">
+                                                    <label>Gender</label>
+                                                    <input placeholder="None" name="gender" type="text" class="form-control required" aria-required="true">
+                                                </div>
+                                            </c:when>
+                                        </c:choose>
+
+                                    </div>
+                                <div class="col-lg-4">
+                                    <div class="text-center">
+                                        <div style="margin-top: 20px">
+                                            <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="w-100 p-3">
-                                <a href="#next" class="btn btn-primary" role="menuitem">Apply</a>
-                            </div>
+                                <div class="w-100 p-3">
+<%--                                    <a href="#next" class="btn btn-primary" role="menuitem">Apply</a>--%>
+                                    <button class="btn btn-primary">Apply</button>
+                                </div>
+                            </form>
+                            </c:forEach>
                         </div>
                     </fieldset>
                 </div>

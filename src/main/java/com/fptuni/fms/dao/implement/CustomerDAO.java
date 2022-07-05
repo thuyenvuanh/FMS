@@ -38,7 +38,7 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
 
     @Override
     public Customer getByPhoneNum(String phoneNum) {
-        String sql = "select Name, Phone\n" +
+        String sql = "select Name , Phone , IsDeleted, DoB, Address, Gender\n" +
                 "from [dbo].[Customer]\n" +
                 "where Phone = ? ";
         List<Customer> cus = query(sql, new CustomerMapper(), phoneNum);
@@ -77,11 +77,9 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
     @Override
     public boolean updateCustomerInfo(Customer customer) {
         String sql = " UPDATE [dbo].[Customer]\n" +
-                " SET Name = ?, DoB = ?, Address = ?, Gender = ?, Phone = ?\n" +
+                " SET Address = ?, Gender = ?, Phone = ?\n" +
                 " WHERE Phone = ? ";
         return update(sql,
-                customer.getName(),
-                customer.getDoB(),
                 customer.getAddress(),
                 customer.getGender(),
                 customer.getPhone(),

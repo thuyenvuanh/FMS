@@ -18,6 +18,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -99,14 +101,40 @@ public class CustomerController extends HttpServlet {
             
         } else if (path.equals("/Movetoupdate")) {
             ICustomerService customerService = new CustomerService();
+            Customer customer = new Customer();
             String phone = request.getParameter("phonenum");
-            Customer customer = customerService.getCustomerByPhoneNum(phone);
-            request.setAttribute("customerinfo",customer);
+            customer = customerService.getCustomerByPhoneNum(phone);
+            List<Customer> list = new ArrayList<>();
+            if (customer != null){
+                list.add(customer);
+            }
+            request.setAttribute("info",list);
             request.getRequestDispatcher("/view/customer/Customer_Update.jsp")
-                    .forward(request, response);
+                    .forward(request,response);
 
         } else if (path.equals("/update")) {
-
+            ICustomerService customerService = new CustomerService();
+            Customer customer = new Customer();
+            String phone = request.getParameter("phone");
+            String date = request.getParameter("DoB");
+            try {
+                Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            String address = request.getParameter("address");
+            String gender = request.getParameter("gender");
+            customer = customerService.getCustomerByPhoneNum(phone);
+            if (customer != null){
+                if (!date.equals("") && date != null && address != null && !address.equals("")
+                        && gender != null && !gender.equals("")){
+                    customerService.updateCustomerInfo(customer);
+                }else {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("Error", "Fail to update");
+                }
+            }
+            response.sendRedirect(request.getContextPath() + "/customer/list");
         }
     }
 
