@@ -76,15 +76,15 @@ public class CustomerController extends HttpServlet {
             /*Change to wallet or transaction
             List<Category> categories = categoryService.getCategories();
             request.setAttribute("categories", categories);*/
-                int totalPages = customerService.CountCustomer() / pageSize;
-                if (customerService.CountCustomer() % pageSize != 0) {
-                    totalPages++;
-                }
-                request.setAttribute("customerList", customers);
+            int totalPages = customerService.CountCustomer() / pageSize;
+            if (customerService.CountCustomer() % pageSize != 0) {
+                totalPages++;
+            }
+            request.setAttribute("customerList", customers);
 
-                request.setAttribute("totalPages", totalPages);
-                request.getRequestDispatcher("/view/customer/Customer_List.jsp")
-                        .forward(request, response);
+            request.setAttribute("totalPages", totalPages);
+            request.getRequestDispatcher("/view/customer/Customer_List.jsp")
+                    .forward(request, response);
 
         } else if (path.equals("/remove")) {
             String phoneNum = request.getParameter("phonenum");
@@ -98,45 +98,48 @@ public class CustomerController extends HttpServlet {
                 }
             }
             response.sendRedirect(request.getContextPath() + "/customer/list");
-            
+
         } else if (path.equals("/Movetoupdate")) {
             ICustomerService customerService = new CustomerService();
             Customer customer = new Customer();
             String phone = request.getParameter("phonenum");
             customer = customerService.getCustomerByPhoneNum(phone);
             List<Customer> list = new ArrayList<>();
-            if (customer != null){
+            if (customer != null) {
                 list.add(customer);
             }
-            request.setAttribute("info",list);
+            request.setAttribute("info", list);
             request.getRequestDispatcher("/view/customer/Customer_Update.jsp")
-                    .forward(request,response);
+                    .forward(request, response);
 
         } else if (path.equals("/update")) {
             ICustomerService customerService = new CustomerService();
             Customer customer = new Customer();
             String phone = request.getParameter("phone");
+            customer = customerService.getCustomerByPhoneNum(phone);
             String date = request.getParameter("DoB");
+            String address = request.getParameter("address");
+            String gender = request.getParameter("gender");
+            Short Sgender = 0;
+            if (gender.toLowerCase().equals("male")) {
+                Sgender = 0;
+            } else if (gender.toLowerCase().equals("female")) {
+                Sgender = 1;
+            } else {
+                Sgender = 2;
+            }
             try {
                 Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                customer.setDoB(dob);
+                customer.setAddress(address);
+                customer.setGender(Sgender);
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
-            String address = request.getParameter("address");
-            String gender = request.getParameter("gender");
-            customer = customerService.getCustomerByPhoneNum(phone);
-            if (customer != null){
-                if (!date.equals("") && date != null && address != null && !address.equals("")
-                        && gender != null && !gender.equals("")){
-                    customerService.updateCustomerInfo(customer);
-                }else {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("Error", "Fail to update");
-                }
-            }
+            customerService.updateCustomerInfo(customer);
             response.sendRedirect(request.getContextPath() + "/customer/list");
         }
-    }
+}
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

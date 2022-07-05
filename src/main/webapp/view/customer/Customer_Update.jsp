@@ -138,17 +138,18 @@
                         <div class="row">
 
                                 <c:forEach var="update" items="${requestScope.info}">
+<%--                                    class="btn btn-primary"--%>
                                     <c:url var="CustomerUpdate" value="${requestScope.contextPath}/customer/update" >
                                     </c:url>
                                     <form action="${CustomerUpdate}">
                                     <div class="col-lg-8">
                                         <div class="form-group">
-                                            <label>Username *</label>
-                                            <input placeholder="${update.name}" disabled="disabled" class="form-control required" aria-required="true">
+                                            <label>Username</label>
+                                            <input name="name" value="${update.name}" readonly class="form-control required" aria-required="true">
                                         </div>
                                         <div class="form-group">
-                                            <label>Phone *</label>
-                                            <input placeholder="${update.phone}" name="phone" value="${update.phone}" disabled="disabled" class="form-control required" aria-required="true">
+                                            <label>Phone</label>
+                                            <input name="phone" value="${update.phone}" readonly class="form-control required" aria-required="true">
                                         </div>
                                         <div class="form-group">
                                             <label>Date of Birth</label>
@@ -190,7 +191,7 @@
                                 </div>
                                 <div class="w-100 p-3">
 <%--                                    <a href="#next" class="btn btn-primary" role="menuitem">Apply</a>--%>
-                                    <button class="btn btn-primary">Apply</button>
+                                    <input type="submit" value="submit" class="btn btn-primary">
                                 </div>
                             </form>
                             </c:forEach>

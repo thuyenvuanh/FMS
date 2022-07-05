@@ -150,7 +150,6 @@
                                 <div class="input-group m-b">
                                     <div class="input-group-prepend">
                                         <select name="" id="" class="form-control">
-                                            <%--                                            <option value="">Customer name</option>--%>
                                             <option value="">Phone</option>
                                         </select>
                                     </div>
