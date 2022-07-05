@@ -195,6 +195,7 @@
                                 <tbody>
 
                                 <%--For listing--%>
+
                                 <c:forEach var="list" items="${requestScope.customerList}">
                                     <tr>
                                         <td>${list.name}</td>
@@ -215,17 +216,16 @@
                                         <td class="text-center">
                                             <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}"
                                                class="btn btn-primary btn-sm">Delete</a>
-                                            <a id="showMore"
-                                               class="btn btn-primary btn-sm">Detail</a>
+                                            <a
+                                               class="btn btn-primary btn-sm ${list.phone}">Detail</a>
                                             <a href="<%=request.getContextPath()%>/customer/Movetoupdate?phonenum=${list.phone}"
                                                class="btn btn-primary btn-sm">Update</a>
                                         </td>
                                         <td class="text-right">100$</td>
-
                                     </tr>
                                     <%--                                    Show detail here--%>
-
-                                        <tr id="cusdetail" style="display: none">
+                                    <input name="var" value="${list.phone}" type="hidden">
+                                        <tr id="${list.phone}" style="display: none">
                                             <td class="col-sm-3">
                                                 <p>DoB: ${list.doB}</p>
                                             </td>
@@ -358,19 +358,21 @@
 </script>
 
 <script>
-    $("#showMore").click(function() {
-        var searchString = $('#showMore').val();
+   <c:forEach var="list" items="${requestScope.customerList}">
+   $(".${list.phone}").click(function() {
+       //var searchString = $('#showMore').val();
 
-        if($("#cusdetail").css('display') == 'none'){
-            $("#cusdetail").css("display","block").filter(function() {
-                return $(this).text().trim() === searchString;
-            })
-        }else if ($("#cusdetail").css('display') == 'block'){
-            $("#cusdetail").css("display","none").filter(function() {
-                return $(this).text().trim() === searchString;
-            })
-        }
-    });
+       if($("#${list.phone}").css('display') == 'none'){
+           $("#${list.phone}").css("display","block").filter(function() {
+               //return $(this).text().trim() === searchString;
+           })
+       }else if ($("#${list.phone}").css('display') == 'block'){
+           $("#${list.phone}").css("display","none").filter(function() {
+               //return $(this).text().trim() === searchString;
+           })
+       }
+   });
+   </c:forEach>
 </script>
 
 </body>
