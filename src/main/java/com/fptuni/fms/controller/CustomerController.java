@@ -53,7 +53,12 @@ public class CustomerController extends HttpServlet {
                         response.sendRedirect(request.getContextPath() + "/customer/list");
                     }
                 }
+            }else {
+                request.setAttribute("msgblank","Can not blank");
+                request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
+                        .forward(request,response);
             }
+
         } else if (path.equals("/search")) {
             CustomerDAO customerDAO = new CustomerDAO();
             String phoneNum = request.getParameter("searchItem");
@@ -61,11 +66,17 @@ public class CustomerController extends HttpServlet {
                     !phoneNum.equals("")) {
                 List<Customer> customer = new ArrayList<>();
                 Customer cus = customerDAO.getByPhoneNum(phoneNum);
-                customer.add(cus);
-                request.setAttribute("customerList", customer);
-                request.getRequestDispatcher("/view/customer/Customer_List.jsp")
-                        .forward(request, response);
+                if(cus != null){
+                    customer.add(cus);
+                    request.setAttribute("customerList", customer);
+                    request.getRequestDispatcher("/view/customer/Customer_List.jsp")
+                            .forward(request, response);
+                }else {
+                    request.setAttribute("CNF1","Can not found");
+                    response.sendRedirect(request.getContextPath() + "/customer/list");
+                }
             } else {
+                request.setAttribute("CNF2","Can not found");
                 response.sendRedirect(request.getContextPath() + "/customer/list");
             }
 
@@ -141,7 +152,6 @@ public class CustomerController extends HttpServlet {
             }else {
                 request.setAttribute("msgEx","Blank is not accepted");
                 System.out.println("Blank error");
-                //customer = customerService.getCustomerByPhoneNum(phone);
                 List<Customer> list = new ArrayList<>();
                 if (customer != null) {
                     list.add(customer);
