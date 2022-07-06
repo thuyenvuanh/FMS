@@ -1,12 +1,11 @@
 package com.fptuni.fms.controller;
 
-import com.fptuni.fms.model.Category;
-import com.fptuni.fms.model.OrderDetail;
-import com.fptuni.fms.model.Product;
-import com.fptuni.fms.model.Orders;
+import com.fptuni.fms.model.*;
+import com.fptuni.fms.service.ICustomerService;
 import com.fptuni.fms.service.IOrderDetailService;
 import com.fptuni.fms.service.IOrderService;
 import com.fptuni.fms.service.IProductService;
+import com.fptuni.fms.service.implement.CustomerService;
 import com.fptuni.fms.service.implement.OrderDetailService;
 import com.fptuni.fms.service.implement.OrderService;
 import com.fptuni.fms.service.implement.ProductService;
@@ -27,6 +26,7 @@ public class OrderController extends HttpServlet {
     private static final OrderService orderService = new OrderService();
     private static final IOrderDetailService orderDetailServiceService = new OrderDetailService();
     private static final IProductService productService = new ProductService();
+    private static final ICustomerService customerService = new CustomerService();
 
     @Override
     public void init() throws ServletException {
@@ -62,17 +62,9 @@ public class OrderController extends HttpServlet {
             case "/view":
                 List<OrderDetail> orderDetails = orderDetailServiceService.getOrderDetailByOrderID(request, response);
                 List<Product> products = productService.getProductByOrderID(request, response);
-//                List<Orders> ordersList = orderService.getOrders(request, response);
-//                Orders order = null;
-//                int orderID = Integer.parseInt(request.getParameter("orderID"));
-//                for (Orders o : ordersList) {
-//                    if (orderID == o.getId()) {
-//                        request.setAttribute("total", o.getTotal());
-//                        request.setAttribute("createDate", o.getCreatedDate());
-//                        break;
-//                    }
-//                }
                 Orders order = orderService.getOrder(request, response);
+                Customer customer = customerService.getCustomerByOrderID(request, response);
+                request.setAttribute("customer", customer);
                 request.setAttribute("order", order);
                 request.setAttribute("orderDetail", orderDetails);
                 request.setAttribute("products", products);

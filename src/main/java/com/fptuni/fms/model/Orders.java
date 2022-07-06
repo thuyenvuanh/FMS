@@ -70,8 +70,6 @@ public class Orders implements Serializable {
 
     private Timestamp createdDateTime;
 
-
-
     public Orders() {
     }
 
@@ -114,9 +112,6 @@ public class Orders implements Serializable {
         return createdDate;
     }
     public Timestamp getCreatedDateTime() {
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(createdDate);
-//        return calendar;
         return createdDateTime;
     }
 

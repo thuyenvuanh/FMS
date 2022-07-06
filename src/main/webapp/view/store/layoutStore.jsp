@@ -27,7 +27,8 @@
             </li>
 
             <li class="active">
-                <a href="layout.html"
+                <c:url var="storeDashBoardLink" value="${requestScope.contextPath}/dashboard/store"></c:url>
+                <a href="${storeDashBoardLink}"
                 ><i class="fa fa-home"></i> <span class="nav-label">Home</span></a
                 >
             </li>

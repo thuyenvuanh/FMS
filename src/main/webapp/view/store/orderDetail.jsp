@@ -62,7 +62,7 @@
                 <div class="ibox-content p-xl">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h5>From:</h5>
+                            <h5>Store:</h5>
                             <address>
                                 <strong>${sessionScope.store.name}</strong><br>
                                 106 Jorg Avenu, 600/10<br>
@@ -72,14 +72,15 @@
                         </div>
 
                         <div class="col-sm-6 text-right">
+                            <c:set var="customerDetail" value="${requestScope.customer}"></c:set>
                             <h4>Invoice No.</h4>
-                            <h4 class="text-navy">INV-000567F7-00</h4>
-                            <span>To:</span>
+                            <h4 class="text-navy">${requestScope.order.id}</h4>
+                            <span><strong>Customer: </strong>${customerDetail.name}</span>
                             <address>
-                                <strong>Corporate, Inc.</strong><br>
-                                112 Street Avenu, 1080<br>
-                                Miami, CT 445611<br>
-                                <abbr title="Phone">P:</abbr> (120) 9000-4321
+                                ${customerDetail.address}<br>
+<%--                                112 Street Avenu, 1080<br>--%>
+<%--                                Miami, CT 445611<br>--%>
+                                <abbr title="Phone">P:</abbr> ${customerDetail.phone}
                             </address>
 
                             <p>
