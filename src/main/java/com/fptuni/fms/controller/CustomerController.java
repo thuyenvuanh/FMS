@@ -128,13 +128,27 @@ public class CustomerController extends HttpServlet {
             } else {
                 Sgender = 2;
             }
-            try {
-                Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-                customer.setDoB(dob);
-                customer.setAddress(address);
-                customer.setGender(Sgender);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
+            if(!date.equals("") && date != null && !address.equals("") && address != null &&
+            gender != null && !gender.equals("")){
+                try {
+                    Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                    customer.setDoB(dob);
+                    customer.setAddress(address);
+                    customer.setGender(Sgender);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+            }else {
+                request.setAttribute("msgEx","Blank is not accepted");
+                System.out.println("Blank error");
+                //customer = customerService.getCustomerByPhoneNum(phone);
+                List<Customer> list = new ArrayList<>();
+                if (customer != null) {
+                    list.add(customer);
+                }
+                request.setAttribute("info", list);
+                request.getRequestDispatcher("/view/customer/Customer_Update.jsp")
+                        .forward(request,response);
             }
             customerService.updateCustomerInfo(customer);
             response.sendRedirect(request.getContextPath() + "/customer/list");

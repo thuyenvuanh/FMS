@@ -245,7 +245,7 @@
                                                 </c:when>
                                                 <c:when test="${list.gender == 2}">
                                                     <td class="col-sm-3">
-                                                        <p>Gender: LGBT</p>
+                                                        <p>Gender: None</p>
                                                     </td>
                                                 </c:when>
                                             </c:choose>
