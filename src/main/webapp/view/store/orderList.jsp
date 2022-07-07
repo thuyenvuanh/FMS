@@ -121,7 +121,7 @@
     <div class="wrapper wrapper-content animated fadeInRight ecommerce">
         <div class="ibox-content m-b-sm border-bottom">
             <c:url var="searchFormLink" value="${requestScope.contextPath}/order/list"></c:url>
-            <form action="${searchFormLink}" method="get" autocomplete="off">
+            <form action="${searchFormLink}" method="post" autocomplete="off">
                 <div class="row">
 
                     <div class="col-lg-4">
@@ -175,32 +175,27 @@
                             </thead>
                             <tbody>
                             <c:forEach var="order" items="${requestScope.orders}">
-                            <tr>
-                                <td>${order.id}</td>
-                                <td>${order.total}</td>
-                                <td>
-                                        <%--                                        <fmt:formatDate value="${order.createdDateTime.time}" var="formattedDate"--%>
-                                        <%--                                                        type="both"--%>
-                                        <%--                                                        dateStyle="short" timeStyle="medium"--%>
-                                        <%--                                                        pattern="dd/MM/yyyy hh:mm:ss"></fmt:formatDate>--%>
-                                        <%--                                            ${formattedDate}--%>
-                                    <fmt:formatDate value="${order.createdDateTime}" var="formattedDate" type="date"
-                                    pattern="dd/MM/yyyy"></fmt:formatDate>
-                                    ${formattedDate}
-                                </td>
-                                <td class="text-right">
-                                    <div class="btn-group">
-                                        <c:url var="viewOrderDetail" value="${requestScope.contextPath}/order/view">
-                                            <c:param name="orderID" value="${order.id}"></c:param>
-                                        </c:url>
-                                        <a href="${viewOrderDetail}">
-                                            <button
-                                                    class="btn-white btn btn-xs">View
-                                            </button>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>${order.id}</td>
+                                    <td>${order.total}</td>
+                                    <td>
+                                        <fmt:formatDate value="${order.createdDateTime}" var="formattedDate" type="date"
+                                                        pattern="dd/MM/yyyy"></fmt:formatDate>
+                                            ${formattedDate}
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                            <c:url var="viewOrderDetail" value="${requestScope.contextPath}/order/view">
+                                                <c:param name="orderID" value="${order.id}"></c:param>
+                                            </c:url>
+                                            <a href="${viewOrderDetail}">
+                                                <button
+                                                        class="btn-white btn btn-xs">View
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
                             </c:forEach>
                             </tbody>
                             <tfoot>
@@ -326,12 +321,13 @@
         });
     });
 </script>
+<c:if test="${requestScope.startDate == null || requestScope.endDate == null}">
 <script>
     var today = moment().format('DD/MM/YYYY');
     $('#datePickerStart').val(today);
     $('#datePickerEnd').val(today);
 </script>
-<!-- Date picker -->
+</c:if>
 <div class="datepicker datepicker-dropdown dropdown-menu datepicker-orient-left datepicker-orient-bottom"
      style="top: 3077.83px; left: 46px; z-index: 10; display: none;">
     <div class="datepicker-days" style="display: none;">

@@ -23,8 +23,6 @@ public class OrderMapper extends AbstractDAO<Orders> implements RowMapper {
 
         try {
             orders = new Orders();
-            Store store = new Store();
-            Account account = new Account();
             orders.setId(rs.getInt("ID"));
             orders.setTotal(rs.getBigDecimal("Total"));
             orders.setCreatedDate(rs.getDate("CreatedDate"));

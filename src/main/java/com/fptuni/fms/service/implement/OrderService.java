@@ -13,6 +13,7 @@ import com.fptuni.fms.paging.PageRequest;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.IOrderService;
 import com.fptuni.fms.sort.Sorter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,10 +22,11 @@ import java.util.*;
 
 public class OrderService implements IOrderService {
 
-   private  IOrderDAO orderDAO = new OrderDAO();
+    private IOrderDAO orderDAO = new OrderDAO();
     private IStoreDAO storeDAO = new StoreDAO();
-    private  IProductDAO productDAO = new ProductDAO();
+    private IProductDAO productDAO = new ProductDAO();
     private ICategoryDAO categoryDAO = new CategoryDAO();
+
     @Override
     public void index(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
@@ -56,11 +58,11 @@ public class OrderService implements IOrderService {
         for (OrderDetail orderDetail : details) {
             if ((orderDetail.getProduct()).equals(product)) {
                 orderDetail.increaseOne();
-                isNewItem  = false;
+                isNewItem = false;
                 break;
             }
         }
-        if (details.isEmpty() || isNewItem){
+        if (details.isEmpty() || isNewItem) {
             OrderDetail newDetail = new OrderDetail();
             newDetail.setOrders(orders);
             newDetail.setProduct(product);
@@ -94,7 +96,7 @@ public class OrderService implements IOrderService {
     @Override
     public void voidAll(HttpServletRequest request, HttpServletResponse response) {
         Orders orders = (Orders) request.getSession().getAttribute("order");
-        orders.setOrderDetailList( new ArrayList<>());
+        orders.setOrderDetailList(new ArrayList<>());
         orders.calcTotal();
         request.getSession().setAttribute("order", orders);
     }
@@ -144,6 +146,9 @@ public class OrderService implements IOrderService {
             if (request.getParameter("startDate") != null && request.getParameter("endDate") != null) {
                 Date start = sdf.parse(request.getParameter("startDate"));
                 Date end = sdf.parse(request.getParameter("endDate"));
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                request.setAttribute("startDateFmt", simpleDateFormat.format(start));
+                request.setAttribute("endDateFmt", simpleDateFormat.format(end));
                 if (start.after(end)) {
                     throw new Exception("Start date must be before end date");
                 } else {

@@ -157,9 +157,10 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
     @Override
     public List<Product> getProductByOrderID(int orderID, Store store) {
         String sql = "SELECT o.ID, od.ProID, p.Name, p.Price, od.Quantity, od.Amount FROM OrderDetail od\n" +
-                " JOIN Orders o ON o.ID = od.OrderID AND o.ID = ? AND StoreID = " + store.getId() +
+//                " JOIN Orders o ON o.ID = od.OrderID AND o.ID = ? AND StoreID = " + store.getId() +
+                " JOIN Orders o ON o.ID = od.OrderID AND o.ID = ? AND StoreID = ? " +
                 " AND od.IsDeleted = 0 AND o.IsDeleted = 0\n" +
                 " JOIN Product p on p.ID = od.ProID AND p.IsDeleted = 0";
-        return query(sql, new OrderDetailMapper(), orderID);
+        return query(sql, new OrderDetailMapper(), orderID, store.getId());
     }
 }

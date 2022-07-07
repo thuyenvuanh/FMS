@@ -1,5 +1,8 @@
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -39,7 +42,8 @@
             <h2>Income</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="home.html">Home</a>
+                    <c:url var="storeDashBoardLink" value="${requestScope.contextPath}/dashboard/store"></c:url>
+                    <a href="${storeDashBoardLink}">Home</a>
                 </li>
                 <li class="breadcrumb-item active">
                     <strong>Income</strong>
@@ -54,20 +58,23 @@
                     <div
                             id="reportrange"
                             style="
-                    background: #fff;
-                    cursor: pointer;
-                    padding: 5px 10px;
-                    border: 1px solid #ccc;
-                    width: 100%;
-                  "
+                                background: #fff;
+                                cursor: pointer;
+                                padding: 5px 10px;
+                                border: 1px solid #ccc;
+                                width: 100%;
+                              "
                     >
                         <i class="fa fa-calendar"></i>&nbsp; <span></span>
                         <i class="fa fa-caret-down"></i>
                     </div>
                 </div>
             </div>
-            <form id="form_date_range" action="#" method="GET">
-                <input type="hidden" id="Start" value=""/>
+
+            <c:url var="dashBoardLink" value="${requestScope.contextPath}/dashboard/store"></c:url>
+            <form id="form_date_range" action="${dashBoardLink}" method="post" style="display: none">
+                <input type="text" name="startDate" id="startDate" value="${requestScope.startDate}"/>
+                <input type="text" name="endDate" id="endDate" value="${requestScope.endDate}"/>
             </form>
             <button
                     id="search_date_range"
@@ -126,7 +133,7 @@
                         <h5 class="">Order</h5>
                     </div>
                     <div class="ibox-content text-warning">
-                        <h1 class="no-margins">1000</h1>
+                        <h1 class="no-margins">${requestScope.numberOfOrders}</h1>
                         <div class="stat-percent font-bold">
                             98% <i class="fa fa-level-up"></i>
                         </div>
@@ -281,12 +288,6 @@
 <!-- FooTable -->
 <script src="../js/plugins/footable/footable.all.min.js"></script>
 
-<!-- Page-Level Scripts -->
-<script>
-    $(document).ready(function () {
-        $(".footable").footable();
-    });
-</script>
 
 <!-- jQuery UI -->
 <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -301,9 +302,47 @@
 <!-- Sparkline demo data  -->
 <script src="../js/demo/sparkline-demo.js"></script>
 
+
 <!-- ChartJS-->
-<script src="../js/plugins/chartJs/Chart.min.js"></script>
+<script src="../../js/plugins/chartJs/Chart.min.js"></script>
+
 <!-- <script src="js/plugins/chartJs/Util.js"></script> -->
+<script src="../../js/jquery-3.1.1.min.js"></script>
+<script src="../../js/popper.min.js"></script>
+<script src="../../js/bootstrap.js"></script>
+<script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="../../js/inspinia.js"></script>
+<script src="../../js/plugins/pace/pace.min.js"></script>
+
+<!-- FooTable -->
+<script src="../../js/plugins/footable/footable.all.min.js"></script>
+
+<!-- jQuery UI -->
+<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+<!-- Jvectormap -->
+<script src="../../js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="../../js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+
+<!-- Sparkline -->
+<script src="../../js/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+<!-- Sparkline demo data  -->
+<script src="../../js/demo/sparkline-demo.js"></script>
+
+<!-- ChartJS-->
+<script src="../../js/plugins/chartJs/Chart.min.js"></script>
+
+
+<!-- Page-Level Scripts -->
+<script>
+    $(document).ready(function () {
+        $(".footable").footable();
+    });
+</script>
 
 <!-- data picker -->
 
@@ -384,19 +423,38 @@
             function (start, end) {
                 console.log("Callback has been called!");
                 $("#reportrange span").html(
-                    start.format("D MMMM YYYY") + " - " + end.format("D MMMM YYYY")
+                    start.format("DD/MM/YYYY") + " - " + end.format("DD/MM/YYYY")
                 );
                 startDate = start;
                 endDate = end;
             }
         );
-        //Set the initial state of the picker label
+        var startDate = new Date('${requestScope.startDateFmt}');
+        var endDate = new Date('${requestScope.endDateFmt}');
+        let sd = startDate.getDate();
+        let sm = startDate.getMonth() + 1;
+        let sy = startDate.getFullYear();
+        let ed = endDate.getDate();
+        let em = endDate.getMonth() + 1;
+        let ey = endDate.getFullYear();
+        if (sd < 10) sd = '0' + sd;
+        if (sm < 10) sm = '0' + sm;
+        if (ed < 10) ed = '0' + ed;
+        if (em < 10) em = '0' + em;
         $("#reportrange span").html(
-            moment().subtract("days", 29).format("D MMMM YYYY") +
+            <c:if test="${requestScope.startDateFmt==null}">
+            moment().subtract("days", 29).format("DD/MM/YYYY") +
             " - " +
-            moment().format("D MMMM YYYY")
-        );
+            moment().format("DD/MM/YYYY")
+        </c:if>
+        <c:if test="${requestScope.startDateFmt!=null}">
+        sd + "/" + sm + "/" + sy +
+        " - " +
+        ed + "/" + em + "/" + ey
+        </c:if>
 
+    )
+        ;
         $("#search_date_range").click(function () {
             if (startDate == null && endDate == null) {
                 console.log(
@@ -405,13 +463,11 @@
                     moment().format("DD/MM/YYYY")
                 );
             } else {
-                console.log(
-                    startDate.format("DD/MM/YYYY") +
-                    " - " +
-                    endDate.format("DD/MM/YYYY")
-                );
-                $("#Start").val(startDate.format("DD/MM/YYYY"));
-                console.log($("#Start").val());
+                $("#startDate").val(startDate.format("DD/MM/YYYY"));
+                $("#endDate").val(endDate.format("DD/MM/YYYY"))
+                console.log($("#startDate").val());
+                console.log($("#endDate").val());
+                console.log($('#reportranges').val());
                 $("#form_date_range").submit();
             }
         });

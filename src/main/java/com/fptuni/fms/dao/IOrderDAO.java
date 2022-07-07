@@ -21,4 +21,5 @@ public interface IOrderDAO extends GenericDAO<Orders> {
 
     boolean updateOrder(int id, int storeID, double total, Timestamp createdDate);
 
+    int countNumberOfOrders();
 }

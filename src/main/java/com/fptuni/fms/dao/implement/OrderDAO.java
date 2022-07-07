@@ -23,14 +23,13 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
         String sql = "SELECT ID, StoreID, Total, CreatedDate\n" +
                 "FROM Orders\n" +
                 "WHERE IsDeleted = 0 AND StoreID =  ?";
-        if (searcher.get("totalAmount") != null && !searcher.get("totalAmount").isEmpty())
-            sql += " AND Total = " + searcher.get("totalAmount");
         if (searcher.get("startDate") != null && !searcher.get("startDate").isEmpty())
-            sql += " AND CONVERT(VARCHAR, CreatedDate, 103)  >= CONVERT(VARCHAR, '" + searcher.get("startDate") + "', 103)";
+            sql += " AND CONVERT(DATE, CreatedDate, 103)  >= CONVERT(DATE, ? , 103)";
         if (searcher.get("endDate") != null && !searcher.get("endDate").isEmpty())
-            sql += " AND CONVERT(VARCHAR, CreatedDate, 103)  <= CONVERT(VARCHAR, '" + searcher.get("endDate") + "', 103)";
-
-        List<Orders> orders = query(sql, new OrderMapper(), searcher.get("storeID"));
+            sql += " AND CONVERT(DATE, CreatedDate, 103)  <= CONVERT(DATE, ? , 103)";
+        if (searcher.get("totalAmount") != null && !searcher.get("totalAmount").isEmpty())
+            sql += " AND Total = ?";
+        List<Orders> orders = query(sql, new OrderMapper(), searcher.get("storeID"), searcher.get("startDate"), searcher.get("endDate"), searcher.get("totalAmount"));
         return orders;
     }
 
@@ -61,5 +60,12 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
                 + "WHERE ID = ?";
 
         return update(sql, storeID, total, createdDate, id);
+    }
+
+    @Override
+    public int countNumberOfOrders() {
+        String sql = "SELECT COUNT(ID) AS ID FROM Orders";
+        List<Orders> orders = query(sql, new OrderMapper());
+        return orders == null ? 0 : orders.get(0).getId();
     }
 }
