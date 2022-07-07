@@ -14,7 +14,24 @@ public class MoneyTransactionDAO extends AbstractDAO<MoneyTransaction> implement
     public List<MoneyTransaction> getAllMoneyTransaction() {
         String sql = "select *\n" +
                 "from MoneyTransaction;";
-        List<MoneyTransaction> list = query(sql, mapper);
-        return list == null ? null : list;
+        return query(sql, mapper);
+    }
+
+    public MoneyTransaction getByID(int mID) {
+        String sql = "SELECT * FROM MoneyTransaction\n" +
+                "WHERE ID = ? AND IsDeleted = 0";
+        List<MoneyTransaction> list = query(sql, mapper, mID);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    public List<MoneyTransaction> getByWalletID(int wID) {
+        String sql = "SELECT * FROM MoneyTransaction\n" +
+                "WHERE WalletID = ? AND IsDeleted = 0";
+        return query(sql, mapper, wID);
+    }
+    public List<MoneyTransaction> getByCustomerID(int cID) {
+        String sql = "SELECT * FROM MoneyTransaction\n" +
+                "WHERE CustomerID = ? AND IsDeleted = 0";
+        return query(sql, mapper, cID);
     }
 }

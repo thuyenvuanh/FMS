@@ -42,42 +42,30 @@ public class CustomerService implements ICustomerService {
         request.setAttribute("sortField", sortField);
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
         request.setAttribute("isAsc", !isAsc);
-
         return customers;
     }
 
     @Override
-    public Customer getCustomerByPhoneNum(HttpServletRequest request , HttpServletResponse response) {
-        Customer customer = null;
-        String[] phoneNumbers = request.getParameter("phoneNumber").trim().split(" ");
-        String phoneNumber = "";
-        for (String s : phoneNumbers) {
-            phoneNumber += s;
-        }
-        System.out.println(phoneNumber);
-        CustomerDAO customerDAO = new CustomerDAO();
-        if(phoneNumber != null && !phoneNumber.equals("")){
-            customer = customerDAO.getByPhoneNum(phoneNumber);
-        }
-
-        return customer;
+    public Customer getCustomerByPhoneNum(String PhoneNum) {
+        ICustomerDAO customerDAO = new CustomerDAO();
+        return customerDAO.getByPhoneNum(PhoneNum);
     }
 
     @Override
     public Integer addnewCustomer(HttpServletRequest request, HttpServletResponse response) {
-        ICustomerDAO customerDAO = new CustomerDAO();
+       ICustomerDAO customerDAO = new CustomerDAO();
         String name = "";
         String phone = "";
-        if (request.getParameter("name") != null
-                || !request.getParameter("name").equals("")) {
-            name = request.getParameter("name");
+        if (request.getParameter("Cusname") != null
+                && !request.getParameter("Cusname").equals("")) {
+            name = request.getParameter("Cusname");
         }
-        if (request.getParameter("phone") != null
-                || !request.getParameter("phone").equals("")) {
-            phone = request.getParameter("phone");
+        if (request.getParameter("Cusphone") != null
+                && !request.getParameter("Cusphone").equals("")) {
+            phone = request.getParameter("Cusphone");
         }
         Customer customer = new Customer(name, phone);
-        request.setAttribute("customer", customer);
+        //request.setAttribute("customer", customer);
         Map<String, String> paramMap = RequestUtils.getParameters(request.getQueryString());
         for (Map.Entry<String, String> entry : paramMap.entrySet()) {
             if (entry.getValue().isEmpty())
@@ -91,4 +79,24 @@ public class CustomerService implements ICustomerService {
         ICustomerDAO customerDAO = new CustomerDAO();
         return customerDAO.count();
     }
+
+    @Override
+    public Integer DeleteCustomer(String phoneNum) {
+        ICustomerDAO customerDAO = new CustomerDAO();
+        customerDAO.deleteCus(phoneNum);
+        return 1;
+    }
+
+    @Override
+    public Customer getDetail(String phoneNum) {
+        ICustomerDAO customerDAO = new CustomerDAO();
+        return customerDAO.getDetail(phoneNum);
+    }
+
+    @Override
+    public boolean updateCustomerInfo(Customer customer) {
+        ICustomerDAO customerDAO = new CustomerDAO();
+        return customerDAO.updateCustomerInfo(customer);
+    }
+
 }

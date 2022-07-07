@@ -42,6 +42,7 @@ public class AccountDAOTest {
     public void testCreate() {
         AccountDAO accountDAO = new AccountDAO();
         int check = accountDAO.Create("an", "123456", "Nguyen Nguyen An", 2);
+        System.out.println(check);
     }
 
 //    @Test
