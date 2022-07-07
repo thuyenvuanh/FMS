@@ -151,10 +151,16 @@
                                             <label>Phone</label>
                                             <input name="phone" value="${update.phone}" readonly class="form-control required" aria-required="true">
                                         </div>
+<%--                                        <div class="form-group">--%>
+<%--                                            <label>Date of Birth</label>--%>
+<%--                                            <input placeholder="${update.doB}" name="DoB" type="text" class="form-control required" aria-required="true">--%>
+<%--                                        </div>--%>
                                         <div class="form-group">
                                             <label>Date of Birth</label>
-                                            <input placeholder="${update.doB}" name="DoB" type="text" class="form-control required" aria-required="true">
+                                            <input placeholder="${update.doB}" type="text" class="form-control" data-mask="00/00/0000" autocomplete="off" maxlength="10">
+                                            <span class="form-text">dd/mm/yyyy</span>
                                         </div>
+
                                         <div class="form-group">
                                             <label>Address</label>
                                             <input placeholder="${update.address}" name="address" type="text" class="form-control required" aria-required="true">
@@ -210,6 +216,7 @@
         </div>
         <!-- Body -->
     </div>
+    <script src="js/plugins/jqueryMask/jquery.mask.min.js"></script>
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.js"></script>
