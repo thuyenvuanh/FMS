@@ -38,7 +38,7 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
 
     @Override
     public Customer getByPhoneNum(String phoneNum) {
-        String sql = "select Name , Phone , IsDeleted, DoB, Address, Gender\n" +
+        String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
                 "from [dbo].[Customer]\n" +
                 "where Phone = ?";
         List<Customer> cus = query(sql, new CustomerMapper(), phoneNum);

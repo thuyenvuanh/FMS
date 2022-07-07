@@ -30,20 +30,26 @@ public class CounterController extends HttpServlet {
             IWalletService walletService = new WalletService();
             ITransactionService transactionService = new TransactionService();
 
-            Customer customer = customerService.getCustomerByPhoneNum(request, response);
+            String phoneNumber = request.getParameter("phoneNumber").trim().replaceAll("\\s+","");
+            System.out.println(phoneNumber);
+
+            Customer customer = customerService.getCustomerByPhoneNum(phoneNumber);
 
             if(customer != null){
                 Wallet wallet = walletService.getWallet(customer.getId());
-                if(wallet != null){
-                    TransactionShared transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
-                    if(transactionShared != null){
-                        BigDecimal amount = transactionService.getCustomerBalance(transactionShared);
-                        request.setAttribute("CUSTOMER", customer);
-                        request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
-                    }
-                }
+                System.out.println(wallet.getId());
+                request.setAttribute("CUSTOMER", customer);
+                request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
+//                if(wallet != null){
+//                    TransactionShared transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
+//                    System.out.println(transactionShared.getId());
+//                    if(transactionShared != null){
+////                        BigDecimal amount = transactionService.getCustomerBalance(transactionShared);
+//
+//                    }
+//                }
             } else {
-                 response.sendRedirect("error.jsp");
+                 response.sendRedirect("/view/counter/createCustomer.jsp");
             }
         }
 

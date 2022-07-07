@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!doctype html>
 <html>
@@ -74,67 +75,77 @@
                         <div id="tab-1" class="tab-pane active">
                             <div class="panel-body">
                                 <c:url var="updateProductLink" value="${requestScope.contextPath}/product/update"></c:url>
-                                <form class="updateForm" action="${updateProductLink}" autocomplete="off">
+                                <form id="form_product_update" class="updateForm" action="${updateProductLink}" autocomplete="off">
                                 <fieldset>
                                     <c:set var="productDetail" value="${requestScope.product}"></c:set>
                                     <div class="form-group row"><label class="col-sm-2 col-form-label">ID:</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" name="id" value="${productDetail.id}" readonly/>
                                         </div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
-                                        <div class="col-sm-10 ">
-                                            <input type="text" class="form-control" name="name" value="${productDetail.name}"/>
+                                        <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
+                                            <div class="col-sm-10 ">
+                                                <input type="text" class="form-control" name="name"
+                                                       value="${productDetail.name}"/>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Price:</label>
                                         <div class="col-sm-10 ">
-                                            <input type="number" class="form-control" name="price" value="${productDetail.price}"/>
+                                                <fmt:setLocale value="vi_VN"/>
+                                                <input type="text" class="form-control valid" data-mask="0000000000000" placeholder="VND"
+                                                   autocomplete="off" maxlength="13" id="price" name="price" value="<fmt:formatNumber value="${product.price}" type="currency"/>" aria-required="true"
+                                                   aria-invalid="false">
                                         </div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Image:</label>
-                                        <div class="col-sm-10 ">
-                                            <img src="${productDetail.imagePath}" alt="${productDetail.name}"
-                                                 style="width: 35%"/>
-                                            <div class="input-group col-sm-3">
-                                                <div class="mb-3">
-                                                    <input class="form-control" type="file" id="formFileMultiple"
-                                                           name="imagePath" placeholder="${productDetail.imagePath}" multiple>
+                                        <div class="form-group row"><label
+                                                class="col-sm-2 col-form-label">Image:</label>
+                                            <div class="col-sm-10 ">
+                                                <img src="${productDetail.imagePath}" alt="${productDetail.name}"
+                                                     style="width: 35%"/>
+                                                <div class="input-group col-sm-3">
+                                                    <div class="mb-3">
+                                                        <input class="form-control" type="file" id="formFileMultiple"
+                                                               name="imagePath" placeholder="${productDetail.imagePath}"
+                                                               multiple>
+<%--                                                        <input type="file" name="imagePath" id="imagePath">--%>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Category</label>
-                                        <div class="col-sm-10">
-                                            <select name="categoryID" class="form-control">
-                                                <c:forEach var="category" items="${requestScope.categories}">
-                                                    <option  value="${category.id}" ${category.id == productDetail.cateID.id ? "selected" : ""}>${category.name}</option>
-                                                </c:forEach>
-                                            </select>
+                                        <div class="form-group row"><label
+                                                class="col-sm-2 col-form-label">Category</label>
+                                            <div class="col-sm-10">
+                                                <select name="categoryID" class="form-control">
+                                                    <c:forEach var="category" items="${requestScope.categories}">
+                                                        <option value="${category.id}" ${category.id == productDetail.cateID.id ? "selected" : ""}>${category.name}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Available quantity:</label>
-                                        <div class="col-sm-10 ">
-                                            <input type="number" name="quantity" class="form-control" value="${productDetail.qtyAvailable}"/>
+                                        <div class="form-group row"><label class="col-sm-2 col-form-label">Available
+                                            quantity:</label>
+                                            <div class="col-sm-10 ">
+                                                <input type="number" name="quantity" class="form-control"
+                                                       value="${productDetail.qtyAvailable}"/>
+                                            </div>
                                         </div>
-                                    </div>
-                                </fieldset>
-                                <div class="form-layout-footer text-center">
-                                    <button
-                                            type="button"
-                                            id="create_product_form"
-                                            class="btn btn-primary bd-0 create_product_form"
-                                    >
-                                        Submit
-                                    </button>
-                                    <a href="${requestScope.contextPath}/view/store/productList.jsp">
-                                        <button class="btn btn-secondary bd-0">
-                                            Cancel
+                                    </fieldset>
+                                    <div class="form-layout-footer text-center">
+                                        <button
+                                                type="button"
+                                                class="btn btn-primary bd-0 create_product_form"
+                                        >
+                                            Submit
                                         </button>
-                                    </a
-                                    >
-                                </div>
+<%--                                        <a href="${requestScope.contextPath}/view/store/productList.jsp">--%>
+<%--                                            <button class="btn btn-secondary bd-0 btn-cancel">--%>
+<%--                                                Cancel--%>
+<%--                                            </button>--%>
+<%--                                        </a>--%>
+                                        <button onclick="history.back()" type="button" class="btn btn-dark">Cancel
+                                        </button>
+                                    </div>
                                 </form>
+                                <c:url var="uploadImgLink" value="/product/upload"></c:url>
                             </div>
                         </div>
                     </div>
@@ -247,6 +258,16 @@
     <!-- Sweet alert -->
     <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
+        <!-- Input Mask-->
+        <script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
+        <script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>
+
+        <!-- Jquery Validate -->
+        <script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+        <script src="../js/plugins/validate/jquery.validate.min.js"></script>
+
     <script>
         $(document).ready(function () {
             $(".create_product_form").click(function () {
@@ -261,6 +282,43 @@
             });
             $(".confirm").click(function () {
                 $(".updateForm").submit();
+            });
+
+            $.validator.addMethod('positiveNumber',
+                function (value) {
+                    return Number(value) > 0;
+                }, 'Enter a positive number.');
+
+            $("#form_product_update").validate({
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    price: {
+                        required: true,
+                        positiveNumber: true,
+                        number: true
+                    },
+                    categoryID: {
+                        required: true
+                    },
+                    quantity: {
+                        required: true,
+                        positiveNumber: true,
+                        number: true
+                    }
+                },
+                messages: {
+                    name: {
+                        required: 'Please enter product name'
+                    },
+                    price: {
+                        required: 'Please enter product price'
+                    },
+                    quantity: {
+                        required: 'Please enter product quantity'
+                    }
+                }
             });
         });
     </script>

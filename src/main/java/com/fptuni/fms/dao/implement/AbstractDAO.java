@@ -218,4 +218,38 @@ public class AbstractDAO<T> implements GenericDAO<T> {
         return count;
     }
 
+    @Override
+    public BigDecimal sum(String sql, Object... params) {
+        BigDecimal count = BigDecimal.valueOf(0);
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            ps = conn.prepareStatement(sql);
+            setParameters(ps, params);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getBigDecimal(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return count;
+    }
+
 }

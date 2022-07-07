@@ -11,10 +11,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 /**
- *
  * @author NhatTan
  */
-public class OrderDetailMapper extends AbstractDAO<OrderDetail> implements RowMapper{
+public class OrderDetailMapper extends AbstractDAO<OrderDetail> implements RowMapper {
     @Override
     public OrderDetail mapRow(ResultSet rs) {
         OrderDetail orderdetail = null;

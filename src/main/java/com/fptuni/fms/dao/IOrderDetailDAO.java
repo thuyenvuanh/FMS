@@ -9,10 +9,6 @@ import java.util.List;
  * @author NhatTan
  */
 public interface IOrderDetailDAO extends GenericDAO<OrderDetail> {
-
-    List<OrderDetail> getOrderDetail();
-
+    List<OrderDetail> getOrderDetailsByOrderID(int orderID, int storeID);
     int createOrderDetail(OrderDetail orderDetail);
-
-    List<OrderDetail> getOrderDetailByOrderID(int orderID);
 }

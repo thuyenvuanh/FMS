@@ -11,14 +11,14 @@ import com.fptuni.fms.service.IProductService;
 import com.fptuni.fms.service.implement.CategoryService;
 import com.fptuni.fms.service.implement.ProductService;
 
+import java.io.*;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import javax.servlet.http.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @MultipartConfig
@@ -33,12 +33,14 @@ public class ProductController extends HttpServlet {
         ICategoryService categoryService = new CategoryService();
         IStoreDAO storeDAO = new StoreDAO();
         Account account = (Account) session.getAttribute("account");
+        System.out.println("path: " + path);
         if (path.equals("/list")) {
-            System.out.println(request.getParameter("test"));
             int pageSize = 5;
             List<Product> products = productService.getProducts(request, response);
-            int totalPages = productService.countProductBySearch(request,response) / pageSize;
-            if (productService.countProductBySearch(request,response) % pageSize != 0) totalPages++;
+            int totalPages = productService.countProductBySearch(request, response) / pageSize;
+            if (productService.countProductBySearch(request, response) % pageSize != 0) {
+                totalPages++;
+            }
             List<Category> categories = categoryService.getCategories();
             Store store = storeDAO.getStoreByAccount(account);
             request.setAttribute("store", store);

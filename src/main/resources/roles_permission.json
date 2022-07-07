@@ -28,7 +28,10 @@
     "role": "Store Manager",
     "permissions": [
       "/product/list",
+      "/product/update",
       "/product",
+      "/order",
+      "/order/list",
       "/account/logout",
       "/js",
       "/css",
@@ -44,6 +47,8 @@
       "/account",
       "/store",
       "/transaction",
+      "/adminDashboard",
+      "/adminDashboard/index",
       "/js",
       "/css",
       "/img",
@@ -54,7 +59,13 @@
   {
     "role": "Counter",
     "permissions": [
-
+      "/counter/index",
+      "/counter",
+      "/js",
+      "/css",
+      "/img",
+      "/IMG",
+      "/font-awesome"
     ]
   }
 ]

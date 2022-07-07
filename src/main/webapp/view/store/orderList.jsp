@@ -185,8 +185,9 @@
                                     </td>
                                     <td class="text-right">
                                         <div class="btn-group">
-                                            <c:url var="viewOrderDetail"
-                                                   value="${requestScope.contextPath}/order/view"></c:url>
+                                            <c:url var="viewOrderDetail" value="${requestScope.contextPath}/order/view">
+                                                <c:param name="orderID" value="${order.id}"></c:param>
+                                            </c:url>
                                             <a href="${viewOrderDetail}">
                                                 <button
                                                         class="btn-white btn btn-xs">View
