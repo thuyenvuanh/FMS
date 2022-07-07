@@ -91,13 +91,4 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
                 customer.getPhone());
     }
 
-    @Override
-    public List<MoneyTransaction> getAmounts() {
-        String sql = "select sum(m.Amount) as Amount, c.ID as CustomerID\n" +
-                "from [dbo].[Customer] c join [dbo].[MoneyTransaction] m\n" +
-                "on c.ID = m.CustomerID and\n" +
-                "group by c.ID";
-        
-        return null;
-    }
 }

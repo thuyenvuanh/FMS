@@ -15,5 +15,5 @@ public interface ICustomerDAO extends GenericDAO<Customer>{
     boolean deleteCus(String phoneNum);
     Customer getDetail(String phoneNum);
     boolean updateCustomerInfo (Customer customer);
-    List<MoneyTransaction> getAmounts ();
+
 }

@@ -99,9 +99,4 @@ public class CustomerService implements ICustomerService {
         return customerDAO.updateCustomerInfo(customer);
     }
 
-    @Override
-    public List<Customer> getAmount() {
-        ICustomerDAO customerDAO = new CustomerDAO();
-        return null;
-    }
 }

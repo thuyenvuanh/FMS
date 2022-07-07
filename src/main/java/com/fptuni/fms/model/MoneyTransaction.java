@@ -67,11 +67,6 @@ public class MoneyTransaction implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 0, max = 999999999)
-    @Column(name = "Amount")
-    private BigDecimal amount;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "State")
     private boolean state;
     @Basic(optional = false)
@@ -113,14 +108,6 @@ public class MoneyTransaction implements Serializable {
         this.transactionSharedList = transactionSharedList;
         this.counterID = counterID;
         this.customerID = customerID;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
     }
 
     public boolean isState() {
