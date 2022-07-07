@@ -35,12 +35,13 @@ public class DashboardService implements IDashboardService {
                 date1 = sdf.parse(startDate);
                 date2 = sdf.parse(endDate);
                 if(startDate.equals(sdf.format(new Date())) && endDate.equals(sdf.format(new Date()))){
-                    System.out.println("TODAY TODAY");
+                    System.out.println("TODAY");
                 }
                 else {
+                    //Create day between list
                     listDateBetween = DateUtils.getDaysBetweenDates(date1, date2);
                 }
-                //Create day between list
+
 
             }
             else {

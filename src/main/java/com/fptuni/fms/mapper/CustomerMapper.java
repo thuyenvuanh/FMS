@@ -11,6 +11,9 @@ public class CustomerMapper implements RowMapper<Customer>{
         Customer cus = null;
         try {
             cus = new Customer();
+            if(rs.getObject("ID") != null){
+                cus.setId(rs.getInt("ID"));
+            }
             if(rs.getString("Name") != null){
                 cus.setName(rs.getString("Name"));
             }

@@ -36,7 +36,7 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
                 "where WalletID = ?\n" +
                 "order by CreatedDate DESC, ID desc";
         List<TransactionShared> list = query(sql, mapper, WalletID);
-        return list == null || list.isEmpty() ? null : list.get(0);
+        return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
