@@ -221,7 +221,10 @@
                                             <a href="<%=request.getContextPath()%>/customer/Movetoupdate?phonenum=${list.phone}"
                                                class="btn btn-primary btn-sm">Update</a>
                                         </td>
+
+<%--                                        For taking out the balance--%>
                                         <td class="text-right">100$</td>
+
                                     </tr>
                                     <%--                                    Show detail here--%>
                                     <input name="var" value="${list.phone}" type="hidden">

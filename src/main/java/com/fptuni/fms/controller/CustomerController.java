@@ -3,9 +3,15 @@ package com.fptuni.fms.controller;
 import com.fptuni.fms.dao.ICustomerDAO;
 import com.fptuni.fms.dao.implement.CustomerDAO;
 import com.fptuni.fms.model.Customer;
+import com.fptuni.fms.model.TransactionShared;
+import com.fptuni.fms.model.Wallet;
 import com.fptuni.fms.service.ICustomerService;
+import com.fptuni.fms.service.ITransactionService;
+import com.fptuni.fms.service.IWalletService;
 import com.fptuni.fms.service.implement.CustomerService;
 import com.fptuni.fms.service.implement.ProductService;
+import com.fptuni.fms.service.implement.TransactionService;
+import com.fptuni.fms.service.implement.WalletService;
 import com.sun.xml.internal.ws.addressing.EPRSDDocumentFilter;
 import org.eclipse.persistence.sessions.Session;
 
@@ -79,14 +85,29 @@ public class CustomerController extends HttpServlet {
             int pageSize = 3;
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
+
             //Get Amount
-//            List<Customer> amounts = customerService.getAmount();
+            IWalletService walletService = new WalletService();
+            ITransactionService transactionService = new TransactionService();
+            TransactionShared transactionShared = new TransactionShared();
+            List<TransactionShared> balanceList = new ArrayList<>();
+            Wallet wallet = new Wallet();
+            for (Customer cus : customers) {
+                wallet = walletService.getWallet(cus.getId());
+                if(wallet != null){
+                    transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
+                    balanceList.add(transactionShared);
+                }else{
+                    System.out.println("No wallet found");
+                }
+            }
+
             int totalPages = customerService.CountCustomer() / pageSize;
             if (customerService.CountCustomer() % pageSize != 0) {
                 totalPages++;
             }
+            request.setAttribute("balanceList", balanceList);
             request.setAttribute("customerList", customers);
-//            request.setAttribute("amount", amounts);
             request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("/view/customer/Customer_List.jsp")
                     .forward(request, response);
