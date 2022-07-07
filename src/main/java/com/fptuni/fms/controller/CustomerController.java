@@ -84,15 +84,14 @@ public class CustomerController extends HttpServlet {
             int pageSize = 3;
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
-            /*Change to wallet or transaction
-            List<Category> categories = categoryService.getCategories();
-            request.setAttribute("categories", categories);*/
+            //Get Amount
+//            List<Customer> amounts = customerService.getAmount();
             int totalPages = customerService.CountCustomer() / pageSize;
             if (customerService.CountCustomer() % pageSize != 0) {
                 totalPages++;
             }
             request.setAttribute("customerList", customers);
-
+//            request.setAttribute("amount", amounts);
             request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("/view/customer/Customer_List.jsp")
                     .forward(request, response);

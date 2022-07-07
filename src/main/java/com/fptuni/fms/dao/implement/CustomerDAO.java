@@ -3,6 +3,7 @@ package com.fptuni.fms.dao.implement;
 import com.fptuni.fms.dao.ICustomerDAO;
 import com.fptuni.fms.mapper.CustomerMapper;
 import com.fptuni.fms.model.Customer;
+import com.fptuni.fms.model.MoneyTransaction;
 import com.fptuni.fms.paging.Pageable;
 
 import javax.naming.Name;
@@ -12,8 +13,12 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
 
     @Override
     public List<Customer> getAllCustomer(Pageable pageable) {
-        String sql = "select Name , Phone , IsDeleted, DoB, Address, Gender\n" +
-                "from [dbo].[Customer]\n";
+//        String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
+//                "from [dbo].[Customer]\n";
+        String sql = "select sum(m.Amount) as Amount, c.ID , c.Phone, c.IsDeleted, c.Gender,c.DoB, c.Name, c.Address\n" +
+                "from [dbo].[Customer] c join [dbo].[MoneyTransaction] m\n" +
+                "on c.ID = m.CustomerID\n" +
+                "group by c.ID, c.Name, c.Phone, c.IsDeleted, c.Gender,c.DoB, c.Address";
 
         String order;
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
@@ -84,5 +89,15 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
                 customer.getGender(),
                 customer.getDoB(),
                 customer.getPhone());
+    }
+
+    @Override
+    public List<MoneyTransaction> getAmounts() {
+        String sql = "select sum(m.Amount) as Amount, c.ID as CustomerID\n" +
+                "from [dbo].[Customer] c join [dbo].[MoneyTransaction] m\n" +
+                "on c.ID = m.CustomerID and\n" +
+                "group by c.ID";
+        
+        return null;
     }
 }

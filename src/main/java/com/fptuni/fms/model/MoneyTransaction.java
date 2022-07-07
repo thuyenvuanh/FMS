@@ -6,6 +6,7 @@
 package com.fptuni.fms.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -60,6 +61,11 @@ public class MoneyTransaction implements Serializable {
     private String method;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 0, max = 999999999)
+    @Column(name = "Amount")
+    private BigDecimal amount;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "State")
     private boolean state;
     @Basic(optional = false)
@@ -89,6 +95,30 @@ public class MoneyTransaction implements Serializable {
         this.method = method;
         this.state = state;
         this.createdDate = createdDate;
+    }
+
+    public MoneyTransaction(Integer id, int walletID, String method, BigDecimal amount, boolean state, Date createdDate, List<TransactionShared> transactionSharedList, Counter counterID, Customer customerID) {
+        this.id = id;
+        this.walletID = walletID;
+        this.method = method;
+        this.amount = amount;
+        this.state = state;
+        this.createdDate = createdDate;
+        this.transactionSharedList = transactionSharedList;
+        this.counterID = counterID;
+        this.customerID = customerID;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public boolean isState() {
+        return state;
     }
 
     public Integer getId() {
