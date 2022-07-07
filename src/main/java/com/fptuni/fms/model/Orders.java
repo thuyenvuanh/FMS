@@ -7,7 +7,6 @@ package com.fptuni.fms.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -76,8 +75,16 @@ public class Orders implements Serializable {
 
     public Orders(Integer id, BigDecimal total, Date createdDate) {
         this.id = id;
-        this.total = total;
+        this.total = total.stripTrailingZeros();
         this.createdDate = createdDate;
+    }
+
+    public void calcTotal() {
+        BigDecimal temp = new BigDecimal(0);
+        for (OrderDetail orderDetail : this.orderDetailList) {
+            temp = temp.add(orderDetail.getAmount());
+        }
+        this.total = temp.stripTrailingZeros();
     }
 
     public Integer getId() {
@@ -89,11 +96,11 @@ public class Orders implements Serializable {
     }
 
     public BigDecimal getTotal() {
-        return total;
+        return total.stripTrailingZeros();
     }
 
     public void setTotal(BigDecimal total) {
-        this.total = total;
+        this.total = total.stripTrailingZeros();
     }
 
     public Date getCreatedDate() {

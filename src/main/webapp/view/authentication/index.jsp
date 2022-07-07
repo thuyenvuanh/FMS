@@ -16,8 +16,35 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/login.css" rel="stylesheet">
     <style>
+        body {
+            height: 100vh;
+        }
+
+        section {
+            width: 600px;
+            height: 60vh;
+            min-height: 400px;
+            max-height: 600px;
+        }
+
+        header > img {
+            min-height: 100px;
+            max-height: 300px;
+            width: 30vw;
+            min-width: 150px;
+            max-width: 450px;
+        }
+
+        #link-button {
+            color: #4fc284 !important;
+        }
+
+        @media screen and (max-width: 736px) {
+            section {
+                width: 90vw;
+            }
+        }
         @media screen and (min-width: 1200px) {
             .login-section {
                 width: 50% !important;
@@ -43,14 +70,14 @@
 <div class="row d-flex flex-wrap align-items-md-center align-items-stretch h-100 pb-md-auto pb-4">
     <div class="d-flex col-md-6 pe-md-5 justify-content-md-end col-12 px-auto justify-content-center">
         <header class="mt-5 mr-1 text-center">
-            <img src="${pageContext.request.contextPath}/images/Background.jpg" class="rounded-3"
+            <img src="<c:url value="/images/Background.jpg"/>" class="rounded-3"
                  style="width: 80%; height: auto; object-fit: contain"
                  alt="Store logo"/>
         </header>
     </div>
     <div class="col-md-6 align-items-md-center justify-content-md-start col-12 justify-content-center d-flex">
         <div class="bg-light shadow-lg rounded-3 p-4 d-flex align-items-start login-section" style="min-height: 500px;">
-            <form method="post" class="w-100">
+            <form method="post" class="w-100" autocomplete="off">
                 <p class="fw-bold fs-1 text-center mb-5 mt-3">SIGN IN</p>
                 <!--Username-->
                 <div class="mb-3">
@@ -78,7 +105,7 @@
                 <!-- Submit button -->
                 <div class="row px-2">
                     <button type="submit" class="btn mx-auto shadow" formaction="<c:url
-        value="/account/login"/>" style="background-color: #4fc284; color: #ffffff; width: 98%;">Sign in
+        value="/account/login"/>" style="background-color: #4fc284; color: #ffffff; width: 98%">Sign in
                     </button>
                     <span class="text-danger">${sessionScope.message}</span>
                 </div>

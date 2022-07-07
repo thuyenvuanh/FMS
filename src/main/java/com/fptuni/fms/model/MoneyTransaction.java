@@ -59,6 +59,12 @@ public class MoneyTransaction implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "Method")
     private String method;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Amount")
+    private BigDecimal amount;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 0, max = 999999999)
@@ -135,6 +141,14 @@ public class MoneyTransaction implements Serializable {
 
     public void setWalletID(int walletID) {
         this.walletID = walletID;
+    }
+
+    public BigDecimal getAmount() {
+        return amount.stripTrailingZeros();
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount.stripTrailingZeros();
     }
 
     public String getMethod() {

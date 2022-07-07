@@ -2,13 +2,8 @@ package com.fptuni.fms.controller;
 
 import com.fptuni.fms.dao.ICustomerDAO;
 import com.fptuni.fms.dao.implement.CustomerDAO;
-import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Customer;
-import com.fptuni.fms.model.Product;
-import com.fptuni.fms.service.ICategoryService;
 import com.fptuni.fms.service.ICustomerService;
-import com.fptuni.fms.service.IProductService;
-import com.fptuni.fms.service.implement.CategoryService;
 import com.fptuni.fms.service.implement.CustomerService;
 import com.fptuni.fms.service.implement.ProductService;
 import com.sun.xml.internal.ws.addressing.EPRSDDocumentFilter;

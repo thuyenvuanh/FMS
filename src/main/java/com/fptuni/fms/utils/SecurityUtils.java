@@ -7,6 +7,8 @@ import java.nio.charset.StandardCharsets;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
 public class SecurityUtils {
@@ -16,7 +18,7 @@ public class SecurityUtils {
     private static final int HASH_BYTES = 128;
 
     //Returns a hashed string for an input string
-    public static String createHash(String target, String salt) throws Exception {
+    public static String createHash(String target, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] saltBytes = fromHex(mix(salt,target));
         byte[] hashed = pbkdf2(target.toCharArray(), saltBytes);
         return toHex(hashed);
@@ -41,7 +43,7 @@ public class SecurityUtils {
 
 
     //Compares the plain input string with the hashed output
-    public static boolean validateHash(String target, String salt, String goodHash) throws Exception {
+    public static boolean validateHash(String target, String salt, String goodHash) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
 
         byte[] saltBytes = fromHex(mix(salt,target));
@@ -53,7 +55,7 @@ public class SecurityUtils {
     }
 
     //Compute the input string with salt
-    private static byte[] pbkdf2(char[] password, byte[] salt) throws Exception {
+    private static byte[] pbkdf2(char[] password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
         KeySpec spec = new PBEKeySpec(password, salt, SecurityUtils.HASH_ITERATIONS, SecurityUtils.HASH_BYTES);
         SecretKeyFactory factory = SecretKeyFactory.getInstance(PBKDF2_ALGORITHM);
