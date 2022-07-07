@@ -42,22 +42,29 @@
         </div>
 
         <div class="col-lg-3">
-            <div class="form-group " id="date_range_order">
+            <div class="form-group float-right" id="date_range_order">
                 <label class="col-form-label">Range Date</label>
                 <div class="input-daterange input-group">
-                    <div id="reportrange"
-                         style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-                        <i class="fa fa-calendar"></i>&nbsp;
-                        <span></span> <i class="fa fa-caret-down"></i>
-                    </div>
+<%--                    <div id="reportrange"--%>
+<%--                         style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">--%>
+<%--                        <i class="fa fa-calendar"></i>&nbsp;--%>
+<%--                        <span></span> <i class="fa fa-caret-down"></i>--%>
+<%--                    </div>--%>
+                        <form id="form_date_range" action="${homelink}" method="GET">
+                            <input type="text" class="form-control" name="daterangepicker" value="${requestScope.BEGIN_DATE} - ${requestScope.END_DATE}">
+                            <input type="hidden" name="startDate" id="Start" value="" />
+                            <input type="hidden" name="endDate" id="End" value="" />
+                        </form>
+
                 </div>
+                <button id="search_date_range" class="btn btn-outline-success float-right">Search</button>
             </div>
 
-            <form id="form_date_range" action="${homelink}" method="GET">
-                <input type="hidden" name="startDate" id="Start" value="" />
-                <input type="hidden" name="endDate" id="End" value="" />
-            </form>
-            <button id="search_date_range" class="btn btn-outline-success float-right">Search</button>
+<%--            <form id="form_date_range" action="${homelink}" method="GET">--%>
+<%--                <input type="hidden" name="startDate" id="Start" value="" />--%>
+<%--                <input type="hidden" name="endDate" id="End" value="" />--%>
+<%--            </form>--%>
+
 
         </div>
 
@@ -120,7 +127,7 @@
                         <h5 class="">TOTAL ORDER</h5>
                     </div>
                     <div class="ibox-content text-warning">
-                        <h1 class="no-margins">${requestScope.TOTAL_ORDER_ALLSTORES}</h1>
+                        <h1 class="no-margins">${requestScope.TOTAL_ORDER_ALLSTORES == null ? 0 : requestScope.TOTAL_VALUE_ALLSTORES}</h1>
                         <div class="stat-percent font-bold">98% <i class="fa fa-level-up"></i></div>
                         <small>Total order</small>
                     </div>
@@ -206,6 +213,7 @@
     </div>
 
 <jsp:include page="footer.jsp"></jsp:include>
+
 </div>
 
 <script src="../js/jquery-3.1.1.min.js"></script>
@@ -243,10 +251,21 @@
         var startDate;
         var endDate;
 
-        $('#reportrange').daterangepicker(
+        if('${requestScope.BEGIN_DATE}' == ""){
+            startDate = moment().subtract('days', 29);
+            endDate = moment();
+        }
+        else {
+            startDate = new Date('${requestScope.BEGIN_DATE}');
+            endDate = new Date('${requestScope.END_DATE}');
+        }
+
+
+
+        $('input[name="daterangepicker"]').daterangepicker(
             {
-                startDate: moment().subtract('days', 29),
-                endDate: moment(),
+                startDate: startDate,
+                endDate: endDate,
                 dateLimit: { days: 60 },
                 showDropdowns: false,
                 showWeekNumbers: true,
@@ -265,7 +284,7 @@
                 buttonClasses: ['btn btn-default'],
                 applyClass: 'btn-small btn-primary',
                 cancelClass: 'btn-small',
-                format: 'DD/MM/YYYY',
+                format: 'YYYY-MM-DD',
                 separator: ' to ',
                 locale: {
                     applyLabel: 'Submit',
@@ -282,15 +301,17 @@
                 $('#reportrange span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
                 startDate = start;
                 endDate = end;
-
             }
         );
         //Set the initial state of the picker label
 
-        var s = "${requestScope.START}" == "" ? moment().subtract('days', 29).format('YYYY-MM-DD') : "${requestScope.START}";
-        var e = "${requestScope.END}" == "" ? moment().format('YYYY-MM-DD') : "${requestScope.END}";
+        <%--var s = "${requestScope.START}" == "" ? moment().subtract('days', 29).format('YYYY-MM-DD') : "${requestScope.START}";--%>
+        <%--var e = "${requestScope.END}" == "" ? moment().format('YYYY-MM-DD') : "${requestScope.END}";--%>
 
-        $('#reportrange span').html(s + ' - ' + e);
+        <%--$('#reportrange span').html(s + ' - ' + e);--%>
+
+
+        // $('#reportrange span').html(moment().subtract('days', 29).format('D MMMM YYYY') + ' - ' + moment().format('D MMMM YYYY'));
 
 
         $('#search_date_range').click(function () {
@@ -372,7 +393,11 @@
                     borderColor: "rgba(26,179,148,0.7)",
                     pointBackgroundColor: "rgba(26,179,148,1)",
                     pointBorderColor: "#fff",
-                    data: [100, 48, 40, 19, 86, 27, 90]
+                    data: [
+                        <c:forEach var="item" items="${requestScope.TOTAL_VALUE_BY_TIME}">
+                        '${item.value}',
+                        </c:forEach>
+                    ]
                 },
             ]
         };

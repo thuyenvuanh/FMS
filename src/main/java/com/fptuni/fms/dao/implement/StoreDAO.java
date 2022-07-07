@@ -188,4 +188,14 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
 
         return count(sql, date);
     }
+
+    @Override
+    public BigDecimal GetTotalValueByTime(Date date) {
+        String sql = "select sum(total)\n" +
+                "from Orders\n" +
+                "where CONVERT(DATE,CreatedDate) \n" +
+                "=     CONVERT(DATE,CAST(? AS DATETIME))";
+
+        return sum(sql, date);
+    }
 }
