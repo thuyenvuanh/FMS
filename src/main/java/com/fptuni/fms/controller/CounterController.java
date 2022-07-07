@@ -4,11 +4,10 @@ import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.model.TransactionShared;
 import com.fptuni.fms.model.Wallet;
 import com.fptuni.fms.service.ICustomerService;
+import com.fptuni.fms.service.IPaymentService;
 import com.fptuni.fms.service.ITransactionService;
 import com.fptuni.fms.service.IWalletService;
-import com.fptuni.fms.service.implement.CustomerService;
-import com.fptuni.fms.service.implement.TransactionService;
-import com.fptuni.fms.service.implement.WalletService;
+import com.fptuni.fms.service.implement.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -23,12 +22,14 @@ public class CounterController extends HttpServlet {
             throws ServletException, IOException {
         String path = request.getPathInfo();
         System.out.println("Path:" + path);
+        ICustomerService customerService = new CustomerService();
+        IWalletService walletService = new WalletService();
+        ITransactionService transactionService = new TransactionService();
+        IPaymentService paymentService = new PaymentService();
         if(path.equals("/index")){
             request.getRequestDispatcher("/view/counter/index.jsp").forward(request, response);
         } else if(path.equals("/check")){
-            ICustomerService customerService = new CustomerService();
-            IWalletService walletService = new WalletService();
-            ITransactionService transactionService = new TransactionService();
+
 
             String phoneNumber = request.getParameter("phoneNumber").trim().replaceAll("\\s+","");
             System.out.println(phoneNumber);
@@ -39,6 +40,7 @@ public class CounterController extends HttpServlet {
                 Wallet wallet = walletService.getWallet(customer.getId());
                 System.out.println(wallet.getId());
                 request.setAttribute("CUSTOMER", customer);
+                request.setAttribute("WALLET", wallet.getId());
                 request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
 //                if(wallet != null){
 //                    TransactionShared transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
@@ -51,6 +53,16 @@ public class CounterController extends HttpServlet {
             } else {
                  response.sendRedirect("/view/counter/createCustomer.jsp");
             }
+        } else if(path.equals("/addMoney")){
+            boolean success = paymentService.addMoney(request);
+            if (success) {
+
+                new OrderService().index(request, response);
+
+            }
+
+        } else if(path.equals("/deposit")){
+
         }
 
 
