@@ -39,26 +39,24 @@ public class CounterController extends HttpServlet {
             if(customer != null){
                 Wallet wallet = walletService.getWallet(customer.getId());
                 System.out.println(wallet.getId());
+                BigDecimal balance = BigDecimal.ZERO;
+                if(wallet != null){
+                    TransactionShared transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
+                    if(transactionShared != null){
+                        balance = transactionService.getCustomerBalance(transactionShared);
+                    }
+                }
                 request.setAttribute("CUSTOMER", customer);
                 request.setAttribute("WALLET", wallet.getId());
+                request.setAttribute("BALANCE", balance);
                 request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
-//                if(wallet != null){
-//                    TransactionShared transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
-//                    System.out.println(transactionShared.getId());
-//                    if(transactionShared != null){
-////                        BigDecimal amount = transactionService.getCustomerBalance(transactionShared);
-//
-//                    }
-//                }
             } else {
                  response.sendRedirect("/view/counter/createCustomer.jsp");
             }
         } else if(path.equals("/addMoney")){
             boolean success = paymentService.addMoney(request);
             if (success) {
-
-                new OrderService().index(request, response);
-
+                response.sendRedirect(request.getContextPath() + "/counter/index");
             }
 
         } else if(path.equals("/deposit")){

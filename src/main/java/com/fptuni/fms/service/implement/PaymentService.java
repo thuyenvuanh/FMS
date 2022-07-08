@@ -69,7 +69,7 @@ public class PaymentService implements IPaymentService {
     @Override
     public boolean addMoney(HttpServletRequest request) {
 
-        BigDecimal amount = BigDecimal.valueOf(Integer.parseInt(request.getParameter("amount")));
+        BigDecimal amount = BigDecimal.valueOf(Integer.parseInt(request.getParameter("amount").replaceAll("[^\\d.]", "")));
         Wallet wallet = walletDAO.getWalletWithID(Integer.parseInt(request.getParameter("walletID")));
         Customer customer = customerDAO.getByPhoneNum(request.getParameter("customerPhone"));
 
@@ -79,9 +79,10 @@ public class PaymentService implements IPaymentService {
             if (customer == null) throw new Exception("Customer not found");
 
             TransactionShared latestTransactionSharedByWalletID = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
+            MoneyTransaction moneyTransaction = new MoneyTransaction(wallet.getId(), amount, true, new Date(), new Counter(1), customer);
             if (latestTransactionSharedByWalletID != null) {
                 BigDecimal balance = transactionService.getCustomerBalance(latestTransactionSharedByWalletID);
-                MoneyTransaction moneyTransaction = new MoneyTransaction(wallet.getId(), amount, true, new Date(), new Counter(1), customer);
+
                 moneyTransaction.setId(moneyTransactionDAO.createMoneyTransaction(moneyTransaction));
                 TransactionShared latestTransaction = transactionService.getLatestTransaction();
                 String previousHash = latestTransaction == null
@@ -92,8 +93,20 @@ public class PaymentService implements IPaymentService {
                         true, moneyTransaction, null, wallet);
                 newTransaction.setHashValue(SecurityUtils.createHash(newTransaction.toString(), String.valueOf(newTransaction.getCreatedDate().getTime())));
                 transactionSharedDAO.insertTransaction(newTransaction);
-                return true;
+            } else {
+                moneyTransaction.setId(moneyTransactionDAO.createMoneyTransaction(moneyTransaction));
+                TransactionShared latestTransaction = transactionService.getLatestTransaction();
+                String previousHash = latestTransaction == null
+                        ? "00000000000000000000000000000000"
+                        : latestTransaction.getHashValue();
+                TransactionShared newTransaction = new TransactionShared(amount,
+                        previousHash, null, BigDecimal.ZERO, moneyTransaction.getCreatedDate(),
+                        true, moneyTransaction, null, wallet);
+                newTransaction.setHashValue(SecurityUtils.createHash(newTransaction.toString(), String.valueOf(newTransaction.getCreatedDate().getTime())));
+                transactionSharedDAO.insertTransaction(newTransaction);
             }
+            request.setAttribute("phoneNumber", request.getParameter("customerPhone"));
+            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

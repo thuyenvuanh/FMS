@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: LEGION
@@ -41,16 +42,14 @@
     <jsp:include page="layoutCounter.jsp"></jsp:include>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>E-commerce orders</h2>
+            <h2>Money Transaction</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a>E-commerce</a>
+                    <c:url var="index" value="${requestScope.contextPath}/counter/index"></c:url>
+                    <a href="${index}">Counter</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <strong>Orders</strong>
+                    <strong>Money Transaction</strong>
                 </li>
             </ol>
         </div>
@@ -67,11 +66,11 @@
                             <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
                                 <thead>
                                 <tr>
-                                    <th data-toggle="true">Customer</th>
+                                    <th data-toggle="true" data-sort-ignore="true">Customer</th>
 
-                                    <th data-hide="phone">Phone number</th>
+                                    <th data-hide="phone" data-sort-ignore="true">Phone number</th>
 
-                                    <th>Amounts</th>
+                                    <th data-sort-ignore="true">Amounts</th>
 
                                 </tr>
                                 </thead>
@@ -79,7 +78,8 @@
                                 <tr>
                                     <td>${requestScope.CUSTOMER.getName()}</td>
                                     <td>${requestScope.CUSTOMER.getPhone()}</td>
-                                    <td>100k</td>
+                                    <fmt:setLocale value="vi_VN"/>
+                                    <td><fmt:formatNumber value="${requestScope.BALANCE}" type="currency"/></td>
 
                                 </tr>
                                 </tbody>
@@ -96,11 +96,11 @@
                                 <div class="col-sm-12 ">
                                     <input type="text" name="amount"
                                            class="form-control text-center h-100 d-inline-block"
-                                           data-mask="$ 000,000,000.00" placeholder="Currency" style="font-size: 3em;" autocomplete="off"
+                                           data-mask="000 000 000" placeholder="Currency" style="font-size: 3em;" autocomplete="off"
                                            maxlength="16" required>
                                     <input type="hidden" name="walletID" value="${requestScope.WALLET}">
                                     <input type="hidden" name="customerPhone" value="${requestScope.CUSTOMER.getPhone()}">
-                                    <span class="form-text text-center">$ 000,000,000.00</span>
+                                    <span class="form-text text-center">VNĐ</span>
                                 </div>
 
                                 <div class="col-sm-6 pt-5">
@@ -122,12 +122,14 @@
         </div>
         <!-- TMP -->
 
-        <div class="footer">
-            <div class="float-right">10GB of <strong>250GB</strong> Free.</div>
-            <div><strong>Copyright</strong> Example Company &copy; 2014-2018</div>
-        </div>
+
+    </div>
+    <div class="footer">
+        <div class="float-right">10GB of <strong>250GB</strong> Free.</div>
+        <div><strong>Copyright</strong> Example Company &copy; 2014-2018</div>
     </div>
 </div>
+
 </div>
 
 <!-- Script -->
@@ -175,5 +177,7 @@
 </script>
 <script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>
 <script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
+
+
 </body>
 </html>

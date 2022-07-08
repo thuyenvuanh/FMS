@@ -51,7 +51,7 @@
 <%--                        <span></span> <i class="fa fa-caret-down"></i>--%>
 <%--                    </div>--%>
                         <form id="form_date_range" action="${homelink}" method="GET">
-                            <input type="text" class="form-control" name="daterangepicker" value="${requestScope.BEGIN_DATE} - ${requestScope.END_DATE}">
+                            <input type="text" class="form-control" name="daterangepicker" value="${requestScope.BEGIN_DATE} - ${requestScope.END_DATE}" readonly>
                             <input type="hidden" name="startDate" id="Start" value="" />
                             <input type="hidden" name="endDate" id="End" value="" />
                         </form>
@@ -93,7 +93,6 @@
                     <tbody>
                     <c:set var="MAP" value="${requestScope.TOP_STORES}"/>
                     <c:forEach var="item" items="${requestScope.LIST_KEY_TOP_STORES}" varStatus="loop">
-
                         <tr>
                             <td>${loop.index + 1}</td>
                             <td>${item.name}</td>

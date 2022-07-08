@@ -21,8 +21,8 @@ public class MoneyTransactionDAO extends AbstractDAO<MoneyTransaction> implement
     public int createMoneyTransaction(MoneyTransaction moneyTransaction) {
         String sql = "INSERT INTO MoneyTransaction(Amount ,CustomerID, WalletID, CounterID, State, CreatedDate)\n" +
                 "VALUES (?, ?, ?, ?, ?, ?)";
-        return insert(sql, moneyTransaction.getAmount(), moneyTransaction.getCustomerID(), moneyTransaction.getWalletID(),
-                moneyTransaction.getCounterID(), moneyTransaction.getState(), moneyTransaction.getCreatedDate());
+        return insert(sql, moneyTransaction.getAmount(), moneyTransaction.getCustomerID().getId(), moneyTransaction.getWalletID(),
+                moneyTransaction.getCounterID().getId(), moneyTransaction.getState(), moneyTransaction.getCreatedDate());
     }
 
     public MoneyTransaction getByID(int mID) {
