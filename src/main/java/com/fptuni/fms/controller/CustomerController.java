@@ -91,9 +91,11 @@ public class CustomerController extends HttpServlet {
             ITransactionService transactionService = new TransactionService();
             TransactionShared transactionShared = new TransactionShared();
             List<TransactionShared> balanceList = new ArrayList<>();
+            List<Wallet> walletList = new ArrayList<>();
             Wallet wallet = new Wallet();
             for (Customer cus : customers) {
                 wallet = walletService.getWallet(cus.getId());
+                walletList.add(wallet);
                 if(wallet != null){
                     transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
                     balanceList.add(transactionShared);
@@ -101,12 +103,13 @@ public class CustomerController extends HttpServlet {
                     System.out.println("No wallet found");
                 }
             }
+            request.setAttribute("balanceList", balanceList);
 
+            //
             int totalPages = customerService.CountCustomer() / pageSize;
             if (customerService.CountCustomer() % pageSize != 0) {
                 totalPages++;
             }
-            request.setAttribute("balanceList", balanceList);
             request.setAttribute("customerList", customers);
             request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("/view/customer/Customer_List.jsp")

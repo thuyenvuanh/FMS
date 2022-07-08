@@ -223,7 +223,11 @@
                                         </td>
 
 <%--                                        For taking out the balance--%>
-                                        <td class="text-right">100$</td>
+                                        <c:forEach var="amount" items="${requestScope.balanceList}">
+<%--                                            <c:if test="${list}">--%>
+                                                <td class="text-right">${amount.amount}</td>
+<%--                                            </c:if>--%>
+                                        </c:forEach>
 
                                     </tr>
                                     <%--                                    Show detail here--%>
