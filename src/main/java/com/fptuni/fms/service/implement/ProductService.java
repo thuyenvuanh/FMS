@@ -24,10 +24,8 @@ import javax.servlet.http.Part;
 import javax.websocket.Session;
 import java.io.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.logging.Level;
 
 import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
@@ -40,8 +38,6 @@ public class ProductService implements IProductService {
     @Override
     public List<Product> getProducts(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-//        Account account = (Account) session.getAttribute("account");
-//        Store store = storeDAO.getStoreByAccount(account);
         Store store = (Store) session.getAttribute("store");
         int pageIndex = 1;
         int pageSize = 5;
@@ -98,8 +94,6 @@ public class ProductService implements IProductService {
         try {
             int orderID = 0;
             HttpSession session = request.getSession();
-//            Account account = (Account) session.getAttribute("account");
-//            Store store = storeDAO.getStoreByAccount(account);
             Store store = (Store) session.getAttribute("store");
             if (request.getParameter("orderID") != null) orderID = Integer.parseInt(request.getParameter("orderID"));
             products = productDAO.getProductByOrderID(orderID, store);
@@ -301,8 +295,6 @@ public class ProductService implements IProductService {
     @Override
     public int countProductBySearch(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-//        Account account = (Account) session.getAttribute("account");
-//        Store store = storeDAO.getStoreByAccount(account);
         Store store = (Store) session.getAttribute("store");
         int pageIndex = 1;
         int pageSize = 5;
@@ -329,6 +321,36 @@ public class ProductService implements IProductService {
         if (request.getParameter("status") != null) searcher.put("status", request.getParameter("status"));
         int count = productDAO.countBySearch(searcher);
         return count;
+    }
+
+    @Override
+    public List<Product> getTop5ProductsOrderByAmount(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        Store store = (Store) session.getAttribute("store");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        List<Product> products = null;
+        try {
+            Calendar calendar = Calendar.getInstance();
+            Date end = calendar.getTime();
+            calendar.add(Calendar.MONTH, -1);
+            Date start = calendar.getTime();
+            if (request.getParameter("startDate") != null && request.getParameter("endDate") != null) {
+                start = sdf.parse(request.getParameter("startDate"));
+                end = sdf.parse(request.getParameter("endDate"));
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                request.setAttribute("startDateFmt", simpleDateFormat.format(start));
+                request.setAttribute("endDateFmt", simpleDateFormat.format(end));
+                if (start.after(end)) {
+                    throw new Exception("Start date must be before end date");
+                }
+            }
+            products = productDAO.getTop5ProductsOrderByAmount(store, start, end);
+        } catch (Exception exception) {
+            request.setAttribute("dateError", exception.getMessage());
+            return null;
+        }
+        return products;
     }
 
 }

@@ -88,25 +88,31 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="ibox">
             <div class="ibox-title bg-danger">
-                <h5>Top 5</h5>
+                <h5>Top 5 Products</h5>
             </div>
             <div class="ibox-content">
                 <table class="table">
                     <thead>
                     <tr>
                         <th>#</th>
+                        <th>ID</th>
                         <th>Product</th>
+                        <th>Category</th>
                         <th>Quantity sale</th>
                         <th>Income</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
+                    <c:forEach var="mapProduct" items="${requestScope.top5Products}" varStatus="counter">
+                        <tr>
+                            <td>${counter.count}</td>
+                            <td>${mapProduct.key.key.id}</td>
+                            <td>${mapProduct.key.key.name}</td>
+                            <td>${mapProduct.key.value.name}</td>
+                            <td>${mapProduct.value.quantity}</td>
+                            <td>${mapProduct.value.amount} VND</td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -452,7 +458,6 @@
         " - " +
         ed + "/" + em + "/" + ey
         </c:if>
-
     )
         ;
         $("#search_date_range").click(function () {

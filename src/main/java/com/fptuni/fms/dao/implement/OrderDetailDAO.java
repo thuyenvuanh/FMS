@@ -3,8 +3,12 @@ package com.fptuni.fms.dao.implement;
 import com.fptuni.fms.dao.IOrderDetailDAO;
 import com.fptuni.fms.mapper.OrderDetailMapper;
 import com.fptuni.fms.model.OrderDetail;
+import com.fptuni.fms.model.Product;
+import com.fptuni.fms.model.Store;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,4 +33,19 @@ public class OrderDetailDAO extends AbstractDAO<OrderDetail> implements IOrderDe
         return insert(sql, orderDetail.getOrders(), orderDetail.getProduct(), orderDetail.getPrice(), orderDetail.getQuantity(), amount);
     }
 
+    @Override
+    public OrderDetail getOrderDetailByProductID(Store store, String productID, Date start, Date end) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String startdate = simpleDateFormat.format(start);
+        String enddate = simpleDateFormat.format(end);
+        String sql = "SELECT TOP 5  od.ProID, od.Price, od.Quantity, od.Amount FROM Orders o\n" +
+                "JOIN OrderDetail od ON o.ID = od.OrderID AND o.StoreID = ?\n" +
+                "AND CONVERT(date, o.CreatedDate, 103) between CONVERT(date, ?, 103) AND CONVERT(date, ?, 103) \n" +
+                "AND o.IsDeleted = 0\n" +
+                "JOIN Product p ON p.ID = od.ProID\n" +
+                "WHERE p.ID = ?\n" +
+                "ORDER BY od.Amount DESC";
+        List<OrderDetail> orderDetails = query(sql, new OrderDetailMapper(), store.getId(), startdate, enddate, productID);
+        return orderDetails == null ? null : orderDetails.get(0);
+    }
 }

@@ -14,7 +14,10 @@ import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.mapper.ProductMapper;
 
+import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -157,10 +160,25 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
     @Override
     public List<Product> getProductByOrderID(int orderID, Store store) {
         String sql = "SELECT o.ID, od.ProID, p.Name, p.Price, od.Quantity, od.Amount FROM OrderDetail od\n" +
-//                " JOIN Orders o ON o.ID = od.OrderID AND o.ID = ? AND StoreID = " + store.getId() +
                 " JOIN Orders o ON o.ID = od.OrderID AND o.ID = ? AND StoreID = ? " +
                 " AND od.IsDeleted = 0 AND o.IsDeleted = 0\n" +
                 " JOIN Product p on p.ID = od.ProID AND p.IsDeleted = 0";
         return query(sql, new OrderDetailMapper(), orderID, store.getId());
+    }
+
+    @Override
+    public List<Product> getTop5ProductsOrderByAmount(Store store, Date start, Date end) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String startdate = sdf.format(start);
+        String enddate = sdf.format(end);
+        String sql = "SELECT p.ID, p.Name, p.CateID FROM (\n" +
+                "SELECT TOP 5 o.ID, od.ProID, od.Amount FROM Orders o\n" +
+                "JOIN OrderDetail od ON o.ID = od.OrderID AND o.StoreID = ?\n" +
+                "AND CONVERT(date, o.CreatedDate, 103) between CONVERT(date, ?, 103) AND CONVERT(date, ?, 103) \n" +
+                "AND o.IsDeleted = 0\n" +
+                "ORDER BY od.Amount DESC\n" +
+                ") AS SUB\n" +
+                "JOIN Product p ON p.ID = SUB.ProID AND p.StoreID = ? ";
+        return query(sql, new ProductMapper(), store.getId(), startdate, enddate, store.getId());
     }
 }

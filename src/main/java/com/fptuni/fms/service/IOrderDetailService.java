@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface IOrderDetailService {
     List<OrderDetail> getOrderDetailByOrderID(HttpServletRequest request, HttpServletResponse response);
+    OrderDetail getOrderDetailByProductID(HttpServletRequest request, HttpServletResponse response, String productID);
 }
