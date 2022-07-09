@@ -51,7 +51,9 @@ public class CustomerController extends HttpServlet {
                                 .forward(request, response);
                     } else {
                         request.setAttribute("createStatus", "success");
-                        response.sendRedirect(request.getContextPath() + "/customer/list");
+                        request.setAttribute("phoneNumber",phone);
+                        request.getRequestDispatcher("/counter/check")
+                                .forward(request, response);
                     }
                 }
             }else {
