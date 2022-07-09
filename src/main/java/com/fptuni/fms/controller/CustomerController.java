@@ -91,14 +91,15 @@ public class CustomerController extends HttpServlet {
             //Get Amount
             IWalletService walletService = new WalletService();
             ITransactionService transactionService = new TransactionService();
-            TransactionShared transactionShared = new TransactionShared();
             List<TransactionShared> balanceList = new ArrayList<>();
             List<Wallet> walletList = new ArrayList<>();
+
+            TransactionShared transactionShared = new TransactionShared();
             Wallet wallet = new Wallet();
             for (Customer cus : customers) {
                 wallet = walletService.getWallet(cus.getId());
                 walletList.add(wallet);
-                if(wallet != null){
+                if(cus != null){
                     transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
                     balanceList.add(transactionShared);
                 }else{
@@ -107,7 +108,7 @@ public class CustomerController extends HttpServlet {
             }
             request.setAttribute("balanceList", balanceList);
 
-            //
+
             int totalPages = customerService.CountCustomer() / pageSize;
             if (customerService.CountCustomer() % pageSize != 0) {
                 totalPages++;
