@@ -110,7 +110,10 @@
                             <td>${mapProduct.key.key.name}</td>
                             <td>${mapProduct.key.value.name}</td>
                             <td>${mapProduct.value.quantity}</td>
-                            <td>${mapProduct.value.amount} VND</td>
+                            <td>
+                                <fmt:formatNumber type="number" pattern="###,###,### VND"
+                                                  value="${mapProduct.value.amount}"></fmt:formatNumber>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -125,7 +128,11 @@
                         <h5>Income</h5>
                     </div>
                     <div class="ibox-content text-success">
-                        <h1 class="no-margins">40 886,200</h1>
+
+                        <h1 class="no-margins">
+                            <fmt:formatNumber type="number" pattern="###,###,### VND"
+                                              value="${requestScope.totalAmount}"></fmt:formatNumber>
+                        </h1>
 
                         <div class="stat-percent font-bold">
                             98% <i class="fa fa-level-up"></i>
@@ -310,7 +317,7 @@
 
 
 <!-- ChartJS-->
-<script src="../../js/plugins/chartJs/Chart.min.js"></script>
+<script src="../js/plugins/chartJs/Chart.min.js"></script>
 
 <!-- <script src="js/plugins/chartJs/Util.js"></script> -->
 <script src="../../js/jquery-3.1.1.min.js"></script>
@@ -367,13 +374,22 @@
 
 <script>
     $(function () {
+
         var startDate;
         var endDate;
-
+        if ("${requestScope.startDateFmt}" == "") {
+            startDate = moment().subtract("days", 29);
+            endDate = moment();
+        } else {
+            startDate = new Date('${requestScope.startDateFmt}');
+            endDate = new Date('${requestScope.endDateFmt}');
+        }
         $("#reportrange").daterangepicker(
             {
-                startDate: moment().subtract("days", 29),
-                endDate: moment(),
+                // startDate: moment().subtract("days", 29),
+                // endDate: moment(),
+                startDate: startDate,
+                endDate: endDate,
                 dateLimit: {days: 60},
                 showDropdowns: false,
                 showWeekNumbers: true,
@@ -447,6 +463,7 @@
         if (sm < 10) sm = '0' + sm;
         if (ed < 10) ed = '0' + ed;
         if (em < 10) em = '0' + em;
+        //Set the initial state of the picker label
         $("#reportrange span").html(
             <c:if test="${requestScope.startDateFmt==null}">
             moment().subtract("days", 29).format("DD/MM/YYYY") +
@@ -481,27 +498,29 @@
 
 <script>
     $(document).ready(function () {
-        const MONTHS = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
+        // const MONTHS = [
+        //     "January",
+        //     "February",
+        //     "March",
+        //     "April",
+        //     "May",
+        //     "June",
+        //     "July",
+        //     "August",
+        //     "September",
+        //     "October",
+        //     "November",
+        //     "December",
+        // ];
+        const DATES = [
+            <c:forEach var="date" items="${requestScope.dateRange}">
+            <fmt:formatDate value="${date}" var="dateFmt" pattern="dd/MM"></fmt:formatDate>
+            '${dateFmt}',
+            </c:forEach>
         ];
-
-        // const M = Samples.utils.months({ count: 7 });
-
         // Order
-
         var lineData = {
-            labels: MONTHS,
+            labels: DATES,
             datasets: [
                 {
                     label: "Order",
@@ -509,7 +528,7 @@
                     borderColor: "rgba(26,179,148,0.7)",
                     pointBackgroundColor: "rgba(26,179,148,1)",
                     pointBorderColor: "#fff",
-                    data: [99, 48, 40, 19, 86, 27, 90],
+                    data: [34, 48, 40, 19, 86, 27, 90],
                 },
             ],
         };
@@ -534,7 +553,7 @@
         //Income
 
         var lineDataIncome = {
-            labels: MONTHS,
+            labels: DATES,
             datasets: [
                 {
                     label: "Income",

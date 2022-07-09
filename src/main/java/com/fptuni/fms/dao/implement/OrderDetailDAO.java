@@ -3,7 +3,6 @@ package com.fptuni.fms.dao.implement;
 import com.fptuni.fms.dao.IOrderDetailDAO;
 import com.fptuni.fms.mapper.OrderDetailMapper;
 import com.fptuni.fms.model.OrderDetail;
-import com.fptuni.fms.model.Product;
 import com.fptuni.fms.model.Store;
 
 import java.math.BigDecimal;
@@ -15,6 +14,8 @@ import java.util.List;
  * @author NhatTan
  */
 public class OrderDetailDAO extends AbstractDAO<OrderDetail> implements IOrderDetailDAO {
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
     @Override
     public List<OrderDetail> getOrderDetailsByOrderID(int orderID, int storeID) {
         String sql = "SELECT o.ID, od.ProID, p.Name, p.Price, od.Quantity, od.Amount FROM OrderDetail od\n" +
@@ -35,7 +36,6 @@ public class OrderDetailDAO extends AbstractDAO<OrderDetail> implements IOrderDe
 
     @Override
     public OrderDetail getOrderDetailByProductID(Store store, String productID, Date start, Date end) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String startdate = simpleDateFormat.format(start);
         String enddate = simpleDateFormat.format(end);
         String sql = "SELECT TOP 5  od.ProID, od.Price, od.Quantity, od.Amount FROM Orders o\n" +
@@ -47,5 +47,16 @@ public class OrderDetailDAO extends AbstractDAO<OrderDetail> implements IOrderDe
                 "ORDER BY od.Amount DESC";
         List<OrderDetail> orderDetails = query(sql, new OrderDetailMapper(), store.getId(), startdate, enddate, productID);
         return orderDetails == null ? null : orderDetails.get(0);
+    }
+
+    @Override
+    public BigDecimal getTotalAmount(Store store, Date start, Date end) {
+        String startdate = simpleDateFormat.format(start);
+        String enddate = simpleDateFormat.format(end);
+        String sql = "SELECT SUM(od.Amount) AS Amount FROM OrderDetail od\n" +
+                "JOIN Orders o ON o.ID = od.OrderID AND o.StoreID = ? AND o.IsDeleted = 0 \n" +
+                "AND CONVERT(date, o.CreatedDate, 103) between CONVERT(date, ?, 103) AND CONVERT(date, ?, 103) \n";
+        List<OrderDetail> orderDetails = query(sql, new OrderDetailMapper(), store.getId(), startdate, enddate);
+        return orderDetails == null ? null : orderDetails.get(0).getAmount();
     }
 }

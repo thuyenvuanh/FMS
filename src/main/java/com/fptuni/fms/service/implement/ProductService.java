@@ -334,6 +334,7 @@ public class ProductService implements IProductService {
             Calendar calendar = Calendar.getInstance();
             Date end = calendar.getTime();
             calendar.add(Calendar.MONTH, -1);
+            calendar.add(Calendar.DATE, +1);
             Date start = calendar.getTime();
             if (request.getParameter("startDate") != null && request.getParameter("endDate") != null) {
                 start = sdf.parse(request.getParameter("startDate"));

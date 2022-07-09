@@ -8,10 +8,7 @@ import com.fptuni.fms.model.Orders;
 import com.fptuni.fms.paging.Pageable;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author LucasBV
@@ -20,16 +17,25 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
 
     @Override
     public List<Orders> getOrders(Pageable pageable, Map<String, String> searcher) {
+        List<Object> param = new ArrayList<>();
         String sql = "SELECT ID, StoreID, Total, CreatedDate\n" +
                 "FROM Orders\n" +
                 "WHERE IsDeleted = 0 AND StoreID =  ?";
-        if (searcher.get("startDate") != null && !searcher.get("startDate").isEmpty())
+        param.add(searcher.get("storeID"));
+        if (searcher.get("startDate") != null && !searcher.get("startDate").isEmpty()) {
             sql += " AND CONVERT(DATE, CreatedDate, 103)  >= CONVERT(DATE, ? , 103)";
-        if (searcher.get("endDate") != null && !searcher.get("endDate").isEmpty())
+            param.add(searcher.get("startDate"));
+        }
+        if (searcher.get("endDate") != null && !searcher.get("endDate").isEmpty()) {
             sql += " AND CONVERT(DATE, CreatedDate, 103)  <= CONVERT(DATE, ? , 103)";
-        if (searcher.get("totalAmount") != null && !searcher.get("totalAmount").isEmpty())
+            param.add(searcher.get("endDate"));
+        }
+        if (searcher.get("totalAmount") != null && !searcher.get("totalAmount").isEmpty()) {
             sql += " AND Total = ?";
-        List<Orders> orders = query(sql, new OrderMapper(), searcher.get("storeID"), searcher.get("startDate"), searcher.get("endDate"), searcher.get("totalAmount"));
+            param.add(searcher.get("totalAmount"));
+        }
+        Object[] arr = param.toArray();
+        List<Orders> orders = query(sql, new OrderMapper(), arr);
         return orders;
     }
 
