@@ -34,7 +34,7 @@
                     <span class="nav-label">Counter</span></a>
             </li>
             <li class="active">
-                <a href="ecommerce-orders.html">
+                <a href="<c:url value="/customer/list"/>">
                     <i class="fa fa-user-o"></i>
                     <span class="nav-label">Customer</span></a>
             </li>

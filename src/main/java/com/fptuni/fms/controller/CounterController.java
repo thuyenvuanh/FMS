@@ -49,7 +49,9 @@ public class CounterController extends HttpServlet {
 //                    }
 //                }
             } else {
-                 response.sendRedirect("/view/counter/createCustomer.jsp");
+                request.setAttribute("phoneNum",phoneNumber);
+                request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
+                         .forward(request, response);
             }
         }
 
