@@ -28,7 +28,8 @@
 
 
             <li class="active">
-                <a href="layout.html"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                <c:url var="homelink" value="${requestScope.contextPath}/adminDashboard/index"></c:url>
+                <a href="${homelink}"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
             </li>
 
             <li class="active"><a href="transaction_list.html"><i class="fa fa-money"></i> <span
