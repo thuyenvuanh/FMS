@@ -12,7 +12,8 @@ public class AccountController extends HttpServlet {
 
     private final AccountService accountService = new AccountService();
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getPathInfo();
         String Url = null;
         switch (action) {

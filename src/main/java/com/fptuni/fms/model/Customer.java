@@ -65,9 +65,14 @@ public class Customer implements Serializable {
     @Column(name = "Gender")
     private short gender;
     // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
+    @Basic
+    @NotNull
+    @Column(name = "IsDeleted")
+    private boolean isDeleted;
     @Size(max = 12)
     @Column(name = "Phone")
     private String phone;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerID")
     private List<Wallet> walletList;
     @OneToMany(mappedBy = "customerID")
@@ -88,9 +93,29 @@ public class Customer implements Serializable {
         this.gender = gender;
     }
 
+    public Customer (Integer id, String name, boolean isDeleted){
+        this.id = id;
+        this.name = name;
+        this.isDeleted = isDeleted;
+    }
+
     public Customer(String name, String phoneNum) {
         this.name = name;
         this.phone = phoneNum;
+    }
+
+    public Customer(Date doB, String address, short gender) {
+        this.doB = doB;
+        this.address = address;
+        this.gender = gender;
+    }
+
+    public boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public Integer getId() {

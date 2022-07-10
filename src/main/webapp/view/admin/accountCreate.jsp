@@ -32,6 +32,15 @@
         <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
         <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
+        <!-- Select2 -->
+        <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
+        <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+        <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+        <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
+        <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+        <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+
+
         <!-- FooTable -->
         <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
 
@@ -76,7 +85,7 @@
                                     <div id="tab-1" class="tab-pane active">
                                         <div class="panel-body">
 
-                                            <form class="createForm" action="${pageContext.servletContext.contextPath}/account/create" autocomplete="off">
+                                            <form id="form_account_create" method="POST" class="createForm" action="${pageContext.servletContext.contextPath}/account/create" autocomplete="off">
                                             <fieldset>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Username:</label>
                                                     <div class="col-sm-10"><input name="username" type="text" class="form-control" placeholder="Username"></div>
@@ -85,24 +94,25 @@
                                                     <div class="col-sm-10"><input name="fullName" type="text" class="form-control" placeholder="Full Name"></div>
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Password:</label>
-                                                    <div class="col-sm-10"><input name="password" type="password" class="form-control" placeholder="password"></div>
+                                                    <div class="col-sm-10"><input name="password" type="password" class="form-control" placeholder="Password"></div>
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Confirm password:</label>
                                                     <div class="col-sm-10"><input name="cfPassword" type="password" class="form-control" placeholder="Confirm password"></div>
                                                 </div>
                                                 <div class="form-group row"><label  class="col-sm-2 col-form-label">Role:</label>
                                                     <div class="col-sm-10">
-                                                        <select class="form-control m-b" name="roleId">
+                                                        <select class="form-control m-b" id="select_role" name="roleId">
+                                                            <option value="0">None</option>
                                                             <c:forEach var="role" items="${requestScope.listRole}">
-                                                                <option value="${role.id}" ${category.id==1?"selected":""} >${role.name}</option>
+                                                                <option value="${role.id}" ${role.id==roleId?"selected":""} >${role.name}</option>
                                                             </c:forEach>
                                                         </select>
                                                     </div>
+                                                </div>
                                             </fieldset>
                                             <div class="form-layout-footer text-center">
                                                 <button type="button" class="btn btn-primary bd-0 create_account_form" id="create_account_form">Submit</button>
                                                 <button onclick="history.back()" type="button" class="btn btn-dark">Cancel</button>
-
                                             </div>
                                         </form>
                                     </div>
@@ -154,36 +164,97 @@
     <!-- Page-Level Scripts -->
     <!-- Sweet alert -->
     <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+        <!-- Jquery Validate -->
+        <script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+        <script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
+        <%-- Select2 --%>
+        <script src="../js/plugins/select2/select2.full.min.js"></script>
     <!-- Page-Level Scripts -->
-    <script>
-                                                    $(document).ready(function () {
 
-                                                        $('.footable').footable();
 
-                                                    });
+        <script>
 
-    </script>
+            $(document).ready(function () {
+                $('.create_account_form').click(function () {
+                    swal({
+                        title: "Are you sure create?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, create it!",
+                        closeOnConfirm: false
+                    });
+                });
+                $('.confirm').click(function () {
+                    $(".createForm").submit();
+                });
 
-    <script>
+                $.validator.addMethod("valueNotEquals", function(value, element, arg){
+                    return arg !== value;
+                }, "Value must not equal arg.");
 
-                                                    $(document).ready(function () {
-                                                        $('.create_account_form').click(function () {
-                                                            swal({
-                                                                title: "Are you sure create?",
-                                                                type: "warning",
-                                                                showCancelButton: true,
-                                                                confirmButtonColor: "#DD6B55",
-                                                                confirmButtonText: "Yes, create it!",
-                                                                closeOnConfirm: false
-                                                            });
-                                                        });
-                                                        $('.confirm').click(function () {
-        <%-- window.location = "accountList.jsp";--%>
-                                                            $(".createForm").submit();
-                                                        });
-                                                    });
-    </script>
+                $("#form_account_create").validate({
+                    rules: {
+                        username: {
+                            required: true,
+                        },
+                        fullName: {
+                            required: true,
+                        },
+                        password: {
+                            required: true,
+                            minlength: 5
+                        },
+                        cfPassword:{
+                            required: true,
+                            equalTo: ".password"
+                        },
+                        roleId: {
+                            valueNotEquals: "0"
+                        }
+                    },
+                    messages: {
+                        username: {
+                            required: "Please enter username",
+                        },
+                        fullName: {
+                            required: "Please enter full name",
+                        },
+                        password: {
+                            required: "Please enter password",
+                            minlength: "Please enter at least 5 characters"
+                        },
+                        cfPassword:{
+                            required: "Please enter confirm password",
+                            equalTo: "Confirm password not same as password above"
+                        },
+                        roleId: {
+                            valueNotEquals: "Please choose role"
+                        }
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+
+                $('.footable').footable();
+
+                $("#select_role").select2({
+                    theme: 'bootstrap4',
+                });
+
+
+
+
+            })
+
+
+        </script>
 
     <!-- Alert -->
     <div class="sweet-overlay" tabindex="-1" style="opacity: -0.03; display: none;"></div>

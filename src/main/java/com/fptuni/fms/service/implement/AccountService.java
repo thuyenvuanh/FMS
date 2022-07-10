@@ -45,7 +45,7 @@ public class AccountService implements IAccountService {
                 switch (account.getRole().getName()) {
                     case "Admin":
                         //response toi link cua admin
-                        url = request.getContextPath() + "/account/list";
+                        url = request.getContextPath() + "/adminDashboard/index";
                         break;
                     case "Cashier":
                         //response toi link cua cashier

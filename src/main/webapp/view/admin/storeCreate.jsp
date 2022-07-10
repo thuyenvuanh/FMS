@@ -74,7 +74,7 @@
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
                                         <div class="panel-body">
-                                            <form class="createForm" action="${pageContext.servletContext.contextPath}/store/create" autocomplete="off">
+                                            <form id="form_store_create" class="createForm" action="${pageContext.servletContext.contextPath}/store/create" autocomplete="off">
                                                 <fieldset>
                                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
                                                         <div class="col-sm-10"><input name="storeName" type="text" class="form-control" placeholder="Store name"></div>
@@ -132,6 +132,13 @@
     <!-- Page-Level Scripts -->
     <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
     <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
+
+     <!-- Jquery Validate -->
+    <script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="../js/plugins/validate/jquery.validate.min.js"></script>
+
     <script>
                                                     $(document).ready(function () {
 
@@ -158,6 +165,19 @@
                                                         });
                                                         $('.confirm').click(function () {
                                                             $(".createForm").submit();
+                                                        });
+
+                                                        $("#form_store_create").validate({
+                                                            rules: {
+                                                                storeName: {
+                                                                    required: true
+                                                                }
+                                                            },
+                                                            messages: {
+                                                                 storeName: {
+                                                                     required: "Please enter product name"
+                                                                 }
+                                                            }
                                                         })
                                                     });
     </script>

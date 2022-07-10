@@ -14,7 +14,9 @@
       "/order/index",
       "/order",
       "/payment/checkout",
+      "/category/category",
       "/pay",
+      "/payment/create",
       "/account/logout",
       "/js",
       "/css",
@@ -26,7 +28,10 @@
     "role": "Store Manager",
     "permissions": [
       "/product/list",
+      "/product/update",
       "/product",
+      "/order",
+      "/order/list",
       "/account/logout",
       "/js",
       "/css",
@@ -42,6 +47,8 @@
       "/account",
       "/store",
       "/transaction",
+      "/adminDashboard",
+      "/adminDashboard/index",
       "/js",
       "/css",
       "/img",
@@ -52,7 +59,15 @@
   {
     "role": "Counter",
     "permissions": [
-
+      "/customer/list",
+      "/customer",
+      "/counter/index",
+      "/counter",
+      "/js",
+      "/css",
+      "/img",
+      "/IMG",
+      "/font-awesome"
     ]
   }
 ]

@@ -1,7 +1,9 @@
 package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.dao.IOrderDAO;
+import com.fptuni.fms.mapper.OrderDetailMapper;
 import com.fptuni.fms.mapper.OrderMapper;
+import com.fptuni.fms.model.OrderDetail;
 import com.fptuni.fms.model.Orders;
 import com.fptuni.fms.paging.Pageable;
 
@@ -18,15 +20,15 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
     public List<Orders> getOrders(Pageable pageable, Map<String, String> searcher) {
         String sql = "SELECT ID, StoreID, Total, CreatedDate\n" +
                 "FROM Orders\n" +
-                "WHERE IsDeleted = 0 AND StoreID =  ?" ;
+                "WHERE IsDeleted = 0 AND StoreID =  ?";
         if (searcher.get("totalAmount") != null && !searcher.get("totalAmount").isEmpty())
             sql += " AND Total = " + searcher.get("totalAmount");
         if (searcher.get("startDate") != null && !searcher.get("startDate").isEmpty())
-            sql += " AND CONVERT(VARCHAR, CreatedDate, 103)  >= CONVERT(VARCHAR, '"+searcher.get("startDate")+"', 103)";
+            sql += " AND CONVERT(VARCHAR, CreatedDate, 103)  >= CONVERT(VARCHAR, '" + searcher.get("startDate") + "', 103)";
         if (searcher.get("endDate") != null && !searcher.get("endDate").isEmpty())
-            sql += " AND CONVERT(VARCHAR, CreatedDate, 103)  <= CONVERT(VARCHAR, '"+searcher.get("endDate")+"', 103)";
+            sql += " AND CONVERT(VARCHAR, CreatedDate, 103)  <= CONVERT(VARCHAR, '" + searcher.get("endDate") + "', 103)";
 
-        List<Orders> orders = query(sql, new OrderMapper(),searcher.get("storeID"));
+        List<Orders> orders = query(sql, new OrderMapper(), searcher.get("storeID"));
         return orders;
     }
 
@@ -42,9 +44,9 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
 
     @Override
     public Integer insertOrder(Orders orders) {
-        String sql = "INSERT INTO Orders\n" +
-                "VALUES (?,?,?)";
-        return insert(sql, orders.getStoreID(), orders.getTotal(), orders.getCreatedDate());
+        String sql = "insert into Orders (StoreID, Total, CreatedDate)\n" +
+                "values (?,?,?)";
+        return insert(sql, orders.getStoreID().getId(), orders.getTotal(), orders.getCreatedDate());
     }
 
     @Override
