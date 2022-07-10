@@ -12,62 +12,70 @@ public class AccountController extends HttpServlet {
 
     private final AccountService accountService = new AccountService();
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getPathInfo();
-        String Url = null;
+        String url = null;
         switch (action) {
+            case "/index":
+                url = request.getContextPath();
+                response.sendRedirect(url);
+                break;
             case "/login":
-                Url = accountService.login(request, response);
-                response.sendRedirect(Url);
+                url = accountService.login(request, response);
+                response.sendRedirect(url);
                 break;
             case "/logout":
-                Url = accountService.logout(request, response);
-                response.sendRedirect(Url);
+                url = accountService.logout(request, response);
+                response.sendRedirect(url);
                 break;
             case "/create":
-                Url = accountService.create(request, response);
-                request.getRequestDispatcher(Url).forward(request, response);
+                url = accountService.create(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
                 break;
             case "/createPage":
-                Url = accountService.getRole(request, response);
-                request.getRequestDispatcher(Url).forward(request, response);
+                url = accountService.getRole(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
                 break;
             case "/list":
-                Url = accountService.getListAccount(request, response);
-                request.getRequestDispatcher(Url).forward(request, response);
+                url = accountService.getListAccount(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
                 break;
             case "/update":
-                Url = accountService.update(request, response);
-                request.getRequestDispatcher(Url).forward(request, response);
+                url = accountService.update(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
                 break;
             case "/updatePage":
-                Url = accountService.getAccountUpdate(request, response);
-                request.getRequestDispatcher(Url).forward(request, response);
+                url = accountService.getAccountUpdate(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
                 break;
             case "/view":
-                Url = accountService.getAccount(request, response);
-                request.getRequestDispatcher(Url).forward(request, response);
+                url = accountService.getAccount(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
                 break;
             case "/delete":
-                Url = accountService.delete(request, response);
-                request.getRequestDispatcher(Url).forward(request, response);
+                url = accountService.delete(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
                 break;
             case "/search":
-                Url = accountService.search(request, response);
-                request.getRequestDispatcher(Url).forward(request, response);
+                url = accountService.search(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
                 break;
             default:
-                //chuyen huong den trang error
+                // chuyen huong den trang error
+                request.getRequestDispatcher("/").forward(request, response);
         }
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 }

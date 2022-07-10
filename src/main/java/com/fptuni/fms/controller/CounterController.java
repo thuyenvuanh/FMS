@@ -38,12 +38,13 @@ public class CounterController extends HttpServlet {
                     TransactionShared transactionShared = transactionService.getTransactionSharedByWalletID(wallet.getId());
                     if(transactionShared != null){
                         BigDecimal amount = transactionService.getCustomerAmount(transactionShared);
+                        request.setAttribute("AMOUNT", amount);
                         request.setAttribute("CUSTOMER", customer);
                         request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
                     }
                 }
             } else {
-                 response.sendRedirect("error.jsp");
+                 response.sendRedirect("/view/counter/createCustomer.jsp");
             }
         }
 

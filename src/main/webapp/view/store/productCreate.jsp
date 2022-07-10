@@ -71,7 +71,7 @@
 
                                 <c:url var="createLink" value="${requestScope.contextPath}/product/create">
                                 </c:url>
-                                <form class="createForm" action="${createLink}" autocomplete="off">
+                                <form id="form_product_create" class="createForm" action="${createLink}">
                                     <fieldset>
                                         <div class="form-group row">
                                             <label class="col-sm-1 col-form-label">Name:</label>
@@ -80,9 +80,7 @@
                                                         type="text"
                                                         class="form-control"
                                                         placeholder="Product name"
-                                                        name="name"
-                                                        value="product test"
-                                                />
+                                                        name="name"/>
 
                                             </div>
                                             <%--                                        </div>--%>
@@ -90,10 +88,8 @@
                                             <label class="col-sm-1 col-form-label">Price:</label>
                                             <div class="col-sm-3">
                                                 <input
-                                                        type="number"
-                                                        class="form-control"
-                                                        placeholder="VND"
-                                                        name="price"
+                                                        type="text" class="form-control" data-mask="0000000000000" placeholder="VND"
+                                                        autocomplete="off" maxlength="17" id="price" name="price"
                                                         value="1"
                                                 />
                                             </div>
@@ -139,9 +135,8 @@
                                             >
                                             <div class="col-sm-3">
                                                 <input
-                                                        type="number"
-                                                        class="form-control"
-                                                        name="quantity"
+                                                        type="text" class="form-control" data-mask="0000000000000" placeholder="Quantity"
+                                                        autocomplete="off" maxlength="17" id="quantity" name="quantity"
                                                         value="1"
                                                 />
                                             </div>
@@ -151,8 +146,7 @@
                                     <div class="form-layout-footer text-center">
                                         <button type="button"
                                                 class="btn btn-primary bd-0"
-                                                id="create_product_form"
-                                        >
+                                                id="create_product_form">
                                             Submit Form
                                         </button>
                                         <%--                                        <a href="productList.jsp">--%>
@@ -276,9 +270,19 @@
 <!-- FooTable -->
 <script src="../js/plugins/footable/footable.all.min.js"></script>
 
+<!-- Input Mask-->
+<script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
+<script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>
+
 <!-- Page-Level Scripts -->
 <!-- Sweet alert -->
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<!-- Jquery Validate -->
+<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -301,6 +305,40 @@
 <script>
     $(document).ready(function () {
         $(".footable").footable();
+
+        $.validator.addMethod('positiveNumber',
+            function (value) {
+                return Number(value) > 0;
+            }, 'Enter a positive number.');
+
+        $("#form_product_create").validate({
+            rules: {
+                name: {
+                    required: true,
+                },
+                price: {
+                    required: true,
+                    positiveNumber: true,
+                    number: true
+                },
+                quantity: {
+                    required: true,
+                    positiveNumber: true,
+                    number: true
+                },
+            },
+            messages: {
+              name: {
+                  required: "Please enter product name"
+              },
+              price: {
+                  required: "Please enter price"
+              },
+              quantity: {
+                  required: "Please enter quantity"
+              }
+            }
+        })
     });
 </script>
 
