@@ -23,14 +23,6 @@
         <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
         <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
-        <!-- Select2 -->
-        <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
-        <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-        <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
-        <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
-        <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-        <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
-        
         <!-- FooTable -->
         <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
 
@@ -86,7 +78,6 @@
                             <div class="form-group">
                                 <label class="col-form-label" for="role">Role</label>
                                 <select class="form-control m-b" id="role" name="roleId">
-                                    <option value="0">All</option>
                                     <c:forEach var="role" items="${requestScope.roleList}">
                                         <option value="${role.id}" ${role.id==roleId?"selected":""} >${role.name}</option>
                                     </c:forEach>
@@ -266,9 +257,6 @@
             <!-- Page-Level Scripts -->
             <!-- Sweet alert -->
             <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
-        <%-- Select2 --%>
-        <script src="../js/plugins/select2/select2.full.min.js"></script>
-        
         <%--if controller return update successful status--%>
         <c:if test="${sessionScope.createStatus != null}">
             <script>
@@ -316,10 +304,6 @@
         <script>
             $(document).ready(function () {
                 $('.footable').footable();
-            });
-            
-            $("#select_role").select2({
-                theme: 'bootstrap4'
             });
         </script>
 

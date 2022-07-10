@@ -57,7 +57,7 @@
     <%--    Search--%>
     <div class="ibox-content m-b-sm border-bottom">
         <c:url var="searchLink" value="${requestScope.contextPath}/product/list"></c:url>
-        <form id="form_product_search" action="${searchLink}" autocomplete="off" method="post">
+        <form action="${searchLink}" autocomplete="off" method="post">
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
@@ -80,24 +80,22 @@
                 <div class="col-md-4">
                     <div class="form-group" id="date_range_transaction">
                         <label class="col-form-label">Price</label>
-                        <div class="input-daterange input-group">
-                            <input type="text" class="form-control" data-mask="0000000000000" placeholder="Min"
-                                   name="minPrice" id="minPrice" maxlength="17" value="${requestScope.minPrice}">
+                        <div class="input-daterange input-group" id="datepicker">
+                            <input type="number" class="form-control" name="minPrice"
+                                   placeholder="Min" value="${requestScope.minPrice}">
                             <span class="input-group-addon">to</span>
-                            <input type="text" class="form-control" data-mask="0000000000000" placeholder="Max"
-                                   name="maxPrice" id="maxPrice" maxlength="17" value="${requestScope.maxPrice}">
+                            <input type="number" class="form-control" name="maxPrice"
+                                   placeholder="Max" value="${requestScope.maxPrice}">
                         </div>
                     </div>
-
                 </div>
 
                 <div class=" col-md-2">
                     <div class="form-group">
                         <label class="col-form-label" for="quantity">Quantity</label>
-                        <input type="text" class="form-control" data-mask="0000000000000" placeholder="Quantity"
-                               autocomplete="off" maxlength="17" id="quantity" name="quantity"
-                               value="${requestScope.quantity}">
-
+                        <input type="number" id="quantity" name="quantity" placeholder="Quantity"
+                               value="${requestScope.quantity}"
+                               class="form-control">
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -424,21 +422,11 @@
 <script src="../js/plugins/pace/pace.min.js"></script>
 
 <!-- FooTable -->
-<script src="../../js/plugins/footable/footable.all.min.js"></script>
 <script src="../js/plugins/footable/footable.all.min.js"></script>
-
-<!-- Input Mask-->
-<script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
 
 <!-- Page-Level Scripts -->
 <!-- Sweet alert -->
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
-
-<!-- Jquery Validate -->
-<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
-<script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
 <%--if controller return create successful status--%>
 <c:if test="${sessionScope.createStatus != null}">
@@ -503,49 +491,7 @@
 <script>
     $(document).ready(function () {
         $(".footable").footable();
-
-        // $.validator.addMethod('greaterThan', function (value, element, param) {
-        //     return this.optional(element) || parseInt(value) >= parseInt($(param).val());
-        // }, 'Invalid value');
-
-<%--        let selectInput = document.querySelector("#minPrice");--%>
-
-<%--        selectInput.addEventListener("keydown", function(e){--%>
-<%--            const key = e.key;--%>
-<%--            if(key === "Backspace"){--%>
-<%--                <%--%>
-<%--//                    request.removeAttribute("minPrice");--%>
-<%--                    request.setAttribute("minPrice", 0);--%>
-<%--                %>--%>
-<%--                selectInput.value = 0;--%>
-
-<%--                console.log(selectInput.value);--%>
-<%--            }--%>
-<%--        })--%>
-
-
-<%--        // if($("#minPrice").val() != "" && $("#maxPrice").val() != ""){--%>
-<%--            $("#form_product_search").validate({--%>
-
-<%--                rules: {--%>
-<%--                    maxPrice: {--%>
-<%--                        greaterThan: '#minPrice',--%>
-<%--                        number: true,--%>
-<%--                        maxlength: 9--%>
-<%--                    },--%>
-<%--                },--%>
-<%--                messages: {--%>
-<%--                    maxPrice: {--%>
-<%--                        greaterThan: 'Max price must be greater than min price',--%>
-<%--                        maxlength: 'Invalid input cause over amount format'--%>
-<%--                    }--%>
-<%--                }--%>
-
-<%--            })--%>
-        // }
-
     });
-
 </script>
 
 <%--<!-- Alert -->--%>
@@ -594,3 +540,5 @@
 </body>
 
 </html>
+
+
