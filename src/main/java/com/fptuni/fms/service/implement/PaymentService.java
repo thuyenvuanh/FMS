@@ -112,4 +112,9 @@ public class PaymentService implements IPaymentService {
         }
         return false;
     }
+
+    @Override
+    public boolean withDraw(HttpServletRequest request) {
+        return false;
+    }
 }

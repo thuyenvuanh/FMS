@@ -51,7 +51,7 @@ public class CounterController extends HttpServlet {
                 request.setAttribute("BALANCE", balance);
                 request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
             } else {
-                 response.sendRedirect("/view/counter/createCustomer.jsp");
+
             }
         } else if(path.equals("/addMoney")){
             boolean success = paymentService.addMoney(request);

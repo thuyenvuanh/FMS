@@ -160,6 +160,12 @@
 <!-- FooTable -->
 <script src="../js/plugins/footable/footable.all.min.js"></script>
 
+<!-- Jquery Validate -->
+<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
+
 <!-- Page-Level Scripts -->
 <script>
     $(document).ready(function () {
@@ -173,6 +179,18 @@
             $('#form_create_transaction').attr('action', '${requestScope.contextPath}/counter/depositMoney');
         });
 
+        $('#form_create_transaction').validate({
+            rules: {
+                amount: {
+                    required: true
+                }
+            },
+            messages: {
+                amount: {
+                    required: 'Please enter amount'
+                }
+            }
+        })
     });
 </script>
 <script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>

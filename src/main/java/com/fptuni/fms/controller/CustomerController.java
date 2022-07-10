@@ -79,6 +79,7 @@ public class CustomerController extends HttpServlet {
             int pageSize = 3;
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
+            System.out.println("CUSTOMER LIST");
             //Get Amount
 //            List<Customer> amounts = customerService.getAmount();
             int totalPages = customerService.CountCustomer() / pageSize;

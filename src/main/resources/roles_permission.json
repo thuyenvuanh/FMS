@@ -59,6 +59,8 @@
   {
     "role": "Counter",
     "permissions": [
+      "/customer/list",
+      "/customer",
       "/counter/index",
       "/counter",
       "/js",
