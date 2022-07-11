@@ -140,6 +140,10 @@ public class ProductService implements IProductService {
 
     @Override
     public boolean updateProduct(Product product) {
+        ProductDAO productDAO = new ProductDAO();
+        if (product != null){
+            return productDAO.updateProduct(product);
+        }
         return false;
     }
 

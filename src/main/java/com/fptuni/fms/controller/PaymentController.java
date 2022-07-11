@@ -21,11 +21,15 @@ public class PaymentController extends HttpServlet {
                 url = request.getContextPath() + "/pay";
                 break;
             case "/create":
+                request.getSession().removeAttribute("payMessage");
                 boolean success = paymentService.makePayment(request);
                 if (success) {
                     request.getSession().removeAttribute("order");
+                    request.getSession().removeAttribute("productsMap");
                     new OrderService().index(request, response);
                     url = request.getContextPath() +"/cashier";
+                } else {
+                    url = request.getContextPath() +"/pay";
                 }
                 break;
         }

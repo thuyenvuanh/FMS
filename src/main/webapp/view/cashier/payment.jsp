@@ -148,9 +148,8 @@
         </table>
       </div>
     </div>
-    <!-- product select btn, category btn -->
     <div class="col-9 d-flex justify-content-center align-items-center">
-      <!-- product select field -->
+      <p style="position: absolute; color: red; top: 100px;">${sessionScope.payMessage}</p>
       <div class="h-75 rounded-3 shadow-lg" style="width: 40%;">
         <form method="post" class="row gx-2 px-2 pt-2" style="height: 20%;">
           <div class="col-8 h-100" style="height: 66.6666%;">

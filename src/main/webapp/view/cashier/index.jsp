@@ -137,7 +137,8 @@
                     </tr>
                     <tr>
                         <th class="col ps-3">Total</th>
-                        <td class="col pe-3 text-end fs-3 fw-bold"><fmt:formatNumber minIntegerDigits="1" value="${order.total}"
+                        <td class="col pe-3 text-end fs-3 fw-bold"><fmt:formatNumber minIntegerDigits="1"
+                                                                                     value="${order.total}"
                                                                                      type="currency"/></td>
                     </tr>
                 </table>
@@ -155,9 +156,11 @@
                         <div class="col flex-grow-1 d-flex justify-content-center align-items-stretch"
                              style="padding-left: 12px; padding-right: 0;">
                             <!-- <input type="submit" class="btn btn-outline-success" value="Take-Away" /> -->
-                            <button style="width: 100% !important;" class="btn btn-success" formmethod="post" <c:if test="${order.orderDetailList.size() == 0}">disabled</c:if>
-                                formaction="<c:url value="/payment/checkout"/>"
-                            >Check out</button>
+                            <button style="width: 100% !important;" class="btn btn-success" formmethod="post"
+                                    <c:if test="${order.orderDetailList.size() == 0}">disabled</c:if>
+                                    formaction="<c:url value="/payment/checkout"/>"
+                            >Check out
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -174,17 +177,32 @@
                     <div class="row p-0">
                         <jsp:useBean id="products" scope="session" type="java.util.List"/>
                         <c:forEach var="product" items="${products}">
-                            <a href="<c:url value="/order/add?id=${product.id}"/> "
+                            <a href="<c:if test="${product.qtyAvailable > 0}"><c:url value="/order/add?id=${product.id}"/></c:if> "
                                class="col-md-4 col-xxl-3 d-flex align-items-center h-25 py-2" style="
-                            position: relative;">
-                                <img style="object-fit: cover; height: 100%;width: 100%; max-height: 160px;"
-                                     class="rounded-2"
-                                     src="https://bonjourcoffee.vn/blog/wp-content/uploads/2020/01/capuchino.jpg"
-                                     alt=" ">
+                            position: relative; <c:if test="${product.qtyAvailable == 0}">opacity: 0.3;</c:if>">
+
+                                <c:if test="${product.imagePath == 'IMG'}">
+                                    <img style="object-fit: cover; height: 100%;width: 100%; max-height: 160px;"
+                                         class="rounded-2"
+                                         src="https://bonjourcoffee.vn/blog/wp-content/uploads/2020/01/capuchino.jpg"
+                                         alt=" ">
+                                </c:if>
+                                <c:if test="${product.imagePath != 'IMG'}">
+                                    <img style="object-fit: cover; height: 100%;width: 100%; max-height: 160px;"
+                                         class="rounded-2"
+                                         src="${product.imagePath}"
+                                         alt=" ">
+                                </c:if>
                                 <div class="bottom-left rounded-bottom px-1 mx-auto text-break"
                                      style="font-size: 20px ;position: absolute; color: aliceblue; bottom: 8px; left: 12px;right: 12px; height: fit-content; background-color: rgba(0, 0, 0, 0.7);">
                                         ${product.name}
                                 </div>
+                                <c:if test="${product.qtyAvailable <= 10}">
+                                    <div class="rounded px-1 text-break"
+                                         style="width: fit-content; font-size: 20px; position: absolute; color: aliceblue; top: 8px; right: 12px;height: fit-content; background-color: rgba(0, 0, 0, 0.7);">
+                                            ${product.qtyAvailable}
+                                    </div>
+                                </c:if>
                             </a>
                         </c:forEach>
                     </div>

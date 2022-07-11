@@ -41,7 +41,7 @@ public class OrderService implements IOrderService {
         }
         session.setAttribute("order", order);
 
-        if (request.getSession().getAttribute("categoryListMap") == null) {
+        if (request.getSession().getAttribute("productsMap") == null) {
             request.getSession().setAttribute("productsMap", loadData(request));
         }
 
@@ -50,15 +50,19 @@ public class OrderService implements IOrderService {
 
     @Override
     public void addNewProduct(HttpServletRequest request, HttpServletResponse response) {
+        //get data
         List<Product> products = (List<Product>) request.getSession().getAttribute("products");
         Product product = products.get(products.indexOf(new Product(request.getParameter("id"))));
         Orders orders = (Orders) request.getSession().getAttribute("order");
         List<OrderDetail> details = orders.getOrderDetailList();
         boolean isNewItem = true;
+
+
         for (OrderDetail orderDetail : details) {
             if ((orderDetail.getProduct()).equals(product)) {
                 orderDetail.increaseOne();
                 isNewItem  = false;
+
                 break;
             }
         }
@@ -72,30 +76,40 @@ public class OrderService implements IOrderService {
             details.add(newDetail);
         }
         orders.calcTotal();
+        product.setQtyAvailable((short) (product.getQtyAvailable() - 1));
         request.getSession().setAttribute("order", orders);
     }
 
     @Override
     public void removeProduct(HttpServletRequest request, HttpServletResponse response) {
+        List<Product> products = (List<Product>) request.getSession().getAttribute("products");
         String id = request.getParameter("id");
         Orders orders = (Orders) request.getSession().getAttribute("order");
+        Product product = null;
         List<OrderDetail> details = orders.getOrderDetailList();
         for (OrderDetail detail : details) {
             if (detail.getProduct().getId().equals(id)) {
                 if (detail.getQuantity() >= 0) {
                     detail.decreaseOne();
+                    product = products.get(products.indexOf(detail.getProduct()));
                     break;
                 }
             }
         }
         details.removeIf(orderDetail -> orderDetail.getQuantity() == 0);
+        product.setQtyAvailable((short)(product.getQtyAvailable() + 1));
         orders.calcTotal();
         request.getSession().setAttribute("order", orders);
     }
 
     @Override
     public void voidAll(HttpServletRequest request, HttpServletResponse response) {
+        List<Product> products = (List<Product>) request.getSession().getAttribute("products");
         Orders orders = (Orders) request.getSession().getAttribute("order");
+        orders.getOrderDetailList().forEach(orderDetail -> {
+            Product product = products.get(products.indexOf(orderDetail.getProduct()));
+            product.setQtyAvailable((short)(product.getQtyAvailable() + orderDetail.getQuantity()));
+        });
         orders.setOrderDetailList( new ArrayList<>());
         orders.calcTotal();
         request.getSession().setAttribute("order", orders);

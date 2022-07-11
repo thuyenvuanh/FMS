@@ -81,15 +81,14 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
     @Override
     public boolean updateProduct(Product product) {
         String sql = "UPDATE Product\n" +
-                " SET ID = ?,\n" +
-                " Name = ?,\n" +
+                "SET Name = ?,\n" +
                 " Price = ?,\n" +
                 " ImagePath = ?,\n" +
                 " QtyAvailable = ?,\n" +
                 " CateID = ?,\n" +
                 " StoreID = ?\n" +
                 " WHERE ID = ?";
-        return update(sql, product.getId(),
+        return update(sql,
                 product.getName(),
                 product.getPrice(),
                 product.getImagePath(),

@@ -1,15 +1,13 @@
 package com.fptuni.fms.service.implement;
 
 import com.fptuni.fms.dao.implement.*;
-import com.fptuni.fms.model.Orders;
-import com.fptuni.fms.model.Payment;
-import com.fptuni.fms.model.TransactionShared;
-import com.fptuni.fms.model.Wallet;
+import com.fptuni.fms.model.*;
 import com.fptuni.fms.service.IPaymentService;
 import com.fptuni.fms.utils.SecurityUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class PaymentService implements IPaymentService {
 
@@ -26,9 +24,9 @@ public class PaymentService implements IPaymentService {
         //check if the wallet exist and have enough money
         //if fulfill the criteria write order, orderDetail, payment, and transaction to the database
         //else return to the cashier screen and notify error message
-        Wallet wallet = walletDAO.getWalletWithID(Integer.parseInt(request.getParameter("walletID")));
-        Orders orders = (Orders) request.getSession().getAttribute("order");
         try {
+            Wallet wallet = walletDAO.getWalletWithID(Integer.parseInt(request.getParameter("walletID")));
+            Orders orders = (Orders) request.getSession().getAttribute("order");
             if (wallet == null) throw new Exception("Wallet not found");
             if (orders == null) throw new Exception("Order not found");
             //get the latest transaction of the wallet
@@ -55,12 +53,25 @@ public class PaymentService implements IPaymentService {
                             true, null, payment, wallet);
                     newTransaction.setHashValue(SecurityUtils.createHash(newTransaction.toString(), String.valueOf(newTransaction.getCreatedDate().getTime())));
                     transactionSharedDAO.insertTransaction(newTransaction);
+
+                    //update quantity in database
+                    updateQuantity(orders.getOrderDetailList());
                     return true;
                 } else throw new Exception("Balance insufficient");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            request.getSession().setAttribute("payMessage", e.getMessage());
         }
         return false;
+    }
+
+    private void updateQuantity(List<OrderDetail> orderDetailList) {
+        ProductService ps = new ProductService();
+        for (OrderDetail od: orderDetailList) {
+            Product p = ps.getProductById(od.getProduct().getId());
+            p.setQtyAvailable((short) (p.getQtyAvailable() - od.getQuantity()));
+            ps.updateProduct(p);
+        }
     }
 }
