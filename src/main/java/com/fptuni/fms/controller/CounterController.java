@@ -30,9 +30,22 @@ public class CounterController extends HttpServlet {
             IWalletService walletService = new WalletService();
             ITransactionService transactionService = new TransactionService();
 
-            String phoneNumber = request.getParameter("phoneNumber").trim().replaceAll("\\s+","");
-            System.out.println(phoneNumber);
+            String phoneNumber = "";
+            if(request.getParameter("phoneNumber") != null &&
+                    !String.valueOf(request.getParameter("phoneNumber")).isEmpty()
+            ){
+                phoneNumber = request.getParameter("phoneNumber").trim().replaceAll("\\s+","");
+                System.out.println(phoneNumber);
+            }
 
+
+
+            if(request.getAttribute("phoneNumber") != null &&
+                    !String.valueOf(request.getAttribute("phoneNumber")).isEmpty()
+            ){
+                phoneNumber = (String)request.getAttribute("phoneNumber");
+                System.out.println(phoneNumber);
+            }
             Customer customer = customerService.getCustomerByPhoneNum(phoneNumber);
 
             if(customer != null){
@@ -49,7 +62,7 @@ public class CounterController extends HttpServlet {
 //                    }
 //                }
             } else {
-                request.setAttribute("phoneNum",phoneNumber);
+                request.setAttribute("phoneNumber",phoneNumber);
                 request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
                          .forward(request, response);
             }

@@ -146,7 +146,7 @@
                                                                               placeholder="Customer name"
                                                                               name="Cusname"></div>
                                             </div>
-                                            <c:set var="cusCreate" value="${requestScope.phoneNum}"></c:set>
+                                            <c:set var="cusCreate" value="${requestScope.phoneNumber}"></c:set>
                                             <div class="form-group row"><label class="col-sm-2 col-form-label">Phone
                                                 number:</label>
                                                 <div class="col-sm-10">
