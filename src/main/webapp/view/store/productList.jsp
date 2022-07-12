@@ -199,7 +199,7 @@
                                     </td>
                                     <td>${product.name}</td>
                                     <td>
-                                        <img src="${product.imagePath}" alt="${product.name}" style="width: 35%"/>
+                                        <img src="../${product.imagePath}" alt="${product.name}" style="width: 25%"/>
                                     </td>
                                     <td>${product.price}</td>
                                     <td>${product.qtyAvailable}</td>

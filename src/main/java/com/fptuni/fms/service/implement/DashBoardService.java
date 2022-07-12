@@ -34,11 +34,11 @@ public class DashBoardService implements IDashBoardService {
                     throw new Exception("Start date must be before end date");
                 }
             }
-            System.out.println(simpleDateFormat.format(start) + " -- " + simpleDateFormat.format(end));
+//            System.out.println(simpleDateFormat.format(start) + " -- " + simpleDateFormat.format(end));
             listOfDate = DateUtils.getDaysBetweenDates(start, end);
-            for (Date date : listOfDate) {
-                System.out.println(simpleDateFormat.format(date));
-            }
+//            for (Date date : listOfDate) {
+//                System.out.println(simpleDateFormat.format(date));
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

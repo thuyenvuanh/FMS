@@ -181,4 +181,12 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
                 "JOIN Product p ON p.ID = SUB.ProID AND p.StoreID = ? ";
         return query(sql, new ProductMapper(), store.getId(), startdate, enddate, store.getId());
     }
+
+    @Override
+    public List<Product> getProductByCategory(int categoryID) {
+        String sql = "SELECT p.ID, p.Name,p.Price, p.ImagePath, p.QtyAvailable, p.CateID, p.StoreID FROM Product p\n" +
+                "JOIN Category c ON c.ID = p.CateID AND c.IsDeleted = 0 AND c.ID  = ?";
+        List<Product> products = query(sql, new ProductMapper(), categoryID);
+        return products;
+    }
 }
