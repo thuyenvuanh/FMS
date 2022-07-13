@@ -17,7 +17,7 @@
     <title>Customer List</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
-<%--    Jquery--%>
+    <%--    Jquery--%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- FooTable -->
@@ -218,49 +218,48 @@
                                             <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}"
                                                class="btn btn-primary btn-sm">Delete</a>
                                             <a
-                                               class="btn btn-primary btn-sm ${list.phone}">Detail</a>
+                                                    class="btn btn-primary btn-sm ${list.phone}">Detail</a>
                                             <a href="<%=request.getContextPath()%>/customer/Movetoupdate?phonenum=${list.phone}"
                                                class="btn btn-primary btn-sm">Update</a>
                                         </td>
 
-<%--                                        For taking out the balance--%>
+                                            <%-- For taking out the balance--%>
                                         <c:forEach var="amount" items="${requestScope.amountlist}">
-<%--                                            <c:if test="${list}">--%>
-                                            <fmt:setLocale value="vi_VN"/>
 
-                                                <td class="text-right"><fmt:formatNumber
-                                                        value="${amount}" type="currency"/></td>
-<%--                                            </c:if>--%>
+                                            <fmt:setLocale value="vi_VN"/>
+                                            <td class="text-right"><fmt:formatNumber
+                                                    value="${amount}" type="currency"/></td>
+
                                         </c:forEach>
 
                                     </tr>
                                     <%--                                    Show detail here--%>
                                     <input name="var" value="${list.phone}" type="hidden">
-                                        <tr id="${list.phone}" style="display: none">
-                                            <td class="col-sm-3">
-                                                <p>DoB: ${list.doB}</p>
-                                            </td>
-                                            <td class="col-sm-3">
-                                                <p>Address: ${list.address}</p>
-                                            </td>
-                                            <c:choose>
-                                                <c:when test="${list.gender == 0}">
-                                                    <td class="col-sm-3">
-                                                        <p>Gender: Male</p>
-                                                    </td>
-                                                </c:when>
-                                                <c:when test="${list.gender == 1}">
-                                                    <td class="col-sm-3">
-                                                        <p>Gender: Female</p>
-                                                    </td>
-                                                </c:when>
-                                                <c:when test="${list.gender == 2}">
-                                                    <td class="col-sm-3">
-                                                        <p>Gender: None</p>
-                                                    </td>
-                                                </c:when>
-                                            </c:choose>
-                                        </tr>
+                                    <tr id="${list.phone}" style="display: none">
+                                        <td class="col-sm-3">
+                                            <p>DoB: ${list.doB}</p>
+                                        </td>
+                                        <td class="col-sm-3">
+                                            <p>Address: ${list.address}</p>
+                                        </td>
+                                        <c:choose>
+                                            <c:when test="${list.gender == 0}">
+                                                <td class="col-sm-3">
+                                                    <p>Gender: Male</p>
+                                                </td>
+                                            </c:when>
+                                            <c:when test="${list.gender == 1}">
+                                                <td class="col-sm-3">
+                                                    <p>Gender: Female</p>
+                                                </td>
+                                            </c:when>
+                                            <c:when test="${list.gender == 2}">
+                                                <td class="col-sm-3">
+                                                    <p>Gender: None</p>
+                                                </td>
+                                            </c:when>
+                                        </c:choose>
+                                    </tr>
 
                                 </c:forEach>
                                 </tbody>
@@ -369,21 +368,21 @@
 </script>
 
 <script>
-   <c:forEach var="list" items="${requestScope.customerList}">
-   $(".${list.phone}").click(function() {
-       //var searchString = $('#showMore').val();
+    <c:forEach var="list" items="${requestScope.customerList}">
+    $(".${list.phone}").click(function () {
+        //var searchString = $('#showMore').val();
 
-       if($("#${list.phone}").css('display') == 'none'){
-           $("#${list.phone}").css("display","block").filter(function() {
-               //return $(this).text().trim() === searchString;
-           })
-       }else if ($("#${list.phone}").css('display') == 'block'){
-           $("#${list.phone}").css("display","none").filter(function() {
-               //return $(this).text().trim() === searchString;
-           })
-       }
-   });
-   </c:forEach>
+        if ($("#${list.phone}").css('display') == 'none') {
+            $("#${list.phone}").css("display", "block").filter(function () {
+                //return $(this).text().trim() === searchString;
+            })
+        } else if ($("#${list.phone}").css('display') == 'block') {
+            $("#${list.phone}").css("display", "none").filter(function () {
+                //return $(this).text().trim() === searchString;
+            })
+        }
+    });
+    </c:forEach>
 </script>
 
 </body>

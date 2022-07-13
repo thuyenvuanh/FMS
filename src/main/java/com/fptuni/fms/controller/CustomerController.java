@@ -18,6 +18,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -94,25 +95,33 @@ public class CustomerController extends HttpServlet {
             //Get Amount
             IWalletService walletService = new WalletService();
             ITransactionService transactionService = new TransactionService();
-            List<TransactionShared> balanceList = new ArrayList<>();
             List<BigDecimal> AmountList = new ArrayList<>();
             List<Wallet> walletList = new ArrayList<>();
-
             TransactionShared transactionShared = new TransactionShared();
             Wallet wallet = new Wallet();
-            for (Customer cus : customers) {
-                wallet = walletService.getWallet(cus.getId());
-                walletList.add(wallet);
-                if(cus != null){
-                    transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
-                    balanceList.add(transactionShared);
-                    AmountList.add(transactionShared.getAmount());
-                }else{
-                    System.out.println("No wallet found");
+
+            if(customers != null){
+                for (Customer cus : customers) {
+                    wallet = walletService.getWallet(cus.getId());
+                    if(wallet != null){
+                        walletList.add(wallet);
+                        transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
+                        BigDecimal b = transactionService.getCustomerBalance(transactionShared);
+                        AmountList.add(b);
+                    }else{
+                        System.out.println("No wallet found");
+                    }
                 }
+            }else {
+                System.out.println("No customer found");
             }
-            request.setAttribute("balanceList", balanceList);
-            request.setAttribute("amountlist", AmountList);
+
+            BigDecimal total = new BigDecimal(BigInteger.ZERO);
+            for (BigDecimal item : AmountList)
+            {
+                total = total.add(item);
+            }
+            request.setAttribute("amountlist", total);
 
             int totalPages = customerService.CountCustomer() / pageSize;
             if (customerService.CountCustomer() % pageSize != 0) {
