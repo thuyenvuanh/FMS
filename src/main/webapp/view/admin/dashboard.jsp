@@ -29,7 +29,7 @@
     <jsp:include page="layoutAdmin.jsp"></jsp:include>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-9">
-            <h2>Income</h2>
+            <h2>DASHBOARD</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <c:url var="homelink" value="${requestScope.contextPath}/adminDashboard/index"></c:url>
@@ -51,7 +51,7 @@
 <%--                        <span></span> <i class="fa fa-caret-down"></i>--%>
 <%--                    </div>--%>
                         <form id="form_date_range" action="${homelink}" method="GET">
-                            <input id="input_data_range" type="text" class="form-control" name="daterangepicker" value="${requestScope.BEGIN_DATE} - ${requestScope.END_DATE}" readonly>
+                            <input id="input_data_range" type="text" class="form-control" name="daterangepicker" value="" readonly>
                             <input type="hidden" name="startDate" id="Start" value="" />
                             <input type="hidden" name="endDate" id="End" value="" />
                         </form>
@@ -126,7 +126,7 @@
                         <h5 class="">TOTAL ORDER</h5>
                     </div>
                     <div class="ibox-content text-warning">
-                        <h1 class="no-margins">${requestScope.TOTAL_ORDER_ALLSTORES == null ? 0 : requestScope.TOTAL_VALUE_ALLSTORES}</h1>
+                        <h1 class="no-margins">${requestScope.TOTAL_ORDER_ALLSTORES == null ? 0 : requestScope.TOTAL_ORDER_ALLSTORES}</h1>
                         <div class="stat-percent font-bold">98% <i class="fa fa-level-up"></i></div>
                         <small>Total order</small>
                     </div>
@@ -287,6 +287,8 @@
                 separator: ' to ',
                 locale: {
                     applyLabel: 'Submit',
+                    format: 'DD/MM/YYYY',
+                    separator: ' - ',
                     fromLabel: 'From',
                     toLabel: 'To',
                     customRangeLabel: 'Custom Range',

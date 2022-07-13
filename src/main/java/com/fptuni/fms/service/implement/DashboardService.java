@@ -24,6 +24,7 @@ public class DashboardService implements IDashboardService {
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
         Date date1 = null;
         Date date2 = null;
         List<Date> listDateBetween = null;
@@ -69,6 +70,9 @@ public class DashboardService implements IDashboardService {
             //Get Total order of all store
             int totalOrderAllStore = storeDAO.GetTotalOrderOfAllStore(date1, date2);
 
+//            BigDecimal totalValueAllStore = BigDecimal.ZERO;
+//            int totalOrderAllStore = 0;
+
             //Get order and value data chart by date
             HashMap<Date, Integer> listOrderByTime = new HashMap<>();
             HashMap<Date, BigDecimal> listValueByTime = new HashMap<>();
@@ -76,8 +80,17 @@ public class DashboardService implements IDashboardService {
             for (Date item : listDateBetween)  {
                 listOrderByTime.put(item, storeDAO.GetTotalOrderByTime(item));
                 listValueByTime.put(item, storeDAO.GetTotalValueByTime(item));
-                listKeyDateBetween.add(new SimpleDateFormat("MM-dd").format(item));
+                listKeyDateBetween.add(new SimpleDateFormat("dd-MM").format(item));
+
             }
+
+//            for (Date item : listDateBetween)  {
+//                totalValueAllStore = totalValueAllStore.add(listValueByTime.get(item));
+//                totalOrderAllStore += listOrderByTime.get(item);
+//                System.out.println(listOrderByTime.get(item) == null ? 0 : 1);
+//            }
+
+//            System.out.println(totalOrderAllStore + " " + totalValueAllStore);
 
             //Get order and value data chart by time in date
 
