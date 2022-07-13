@@ -19,6 +19,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,6 +93,7 @@ public class CustomerController extends HttpServlet {
             IWalletService walletService = new WalletService();
             ITransactionService transactionService = new TransactionService();
             List<TransactionShared> balanceList = new ArrayList<>();
+            List<BigDecimal> AmountList = new ArrayList<>();
             List<Wallet> walletList = new ArrayList<>();
 
             TransactionShared transactionShared = new TransactionShared();
@@ -102,12 +104,13 @@ public class CustomerController extends HttpServlet {
                 if(cus != null){
                     transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
                     balanceList.add(transactionShared);
+                    AmountList.add(transactionShared.getAmount());
                 }else{
                     System.out.println("No wallet found");
                 }
             }
             request.setAttribute("balanceList", balanceList);
-
+            request.setAttribute("amountlist", AmountList);
 
             int totalPages = customerService.CountCustomer() / pageSize;
             if (customerService.CountCustomer() % pageSize != 0) {
