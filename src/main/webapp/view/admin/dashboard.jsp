@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>INSPINIA | E-commerce</title>
+    <title>Dashboard</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -51,13 +51,13 @@
 <%--                        <span></span> <i class="fa fa-caret-down"></i>--%>
 <%--                    </div>--%>
                         <form id="form_date_range" action="${homelink}" method="GET">
-                            <input type="text" class="form-control" name="daterangepicker" value="${requestScope.BEGIN_DATE} - ${requestScope.END_DATE}">
+                            <input id="input_data_range" type="text" class="form-control" name="daterangepicker" value="${requestScope.BEGIN_DATE} - ${requestScope.END_DATE}" readonly>
                             <input type="hidden" name="startDate" id="Start" value="" />
                             <input type="hidden" name="endDate" id="End" value="" />
                         </form>
 
                 </div>
-                <button id="search_date_range" class="btn btn-outline-success float-right">Search</button>
+<%--                <button id="search_date_range" class="btn btn-outline-success float-right">Search</button>--%>
             </div>
 
 <%--            <form id="form_date_range" action="${homelink}" method="GET">--%>
@@ -93,7 +93,6 @@
                     <tbody>
                     <c:set var="MAP" value="${requestScope.TOP_STORES}"/>
                     <c:forEach var="item" items="${requestScope.LIST_KEY_TOP_STORES}" varStatus="loop">
-
                         <tr>
                             <td>${loop.index + 1}</td>
                             <td>${item.name}</td>
@@ -314,7 +313,22 @@
         // $('#reportrange span').html(moment().subtract('days', 29).format('D MMMM YYYY') + ' - ' + moment().format('D MMMM YYYY'));
 
 
-        $('#search_date_range').click(function () {
+        // $('#search_date_range').click(function () {
+        //     if (startDate == null && endDate == null) {
+        //         console.log(moment().subtract('days', 29).format('YYYY-MM-DD') + ' - ' + moment().format('YYYY-MM-DD'));
+        //         $("#Start").val(moment().subtract('days', 29).format('YYYY-MM-DD'));
+        //         $("#End").val(moment().format('YYYY-MM-DD'));
+        //     }
+        //     else {
+        //         console.log(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
+        //         $("#Start").val(startDate.format('YYYY-MM-DD'));
+        //         $("#End").val(endDate.format('YYYY-MM-DD'));
+        //         $("#form_date_range").submit();
+        //     }
+        //
+        // });
+
+        $('#input_data_range').on('change', function (){
             if (startDate == null && endDate == null) {
                 console.log(moment().subtract('days', 29).format('YYYY-MM-DD') + ' - ' + moment().format('YYYY-MM-DD'));
                 $("#Start").val(moment().subtract('days', 29).format('YYYY-MM-DD'));
@@ -326,8 +340,7 @@
                 $("#End").val(endDate.format('YYYY-MM-DD'));
                 $("#form_date_range").submit();
             }
-
-        });
+        })
 
     });
 </script>
@@ -369,7 +382,7 @@
                 yAxes: [{
                     display: true,
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
                     }
                 }]
             }
@@ -402,9 +415,9 @@
             ]
         };
 
-        var lineOptions = {
-            responsive: true
-        };
+        // var lineOptions = {
+        //     responsive: true
+        // };
 
 
 
@@ -413,17 +426,7 @@
         new Chart(ctxs, {
             type: 'bar',
             data: lineDataIncome,
-            options: {
-                responsive: true,
-                scales: {
-                    yAxes: [{
-                        display: true,
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
+            options: lineOptions
         });
 
 

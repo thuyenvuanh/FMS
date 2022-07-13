@@ -210,7 +210,7 @@
                         },
                         cfPassword:{
                             required: true,
-                            equalTo: ".password"
+                            equalTo: "input[name=password]"
                         },
                         roleId: {
                             valueNotEquals: "0"

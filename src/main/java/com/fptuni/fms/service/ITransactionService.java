@@ -13,4 +13,5 @@ public interface ITransactionService {
     TransactionShared getLatestTransaction();
 
     BigDecimal getCustomerBalance(TransactionShared transactionShared);
+
 }

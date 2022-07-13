@@ -24,7 +24,6 @@ public class DashboardService implements IDashboardService {
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println("NUll: " + startDate);
         Date date1 = null;
         Date date2 = null;
         List<Date> listDateBetween = null;
@@ -41,25 +40,28 @@ public class DashboardService implements IDashboardService {
                     //Create day between list
                     listDateBetween = DateUtils.getDaysBetweenDates(date1, date2);
                 }
-
-
             }
             else {
                 Calendar calendar = Calendar.getInstance();
+                date2 = calendar.getTime();
+                String tmpDate2 = sdf.format(date2);
+                date2 = sdf.parse(tmpDate2);
                 calendar.add(Calendar.MONTH, -1);
+                calendar.add(Calendar.DATE, +1);
                 date1 = calendar.getTime();
-                date2 = new Date();
-//                startDate = new SimpleDateFormat("yyyy-MM-dd").format(date1);
-//                endDate = new SimpleDateFormat("yyyy-MM-dd").format(date2);
-//
-//                System.out.println("START DATE: " + startDate);
-//                System.out.println("END DATE: " + endDate);
+                String tmpDate1 = sdf.format(date1);
+                date1 = sdf.parse(tmpDate1);
+                listDateBetween = DateUtils.getDaysBetweenDates(date1, date2);
             }
+            System.out.println("date1: " + date1);
+            System.out.println("date2: " + date2);
+
             //Get Top Store
             List<Store> listStore = storeDAO.getTopStore(5, date1, date2);
             Map<Store, Pair<DecimalFormat, Integer>> listTopStores =  new HashMap<>();
             for (Store item : listStore) {
                 listTopStores.put(item, new Pair(storeDAO.GetTotalValueOfStore(item.getId(), date1, date2), storeDAO.GetOrderQuantity(item.getId(), date1, date2)));
+                System.out.println(item.getName());
             }
 
             //Get Total value of all store

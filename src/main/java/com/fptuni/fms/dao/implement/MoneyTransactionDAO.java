@@ -17,6 +17,14 @@ public class MoneyTransactionDAO extends AbstractDAO<MoneyTransaction> implement
         return query(sql, mapper);
     }
 
+    @Override
+    public int createMoneyTransaction(MoneyTransaction moneyTransaction) {
+        String sql = "INSERT INTO MoneyTransaction(Amount ,CustomerID, WalletID, CounterID, State, CreatedDate)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+        return insert(sql, moneyTransaction.getAmount(), moneyTransaction.getCustomerID().getId(), moneyTransaction.getWalletID(),
+                moneyTransaction.getCounterID().getId(), moneyTransaction.getState(), moneyTransaction.getCreatedDate());
+    }
+
     public MoneyTransaction getByID(int mID) {
         String sql = "SELECT * FROM MoneyTransaction\n" +
                 "WHERE ID = ? AND IsDeleted = 0";

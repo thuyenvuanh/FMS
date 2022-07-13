@@ -67,7 +67,7 @@
                             <div class="panel-body">
                                 <c:url var="checklink" value="${requestScope.contextPath}/counter/check">
                                 </c:url>
-                                <form action="${checklink}" method="POST">
+                                <form id="form_phonenumber" action="${checklink}" method="POST">
 
                                     <fieldset>
                                         <div class="form-group row">
@@ -127,10 +127,29 @@
 <!-- FooTable -->
 <script src="../js/plugins/footable/footable.all.min.js"></script>
 
+<!-- Jquery Validate -->
+<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
+
 <!-- Page-Level Scripts -->
 <script>
     $(document).ready(function () {
         $(".footable").footable();
+
+        $("form_phonenumber").validate({
+            rules: {
+                phoneNumber: {
+                    required: true
+                }
+            },
+            messages: {
+                phoneNumber: {
+                    required: 'Please enter phone number'
+                }
+            }
+        })
     });
 </script>
 <script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>

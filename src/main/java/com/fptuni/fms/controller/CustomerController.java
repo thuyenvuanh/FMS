@@ -92,6 +92,7 @@ public class CustomerController extends HttpServlet {
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
 
+            System.out.println("CUSTOMER LIST");
             //Get Amount
             IWalletService walletService = new WalletService();
             ITransactionService transactionService = new TransactionService();
