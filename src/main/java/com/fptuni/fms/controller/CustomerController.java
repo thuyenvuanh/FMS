@@ -23,8 +23,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//import java.util.Iterator;
+import java.util.Map.Entry;
 
 @MultipartConfig
 @WebServlet(name = "CustomerController", urlPatterns = "/customer/*")
@@ -92,14 +97,15 @@ public class CustomerController extends HttpServlet {
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
 
-            System.out.println("CUSTOMER LIST");
             //Get Amount
             IWalletService walletService = new WalletService();
             ITransactionService transactionService = new TransactionService();
-            List<BigDecimal> AmountList = new ArrayList<>();
+
             List<Wallet> walletList = new ArrayList<>();
             TransactionShared transactionShared = new TransactionShared();
             Wallet wallet = new Wallet();
+            HashMap<Integer, BigDecimal> getAmount = new HashMap<Integer, BigDecimal>();
+            ArrayList<HashMap<Integer,BigDecimal>> amountlist = new ArrayList<>();
 
             if(customers != null){
                 for (Customer cus : customers) {
@@ -108,7 +114,8 @@ public class CustomerController extends HttpServlet {
                         walletList.add(wallet);
                         transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
                         BigDecimal b = transactionService.getCustomerBalance(transactionShared);
-                        AmountList.add(b);
+                        getAmount.put(cus.getId(),b);
+                        amountlist.add(getAmount);
                     }else{
                         System.out.println("No wallet found");
                     }
@@ -116,13 +123,7 @@ public class CustomerController extends HttpServlet {
             }else {
                 System.out.println("No customer found");
             }
-
-            BigDecimal total = new BigDecimal(BigInteger.ZERO);
-            for (BigDecimal item : AmountList)
-            {
-                total = total.add(item);
-            }
-            request.setAttribute("amountlist", total);
+            request.setAttribute("amountlist", amountlist);
 
             int totalPages = customerService.CountCustomer() / pageSize;
             if (customerService.CountCustomer() % pageSize != 0) {
