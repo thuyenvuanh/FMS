@@ -100,12 +100,11 @@ public class CustomerController extends HttpServlet {
             //Get Amount
             IWalletService walletService = new WalletService();
             ITransactionService transactionService = new TransactionService();
-
             List<Wallet> walletList = new ArrayList<>();
             TransactionShared transactionShared = new TransactionShared();
             Wallet wallet = new Wallet();
             HashMap<Integer, BigDecimal> getAmount = new HashMap<Integer, BigDecimal>();
-            ArrayList<HashMap<Integer,BigDecimal>> amountlist = new ArrayList<>();
+            List<HashMap<Integer,BigDecimal>> amountlist = new ArrayList<>();
 
             if(customers != null){
                 for (Customer cus : customers) {

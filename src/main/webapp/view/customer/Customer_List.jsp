@@ -225,7 +225,7 @@
 
                                             <%-- For taking out the balance--%>
                                         <c:forEach var="amount" items="${requestScope.amountlist}">
-                                            <c:if test="${list.id} == ${amount.keyvalue}">
+                                            <c:if test="${list.id} == ${amount.key}">
                                                 <fmt:setLocale value="vi_VN"/>
                                                 <td class="text-right"><fmt:formatNumber
                                                         value="${amount}" type="currency"/></td>
