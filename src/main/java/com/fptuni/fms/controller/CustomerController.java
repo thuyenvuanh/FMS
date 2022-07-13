@@ -6,12 +6,10 @@ import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.model.TransactionShared;
 import com.fptuni.fms.model.Wallet;
 import com.fptuni.fms.service.ICustomerService;
+import com.fptuni.fms.service.IIdentityCardService;
 import com.fptuni.fms.service.ITransactionService;
 import com.fptuni.fms.service.IWalletService;
-import com.fptuni.fms.service.implement.CustomerService;
-import com.fptuni.fms.service.implement.ProductService;
-import com.fptuni.fms.service.implement.TransactionService;
-import com.fptuni.fms.service.implement.WalletService;
+import com.fptuni.fms.service.implement.*;
 import com.sun.xml.internal.ws.addressing.EPRSDDocumentFilter;
 import org.eclipse.persistence.sessions.Session;
 
@@ -36,6 +34,8 @@ public class CustomerController extends HttpServlet {
 
         if (path.equals("/addcustomer")) {
             ICustomerService customerService = new CustomerService();
+            IWalletService walletService = new WalletService();
+            IIdentityCardService identityCardService = new IdentityCardService();
             String name = request.getParameter("Cusname");
             String phone = request.getParameter("Cusphone");
             if (name != null && !name.equals("") && phone != null && !phone.equals("")) {
@@ -46,7 +46,9 @@ public class CustomerController extends HttpServlet {
                     request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
                             .forward(request, response);
                 } else {
-                    if (customerService.addnewCustomer(request, response) == 0) {
+                    if (customerService.addnewCustomer(request, response) == 0
+                            && walletService.insertWallet(c) == 0
+                            && identityCardService.createIdentityCard(c) == 0) {
                         request.setAttribute("createStatus", "fail");
                         request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
                                 .forward(request, response);
