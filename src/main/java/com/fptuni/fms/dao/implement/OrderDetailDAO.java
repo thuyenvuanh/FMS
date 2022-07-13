@@ -2,6 +2,7 @@ package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.dao.IOrderDetailDAO;
 import com.fptuni.fms.mapper.OrderDetailMapper;
+import com.fptuni.fms.mapper.OrderMapper;
 import com.fptuni.fms.model.OrderDetail;
 import com.fptuni.fms.model.Store;
 
@@ -50,13 +51,27 @@ public class OrderDetailDAO extends AbstractDAO<OrderDetail> implements IOrderDe
     }
 
     @Override
-    public BigDecimal getTotalAmount(Store store, Date start, Date end) {
+    public BigDecimal getTotalAmountByDate(Store store, Date date) {
+        String dateString = simpleDateFormat.format(date);
+        String sql = "SELECT SUM(od.Amount) AS Amount FROM Orders o \n" +
+                "JOIN OrderDetail od ON o.ID = od.OrderID AND o.StoreID = ? AND o.IsDeleted = 0\n" +
+                "AND CONVERT(DATE, o.CreatedDate, 103) = CONVERT(DATE, ? , 103)";
+        List<OrderDetail> orderDetails = query(sql, new OrderDetailMapper(), store.getId(), dateString);
+        return orderDetails == null ? null : orderDetails.get(0).getAmount();
+    }
+
+    @Override
+    public List<OrderDetail> getOrdersDetailByDateRange(Store store, Date start, Date end) {
         String startdate = simpleDateFormat.format(start);
         String enddate = simpleDateFormat.format(end);
-        String sql = "SELECT SUM(od.Amount) AS Amount FROM OrderDetail od\n" +
+//        String sql = "SELECT od.Price, od.Quantity, od.Amount FROM OrderDetail od\n" +
+//                "JOIN Orders o ON o.ID = od.OrderID AND o.StoreID = ? AND o.IsDeleted = 0 \n" +
+//                "AND CONVERT(date, o.CreatedDate, 103) between CONVERT(date, ?, 103) AND CONVERT(date, ?, 103) ";
+        String sql = "SELECT o.ID, od.ProID, p.CateID, od.Price, od.Quantity, od.Amount FROM OrderDetail od\n" +
                 "JOIN Orders o ON o.ID = od.OrderID AND o.StoreID = ? AND o.IsDeleted = 0 \n" +
-                "AND CONVERT(date, o.CreatedDate, 103) between CONVERT(date, ?, 103) AND CONVERT(date, ?, 103) \n";
+                "AND CONVERT(date, o.CreatedDate, 103) between CONVERT(date, ?, 103) AND CONVERT(date, ?, 103) \n" +
+                "JOIN Product p ON od.ProID = p.ID AND p.IsDeleted = 0";
         List<OrderDetail> orderDetails = query(sql, new OrderDetailMapper(), store.getId(), startdate, enddate);
-        return orderDetails == null ? null : orderDetails.get(0).getAmount();
+        return orderDetails;
     }
 }

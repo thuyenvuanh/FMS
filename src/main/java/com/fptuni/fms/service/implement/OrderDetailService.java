@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -87,11 +88,69 @@ public class OrderDetailService implements IOrderDetailService {
                     throw new Exception("Start date must be before end date");
                 }
             }
-            totalAmount = orderDetailDAO.getTotalAmount(store, start, end);
+            List<OrderDetail> orderDetails = orderDetailDAO.getOrdersDetailByDateRange(store, start, end);
+            for (OrderDetail od : orderDetails) {
+                totalAmount = totalAmount.add(od.getAmount());
+            }
         } catch (Exception e) {
             request.setAttribute("dateError", e.getMessage());
             e.printStackTrace();
         }
         return totalAmount;
     }
+
+    @Override
+    public BigDecimal getTotalAmountByDate(HttpServletRequest request, Date date) {
+        HttpSession session = request.getSession();
+        Store store = (Store) session.getAttribute("store");
+        BigDecimal totalAmount = BigDecimal.valueOf(0);
+        try {
+//            Date end = calendar.getTime();
+//            calendar.add(Calendar.MONTH, -1);
+//            calendar.add(Calendar.DATE, +1);
+//            Date start = calendar.getTime();
+//            if (request.getParameter("startDate") != null && request.getParameter("endDate") != null) {
+//                start = sdf.parse(request.getParameter("startDate"));
+//                end = sdf.parse(request.getParameter("endDate"));
+//                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+//                request.setAttribute("startDateFmt", simpleDateFormat.format(start));
+//                request.setAttribute("endDateFmt", simpleDateFormat.format(end));
+//                if (start.after(end)) {
+//                    throw new Exception("Start date must be before end date");
+//                }
+//            }
+            totalAmount = orderDetailDAO.getTotalAmountByDate(store, date);
+        } catch (Exception e) {
+            request.setAttribute("dateError", e.getMessage());
+            e.printStackTrace();
+        }
+        return totalAmount;
+    }
+    public List<OrderDetail> getOrderDetailInDateRange(HttpServletRequest request, HttpServletResponse response){
+        HttpSession session = request.getSession();
+        Store store = (Store) session.getAttribute("store");
+        List<OrderDetail> orderDetails = null;
+        try {
+            Date end = calendar.getTime();
+            calendar.add(Calendar.MONTH, -1);
+            calendar.add(Calendar.DATE, +1);
+            Date start = calendar.getTime();
+            if (request.getParameter("startDate") != null && request.getParameter("endDate") != null) {
+                start = sdf.parse(request.getParameter("startDate"));
+                end = sdf.parse(request.getParameter("endDate"));
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                request.setAttribute("startDateFmt", simpleDateFormat.format(start));
+                request.setAttribute("endDateFmt", simpleDateFormat.format(end));
+                if (start.after(end)) {
+                    throw new Exception("Start date must be before end date");
+                }
+            }
+            orderDetails = orderDetailDAO.getOrdersDetailByDateRange(store, start, end);
+        } catch (Exception e) {
+            request.setAttribute("dateError", e.getMessage());
+            e.printStackTrace();
+        }
+        return orderDetails;
+    }
+
 }

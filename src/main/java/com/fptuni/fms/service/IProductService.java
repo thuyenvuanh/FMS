@@ -2,6 +2,7 @@ package com.fptuni.fms.service;
 
 import com.fptuni.fms.model.Product;
 import com.fptuni.fms.model.Store;
+import jdk.nashorn.internal.ir.LiteralNode;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,4 +27,5 @@ public interface IProductService {
 
     int countProductBySearch(HttpServletRequest request, HttpServletResponse response);
     List<Product> getTop5ProductsOrderByAmount(HttpServletRequest request, HttpServletResponse response);
+    List<Double> getPercentageOfProductInCategory(HttpServletRequest request, HttpServletResponse response);
 }

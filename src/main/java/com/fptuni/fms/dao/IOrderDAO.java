@@ -2,9 +2,11 @@ package com.fptuni.fms.dao;
 
 import com.fptuni.fms.model.OrderDetail;
 import com.fptuni.fms.model.Orders;
+import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,5 +24,7 @@ public interface IOrderDAO extends GenericDAO<Orders> {
     boolean updateOrder(int id, int storeID, double total, Timestamp createdDate);
 
     int countNumberOfOrders();
+
+    List<Orders> getOrdersByDate(Store store, Date date);
 
 }

@@ -5,9 +5,11 @@ import com.fptuni.fms.mapper.OrderDetailMapper;
 import com.fptuni.fms.mapper.OrderMapper;
 import com.fptuni.fms.model.OrderDetail;
 import com.fptuni.fms.model.Orders;
+import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -73,5 +75,16 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
         String sql = "SELECT COUNT(ID) AS ID FROM Orders";
         List<Orders> orders = query(sql, new OrderMapper());
         return orders == null ? 0 : orders.get(0).getId();
+    }
+
+    @Override
+    public List<Orders> getOrdersByDate(Store store, Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dateStr = simpleDateFormat.format(date);
+        String sql = "SELECT ID, StoreID, Total, CreatedDate, IsDeleted FROM Orders\n" +
+                "WHERE CONVERT(date, CreatedDate, 103) = CONVERT(date, ? , 103)\n" +
+                "AND IsDeleted = 0 AND StoreID = ?";
+        List<Orders> orders = query(sql, new OrderMapper(), dateStr,store.getId());
+        return orders;
     }
 }

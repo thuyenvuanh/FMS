@@ -17,5 +17,7 @@ public interface IOrderDetailDAO extends GenericDAO<OrderDetail> {
 
     OrderDetail getOrderDetailByProductID(Store store, String productID, Date start, Date end);
 
-    BigDecimal getTotalAmount(Store store, Date start, Date end);
+    BigDecimal getTotalAmountByDate(Store store, Date date);
+    List<OrderDetail> getOrdersDetailByDateRange(Store store, Date start, Date end);
+
 }

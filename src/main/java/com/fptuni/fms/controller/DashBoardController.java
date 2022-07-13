@@ -11,6 +11,7 @@ import com.fptuni.fms.utils.DateUtils;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
@@ -46,11 +47,49 @@ public class DashBoardController extends HttpServlet {
                 BigDecimal totalAmount = orderDetailService.getTotalAmount(request, response) == null ? BigDecimal.valueOf(0) : orderDetailService.getTotalAmount(request, response);
 
                 List<Date> dateRange = dashBoardService.getDateRange(request, response);
+                List<BigDecimal> totalAmountEachDate = new ArrayList<>();
+                List<Integer> numberOfOrderEachDate = new ArrayList<>();
 
+                for (Date date : dateRange) {
+                    BigDecimal t = new BigDecimal(0);
+                    int n = 0;
+                    // get total amount per date
+                    if (orderDetailService.getTotalAmountByDate(request, date) != null) {
+                        t = orderDetailService.getTotalAmountByDate(request, date);
+                    }
+                    totalAmountEachDate.add(t);
+                    // get number of orders per date
+                    List<Orders> ordersPerDate = orderService.getOrdersByDate(request, date);
+                    if (ordersPerDate != null) {
+                        n = ordersPerDate.size();
+                    }
+                    numberOfOrderEachDate.add(n);
+                }
+                List<Category> categories = categoryService.getCategories();
+                List<Double> percentageOfProductInCategory = productService.getPercentageOfProductInCategory(request, response);
+
+//                List<OrderDetail> orderDetails = orderDetailService.getOrderDetailInDateRange(request, response);
+//                List<Integer> numberOfProductsEachID = new ArrayList<>();
+//                String tempProductID = orderDetails.get(0).getProduct().getId();
+//                int n = 1;
+//                for (OrderDetail od : orderDetails) {
+//                    if (od.getProduct().getId().equals(tempProductID)) {
+//                        n++;
+//                    } else {
+//                        n = 1;
+//                        tempProductID = od.getProduct().getId();
+//                        numberOfProductsEachID.add(n);
+//                    }
+//                }
                 request.setAttribute("numberOfOrders", numberOfOrders);
                 request.setAttribute("top5Products", top5Product);
                 request.setAttribute("totalAmount", totalAmount);
                 request.setAttribute("dateRange", dateRange);
+                request.setAttribute("totalAmountEachDate", totalAmountEachDate);
+                request.setAttribute("numberOfOrderEachDate", numberOfOrderEachDate);
+                request.setAttribute("categories", categories);
+                request.setAttribute("percentageOfProductInCategory", percentageOfProductInCategory);
+//                request.setAttribute("numberOfProductsEachID", numberOfProductsEachID);
                 request.getRequestDispatcher("/view/store/dashBoard.jsp").forward(request, response);
                 break;
         }

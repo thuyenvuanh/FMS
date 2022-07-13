@@ -185,4 +185,13 @@ public class OrderService implements IOrderService {
         Orders order = orderDAO.getOrderById(orderID);
         return order;
     }
+
+    @Override
+    public List<Orders> getOrdersByDate(HttpServletRequest request, Date date) {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        Store store = storeDAO.getStoreByAccount(account);
+        List<Orders> orders = orderDAO.getOrdersByDate(store, date);
+        return orders;
+    }
 }

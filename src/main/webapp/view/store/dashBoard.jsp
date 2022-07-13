@@ -384,10 +384,9 @@
             startDate = new Date('${requestScope.startDateFmt}');
             endDate = new Date('${requestScope.endDateFmt}');
         }
+
         $("#reportrange").daterangepicker(
             {
-                // startDate: moment().subtract("days", 29),
-                // endDate: moment(),
                 startDate: startDate,
                 endDate: endDate,
                 dateLimit: {days: 60},
@@ -477,6 +476,7 @@
         </c:if>
     )
         ;
+
         $("#search_date_range").click(function () {
             if (startDate == null && endDate == null) {
                 console.log(
@@ -489,10 +489,11 @@
                 $("#endDate").val(endDate.format("DD/MM/YYYY"))
                 console.log($("#startDate").val());
                 console.log($("#endDate").val());
-                console.log($('#reportranges').val());
+                console.log($('#reportrange').val());
                 $("#form_date_range").submit();
             }
         });
+
     });
 </script>
 
@@ -528,7 +529,11 @@
                     borderColor: "rgba(26,179,148,0.7)",
                     pointBackgroundColor: "rgba(26,179,148,1)",
                     pointBorderColor: "#fff",
-                    data: [34, 48, 40, 19, 86, 27, 90],
+                    data: [
+                        <c:forEach var="numberOfOrderEachDate" items="${requestScope.numberOfOrderEachDate}">
+                        '${numberOfOrderEachDate}',
+                        </c:forEach>
+                    ],
                 },
             ],
         };
@@ -561,7 +566,11 @@
                     borderColor: "rgba(26,179,148,0.7)",
                     pointBackgroundColor: "rgba(26,179,148,1)",
                     pointBorderColor: "#fff",
-                    data: [100, 48, 40, 19, 86, 27, 90],
+                    data: [
+                        <c:forEach var="totalAmountOneDate" items="${requestScope.totalAmountEachDate}">
+                        '${totalAmountOneDate}',
+                        </c:forEach>
+                    ],
                 },
             ],
         };
@@ -591,11 +600,21 @@
 
         // Category
         const pieCategory = {
-            labels: ["Red", "Blue", "Yellow", "Black"],
+            // labels: ["Red", "Blue", "Yellow", "Black"],
+            labels: [
+                <c:forEach items="${requestScope.categories}" var="category">
+                "${category.name}",
+                </c:forEach>
+            ],
             datasets: [
                 {
                     label: "My First Dataset",
-                    data: [300, 50, 100, 99],
+                    // data: [300, 50, 100, 99],
+                    data: [
+                        <c:forEach var="percentage" items="${requestScope.percentageOfProductInCategory}">
+                        ${percentage},
+                        </c:forEach>
+                    ],
                     backgroundColor: [
                         "rgb(255, 99, 132)",
                         "rgb(54, 162, 235)",
@@ -615,16 +634,26 @@
         //Product
         const pieProduct = {
             labels: ["Red", "Blue", "Yellow"],
+            <%--labels: [<c:forEach items="${requestScope.numberOfProductsEachID}" var="n">--%>
+            <%--    "${n}",--%>
+            <%--    </c:forEach>],--%>
             datasets: [
                 {
                     label: "My First Dataset",
                     data: [300, 50, 100],
+                    <%--data: [--%>
+                    <%--    <c:forEach items="${requestScope.numberOfProductsEachID}" var="n">--%>
+                    <%--    ${n},--%>
+                    <%--    </c:forEach>--%>
+                    <%--],--%>
                     backgroundColor: [
                         "rgb(255, 99, 132)",
                         "rgb(54, 162, 235)",
                         "rgb(255, 205, 86)",
+                        "rgb(100, 205, 86)",
+                        "rgb(255, 50, 86)",
                     ],
-                    hoverOffset: 4,
+                    hoverOffset: 5,
                 },
             ],
         };

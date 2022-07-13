@@ -4,11 +4,9 @@ import com.fptuni.fms.dao.IProductDAO;
 import com.fptuni.fms.dao.IStoreDAO;
 import com.fptuni.fms.dao.implement.ProductDAO;
 import com.fptuni.fms.dao.implement.StoreDAO;
-import com.fptuni.fms.model.Account;
-import com.fptuni.fms.model.Category;
-import com.fptuni.fms.model.Product;
-import com.fptuni.fms.model.Store;
+import com.fptuni.fms.model.*;
 import com.fptuni.fms.service.ICategoryService;
+import com.fptuni.fms.service.IOrderDetailService;
 import com.fptuni.fms.service.IProductService;
 import com.fptuni.fms.paging.PageRequest;
 import com.fptuni.fms.paging.Pageable;
@@ -34,6 +32,7 @@ public class ProductService implements IProductService {
     private IStoreDAO storeDAO = new StoreDAO();
     private IProductDAO productDAO = new ProductDAO();
     private ICategoryService categoryService = new CategoryService();
+    private IOrderDetailService orderDetailService = new OrderDetailService();
 
     @Override
     public List<Product> getProducts(HttpServletRequest request, HttpServletResponse response) {
@@ -128,7 +127,7 @@ public class ProductService implements IProductService {
             // get category info by id
             category = categoryService.getCategory(cateID);
             // count the number of exist foods which have the same category
-            List<Product> products = productDAO.getProductByCategory(cateID);
+            List<Product> products = productDAO.getProductsByCategory(cateID, null);
             int subID = products.size() + 1;
             // concat short name and the next Id
             id = category.getShortName() + subID;
@@ -345,4 +344,26 @@ public class ProductService implements IProductService {
         return products;
     }
 
+    @Override
+    public List<Double> getPercentageOfProductInCategory(HttpServletRequest request, HttpServletResponse response) {
+        List<Double> result = new ArrayList<>();
+        List<Category> categories = categoryService.getCategories();
+        int n = 0;
+        int totalSale = 0;
+        List<OrderDetail> orderDetails = orderDetailService.getOrderDetailInDateRange(request, response);
+        for (OrderDetail orderDetail : orderDetails) {
+            totalSale += orderDetail.getQuantity();
+        }
+        for (Category category : categories) {
+            for (OrderDetail orderDetail : orderDetails) {
+                if (Objects.equals(orderDetail.getProduct().getCateID().getId(), category.getId())) {
+                    n += orderDetail.getQuantity();
+                }
+            }
+            double percentage = (double) n / totalSale;
+            n = 0;
+            result.add(percentage);
+        }
+        return result;
+    }
 }

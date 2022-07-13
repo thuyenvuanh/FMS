@@ -1,6 +1,7 @@
 package com.fptuni.fms.mapper;
 
 import com.fptuni.fms.dao.implement.AbstractDAO;
+import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.OrderDetail;
 import com.fptuni.fms.model.Orders;
 import com.fptuni.fms.model.Product;
@@ -29,6 +30,9 @@ public class OrderDetailMapper extends AbstractDAO<OrderDetail> implements RowMa
                 }
                 if (metaData.getColumnLabel(i).equals("Name")) {
                     product.setName(rs.getString("Name"));
+                }
+                if (metaData.getColumnLabel(i).equals("CateID")) {
+                    product.setCateID(new Category(rs.getInt("CateID")));
                 }
                 if (metaData.getColumnLabel(i).equals("Price"))
                     orderdetail.setPrice(rs.getBigDecimal("Price"));

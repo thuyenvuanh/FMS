@@ -39,5 +39,6 @@ public interface IProductDAO extends GenericDAO<Product> {
 
     List<Product> getTop5ProductsOrderByAmount(Store store, Date start, Date end);
 
-    List<Product> getProductByCategory(int categoryID);
+    List<Product> getProductsByCategory(int categoryID, Store store);
+
 }
