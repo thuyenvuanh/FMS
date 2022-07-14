@@ -156,6 +156,36 @@
             </div>
         </div>
 
+        <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8" >
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>Category (%)</h5>
+                </div>
+                <div class="ibox-content">
+                    <div>
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand">
+                                <div class=""></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink">
+                                <div class=""></div>
+                            </div>
+                        </div>
+                        <canvas
+                                id="chartCategory"
+                                height="219"
+                                width="471"
+                                style="display: block; height: 146px; width: 314px"
+                                class="chartjs-render-monitor"
+                        ></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2"></div>
+        </div>
         <div class="ibox">
             <div class="ibox-title">
                 <h5>Orders</h5>
@@ -193,59 +223,6 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-6">
-                <div class="ibox">
-                    <div class="ibox-title">
-                        <h5>Category</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <div>
-                            <div class="chartjs-size-monitor">
-                                <div class="chartjs-size-monitor-expand">
-                                    <div class=""></div>
-                                </div>
-                                <div class="chartjs-size-monitor-shrink">
-                                    <div class=""></div>
-                                </div>
-                            </div>
-                            <canvas
-                                    id="chartCategory"
-                                    height="219"
-                                    width="471"
-                                    style="display: block; height: 146px; width: 314px"
-                                    class="chartjs-render-monitor"
-                            ></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="ibox">
-                    <div class="ibox-title">
-                        <h5>Product</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <div>
-                            <div class="chartjs-size-monitor">
-                                <div class="chartjs-size-monitor-expand">
-                                    <div class=""></div>
-                                </div>
-                                <div class="chartjs-size-monitor-shrink">
-                                    <div class=""></div>
-                                </div>
-                            </div>
-                            <canvas
-                                    id="chartProduct"
-                                    height="219"
-                                    width="471"
-                                    style="display: block; height: 146px; width: 314px"
-                                    class="chartjs-render-monitor"
-                            ></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="col-lg-12">
                 <div class="ibox">
                     <div class="ibox-title">

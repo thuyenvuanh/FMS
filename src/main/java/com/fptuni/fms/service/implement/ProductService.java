@@ -362,7 +362,7 @@ public class ProductService implements IProductService {
             }
             double percentage = (double) n / totalSale;
             n = 0;
-            result.add(percentage);
+            result.add(percentage * 100);
         }
         return result;
     }
