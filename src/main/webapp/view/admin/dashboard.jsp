@@ -368,9 +368,10 @@
                     borderColor: "rgba(26,179,148,0.7)",
                     pointBackgroundColor: "rgba(26,179,148,1)",
                     pointBorderColor: "#fff",
+                    <c:set var="MAPORDER" value="${requestScope.TOTAL_ORDER_BY_TIME}"/>
                     data: [
-                        <c:forEach var="item" items="${requestScope.TOTAL_ORDER_BY_TIME}">
-                        '${item.value}',
+                        <c:forEach var="item" items="${requestScope.KEY_DATE}">
+                        '${MAPORDER.get(item)}',
                         </c:forEach>
                     ]
 
@@ -408,9 +409,10 @@
                     borderColor: "rgba(26,179,148,0.7)",
                     pointBackgroundColor: "rgba(26,179,148,1)",
                     pointBorderColor: "#fff",
+                    <c:set var="MAPTOTAL" value="${requestScope.TOTAL_VALUE_BY_TIME}"/>
                     data: [
-                        <c:forEach var="item" items="${requestScope.TOTAL_VALUE_BY_TIME}">
-                        '${item.value}',
+                        <c:forEach var="item" items="${requestScope.KEY_DATE}">
+                        '${MAPTOTAL.get(item)}',
                         </c:forEach>
                     ]
                 },
