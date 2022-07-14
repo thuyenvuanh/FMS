@@ -21,4 +21,20 @@ public class DateUtils {
         }
         return dates;
     }
+
+    // Date is the 1 date, hours is range of hours in that date
+    public static List<Date> addHoursToJavaUtilDate(Date date, int hours) {
+        List<Date> datesTime = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR, 8); // begin hour is 8:00 AM
+        for (int i = 1; i <= hours; i++) {
+            datesTime.add(calendar.getTime());
+            calendar.add(Calendar.HOUR_OF_DAY, 1);
+        }
+        return datesTime;
+    }
 }

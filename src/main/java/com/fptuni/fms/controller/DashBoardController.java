@@ -68,19 +68,6 @@ public class DashBoardController extends HttpServlet {
                 List<Category> categories = categoryService.getCategories();
                 List<Double> percentageOfProductInCategory = productService.getPercentageOfProductInCategory(request, response);
 
-//                List<OrderDetail> orderDetails = orderDetailService.getOrderDetailInDateRange(request, response);
-//                List<Integer> numberOfProductsEachID = new ArrayList<>();
-//                String tempProductID = orderDetails.get(0).getProduct().getId();
-//                int n = 1;
-//                for (OrderDetail od : orderDetails) {
-//                    if (od.getProduct().getId().equals(tempProductID)) {
-//                        n++;
-//                    } else {
-//                        n = 1;
-//                        tempProductID = od.getProduct().getId();
-//                        numberOfProductsEachID.add(n);
-//                    }
-//                }
                 request.setAttribute("numberOfOrders", numberOfOrders);
                 request.setAttribute("top5Products", top5Product);
                 request.setAttribute("totalAmount", totalAmount);
@@ -89,7 +76,6 @@ public class DashBoardController extends HttpServlet {
                 request.setAttribute("numberOfOrderEachDate", numberOfOrderEachDate);
                 request.setAttribute("categories", categories);
                 request.setAttribute("percentageOfProductInCategory", percentageOfProductInCategory);
-//                request.setAttribute("numberOfProductsEachID", numberOfProductsEachID);
                 request.getRequestDispatcher("/view/store/dashBoard.jsp").forward(request, response);
                 break;
         }
