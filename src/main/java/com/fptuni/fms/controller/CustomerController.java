@@ -10,15 +10,12 @@ import com.fptuni.fms.service.IIdentityCardService;
 import com.fptuni.fms.service.ITransactionService;
 import com.fptuni.fms.service.IWalletService;
 import com.fptuni.fms.service.implement.*;
-import com.sun.xml.internal.ws.addressing.EPRSDDocumentFilter;
-import org.eclipse.persistence.sessions.Session;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +26,7 @@ import java.util.List;
 //import java.util.ArrayList;
 //import java.util.HashMap;
 //import java.util.Iterator;
-import java.util.Map.Entry;
+
 
 @MultipartConfig
 @WebServlet(name = "CustomerController", urlPatterns = "/customer/*")
@@ -52,13 +49,14 @@ public class CustomerController extends HttpServlet {
                     request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
                             .forward(request, response);
                 } else {
-                    if (customerService.addnewCustomer(request, response) == 0
-                            && walletService.insertWallet(c) == 0
-                            && identityCardService.createIdentityCard(c) == 0) {
+                    if (customerService.addnewCustomer(request, response) == 0) {
                         request.setAttribute("createStatus", "fail");
                         request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
                                 .forward(request, response);
                     } else {
+                        Customer cus = customerDAO.getByPhoneNum(phone);
+                        walletService.insertWallet(cus);
+                        identityCardService.createIdentityCard(cus);
                         request.setAttribute("createStatus", "success");
                         request.setAttribute("phoneNumber",phone);
                         request.getRequestDispatcher("/counter/check")
@@ -103,8 +101,8 @@ public class CustomerController extends HttpServlet {
             List<Wallet> walletList = new ArrayList<>();
             TransactionShared transactionShared = new TransactionShared();
             Wallet wallet = new Wallet();
-            HashMap<Integer, BigDecimal> getAmount = new HashMap<Integer, BigDecimal>();
-            List<HashMap<Integer,BigDecimal>> amountlist = new ArrayList<>();
+            HashMap<Customer, BigDecimal> getAmount = new HashMap<>();
+            List<HashMap<Customer,BigDecimal>> amountlist = new ArrayList<>();
 
             if(customers != null){
                 for (Customer cus : customers) {
@@ -113,7 +111,7 @@ public class CustomerController extends HttpServlet {
                         walletList.add(wallet);
                         transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
                         BigDecimal b = transactionService.getCustomerBalance(transactionShared);
-                        getAmount.put(cus.getId(),b);
+                        getAmount.put(cus , b);
                         amountlist.add(getAmount);
                     }else{
                         System.out.println("No wallet found");

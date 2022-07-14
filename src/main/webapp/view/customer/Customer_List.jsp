@@ -5,6 +5,7 @@
   Time: 3:30 PM
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -225,15 +226,13 @@
 
                                             <%-- For taking out the balance--%>
                                         <c:forEach var="amount" items="${requestScope.amountlist}">
-                                            <c:if test="${list.id} == ${amount.key}">
-                                                <fmt:setLocale value="vi_VN"/>
-                                                <td class="text-right"><fmt:formatNumber
-                                                        value="${amount}" type="currency"/></td>
-                                            </c:if>
+                                            <fmt:setLocale value="vi_VN"/>
+                                            <td class="text-right"><fmt:formatNumber
+                                                    value="${amount.value}" type="currency"/></td>
                                         </c:forEach>
 
                                     </tr>
-                                    <%--                                    Show detail here--%>
+                                    <%-- Show detail here--%>
                                     <input name="var" value="${list.phone}" type="hidden">
                                     <tr id="${list.phone}" style="display: none">
                                         <td class="col-sm-3">
