@@ -7,7 +7,5 @@ public interface IPaymentService {
 
     public boolean makePayment(HttpServletRequest request);
 
-    public boolean addMoney(HttpServletRequest request);
 
-    public boolean withDraw(HttpServletRequest request);
 }

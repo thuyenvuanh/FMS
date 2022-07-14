@@ -3,10 +3,7 @@ package com.fptuni.fms.controller;
 import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.model.TransactionShared;
 import com.fptuni.fms.model.Wallet;
-import com.fptuni.fms.service.ICustomerService;
-import com.fptuni.fms.service.IPaymentService;
-import com.fptuni.fms.service.ITransactionService;
-import com.fptuni.fms.service.IWalletService;
+import com.fptuni.fms.service.*;
 import com.fptuni.fms.service.implement.*;
 
 import javax.servlet.*;
@@ -25,7 +22,7 @@ public class CounterController extends HttpServlet {
         ICustomerService customerService = new CustomerService();
         IWalletService walletService = new WalletService();
         ITransactionService transactionService = new TransactionService();
-        IPaymentService paymentService = new PaymentService();
+        IMoneyTransactionService moneyTransactionService = new MoneyTransactionService();
         if(path.equals("/index")){
             request.getRequestDispatcher("/view/counter/index.jsp").forward(request, response);
         } else if(path.equals("/check")){
@@ -54,13 +51,16 @@ public class CounterController extends HttpServlet {
 
             }
         } else if(path.equals("/addMoney")){
-            boolean success = paymentService.addMoney(request);
+            boolean success = moneyTransactionService.addMoney(request);
             if (success) {
                 response.sendRedirect(request.getContextPath() + "/counter/index");
             }
 
-        } else if(path.equals("/deposit")){
-
+        } else if(path.equals("/withDraw")){
+            boolean success = moneyTransactionService.withDraw(request);
+            if (success) {
+                response.sendRedirect(request.getContextPath() + "/counter/index");
+            }
         }
 
 

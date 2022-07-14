@@ -96,7 +96,7 @@
                                 <div class="col-sm-12 ">
                                     <input type="text" name="amount"
                                            class="form-control text-center h-100 d-inline-block"
-                                           data-mask="000 000 000" placeholder="Currency" style="font-size: 3em;" autocomplete="off"
+                                           data-mask="000 000 000" placeholder="Amount" style="font-size: 3em;" autocomplete="off"
                                            maxlength="16" required>
                                     <input type="hidden" name="walletID" value="${requestScope.WALLET}">
                                     <input type="hidden" name="customerPhone" value="${requestScope.CUSTOMER.getPhone()}">
@@ -176,7 +176,7 @@
             $('#form_create_transaction').attr('action', '${addMoneyLink}');
         });
         $('#buttonDepositMoney').click(function(){
-            $('#form_create_transaction').attr('action', '${requestScope.contextPath}/counter/depositMoney');
+            $('#form_create_transaction').attr('action', '${requestScope.contextPath}/counter/withDraw');
         });
 
         $('#form_create_transaction').validate({

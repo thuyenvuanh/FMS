@@ -66,55 +66,5 @@ public class PaymentService implements IPaymentService {
         return false;
     }
 
-    @Override
-    public boolean addMoney(HttpServletRequest request) {
 
-        BigDecimal amount = BigDecimal.valueOf(Integer.parseInt(request.getParameter("amount").replaceAll("[^\\d.]", "")));
-        Wallet wallet = walletDAO.getWalletWithID(Integer.parseInt(request.getParameter("walletID")));
-        Customer customer = customerDAO.getByPhoneNum(request.getParameter("customerPhone"));
-
-        try {
-            if (wallet == null) throw new Exception("Wallet not found");
-            if (amount == null) throw new Exception("Amount not found");
-            if (customer == null) throw new Exception("Customer not found");
-
-            TransactionShared latestTransactionSharedByWalletID = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
-            MoneyTransaction moneyTransaction = new MoneyTransaction(wallet.getId(), amount, true, new Date(), new Counter(1), customer);
-            if (latestTransactionSharedByWalletID != null) {
-                BigDecimal balance = transactionService.getCustomerBalance(latestTransactionSharedByWalletID);
-
-                moneyTransaction.setId(moneyTransactionDAO.createMoneyTransaction(moneyTransaction));
-                TransactionShared latestTransaction = transactionService.getLatestTransaction();
-                String previousHash = latestTransaction == null
-                        ? "00000000000000000000000000000000"
-                        : latestTransaction.getHashValue();
-                TransactionShared newTransaction = new TransactionShared(amount,
-                        previousHash, null, balance, moneyTransaction.getCreatedDate(),
-                        true, moneyTransaction, null, wallet);
-                newTransaction.setHashValue(SecurityUtils.createHash(newTransaction.toString(), String.valueOf(newTransaction.getCreatedDate().getTime())));
-                transactionSharedDAO.insertTransaction(newTransaction);
-            } else {
-                moneyTransaction.setId(moneyTransactionDAO.createMoneyTransaction(moneyTransaction));
-                TransactionShared latestTransaction = transactionService.getLatestTransaction();
-                String previousHash = latestTransaction == null
-                        ? "00000000000000000000000000000000"
-                        : latestTransaction.getHashValue();
-                TransactionShared newTransaction = new TransactionShared(amount,
-                        previousHash, null, BigDecimal.ZERO, moneyTransaction.getCreatedDate(),
-                        true, moneyTransaction, null, wallet);
-                newTransaction.setHashValue(SecurityUtils.createHash(newTransaction.toString(), String.valueOf(newTransaction.getCreatedDate().getTime())));
-                transactionSharedDAO.insertTransaction(newTransaction);
-            }
-            request.setAttribute("phoneNumber", request.getParameter("customerPhone"));
-            return true;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return false;
-    }
-
-    @Override
-    public boolean withDraw(HttpServletRequest request) {
-        return false;
-    }
 }
