@@ -197,7 +197,7 @@
                                 <tbody>
 
                                 <%--For listing--%>
-
+                                <c:set var="amount" value="${requestScope.amountlist}"></c:set>
                                 <c:forEach var="list" items="${requestScope.customerList}">
                                     <tr>
                                         <td>${list.name}</td>
@@ -225,11 +225,11 @@
                                         </td>
 
                                             <%-- For taking out the balance--%>
-                                        <c:forEach var="amount" items="${requestScope.amountlist}">
-                                            <fmt:setLocale value="vi_VN"/>
-                                            <td class="text-right"><fmt:formatNumber
-                                                    value="${amount.value}" type="currency"/></td>
-                                        </c:forEach>
+
+                                        <fmt:setLocale value="vi_VN"/>
+                                        <td class="text-right"><fmt:formatNumber
+                                                value="${amount.get(list)}" type="currency"/></td>
+
 
                                     </tr>
                                     <%-- Show detail here--%>

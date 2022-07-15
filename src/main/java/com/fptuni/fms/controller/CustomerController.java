@@ -102,7 +102,7 @@ public class CustomerController extends HttpServlet {
             TransactionShared transactionShared = new TransactionShared();
             Wallet wallet = new Wallet();
             HashMap<Customer, BigDecimal> getAmount = new HashMap<>();
-            List<HashMap<Customer,BigDecimal>> amountlist = new ArrayList<>();
+//            List<HashMap<Customer,BigDecimal>> amountlist = new ArrayList<>();
 
             if(customers != null){
                 for (Customer cus : customers) {
@@ -110,9 +110,12 @@ public class CustomerController extends HttpServlet {
                     if(wallet != null){
                         walletList.add(wallet);
                         transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
-                        BigDecimal b = transactionService.getCustomerBalance(transactionShared);
+                        BigDecimal b = (transactionShared == null)
+                                ? BigDecimal.ZERO
+                                : transactionService.getCustomerBalance(transactionShared);
+
                         getAmount.put(cus , b);
-                        amountlist.add(getAmount);
+//                        amountlist.add(getAmount);
                     }else{
                         System.out.println("No wallet found");
                     }
@@ -120,7 +123,7 @@ public class CustomerController extends HttpServlet {
             }else {
                 System.out.println("No customer found");
             }
-            request.setAttribute("amountlist", amountlist);
+            request.setAttribute("amountlist", getAmount);
 
             int totalPages = customerService.CountCustomer() / pageSize;
             if (customerService.CountCustomer() % pageSize != 0) {
