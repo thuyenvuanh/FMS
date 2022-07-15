@@ -174,6 +174,19 @@
         <script src="../js/plugins/select2/select2.full.min.js"></script>
     <!-- Page-Level Scripts -->
 
+        <c:if test="${sessionScope.createStatus != null}">
+            <script>
+                $(document).ready(function () {
+                    swal({
+                        title: "Create Fail! Username exist!",
+                        text: "You clicked the button!"
+                    });
+                });
+            </script>
+            <%
+                session.removeAttribute("createStatus");
+            %>
+        </c:if>
 
         <script>
 
