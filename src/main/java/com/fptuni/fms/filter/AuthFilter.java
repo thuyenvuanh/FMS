@@ -62,5 +62,7 @@ public class AuthFilter implements Filter {
 
         Optional<String> value = available.stream().filter(s -> svl.contains(s) || (svl+pInfo).contains(s)).findFirst();
         return value.isPresent();
+
+//        return available.stream().anyMatch(s -> s.equals(svl) || s.equals(svl + pInfo));
     }
 }

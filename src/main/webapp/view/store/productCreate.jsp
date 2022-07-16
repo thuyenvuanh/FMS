@@ -24,14 +24,6 @@
     <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
-    <!-- Select2 -->
-    <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
-    <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-    <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
-    <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
-    <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-    <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
-
     <!-- FooTable -->
     <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
 
@@ -88,7 +80,9 @@
                                                         type="text"
                                                         class="form-control"
                                                         placeholder="Product name"
-                                                        name="name"/>
+                                                        name="name"
+                                                        value="product test"
+                                                />
 
                                             </div>
                                             <%--                                        </div>--%>
@@ -96,8 +90,10 @@
                                             <label class="col-sm-1 col-form-label">Price:</label>
                                             <div class="col-sm-3">
                                                 <input
-                                                        type="text" class="form-control" data-mask="0000000000000" placeholder="VND"
-                                                        autocomplete="off" maxlength="17" id="price" name="price"
+                                                        type="number"
+                                                        class="form-control"
+                                                        placeholder="VND"
+                                                        name="price"
                                                         value="1"
                                                 />
                                             </div>
@@ -107,7 +103,14 @@
                                             <label class="col-sm-1 col-form-label"
                                             >Image:</label
                                             >
-
+                                            <div class="col-sm-6">
+<%--                                                <input--%>
+<%--                                                        type="text"--%>
+<%--                                                        class="form-control"--%>
+<%--                                                        placeholder="url"--%>
+<%--                                                        name="imagePath"--%>
+<%--                                                />--%>
+                                            </div>
                                             <div class="input-group col-sm-3">
                                                 <%--                                                <div class="custom-file">--%>
                                                 <%--                                                    <input id="inputGroupFile01" type="file" class="custom-file-input">--%>
@@ -123,7 +126,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-1 col-form-label" for="category">Category</label>
                                             <div class="col-sm-4">
-                                                <select name="categoryID" id="category" class="select_category form-control">
+                                                <select name="categoryID" id="category" class="form-control">
                                                     <c:forEach var="category" items="${requestScope.categories}">
                                                         <option value="${category.id}" ${category.id==1?"selected":""} >
                                                                 ${category.name} (${category.shortName})
@@ -136,8 +139,9 @@
                                             >
                                             <div class="col-sm-3">
                                                 <input
-                                                        type="text" class="form-control" data-mask="0000000000000" placeholder="Quantity"
-                                                        autocomplete="off" maxlength="17" id="quantity" name="quantity"
+                                                        type="number"
+                                                        class="form-control"
+                                                        name="quantity"
                                                         value="1"
                                                 />
                                             </div>
@@ -147,7 +151,8 @@
                                     <div class="form-layout-footer text-center">
                                         <button type="button"
                                                 class="btn btn-primary bd-0"
-                                                id="create_product_form">
+                                                id="create_product_form"
+                                        >
                                             Submit Form
                                         </button>
                                         <%--                                        <a href="productList.jsp">--%>
@@ -271,22 +276,9 @@
 <!-- FooTable -->
 <script src="../js/plugins/footable/footable.all.min.js"></script>
 
-<!-- Input Mask-->
-<script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
-<script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>
-
-<%-- Select2 --%>
-<script src="../js/plugins/select2/select2.full.min.js"></script>
-
 <!-- Page-Level Scripts -->
 <!-- Sweet alert -->
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
-
-    <!-- Jquery Validate -->
-    <script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
-    <script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -309,44 +301,6 @@
 <script>
     $(document).ready(function () {
         $(".footable").footable();
-
-        $(".select_category").select2({
-            theme: 'bootstrap4',
-        });
-
-        $.validator.addMethod('positiveNumber',
-            function (value) {
-                return Number(value) > 0;
-            }, 'Enter a positive number.');
-
-        $("#form_product_create").validate({
-            rules: {
-                name: {
-                    required: true,
-                },
-                price: {
-                    required: true,
-                    positiveNumber: true,
-                    number: true
-                },
-                quantity: {
-                    required: true,
-                    positiveNumber: true,
-                    number: true
-                },
-            },
-            messages: {
-              name: {
-                  required: "Please enter product name"
-              },
-              price: {
-                  required: "Please enter price"
-              },
-              quantity: {
-                  required: "Please enter quantity"
-              }
-            }
-        })
     });
 </script>
 

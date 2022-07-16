@@ -3,8 +3,6 @@
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html>
 <html>
 <!-- Mirrored from webapplayers.com/inspinia_admin-v2.9.4/ecommerce_product_list.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jun 2022 04:37:12 GMT -->
@@ -27,14 +25,6 @@
     <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
     <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
-
-    <!-- Select2 -->
-    <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
-    <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-    <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
-    <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
-    <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-    <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
 
     <!-- FooTable -->
     <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
@@ -68,18 +58,12 @@
     <%--    Search--%>
     <div class="ibox-content m-b-sm border-bottom">
         <c:url var="searchLink" value="${requestScope.contextPath}/product/list"></c:url>
-        <form id="form_product_search" action="${searchLink}" autocomplete="off" method="post">
+        <form action="${searchLink}" autocomplete="off" method="post">
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
                         <label class="col-form-label" for="product_name">Category</label>
-<%--                        <select name="categoryID" class="select_category form-control">--%>
-<%--                            <option value="0">All</option>--%>
-<%--                            <c:forEach var="category" items="${requestScope.categories}">--%>
-<%--                                <option value="${category.id}" ${requestScope.categoryID == category.id ? "selected":"" }>${category.name}</option>--%>
-<%--                            </c:forEach>--%>
-<%--                        </select>--%>
-                        <select name="categoryID" class="select_category form-control" data-select2-id="6" tabindex="-1" aria-hidden="true">
+                        <select name="categoryID" class="form-control">
                             <option value="0">All</option>
                             <c:forEach var="category" items="${requestScope.categories}">
                                 <option value="${category.id}" ${requestScope.categoryID == category.id ? "selected":"" }>${category.name}</option>
@@ -97,24 +81,22 @@
                 <div class="col-md-4">
                     <div class="form-group" id="date_range_transaction">
                         <label class="col-form-label">Price</label>
-                        <div class="input-daterange input-group">
-                            <input type="text" class="form-control" data-mask="0000000000000" placeholder="Min"
-                                   name="minPrice" id="minPrice" maxlength="17" value="${requestScope.minPrice}">
+                        <div class="input-daterange input-group" id="datepicker">
+                            <input type="number" class="form-control" name="minPrice"
+                                   placeholder="Min" value="${requestScope.minPrice}">
                             <span class="input-group-addon">to</span>
-                            <input type="text" class="form-control" data-mask="0000000000000" placeholder="Max"
-                                   name="maxPrice" id="maxPrice" maxlength="17" value="${requestScope.maxPrice}">
+                            <input type="number" class="form-control" name="maxPrice"
+                                   placeholder="Max" value="${requestScope.maxPrice}">
                         </div>
                     </div>
-
                 </div>
 
                 <div class=" col-md-2">
                     <div class="form-group">
                         <label class="col-form-label" for="quantity">Quantity</label>
-                        <input type="text" class="form-control" data-mask="0000000000000" placeholder="Quantity"
-                               autocomplete="off" maxlength="17" id="quantity" name="quantity"
-                               value="${requestScope.quantity}">
-
+                        <input type="number" id="quantity" name="quantity" placeholder="Quantity"
+                               value="${requestScope.quantity}"
+                               class="form-control">
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -219,8 +201,7 @@
                                     <td>
                                         <img src="../${product.imagePath}" alt="${product.name}" style="width: 25%"/>
                                     </td>
-                                    <fmt:setLocale value="vi_VN"/>
-                                    <td><fmt:formatNumber value="${product.price}" type="currency"/></td>
+                                    <td>${product.price}</td>
                                     <td>${product.qtyAvailable}</td>
                                     <c:if test="${product.qtyAvailable != 0}">
                                         <td>
@@ -442,8 +423,6 @@
 <!-- FooTable -->
 <script src="../../js/plugins/footable/footable.all.min.js"></script>
 <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
-<script src="../js/plugins/footable/footable.all.min.js"></script>
-<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <!-- Mainly scripts -->
 <script src="../js/jquery-3.1.1.min.js"></script>
@@ -457,24 +436,11 @@
 <script src="../js/plugins/pace/pace.min.js"></script>
 
 <!-- FooTable -->
-<script src="../../js/plugins/footable/footable.all.min.js"></script>
 <script src="../js/plugins/footable/footable.all.min.js"></script>
-
-<!-- Input Mask-->
-<script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
 
 <!-- Page-Level Scripts -->
 <!-- Sweet alert -->
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
-
-<%-- Select2 --%>
-<script src="../js/plugins/select2/select2.full.min.js"></script>
-
-<!-- Jquery Validate -->
-<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
-<script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
 <%--if controller return create successful status--%>
 <c:if test="${sessionScope.createStatus != null}">
@@ -539,52 +505,7 @@
 <script>
     $(document).ready(function () {
         $(".footable").footable();
-
-        $(".select_category").select2({
-            theme: 'bootstrap4',
-        });
-        // $.validator.addMethod('greaterThan', function (value, element, param) {
-        //     return this.optional(element) || parseInt(value) >= parseInt($(param).val());
-        // }, 'Invalid value');
-
-<%--        let selectInput = document.querySelector("#minPrice");--%>
-
-<%--        selectInput.addEventListener("keydown", function(e){--%>
-<%--            const key = e.key;--%>
-<%--            if(key === "Backspace"){--%>
-<%--                <%--%>
-<%--//                    request.removeAttribute("minPrice");--%>
-<%--                    request.setAttribute("minPrice", 0);--%>
-<%--                %>--%>
-<%--                selectInput.value = 0;--%>
-
-<%--                console.log(selectInput.value);--%>
-<%--            }--%>
-<%--        })--%>
-
-
-<%--        // if($("#minPrice").val() != "" && $("#maxPrice").val() != ""){--%>
-<%--            $("#form_product_search").validate({--%>
-
-<%--                rules: {--%>
-<%--                    maxPrice: {--%>
-<%--                        greaterThan: '#minPrice',--%>
-<%--                        number: true,--%>
-<%--                        maxlength: 9--%>
-<%--                    },--%>
-<%--                },--%>
-<%--                messages: {--%>
-<%--                    maxPrice: {--%>
-<%--                        greaterThan: 'Max price must be greater than min price',--%>
-<%--                        maxlength: 'Invalid input cause over amount format'--%>
-<%--                    }--%>
-<%--                }--%>
-
-<%--            })--%>
-        // }
-
     });
-
 </script>
 
 <%--<!-- Alert -->--%>
@@ -633,3 +554,5 @@
 </body>
 
 </html>
+
+

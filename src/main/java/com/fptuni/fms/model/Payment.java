@@ -66,11 +66,6 @@ public class Payment implements Serializable {
         this.amount = amount;
     }
 
-    public Payment(BigDecimal amount, Orders orderID) {
-        this.amount = amount;
-        this.orderID = orderID;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -80,11 +75,11 @@ public class Payment implements Serializable {
     }
 
     public BigDecimal getAmount() {
-        return amount.stripTrailingZeros();
+        return amount;
     }
 
     public void setAmount(BigDecimal amount) {
-        this.amount = amount.stripTrailingZeros();
+        this.amount = amount;
     }
 
     public Orders getOrderID() {

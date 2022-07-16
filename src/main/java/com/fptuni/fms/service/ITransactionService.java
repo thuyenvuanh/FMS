@@ -5,13 +5,7 @@ import com.fptuni.fms.model.TransactionShared;
 import java.math.BigDecimal;
 
 public interface ITransactionService {
+    TransactionShared getTransactionSharedByWalletID(Integer walletID);
 
-    int insertNewTransaction(TransactionShared transaction);
-
-    TransactionShared getLatestTransactionSharedByWalletID(Integer walletID);
-
-    TransactionShared getLatestTransaction();
-
-    BigDecimal getCustomerBalance(TransactionShared transactionShared);
-
+    BigDecimal getCustomerAmount(TransactionShared transactionShared);
 }

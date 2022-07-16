@@ -1,10 +1,14 @@
 package com.fptuni.fms.service;
 
 import com.fptuni.fms.model.Product;
+import com.fptuni.fms.model.Store;
+import jdk.nashorn.internal.ir.LiteralNode;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface IProductService {
     List<Product> getProducts(HttpServletRequest request, HttpServletResponse response);

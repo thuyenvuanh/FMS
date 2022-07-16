@@ -4,7 +4,6 @@
  */
 package com.fptuni.fms.service.implement;
 
-import com.fptuni.fms.dao.implement.AccountDAO;
 import com.fptuni.fms.dao.implement.StoreDAO;
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Store;
@@ -32,11 +31,10 @@ public class StoreService implements IStoreService {
         HttpSession session = request.getSession();
         session.removeAttribute("createStatus");
         String name = request.getParameter("storeName");
-        String storeManager = request.getParameter("storeManager");
+        Account accLogin = (Account) session.getAttribute("account");
         Store store = new Store();
         store.setName(name);
-        AccountDAO accDAO = new AccountDAO();
-        store.setAccountID(accDAO.getAccount(Integer.parseInt(storeManager)));
+        store.setAccountID(accLogin);
         Integer check = storeDAO.insertStore(store);
         if (check == null) {
             session.setAttribute("createStatus", "fail");
@@ -119,7 +117,6 @@ public class StoreService implements IStoreService {
             return request.getContextPath() + "/store/list";
         }
         session.setAttribute("updateStatus", "success");
-
         return "/store/list";
     }
 
@@ -175,13 +172,5 @@ public class StoreService implements IStoreService {
         request.setAttribute("storeList", listStore);
         request.setAttribute("totalPages", totalPages);
         return "/view/admin/storeList.jsp";
-    }
-
-    @Override
-    public String getStoreManager(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        AccountDAO acc = new AccountDAO();
-        List<Account> listAcc = acc.getListStoreManager();
-        request.setAttribute("listStoreManager", listAcc);
-        return "/view/admin/storeCreate.jsp";
     }
 }

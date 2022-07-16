@@ -135,7 +135,7 @@
 
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane active">
-                                <c:url var="createCus" value="${requestScope.contextPath}/customer/addcustomer" >
+                                <c:url var="createCus" value="${requestScope.contextPath}/customer/addnewcustomer" >
                                 </c:url>
                                 <form action="${createCus}">
                                     <div class="panel-body">
@@ -143,22 +143,18 @@
                                         <fieldset>
                                             <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
                                                 <div class="col-sm-10"><input type="text" class="form-control"
-                                                                              placeholder="Customer name"
-                                                                              name="Cusname"></div>
+                                                                              placeholder="Customer name"></div>
                                             </div>
                                             <div class="form-group row"><label class="col-sm-2 col-form-label">Phone
                                                 number:</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" data-mask="000 000 0000"
-                                                           placeholder="" autocomplete="off" maxlength="14"
-                                                           name="Cusphone">
-                                                    <span class="form-text">000 000 0000</span>
-                                                </div>
+                                                <div class="col-sm-10"><input type="text" class="form-control"
+                                                                              placeholder="Lorem, Ipsum, has, been"></div>
                                             </div>
                                         </fieldset>
                                         <div class="form-layout-footer text-center">
-                                            <button class="btn btn-primary bd-0" type="submit"
-                                            name="action" value="add" >Submit</button>
+                                            <button class="btn btn-primary bd-0">Submit</button>
+
+                                            <button class="btn btn-secondary bd-0">Cancel</button>
                                         </div>
                                     </div>
                                 </form>
@@ -179,19 +175,18 @@
     </div>
     <!-- Body -->
 </div>
-<script src="../../plugins/jqueryMask/jquery.mask.min.js"></script>
-<script src="../../js/jquery-3.1.1.min.js"></script>
-<script src="../../js/popper.min.js"></script>
-<script src="../../js/bootstrap.js"></script>
-<script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 <!-- Custom and plugin javascript -->
-<script src="../../js/inspinia.js"></script>
-<script src="../../js/plugins/pace/pace.min.js"></script>
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
 
 <!-- FooTable -->
-<script src="../../js/plugins/footable/footable.all.min.js"></script>
+<script src="js/plugins/footable/footable.all.min.js"></script>
 
 <!-- Page-Level Scripts -->
 <script>

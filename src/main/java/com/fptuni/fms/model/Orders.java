@@ -79,16 +79,17 @@ public class Orders implements Serializable {
 
     public Orders(Integer id, BigDecimal total, Date createdDate) {
         this.id = id;
-        this.total = total.stripTrailingZeros();
+        this.total = total;
         this.createdDate = createdDate;
     }
 
-    public void calcTotal() {
+    public BigDecimal calcTotal() {
         BigDecimal temp = new BigDecimal(0);
         for (OrderDetail orderDetail : this.orderDetailList) {
             temp = temp.add(orderDetail.getAmount());
         }
-        this.total = temp.stripTrailingZeros();
+        this.total = temp;
+        return temp;
     }
 
     public Integer getId() {
@@ -100,11 +101,11 @@ public class Orders implements Serializable {
     }
 
     public BigDecimal getTotal() {
-        return total.stripTrailingZeros();
+        return total;
     }
 
     public void setTotal(BigDecimal total) {
-        this.total = total.stripTrailingZeros();
+        this.total = total;
     }
 
     public Date getCreatedDate() {

@@ -1,8 +1,6 @@
 package com.fptuni.fms.dao;
 
 import com.fptuni.fms.mapper.RowMapper;
-
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -19,6 +17,4 @@ public interface GenericDAO<T> {
     Integer insert(String sql, Object... params);
 
     int count(String sql, Object... params);
-
-    BigDecimal sum(String sql, Object... params);
 }

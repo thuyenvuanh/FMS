@@ -27,8 +27,6 @@ public class CustomerMapper implements RowMapper<Customer> {
                     cus.setGender(rs.getShort("Gender"));
                 if(metaData.getColumnLabel(i).equals("Phone"))
                     cus.setPhone((rs.getString("Phone")));
-                if(metaData.getColumnLabel(i).equals("IsDeleted"))
-                    cus.setIsDeleted(rs.getBoolean("isDeleted"));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

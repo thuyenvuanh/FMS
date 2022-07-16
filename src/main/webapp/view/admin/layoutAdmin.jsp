@@ -28,17 +28,13 @@
 
 
             <li class="active">
-                <c:url var="homelink" value="${requestScope.contextPath}/adminDashboard/index"></c:url>
-                <a href="${homelink}"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                <a href="layout.html"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
             </li>
-
             <li class="active"><a href="transaction_list.html"><i class="fa fa-money"></i> <span
                     class="nav-label">Transaction</span></a></li>
-            <c:url var="storeListLink" value="${requestScope.contextPath}/store/list"></c:url>
-            <li class="active"><a href="${storeListLink}"><i class="fa fa-table"></i> <span
+            <li class="active"><a href="store_list.html"><i class="fa fa-table"></i> <span
                     class="nav-label">Store</span></a></li>
-            <c:url var="accountListLink" value="${requestScope.contextPath}/account/list"></c:url>
-            <li class="active"><a href="${accountListLink}"><i class="fa fa-user"></i> <span
+            <li class="active"><a href="Account_list.html"><i class="fa fa-user"></i> <span
                     class="nav-label">Account</span></a></li>
 
 

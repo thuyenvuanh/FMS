@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!doctype html>
 <html>
@@ -74,13 +73,16 @@
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane active">
                             <div class="panel-body">
-                                <c:url var="updateProductLink" value="${requestScope.contextPath}/product/update"></c:url>
-                                <form id="form_product_update" class="updateForm" action="${updateProductLink}" autocomplete="off">
-                                <fieldset>
-                                    <c:set var="productDetail" value="${requestScope.product}"></c:set>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">ID:</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="id" value="${productDetail.id}" readonly/>
+                                <c:url var="updateProductLink" value="/product/update"></c:url>
+                                <form class="updateForm" action="${updateProductLink}" autocomplete="off"
+                                      enctype="multipart/form-data" method="post">
+                                    <fieldset>
+                                        <c:set var="productDetail" value="${requestScope.product}"></c:set>
+                                        <div class="form-group row"><label class="col-sm-2 col-form-label">ID:</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" name="id"
+                                                       value="${productDetail.id}" readonly/>
+                                            </div>
                                         </div>
                                         <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
                                             <div class="col-sm-10 ">
@@ -88,13 +90,12 @@
                                                        value="${productDetail.name}"/>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Price:</label>
-                                        <div class="col-sm-10 ">
-                                                <fmt:setLocale value="vi_VN"/>
-                                                <input type="text" class="form-control valid" data-mask="0000000000000" placeholder="VND"
-                                                   autocomplete="off" maxlength="13" id="price" name="price" value="<fmt:formatNumber value="${product.price}" type="currency"/>" aria-required="true"
-                                                   aria-invalid="false">
+                                        <div class="form-group row"><label
+                                                class="col-sm-2 col-form-label">Price:</label>
+                                            <div class="col-sm-10 ">
+                                                <input type="number" class="form-control" name="price"
+                                                       value="${productDetail.price}"/>
+                                            </div>
                                         </div>
                                         <div class="form-group row"><label
                                                 class="col-sm-2 col-form-label">Image:</label>
@@ -257,16 +258,6 @@
     <!-- Sweet alert -->
     <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
-        <!-- Input Mask-->
-        <script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
-        <script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>
-
-        <!-- Jquery Validate -->
-        <script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-        <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-        <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
-        <script src="../js/plugins/validate/jquery.validate.min.js"></script>
-
     <script>
         $(document).ready(function () {
             $(".create_product_form").click(function () {
@@ -281,43 +272,6 @@
             });
             $(".confirm").click(function () {
                 $(".updateForm").submit();
-            });
-
-            $.validator.addMethod('positiveNumber',
-                function (value) {
-                    return Number(value) > 0;
-                }, 'Enter a positive number.');
-
-            $("#form_product_update").validate({
-                rules: {
-                    name: {
-                        required: true
-                    },
-                    price: {
-                        required: true,
-                        positiveNumber: true,
-                        number: true
-                    },
-                    categoryID: {
-                        required: true
-                    },
-                    quantity: {
-                        required: true,
-                        positiveNumber: true,
-                        number: true
-                    }
-                },
-                messages: {
-                    name: {
-                        required: 'Please enter product name'
-                    },
-                    price: {
-                        required: 'Please enter product price'
-                    },
-                    quantity: {
-                        required: 'Please enter product quantity'
-                    }
-                }
             });
         });
     </script>

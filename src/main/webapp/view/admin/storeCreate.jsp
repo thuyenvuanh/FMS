@@ -74,20 +74,10 @@
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
                                         <div class="panel-body">
-                                            <form id="form_store_create" class="createForm" action="${pageContext.servletContext.contextPath}/store/create" autocomplete="off">
+                                            <form class="createForm" action="${pageContext.servletContext.contextPath}/store/create" autocomplete="off">
                                                 <fieldset>
                                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
                                                         <div class="col-sm-10"><input name="storeName" type="text" class="form-control" placeholder="Store name"></div>
-                                                    </div>
-                                                    <div class="form-group row"><label  class="col-sm-2 col-form-label">Store Manager:</label>
-                                                    <div class="col-sm-10">
-                                                        <select class="form-control m-b" id="select_storemanager" name="storeManager">
-                                                            <option value="0">None</option>
-                                                            <c:forEach var="acc" items="${requestScope.listStoreManager}">
-                                                                <option value="${acc.id}" ${acc.id==storeManager?"selected":""} >${acc.username}</option>
-                                                            </c:forEach>
-                                                        </select>
-                                                    </div>
                                                     </div>
                                                 </fieldset>
                                                 <div class="form-layout-footer text-center">
@@ -142,21 +132,10 @@
     <!-- Page-Level Scripts -->
     <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
     <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
-
-     <!-- Jquery Validate -->
-    <script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
-    <script src="../js/plugins/validate/jquery.validate.min.js"></script>
-
     <script>
                                                     $(document).ready(function () {
 
                                                         $('.footable').footable();
-                                                        
-                                                        $("#select_storemanager").select2({
-                                                            theme: 'bootstrap4',
-                                                        });
 
                                                     });
 
@@ -179,28 +158,6 @@
                                                         });
                                                         $('.confirm').click(function () {
                                                             $(".createForm").submit();
-                                                        });
-                                                        $.validator.addMethod("valueNotEquals", function(value, element, arg){
-                                                            return arg !== value;
-                                                        }, "Value must not equal arg.");
-
-                                                        $("#form_store_create").validate({
-                                                            rules: {
-                                                                storeName: {
-                                                                    required: true
-                                                                },
-                                                                storeManager: {
-                                                                    valueNotEquals: "0"
-                                                                }
-                                                            },
-                                                            messages: {
-                                                                storeName: {
-                                                                     required: "Please enter Store Name"
-                                                                },
-                                                                 storeManager: {
-                                                                    valueNotEquals: "Please choose Store Manager"
-                                                                }
-                                                            }
                                                         })
                                                     });
     </script>

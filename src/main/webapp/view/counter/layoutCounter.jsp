@@ -34,8 +34,7 @@
                     <span class="nav-label">Counter</span></a>
             </li>
             <li class="active">
-
-                <a href="<c:url value="/customer/list"/>">
+                <a href="ecommerce-orders.html">
                     <i class="fa fa-user-o"></i>
                     <span class="nav-label">Customer</span></a>
             </li>
@@ -52,7 +51,9 @@
             </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li>
-                    <a href="<c:url value="/account/logout"/>"> <i class="fa fa-sign-out"></i> Log out </a>
+                    <a href="<c:url value="/account/logout"/>">
+                        <i class="fa fa-sign-out"></i> Log out
+                    </a>
                 </li>
             </ul>
         </nav>

@@ -21,39 +21,38 @@ public class StoreController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getPathInfo();
-        String url = null;
+        String Url = null;
         switch (action) {
             case "/create":
-                url = storeService.create(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = storeService.create(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             case "/createPage":
-                url = storeService.getStoreManager(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                request.getRequestDispatcher("/view/admin/storeCreate.jsp").forward(request, response);
                 break;
             case "/list":
-                url = storeService.getListStore(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = storeService.getListStore(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             case "/update":
-                url = storeService.update(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = storeService.update(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             case "/updatePage":
-                url = storeService.getStoreUpdate(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = storeService.getStoreUpdate(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             case "/view":
-                url = storeService.getStore(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = storeService.getStore(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             case "/delete":
-                url = storeService.delete(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = storeService.delete(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             case "/search":
-                url = storeService.search(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = storeService.search(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             default:
             //chuyen huong den trang error

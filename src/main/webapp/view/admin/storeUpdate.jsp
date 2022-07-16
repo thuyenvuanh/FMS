@@ -71,7 +71,7 @@
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
                                         <div class="panel-body">
-                                            <form id="form_store_update" class="updateForm" action="${pageContext.servletContext.contextPath}/store/update" autocomplete="off">
+                                            <form class="updateForm" action="${pageContext.servletContext.contextPath}/store/update" autocomplete="off">
                                             <fieldset>
                                                 <c:set var="store" value="${requestScope.store}"></c:set>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">ID:</label>
@@ -141,12 +141,6 @@
         <!-- Sweet alert -->
         <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
-        <!-- Jquery Validate -->
-        <script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-        <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-        <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
-        <script src="../js/plugins/validate/jquery.validate.min.js"></script>
-
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function () {
@@ -173,19 +167,6 @@
                 $('.confirm').click(function () {
                     $(".updateForm").submit();
                 });
-
-                $("#form_store_update").validate({
-                    rules: {
-                        name: {
-                            required: true
-                        }
-                    },
-                    messages: {
-                        name: {
-                            required: "Please enter product name"
-                        }
-                    }
-                })
             });
     </script>
 

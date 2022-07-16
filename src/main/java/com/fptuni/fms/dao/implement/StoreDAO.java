@@ -7,10 +7,6 @@ import com.fptuni.fms.model.Product;
 import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.mapper.ProductMapper;
-
-
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -128,33 +124,4 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
         String sql = "UPDATE dbo.Store SET IsDeleted=1 WHERE ID=? AND IsDeleted = 0";
         return update(sql, id);
     }
-
-    @Override
-    public List<Store> getTopStore(Integer top, Date startDate, Date endDate) {
-        String sql = "select top (?) s.StoreID as ID, Store.Name as Name\n" +
-                "from Store join (select StoreID, sum(total) as total\n" +
-                                    "from Orders\n" +
-                                    "where CreatedDate between ? and ?\n" +
-                                    "group by StoreID) as s\n" +
-                "on Store.ID = s.StoreID\n" +
-                "order by s.total desc";
-        List<Store> list = query(sql, new StoreMapper(), top, startDate, endDate);
-        return list;
-    }
-
-    @Override
-    public List<Store> getTopStoreToday(Integer top, Date startDate) {
-        String sql = "select top (?) s.StoreID as ID, Store.Name as Name\n" +
-                "from Store join (select StoreID, sum(total) as total\n" +
-                "from Orders\n" +
-                "where CONVERT(DATE,CreatedDate) \n" +
-                "=     CONVERT(DATE,CAST(? AS DATETIME))\n" +
-                "group by StoreID) as s\n" +
-                "on Store.ID = s.StoreID\n" +
-                "order by s.total desc";
-        List<Store> list = query(sql, new StoreMapper(), top, startDate);
-        return list;
-    }
-
-
 }

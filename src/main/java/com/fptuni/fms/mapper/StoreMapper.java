@@ -33,7 +33,6 @@ public class StoreMapper implements RowMapper<Store> {
                     store.getAccountID().setFullName(rs.getString(i));
                 if (metaData.getColumnLabel(i).equals("IsDeleted"))
                     store.setDeleted(rs.getBoolean(i));
-
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
