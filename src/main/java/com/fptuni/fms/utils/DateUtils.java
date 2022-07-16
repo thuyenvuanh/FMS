@@ -8,6 +8,7 @@ public class DateUtils {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(startdate);
 
+        // plus 1 date for end date
         Calendar calendar1 = new GregorianCalendar();
         calendar1.setTime(enddate);
         calendar1.add(Calendar.DATE, 1);

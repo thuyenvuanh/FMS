@@ -121,7 +121,7 @@
     <div class="wrapper wrapper-content animated fadeInRight ecommerce">
         <div class="ibox-content m-b-sm border-bottom">
             <c:url var="searchFormLink" value="${requestScope.contextPath}/order/list"></c:url>
-            <form action="${searchFormLink}" method="get" autocomplete="off">
+            <form action="${searchFormLink}" method="post" autocomplete="off">
                 <div class="row">
 
                     <div class="col-lg-4">
@@ -162,7 +162,7 @@
                 <div class="ibox">
                     <div class="ibox-content">
 
-                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+                        <table class="footable table table-stripped toggle-arrow-tiny">
                             <thead>
                             <tr>
 
@@ -179,7 +179,7 @@
                                     <td>${order.id}</td>
                                     <td>${order.total}</td>
                                     <td>
-                                        <fmt:formatDate value="${order.createdDate}" var="formattedDate" type="date"
+                                        <fmt:formatDate value="${order.createdDateTime}" var="formattedDate" type="date"
                                                         pattern="dd/MM/yyyy"></fmt:formatDate>
                                             ${formattedDate}
                                     </td>
@@ -321,12 +321,13 @@
         });
     });
 </script>
+<c:if test="${requestScope.startDate == null || requestScope.endDate == null}">
 <script>
     var today = moment().format('DD/MM/YYYY');
     $('#datePickerStart').val(today);
     $('#datePickerEnd').val(today);
 </script>
-<!-- Date picker -->
+</c:if>
 <div class="datepicker datepicker-dropdown dropdown-menu datepicker-orient-left datepicker-orient-bottom"
      style="top: 3077.83px; left: 46px; z-index: 10; display: none;">
     <div class="datepicker-days" style="display: none;">

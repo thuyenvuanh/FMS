@@ -56,7 +56,7 @@ public class AccountService implements IAccountService {
                         url = request.getContextPath() + "/counter/index";
                         break;
                     case "Store Manager":
-                        url = request.getContextPath() + "/product/list";
+                        url = request.getContextPath() + "/dashboard/store";
                         //response toi link cua store manager
                         break;
                     default:

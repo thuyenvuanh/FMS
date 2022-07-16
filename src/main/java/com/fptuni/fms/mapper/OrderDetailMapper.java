@@ -4,7 +4,6 @@ import com.fptuni.fms.dao.implement.AbstractDAO;
 import com.fptuni.fms.model.OrderDetail;
 import com.fptuni.fms.model.Orders;
 import com.fptuni.fms.model.Product;
-import com.sun.org.apache.xpath.internal.operations.Or;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -33,12 +32,6 @@ public class OrderDetailMapper extends AbstractDAO<OrderDetail> implements RowMa
                 else if (metaData.getColumnLabel(i).equals("Amount"))
                     orderdetail.setAmount(rs.getBigDecimal(i));
             }
-            orderdetail = new OrderDetail();
-            orderdetail.setPrice(rs.getBigDecimal("Price"));
-            orderdetail.setQuantity(rs.getInt("Quantity"));
-            orderdetail.setAmount(rs.getBigDecimal("Amount"));
-            orderdetail.setOrders(new Orders(rs.getInt("OrderID")));
-            orderdetail.setProduct(new Product(rs.getString("ProID")));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

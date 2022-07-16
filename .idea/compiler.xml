@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="FMS" options="-endorseddirs &quot;D:\Program Files\Github\SWP391_source\FMS\target/endorsed&quot;" />
+      <module name="FMS" options="-endorseddirs C:\source_code\FMS\target/endorsed" />
     </option>
   </component>
 </project>

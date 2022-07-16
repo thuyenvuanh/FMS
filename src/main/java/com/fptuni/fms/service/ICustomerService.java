@@ -14,4 +14,6 @@ public interface ICustomerService {
     Integer DeleteCustomer(String phoneNum);
     Customer getDetail (String phoneNum);
     boolean updateCustomerInfo (Customer customer);
+
+    public Customer getCustomerByOrderID(HttpServletRequest request, HttpServletResponse response);
 }

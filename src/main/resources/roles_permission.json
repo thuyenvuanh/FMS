@@ -33,6 +33,7 @@
       "/order",
       "/order/list",
       "/account/logout",
+      "/dashboard",
       "/js",
       "/css",
       "/img",

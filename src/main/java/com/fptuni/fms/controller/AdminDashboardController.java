@@ -1,13 +1,13 @@
 package com.fptuni.fms.controller;
 
-import com.fptuni.fms.service.IDashboardService;
-import com.fptuni.fms.service.IStoreService;
-import com.fptuni.fms.service.implement.DashboardService;
-import com.fptuni.fms.service.implement.StoreService;
+import com.fptuni.fms.service.IDashBoardService;
+import com.fptuni.fms.service.implement.DashBoardService;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "AdminDashboardController", value = "/adminDashboard/*")
@@ -16,7 +16,7 @@ public class AdminDashboardController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String URL = null;
-        IDashboardService dashboardService = new DashboardService();
+        IDashBoardService dashboardService = new DashBoardService();
         String path = request.getPathInfo();
         System.out.println(path);
 
