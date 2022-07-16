@@ -14,60 +14,60 @@ public class AccountController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getPathInfo();
-        String url = null;
+        String Url = null;
         switch (action) {
-            case "/index":
-                url = request.getContextPath();
-                response.sendRedirect(url);
-                break;
             case "/login":
-                url = accountService.login(request, response);
-                response.sendRedirect(url);
+                Url = accountService.login(request, response);
+                response.sendRedirect(Url);
                 break;
             case "/logout":
-                url = accountService.logout(request, response);
-                response.sendRedirect(url);
+                Url = accountService.logout(request, response);
+                response.sendRedirect(Url);
                 break;
             case "/create":
-                url = accountService.create(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = accountService.create(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             case "/createPage":
-                url = accountService.getRole(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = accountService.getRole(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             case "/list":
-                url = accountService.getListAccount(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = accountService.getListAccount(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             case "/update":
-                url = accountService.update(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = accountService.update(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             case "/updatePage":
-                url = accountService.getAccountUpdate(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = accountService.getAccountUpdate(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             case "/view":
-                url = accountService.getAccount(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = accountService.getAccount(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
             case "/delete":
-                url = accountService.delete(request, response);
-                request.getRequestDispatcher(url).forward(request, response);
+                Url = accountService.delete(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
                 break;
+            case "/search":
+                Url = accountService.search(request, response);
+                request.getRequestDispatcher(Url).forward(request, response);
+                break;
+            default:
+                //chuyen huong den trang error
         }
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 }

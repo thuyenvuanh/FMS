@@ -88,18 +88,18 @@
                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Category</label>
                                         <div class="col-sm-10">
                                             <select name="status" class="form-control" disabled>
-                                                <option value="${requestScope.category.id}">${requestScope.category.name}</option>
+                                                <c:forEach var="category" items="${requestScope.categories}">
+                                                    <option value="${category.id}" ${category.id == productDetail.cateID.id ? "selected" : ""}>${category.name}</option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Avaialable
-                                        quantity:</label>
+                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Avaialable quantity:</label>
                                         <div class="col-sm-10 text-align">${productDetail.qtyAvailable}</div>
                                     </div>
                                 </fieldset>
                                 <div class="form-layout-footer text-center">
-                                    <c:url var="updateProductLink"
-                                           value="${requestScope.contextPath}/product/updatePage">
+                                    <c:url var="updateProductLink" value="${requestScope.contextPath}/product/updatePage">
                                         <c:param name="productID" value="${productDetail.id}"></c:param>
                                     </c:url>
                                     <c:url var="deleteProductLink" value="${requestScope.contextPath}/product/delete">

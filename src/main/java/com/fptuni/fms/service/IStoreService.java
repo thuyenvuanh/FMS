@@ -18,7 +18,6 @@ public interface IStoreService {
     String create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
 //    String getAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
-
     String getListStore(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
     String getStore(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
@@ -28,5 +27,7 @@ public interface IStoreService {
     String update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
     String delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+
+    String search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
 }

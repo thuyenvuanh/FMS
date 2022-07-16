@@ -12,6 +12,8 @@ public interface IAccountDAO extends GenericDAO<Account> {
 
     List<Account> getListAccount(Pageable pageable);
 
+    List<Account> search(Pageable pageable, int isDelete, String username, String fullName, int roleId);
+
     Account getAccount(int id);
 
     Account getAccountUpdate(int id);
