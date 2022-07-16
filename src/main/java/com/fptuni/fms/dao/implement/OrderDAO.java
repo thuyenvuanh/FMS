@@ -8,7 +8,11 @@ import com.fptuni.fms.model.Orders;
 import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -53,9 +57,9 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
 
     @Override
     public Integer insertOrder(Orders orders) {
-        String sql = "INSERT INTO Orders\n" +
-                "VALUES (?,?,?)";
-        return insert(sql, orders.getStoreID(), orders.getTotal(), orders.getCreatedDate());
+        String sql = "insert into Orders (StoreID, Total, CreatedDate)\n" +
+                "values (?,?,?)";
+        return insert(sql, orders.getStoreID().getId(), orders.getTotal(), orders.getCreatedDate());
     }
 
     @Override
@@ -71,6 +75,79 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
     }
 
     @Override
+    public BigDecimal GetTotalValueOfStore(Integer storeID, Date startDate, Date endDate) {
+        String sql = "select sum(total)\n" +
+                "from Orders\n" +
+                "where StoreID = ? and CreatedDate between ? and ?\n" +
+                "group by StoreID";
+
+        return sum(sql, storeID, startDate, endDate);
+    }
+
+    @Override
+    public Integer GetOrderQuantity(Integer storeID, Date startDate, Date endDate) {
+        String sql = "select count(ID)\n" +
+                "from Orders\n" +
+                "where StoreID = ? and CreatedDate between ? and ?\n" +
+                "group by StoreID";
+        return count(sql, storeID, startDate, endDate);
+    }
+
+    @Override
+    public BigDecimal GetTotalValueOfAllStore(Date startDate, Date endDate) {
+        String sql = "select sum(total)\n" +
+                "from Orders\n" +
+                "where CreatedDate between ? and ?\n";
+
+        return sum(sql, startDate, endDate);
+    }
+
+    @Override
+    public int GetTotalOrderOfAllStore(Date startDate, Date endDate) {
+        String sql = "select count(ID)\n" +
+                "from Orders\n" +
+                "where CreatedDate between ? and ?";
+
+        return count(sql, startDate, endDate);
+    }
+
+    @Override
+    public Integer GetTotalOrderByTime(Date date) {
+        String sql = "select count(ID)\n" +
+                "from Orders\n" +
+                "where CONVERT(DATE,CreatedDate) \n" +
+                "=     CONVERT(DATE,CAST(? AS DATETIME))";
+        return count(sql, date);
+    }
+
+    @Override
+    public BigDecimal GetTotalValueByTime(Date date) {
+        String sql = "select sum(total)\n" +
+                "from Orders\n" +
+                "where CONVERT(DATE,CreatedDate) \n" +
+                "=     CONVERT(DATE,CAST(? AS DATETIME))";
+
+        return sum(sql, date);
+    }
+
+    @Override
+    public BigDecimal GetTotalValueToday(Date time1, Date time2) {
+        String sql = "select sum(total)\n" +
+                "from Orders\n" +
+                "where CreatedDate between ? and ? ";
+
+        return sum(sql, time1, time2);
+    }
+
+    @Override
+    public Integer GetTotalOrderToday(Date time1, Date time2) {
+        String sql = "select count(ID)\n" +
+                "from Orders\n" +
+                "where CreatedDate between ? and ? ";
+
+        return count(sql, time1, time2);
+    }
+        
     public int countNumberOfOrders() {
         String sql = "SELECT COUNT(ID) AS ID FROM Orders";
         List<Orders> orders = query(sql, new OrderMapper());

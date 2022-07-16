@@ -26,21 +26,20 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
  * @author LucasBV
  */
 @Entity
 @Table(name = "TransactionShared")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TransactionShared.findAll", query = "SELECT t FROM TransactionShared t"),
-    @NamedQuery(name = "TransactionShared.findById", query = "SELECT t FROM TransactionShared t WHERE t.id = :id"),
-    @NamedQuery(name = "TransactionShared.findByAmount", query = "SELECT t FROM TransactionShared t WHERE t.amount = :amount"),
-    @NamedQuery(name = "TransactionShared.findByPreviousHash", query = "SELECT t FROM TransactionShared t WHERE t.previousHash = :previousHash"),
-    @NamedQuery(name = "TransactionShared.findByHashValue", query = "SELECT t FROM TransactionShared t WHERE t.hashValue = :hashValue"),
-    @NamedQuery(name = "TransactionShared.findByPreviousBalance", query = "SELECT t FROM TransactionShared t WHERE t.previousBalance = :previousBalance"),
-    @NamedQuery(name = "TransactionShared.findByCreatedDate", query = "SELECT t FROM TransactionShared t WHERE t.createdDate = :createdDate"),
-    @NamedQuery(name = "TransactionShared.findByStatus", query = "SELECT t FROM TransactionShared t WHERE t.status = :status")})
+        @NamedQuery(name = "TransactionShared.findAll", query = "SELECT t FROM TransactionShared t"),
+        @NamedQuery(name = "TransactionShared.findById", query = "SELECT t FROM TransactionShared t WHERE t.id = :id"),
+        @NamedQuery(name = "TransactionShared.findByAmount", query = "SELECT t FROM TransactionShared t WHERE t.amount = :amount"),
+        @NamedQuery(name = "TransactionShared.findByPreviousHash", query = "SELECT t FROM TransactionShared t WHERE t.previousHash = :previousHash"),
+        @NamedQuery(name = "TransactionShared.findByHashValue", query = "SELECT t FROM TransactionShared t WHERE t.hashValue = :hashValue"),
+        @NamedQuery(name = "TransactionShared.findByPreviousBalance", query = "SELECT t FROM TransactionShared t WHERE t.previousBalance = :previousBalance"),
+        @NamedQuery(name = "TransactionShared.findByCreatedDate", query = "SELECT t FROM TransactionShared t WHERE t.createdDate = :createdDate"),
+        @NamedQuery(name = "TransactionShared.findByStatus", query = "SELECT t FROM TransactionShared t WHERE t.status = :status")})
 public class TransactionShared implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -101,6 +100,19 @@ public class TransactionShared implements Serializable {
         this.createdDate = createdDate;
     }
 
+
+    public TransactionShared(BigDecimal amount, String previousHash, String hashValue, BigDecimal previousBalance, Date createdDate, Boolean status, MoneyTransaction moneyTransactionID, Payment paymentID, Wallet walletID) {
+        this.amount = amount;
+        this.previousHash = previousHash;
+        this.hashValue = hashValue;
+        this.previousBalance = previousBalance;
+        this.createdDate = createdDate;
+        this.status = status;
+        this.moneyTransactionID = moneyTransactionID;
+        this.paymentID = paymentID;
+        this.walletID = walletID;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -110,11 +122,11 @@ public class TransactionShared implements Serializable {
     }
 
     public BigDecimal getAmount() {
-        return amount;
+        return amount.stripTrailingZeros();
     }
 
     public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+        this.amount = amount.stripTrailingZeros();
     }
 
     public String getPreviousHash() {
@@ -134,11 +146,11 @@ public class TransactionShared implements Serializable {
     }
 
     public BigDecimal getPreviousBalance() {
-        return previousBalance;
+        return previousBalance.stripTrailingZeros();
     }
 
     public void setPreviousBalance(BigDecimal previousBalance) {
-        this.previousBalance = previousBalance;
+        this.previousBalance = previousBalance.stripTrailingZeros();
     }
 
     public Date getCreatedDate() {
@@ -200,10 +212,11 @@ public class TransactionShared implements Serializable {
 
     @Override
     public String toString() {
-        return String.valueOf(id) + String.valueOf(amount) + String.valueOf(walletID) + String.valueOf(previousHash)
-                + String.valueOf(previousBalance) + String.valueOf(createdDate.getTime()) + String.valueOf(status)
+        return String.valueOf(amount.stripTrailingZeros()) + String.valueOf(previousHash)
+                + String.valueOf(previousBalance.stripTrailingZeros()) + String.valueOf(createdDate.getTime()) + String.valueOf(status)
                 + String.valueOf(moneyTransactionID == null ? "" : moneyTransactionID.getId())
-                + String.valueOf(paymentID == null ? "": paymentID.getId());
+                + String.valueOf(paymentID == null ? "" : paymentID.getId()
+                + String.valueOf(walletID == null ? "" : walletID.getId()));
     }
 
 }

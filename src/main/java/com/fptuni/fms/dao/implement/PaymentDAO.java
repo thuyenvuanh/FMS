@@ -28,9 +28,9 @@ public class PaymentDAO extends AbstractDAO<Payment> implements IPaymentDAO {
 
     @Override
     public Integer insertPayment(Payment payment) {
-        String sql = "INSERT  INTO Payment\n" +
-                "VALUES (?, ?)";
-        return insert(sql, payment.getOrderID(), payment.getAmount());
+        String sql = "insert into Payment (OrderID, Amount)\n" +
+                "values (?, ?)";
+        return insert(sql, payment.getOrderID().getId(), payment.getAmount());
     }
 
 }

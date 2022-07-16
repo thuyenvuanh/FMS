@@ -4,29 +4,28 @@ import com.fptuni.fms.dao.IProductDAO;
 import com.fptuni.fms.dao.IStoreDAO;
 import com.fptuni.fms.dao.implement.ProductDAO;
 import com.fptuni.fms.dao.implement.StoreDAO;
-import com.fptuni.fms.model.*;
+import com.fptuni.fms.model.Category;
+import com.fptuni.fms.model.OrderDetail;
+import com.fptuni.fms.model.Product;
+import com.fptuni.fms.model.Store;
+import com.fptuni.fms.paging.PageRequest;
+import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.ICategoryService;
 import com.fptuni.fms.service.IOrderDetailService;
 import com.fptuni.fms.service.IProductService;
-import com.fptuni.fms.paging.PageRequest;
-import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.sort.Sorter;
-import com.fptuni.fms.utils.RequestUtils;
-import jdk.nashorn.internal.ir.RuntimeNode;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import javax.websocket.Session;
 import java.io.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 public class ProductService implements IProductService {
     private IStoreDAO storeDAO = new StoreDAO();
@@ -260,7 +259,7 @@ public class ProductService implements IProductService {
 
     private String getFileName(final Part part) {
         final String partHeader = part.getHeader("content-disposition");
-        LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
+//        LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
         for (String content : part.getHeader("content-disposition").split(";")) {
             if (content.trim().startsWith("filename")) {
                 return content.substring(

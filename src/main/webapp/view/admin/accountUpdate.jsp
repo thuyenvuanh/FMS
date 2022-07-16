@@ -35,6 +35,14 @@
 
         <link href="../../css/animate.css" rel="stylesheet"/>
         <link href="../../css/style.css" rel="stylesheet"/>
+
+        <!-- Select2 -->
+        <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
+        <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+        <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+        <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
+        <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+        <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
     </head>
     <body>
         <div id="wrapper">
@@ -73,7 +81,7 @@
                                     <div id="tab-1" class="tab-pane active">
                                         <div class="panel-body">
                                             <c:url var="updateAccountLink" value="${requestScope.contextPath}/account/update"></c:url>
-                                            <form class="updateForm" action="${updateAccountLink}" autocomplete="off">
+                                            <form id="form_account_update" class="updateForm" action="${updateAccountLink}" autocomplete="off" method="POST">
                                             <fieldset>
                                                 <c:set var="acc" value="${requestScope.account}"></c:set>
                                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Username:</label>
@@ -99,7 +107,7 @@
 
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Role:</label>
                                                     <div class="col-sm-10">
-                                                        <select name="roleId" class="form-control">
+                                                        <select id="select_role" name="roleId" class="form-control">
                                                             <c:forEach var="role" items="${requestScope.roleList}">
                                                                 <option  value="${role.id}" ${role.id == acc.role.id ? "selected" : ""}>${role.name}</option>
                                                             </c:forEach>
@@ -197,24 +205,66 @@
         <!-- Page-Level Scripts -->
         <!-- Sweet alert -->
         <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+
+        <!-- Jquery Validate -->
+        <script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+        <script src="../js/plugins/validate/jquery.validate.min.js"></script>
+
+        <%-- Select2 --%>
+        <script src="../js/plugins/select2/select2.full.min.js"></script>
         <!-- Page-Level Scripts -->
         <script>
 
-                                            $(document).ready(function () {
-                                                $('.update_account_form').click(function () {
-                                                    swal({
-                                                        title: "Are you sure Update?",
-                                                        type: "info",
-                                                        showCancelButton: true,
-                                                        confirmButtonColor: "#DD6B55",
-                                                        confirmButtonText: "Yes, update it!",
-                                                        closeOnConfirm: false,
-                                                    });
-                                                });
-                                                $('.confirm').click(function () {
-                                                    $(".updateForm").submit();
-                                                });
-                                            });
+            $(document).ready(function () {
+                $('.update_account_form').click(function () {
+                    swal({
+                        title: "Are you sure Update?",
+                        type: "info",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, update it!",
+                        closeOnConfirm: false,
+                    });
+                });
+                $('.confirm').click(function () {
+                    $(".updateForm").submit();
+                });
+
+                $("#select_role").select2({
+                    theme: 'bootstrap4',
+                });
+
+                $("#form_account_update").validate({
+                    rules: {
+                        fullName: {
+                            required: true,
+                        },
+                        password: {
+                            required: true,
+                            minlength: 5,
+                        },
+                        cfPassword: {
+                            required: true,
+                            equalTo: ".password"
+                        }
+                    },
+                    messages: {
+                        fullName: {
+                            required: "Please enter full name"
+                        },
+                        password: {
+                            required: "Please enter password",
+                            minlength: "Please enter at least 5 characters"
+                        },
+                        cfPassword: {
+                            required: "Please enter confirm password",
+                            equalTo: "Confirm password not same as password above"
+                        }
+                    }
+                })
+            });
         </script>
         <script>
             $(document).ready(function () {

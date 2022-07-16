@@ -1,5 +1,6 @@
 package com.fptuni.fms.controller;
 
+import com.fptuni.fms.service.implement.OrderService;
 import com.fptuni.fms.service.implement.PaymentService;
 
 import javax.servlet.*;
@@ -20,7 +21,12 @@ public class PaymentController extends HttpServlet {
                 url = request.getContextPath() + "/pay";
                 break;
             case "/create":
-                paymentService.makePayment(request);
+                boolean success = paymentService.makePayment(request);
+                if (success) {
+                    request.getSession().removeAttribute("order");
+                    new OrderService().index(request, response);
+                    url = request.getContextPath() +"/cashier";
+                }
                 break;
         }
         response.sendRedirect(url);

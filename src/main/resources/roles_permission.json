@@ -48,6 +48,8 @@
       "/account",
       "/store",
       "/transaction",
+      "/adminDashboard",
+      "/adminDashboard/index",
       "/js",
       "/css",
       "/img",
@@ -58,7 +60,15 @@
   {
     "role": "Counter",
     "permissions": [
-
+      "/customer/list",
+      "/customer",
+      "/counter/index",
+      "/counter",
+      "/js",
+      "/css",
+      "/img",
+      "/IMG",
+      "/font-awesome"
     ]
   }
 ]

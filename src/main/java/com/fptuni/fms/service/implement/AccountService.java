@@ -45,7 +45,7 @@ public class AccountService implements IAccountService {
                 switch (account.getRole().getName()) {
                     case "Admin":
                         //response toi link cua admin
-                        url = request.getContextPath() + "/account/list";
+                        url = request.getContextPath() + "/adminDashboard/index";
                         break;
                     case "Cashier":
                         //response toi link cua cashier
@@ -92,13 +92,13 @@ public class AccountService implements IAccountService {
         String cfPassword = request.getParameter("cfPassword");
         String roleId = request.getParameter("roleId");
         if (!password.equals(cfPassword)) {
-            session.setAttribute("createStatus", "fail");
+            session.setAttribute("createStatus", "Confirm password not same as password above");
             return request.getContextPath() + "/account/create";
         }
         Integer check = accountDAO.Create(userName, password, fullName, Integer.parseInt(roleId));
         if (check == null) {
             session.setAttribute("createStatus", "fail");
-            return request.getContextPath() + "/account/create";
+            return "/account/createPage";
         }
         session.setAttribute("createStatus", "success");
         return "/account/list";

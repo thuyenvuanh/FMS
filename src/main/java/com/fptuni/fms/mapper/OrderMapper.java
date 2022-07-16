@@ -1,11 +1,11 @@
 package com.fptuni.fms.mapper;
 
 import com.fptuni.fms.dao.implement.AbstractDAO;
-import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Orders;
 import com.fptuni.fms.model.Store;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * @author LucasBV
  */
-public class    OrderMapper extends AbstractDAO<Orders> implements RowMapper {
+public class OrderMapper extends AbstractDAO<Orders> implements RowMapper {
 
     @Override
     public Orders mapRow(ResultSet rs) {

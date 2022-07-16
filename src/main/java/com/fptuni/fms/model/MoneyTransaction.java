@@ -98,6 +98,33 @@ public class MoneyTransaction implements Serializable {
         this.createdDate = createdDate;
     }
 
+    public MoneyTransaction(int walletID, BigDecimal amount, boolean state, Date createdDate,
+                            Counter counterID, Customer customerID) {
+
+        this.walletID = walletID;
+        this.amount = amount;
+        this.state = state;
+        this.createdDate = createdDate;
+        this.counterID = counterID;
+        this.customerID = customerID;
+    }
+
+    public MoneyTransaction(Integer id, int walletID, String method, BigDecimal amount, boolean state, Date createdDate, List<TransactionShared> transactionSharedList, Counter counterID, Customer customerID) {
+        this.id = id;
+        this.walletID = walletID;
+        this.method = method;
+        this.amount = amount;
+        this.state = state;
+        this.createdDate = createdDate;
+        this.transactionSharedList = transactionSharedList;
+        this.counterID = counterID;
+        this.customerID = customerID;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -115,11 +142,11 @@ public class MoneyTransaction implements Serializable {
     }
 
     public BigDecimal getAmount() {
-        return amount;
+        return amount.stripTrailingZeros();
     }
 
     public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+        this.amount = amount.stripTrailingZeros();
     }
 
     public String getMethod() {

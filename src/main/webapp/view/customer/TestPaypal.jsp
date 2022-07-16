@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Customer Create</title>
+    <title>Paypal</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
@@ -105,72 +105,11 @@
         </div>
 
         <!-- TMP -->
-        <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-lg-10">
-                <h2>Product edit</h2>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a>E-commerce</a>
-                    </li>
-                    <li class="breadcrumb-item active">
-                        <strong>Product edit</strong>
-                    </li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="wrapper wrapper-content animated fadeInRight ecommerce">
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="tabs-container">
-                        <ul class="nav nav-tabs">
-                            <li><a class="nav-link active" data-toggle="tab" href="#tab-1"> Customer info</a></li>
-
-                        </ul>
-
-
-                        <div class="tab-content">
-                            <div id="tab-1" class="tab-pane active">
-                                <c:url var="createCus" value="${requestScope.contextPath}/customer/addcustomer" >
-                                </c:url>
-                                <form action="${createCus}">
-                                    <div class="panel-body">
-
-                                        <fieldset>
-                                            <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
-                                                <div class="col-sm-10"><input type="text" class="form-control"
-                                                                              placeholder="Customer name"
-                                                                              name="Cusname"></div>
-                                            </div>
-                                            <div class="form-group row"><label class="col-sm-2 col-form-label">Phone
-                                                number:</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" data-mask="000 000 0000"
-                                                           placeholder="" autocomplete="off" maxlength="14"
-                                                           name="Cusphone">
-                                                    <span class="form-text">000 000 0000</span>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                        <div class="form-layout-footer text-center">
-                                            <button class="btn btn-primary bd-0" type="submit"
-                                            name="action" value="add" >Submit</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        <!-- PayPal Logo --><table border='0' cellpadding='10' cellspacing='0' align='center'><tr><td align='center'></td></tr><tr><td align='center'>
+        <a href='https://www.sandbox.paypal.com/vn/webapps/mpp/paypal-popup' title='How PayPal Works' onclick="javascript:window.open('https://www.sandbox.paypal.com/vn/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src='https://www.paypalobjects.com/webstatic/en_AU/i/buttons/btn_paywith_primary_l.png' alt='Thanh toán bằng PayPal | Lớn' /></a></td></tr></table><!-- PayPal Logo -->
         <!-- TMP -->
+
+        <a href="https://paypal.me/FMSse16?country.x=VN&locale.x=en_US">Pay</a>
 
         <div class="footer">
             <div class="float-right">10GB of <strong>250GB</strong> Free.</div>

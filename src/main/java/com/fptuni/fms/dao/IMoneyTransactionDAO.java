@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface IMoneyTransactionDAO {
     List<MoneyTransaction> getAllMoneyTransaction();
+
+    int createMoneyTransaction(MoneyTransaction moneyTransaction);
 }
