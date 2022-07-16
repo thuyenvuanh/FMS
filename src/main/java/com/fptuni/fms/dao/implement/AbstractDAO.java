@@ -6,6 +6,8 @@ package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.dao.GenericDAO;
 import com.fptuni.fms.mapper.RowMapper;
+import com.sun.org.apache.xpath.internal.objects.XNull;
+import org.eclipse.persistence.internal.sessions.DirectCollectionChangeRecord;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -41,6 +43,8 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                     ps.setDate(index, new java.sql.Date(((Date) parameter).getTime()));
                 } else if (parameter instanceof Short) {
                     ps.setShort(index, (Short) parameter);
+                } else if(parameter == null){
+                    ps.setNull(index, Types.NULL);
                 }
             }
         } catch (SQLException e) {

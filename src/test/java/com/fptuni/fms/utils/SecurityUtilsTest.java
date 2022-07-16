@@ -28,6 +28,7 @@ class SecurityUtilsTest {
         String email = "store";
         String password = "store";
         String goodHash = "834402b97ecfc2ca3f56421d694f7e15";
+        //                "00000000000000000000000000000000"
         try {
             assertTrue(SecurityUtils.validateHash(password, email, goodHash));
         } catch (Exception e) {

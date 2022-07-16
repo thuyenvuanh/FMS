@@ -1,13 +1,16 @@
 package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.dao.IOrderDAO;
+import com.fptuni.fms.mapper.OrderDetailMapper;
 import com.fptuni.fms.mapper.OrderMapper;
+import com.fptuni.fms.model.OrderDetail;
 import com.fptuni.fms.model.Orders;
+import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author LucasBV
@@ -16,17 +19,25 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
 
     @Override
     public List<Orders> getOrders(Pageable pageable, Map<String, String> searcher) {
+        List<Object> param = new ArrayList<>();
         String sql = "SELECT ID, StoreID, Total, CreatedDate\n" +
                 "FROM Orders\n" +
-                "WHERE IsDeleted = 0 AND StoreID =  ?" ;
-        if (searcher.get("totalAmount") != null && !searcher.get("totalAmount").isEmpty())
-            sql += " AND Total = " + searcher.get("totalAmount");
-        if (searcher.get("startDate") != null && !searcher.get("startDate").isEmpty())
-            sql += " AND CONVERT(VARCHAR, CreatedDate, 103)  >= CONVERT(VARCHAR, '"+searcher.get("startDate")+"', 103)";
-        if (searcher.get("endDate") != null && !searcher.get("endDate").isEmpty())
-            sql += " AND CONVERT(VARCHAR, CreatedDate, 103)  <= CONVERT(VARCHAR, '"+searcher.get("endDate")+"', 103)";
-
-        List<Orders> orders = query(sql, new OrderMapper(),searcher.get("storeID"));
+                "WHERE IsDeleted = 0 AND StoreID =  ?";
+        param.add(searcher.get("storeID"));
+        if (searcher.get("startDate") != null && !searcher.get("startDate").isEmpty()) {
+            sql += " AND CONVERT(DATE, CreatedDate, 103)  >= CONVERT(DATE, ? , 103)";
+            param.add(searcher.get("startDate"));
+        }
+        if (searcher.get("endDate") != null && !searcher.get("endDate").isEmpty()) {
+            sql += " AND CONVERT(DATE, CreatedDate, 103)  <= CONVERT(DATE, ? , 103)";
+            param.add(searcher.get("endDate"));
+        }
+        if (searcher.get("totalAmount") != null && !searcher.get("totalAmount").isEmpty()) {
+            sql += " AND Total = ?";
+            param.add(searcher.get("totalAmount"));
+        }
+        Object[] arr = param.toArray();
+        List<Orders> orders = query(sql, new OrderMapper(), arr);
         return orders;
     }
 
@@ -59,4 +70,21 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
         return update(sql, storeID, total, createdDate, id);
     }
 
+    @Override
+    public int countNumberOfOrders() {
+        String sql = "SELECT COUNT(ID) AS ID FROM Orders";
+        List<Orders> orders = query(sql, new OrderMapper());
+        return orders == null ? 0 : orders.get(0).getId();
+    }
+
+    @Override
+    public List<Orders> getOrdersByDate(Store store, Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dateStr = simpleDateFormat.format(date);
+        String sql = "SELECT ID, StoreID, Total, CreatedDate, IsDeleted FROM Orders\n" +
+                "WHERE CONVERT(date, CreatedDate, 103) = CONVERT(date, ? , 103)\n" +
+                "AND IsDeleted = 0 AND StoreID = ?";
+        List<Orders> orders = query(sql, new OrderMapper(), dateStr,store.getId());
+        return orders;
+    }
 }

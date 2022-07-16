@@ -6,6 +6,7 @@ import com.fptuni.fms.model.Product;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,10 @@ public interface IOrderService {
     void removeProduct(HttpServletRequest request, HttpServletResponse response);
 
     void voidAll(HttpServletRequest request, HttpServletResponse response);
-  
+
     List<Orders> getOrders(HttpServletRequest request, HttpServletResponse response);
+
+    Orders getOrder(HttpServletRequest request, HttpServletResponse response);
+
+    List<Orders> getOrdersByDate(HttpServletRequest request, Date date);
 }
