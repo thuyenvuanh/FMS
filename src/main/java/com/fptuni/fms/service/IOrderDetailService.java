@@ -19,4 +19,6 @@ public interface IOrderDetailService {
 
     BigDecimal getTotalAmountByDate(HttpServletRequest request, Date date);
     List<OrderDetail> getOrderDetailInDateRange(HttpServletRequest request, HttpServletResponse response);
+    List<OrderDetail> getOrderDetailInTimeRange(HttpServletRequest request, Date start, Date end);
+    BigDecimal getTotalAmountOfList(List<OrderDetail> orderDetails);
 }

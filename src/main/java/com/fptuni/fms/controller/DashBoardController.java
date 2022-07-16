@@ -47,23 +47,38 @@ public class DashBoardController extends HttpServlet {
                 BigDecimal totalAmount = orderDetailService.getTotalAmount(request, response) == null ? BigDecimal.valueOf(0) : orderDetailService.getTotalAmount(request, response);
 
                 List<Date> dateRange = dashBoardService.getDateRange(request, response);
+                List<Date> timeRange = dashBoardService.getTimeRange(request, response);
                 List<BigDecimal> totalAmountEachDate = new ArrayList<>();
+                List<BigDecimal> totalAmountEachHours = new ArrayList<>();
                 List<Integer> numberOfOrderEachDate = new ArrayList<>();
-
-                for (Date date : dateRange) {
-                    BigDecimal t = new BigDecimal(0);
-                    int n = 0;
-                    // get total amount per date
-                    if (orderDetailService.getTotalAmountByDate(request, date) != null) {
-                        t = orderDetailService.getTotalAmountByDate(request, date);
+                List<Integer> numberOfOrderByHours = new ArrayList<>();
+                if (dateRange.size() == 1) {
+                    for (int i = 0; i < timeRange.size() - 1; i++) {
+                        int n = 0;
+                        List<Orders> ordersByTime = orderService.getOrdersByTimeRange(request, timeRange.get(i), timeRange.get(i + 1));
+                        if (ordersByTime != null) {
+                            n = ordersByTime.size();
+                        }
+                        numberOfOrderByHours.add(n);
+                        List<OrderDetail> orderDetailListByTime = orderDetailService.getOrderDetailInTimeRange(request, timeRange.get(i), timeRange.get(i + 1));
+                        totalAmountEachHours.add(orderDetailService.getTotalAmountOfList(orderDetailListByTime));
                     }
-                    totalAmountEachDate.add(t);
-                    // get number of orders per date
-                    List<Orders> ordersPerDate = orderService.getOrdersByDate(request, date);
-                    if (ordersPerDate != null) {
-                        n = ordersPerDate.size();
+                } else {
+                    for (Date date : dateRange) {
+                        BigDecimal t = new BigDecimal(0);
+                        int n = 0;
+                        // get total amount per date
+                        if (orderDetailService.getTotalAmountByDate(request, date) != null) {
+                            t = orderDetailService.getTotalAmountByDate(request, date);
+                        }
+                        totalAmountEachDate.add(t);
+                        // get number of orders per date
+                        List<Orders> ordersPerDate = orderService.getOrdersByDate(request, date);
+                        if (ordersPerDate != null) {
+                            n = ordersPerDate.size();
+                        }
+                        numberOfOrderEachDate.add(n);
                     }
-                    numberOfOrderEachDate.add(n);
                 }
                 List<Category> categories = categoryService.getCategories();
                 List<Double> percentageOfProductInCategory = productService.getPercentageOfProductInCategory(request, response);
@@ -72,8 +87,11 @@ public class DashBoardController extends HttpServlet {
                 request.setAttribute("top5Products", top5Product);
                 request.setAttribute("totalAmount", totalAmount);
                 request.setAttribute("dateRange", dateRange);
+                request.setAttribute("timeRange", timeRange);
                 request.setAttribute("totalAmountEachDate", totalAmountEachDate);
                 request.setAttribute("numberOfOrderEachDate", numberOfOrderEachDate);
+                request.setAttribute("numberOfOrderByHours", numberOfOrderByHours);
+                request.setAttribute("totalAmountEachHours", totalAmountEachHours);
                 request.setAttribute("categories", categories);
                 request.setAttribute("percentageOfProductInCategory", percentageOfProductInCategory);
                 request.getRequestDispatcher("/view/store/dashBoard.jsp").forward(request, response);

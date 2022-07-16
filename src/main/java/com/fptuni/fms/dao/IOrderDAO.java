@@ -1,6 +1,5 @@
 package com.fptuni.fms.dao;
 
-import com.fptuni.fms.model.OrderDetail;
 import com.fptuni.fms.model.Orders;
 import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
@@ -27,4 +26,5 @@ public interface IOrderDAO extends GenericDAO<Orders> {
 
     List<Orders> getOrdersByDate(Store store, Date date);
 
+    List<Orders> getOrdersByTimeRange(Store store, Date startTime, Date endTime);
 }

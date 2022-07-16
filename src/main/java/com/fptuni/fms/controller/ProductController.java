@@ -1,7 +1,11 @@
 package com.fptuni.fms.controller;
 
+import com.fptuni.fms.dao.IStoreDAO;
+import com.fptuni.fms.dao.implement.StoreDAO;
+import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Product;
+import com.fptuni.fms.model.Store;
 import com.fptuni.fms.service.ICategoryService;
 import com.fptuni.fms.service.IProductService;
 import com.fptuni.fms.service.implement.CategoryService;
@@ -50,56 +54,40 @@ public class ProductController extends HttpServlet {
             if (productService.countProductBySearch(request, response) % pageSize != 0) {
                 totalPages++;
             }
-//            List<Category> categories = categoryService.getCategories();
-//            request.setAttribute("categories", categories);
             request.setAttribute("productList", products);
             request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("/view/store/productList.jsp").forward(request, response);
         } else if (path.equals("/createPage")) {
-//            List<Category> categories = categoryService.getCategories();
-//            request.setAttribute("categories", categories);
             request.getRequestDispatcher("/view/store/productCreate.jsp").forward(request, response);
         } else if (path.equals("/create")) {
-            IProductService productService = new ProductService();
             if (productService.insertProduct(request, response) == 1) {
                 session.setAttribute("createStatus", "success");
                 response.sendRedirect(request.getContextPath() + "/product/list");
             } else {
-//                List<Category> categories = categoryService.getCategories();
-//                request.setAttribute("categories", categories);
                 request.setAttribute("createStatus", "fail");
                 request.getRequestDispatcher("/view/store/productCreate.jsp").forward(request, response);
             }
         } else if (path.equals("/view")) {
             String productID = request.getParameter("productID");
-            ICategoryService categoryService = new CategoryService();
-            IProductService productService = new ProductService();
-            List<Category> categories = categoryService.getCategories();
             Product product = productService.getProductById(productID);
             request.setAttribute("product", product);
             request.setAttribute("categories", categories);
             request.getRequestDispatcher("/view/store/productDetail.jsp").forward(request, response);
         } else if (path.equals("/updatePage")) {
             String productID = request.getParameter("productID");
-//            List<Category> categories = categoryService.getCategories();
             Product product = productService.getProductById(productID);
             request.setAttribute("product", product);
-//            request.setAttribute("categories", categories);
             request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
         } else if (path.equals("/update")) {
-            IProductService productService = new ProductService();
             if (productService.updateProduct(request, response)) {
                 session.setAttribute("updateStatus", "success");
                 response.sendRedirect(request.getContextPath() + "/product/list");
             } else {
-//                List<Category> categories = categoryService.getCategories();
-//                request.setAttribute("categories", categories);
                 session.setAttribute("updateStatus", "fail");
                 request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
             }
 
         } else if (path.equals("/delete")) {
-            IProductService productService = new ProductService();
             String productID = request.getParameter("productID");
             System.out.println(productID);
             if (productService.deleteProduct(productID)) {

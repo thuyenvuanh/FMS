@@ -8,4 +8,7 @@ import java.util.List;
 
 public interface IDashBoardService {
     List<Date> getDateRange(HttpServletRequest request, HttpServletResponse response);
+
+    List<Date> getTimeRange(HttpServletRequest request, HttpServletResponse response);
+
 }

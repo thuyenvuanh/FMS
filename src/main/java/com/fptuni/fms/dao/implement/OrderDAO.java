@@ -84,7 +84,18 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
         String sql = "SELECT ID, StoreID, Total, CreatedDate, IsDeleted FROM Orders\n" +
                 "WHERE CONVERT(date, CreatedDate, 103) = CONVERT(date, ? , 103)\n" +
                 "AND IsDeleted = 0 AND StoreID = ?";
-        List<Orders> orders = query(sql, new OrderMapper(), dateStr,store.getId());
+        List<Orders> orders = query(sql, new OrderMapper(), dateStr, store.getId());
         return orders;
+    }
+
+    @Override
+    public List<Orders> getOrdersByTimeRange(Store store, Date startTime, Date endTime) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String start = simpleDateFormat.format(startTime);
+        String end = simpleDateFormat.format(endTime);
+        String sql = "SELECT ID, StoreID, Total, CreatedDate FROM Orders\n" +
+                "WHERE CreatedDate between CONVERT(datetime, ? ,120) and CONVERT(datetime, ? ,120)\n" +
+                "AND StoreID = ? AND IsDeleted = 0";
+        return query(sql, new OrderMapper(), start, end, store.getId());
     }
 }

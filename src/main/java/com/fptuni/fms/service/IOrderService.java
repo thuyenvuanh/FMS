@@ -26,4 +26,6 @@ public interface IOrderService {
     Orders getOrder(HttpServletRequest request, HttpServletResponse response);
 
     List<Orders> getOrdersByDate(HttpServletRequest request, Date date);
+
+    List<Orders> getOrdersByTimeRange(HttpServletRequest request, Date startTime,Date endTime);
 }

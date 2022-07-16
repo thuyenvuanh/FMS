@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <!-- Mirrored from webapplayers.com/inspinia_admin-v2.9.4/ecommerce_product_list.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jun 2022 04:37:12 GMT -->
@@ -134,9 +134,7 @@
                                               value="${requestScope.totalAmount}"></fmt:formatNumber>
                         </h1>
 
-                        <div class="stat-percent font-bold">
-                            98% <i class="fa fa-level-up"></i>
-                        </div>
+
                         <small>Total income</small>
                     </div>
                 </div>
@@ -147,9 +145,7 @@
                     </div>
                     <div class="ibox-content text-warning">
                         <h1 class="no-margins">${requestScope.numberOfOrders}</h1>
-                        <div class="stat-percent font-bold">
-                            98% <i class="fa fa-level-up"></i>
-                        </div>
+
                         <small>Total order</small>
                     </div>
                 </div>
@@ -157,34 +153,34 @@
         </div>
 
         <div class="row">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8" >
-            <div class="ibox">
-                <div class="ibox-title">
-                    <h5>Category (%)</h5>
-                </div>
-                <div class="ibox-content">
-                    <div>
-                        <div class="chartjs-size-monitor">
-                            <div class="chartjs-size-monitor-expand">
-                                <div class=""></div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>Category (%)</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div>
+                            <div class="chartjs-size-monitor">
+                                <div class="chartjs-size-monitor-expand">
+                                    <div class=""></div>
+                                </div>
+                                <div class="chartjs-size-monitor-shrink">
+                                    <div class=""></div>
+                                </div>
                             </div>
-                            <div class="chartjs-size-monitor-shrink">
-                                <div class=""></div>
-                            </div>
+                            <canvas
+                                    id="chartCategory"
+                                    height="219"
+                                    width="471"
+                                    style="display: block; height: 146px; width: 314px"
+                                    class="chartjs-render-monitor"
+                            ></canvas>
                         </div>
-                        <canvas
-                                id="chartCategory"
-                                height="219"
-                                width="471"
-                                style="display: block; height: 146px; width: 314px"
-                                class="chartjs-render-monitor"
-                        ></canvas>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-2"></div>
+            <div class="col-lg-2"></div>
         </div>
         <div class="ibox">
             <div class="ibox-title">
@@ -212,11 +208,13 @@
                 <div class="m-t-md">
                     <small class="float-right">
                         <i class="fa fa-clock-o"> </i>
-                        Update on 16.07.2015
+                        <jsp:useBean id="now" class="java.util.Date" />
+                        <fmt:formatDate var="currentDate" value="${now}" pattern="dd/MM/yyyy" />
+                        Update on ${currentDate}
                     </small>
                     <small>
                         <strong>Analysis of sales:</strong> The value has been changed
-                        over time, and last month reached a level over $50,000.
+                        over time.
                     </small>
                 </div>
             </div>
@@ -250,12 +248,12 @@
                         <div class="m-t-md">
                             <small class="float-right">
                                 <i class="fa fa-clock-o"> </i>
-                                Update on 16.07.2015
+                                <fmt:formatDate var="currentDate" value="${now}" pattern="dd/MM/yyyy" />
+                                Update on ${currentDate}
                             </small>
                             <small>
                                 <strong>Analysis of sales:</strong> The value has been
-                                changed over time, and last month reached a level over
-                                $50,000.
+                                changed over time
                             </small>
                         </div>
                     </div>
@@ -476,25 +474,19 @@
 
 <script>
     $(document).ready(function () {
-        // const MONTHS = [
-        //     "January",
-        //     "February",
-        //     "March",
-        //     "April",
-        //     "May",
-        //     "June",
-        //     "July",
-        //     "August",
-        //     "September",
-        //     "October",
-        //     "November",
-        //     "December",
-        // ];
         const DATES = [
+            <c:if test="${fn:length(requestScope.dateRange) != 1}">
             <c:forEach var="date" items="${requestScope.dateRange}">
             <fmt:formatDate value="${date}" var="dateFmt" pattern="dd/MM"></fmt:formatDate>
             '${dateFmt}',
             </c:forEach>
+            </c:if>
+            <c:if test="${fn:length(requestScope.dateRange) == 1}">
+            <c:forEach var="time" items="${requestScope.timeRange}">
+            <fmt:formatDate value="${time}" var="timeFmt" pattern="HH:mm"></fmt:formatDate>
+            '${timeFmt}',
+            </c:forEach>
+            </c:if>
         ];
         // Order
         var lineData = {
@@ -507,9 +499,16 @@
                     pointBackgroundColor: "rgba(26,179,148,1)",
                     pointBorderColor: "#fff",
                     data: [
+                        <c:if test="${fn:length(requestScope.dateRange) != 1}">
                         <c:forEach var="numberOfOrderEachDate" items="${requestScope.numberOfOrderEachDate}">
                         '${numberOfOrderEachDate}',
                         </c:forEach>
+                        </c:if>
+                        <c:if test="${fn:length(requestScope.dateRange) == 1}">
+                        <c:forEach var="numberOfOrderByHours" items="${requestScope.numberOfOrderByHours}">
+                        '${numberOfOrderByHours}',
+                        </c:forEach>
+                        </c:if>
                     ],
                 },
             ],
@@ -544,9 +543,17 @@
                     pointBackgroundColor: "rgba(26,179,148,1)",
                     pointBorderColor: "#fff",
                     data: [
+                        <c:if test="${fn:length(requestScope.dateRange) != 1}">
                         <c:forEach var="totalAmountOneDate" items="${requestScope.totalAmountEachDate}">
                         '${totalAmountOneDate}',
                         </c:forEach>
+                        </c:if>
+                        <c:if test="${fn:length(requestScope.dateRange) == 1}">
+                        <c:forEach var="totalAmountOneHours" items="${requestScope.totalAmountEachHours}">
+                        '${totalAmountOneHours}',
+                        </c:forEach>
+                        </c:if>
+
                     ],
                 },
             ],

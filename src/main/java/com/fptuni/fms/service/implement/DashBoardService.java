@@ -44,4 +44,34 @@ public class DashBoardService implements IDashBoardService {
         }
         return listOfDate;
     }
+
+    @Override
+    public List<Date> getTimeRange(HttpServletRequest request, HttpServletResponse response) {
+        List<Date> listOfDate = null;
+        int range = 15;
+        try {
+            Date end = calendar.getTime();
+            calendar.add(Calendar.MONTH, -1);
+            calendar.add(Calendar.DATE, +1);
+            Date start = calendar.getTime();
+            if (request.getParameter("startDate") != null && request.getParameter("endDate") != null) {
+                start = simpleDateFormat.parse(request.getParameter("startDate"));
+                end = simpleDateFormat.parse(request.getParameter("endDate"));
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                request.setAttribute("startDateFmt", sdf.format(start));
+                request.setAttribute("endDateFmt", sdf.format(end));
+                if (start.after(end)) {
+                    throw new Exception("Start date must be before end date");
+                }
+            }
+//            System.out.println(simpleDateFormat.format(start) + " -- " + simpleDateFormat.format(end));
+            listOfDate = DateUtils.addHoursToJavaUtilDate(start, range);
+//            for (Date date : listOfDate) {
+//                System.out.println(simpleDateFormat.format(date));
+//            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listOfDate;
+    }
 }

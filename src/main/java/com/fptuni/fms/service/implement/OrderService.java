@@ -194,4 +194,14 @@ public class OrderService implements IOrderService {
         List<Orders> orders = orderDAO.getOrdersByDate(store, date);
         return orders;
     }
+
+    @Override
+    public List<Orders> getOrdersByTimeRange(HttpServletRequest request, Date startTime, Date endTime) {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        Store store = storeDAO.getStoreByAccount(account);
+        List<Orders> orders = orderDAO.getOrdersByTimeRange(store, startTime, endTime);
+        return orders;
+    }
+
 }
