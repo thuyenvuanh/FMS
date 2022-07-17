@@ -23,11 +23,11 @@ public class CounterController extends HttpServlet {
         IWalletService walletService = new WalletService();
         ITransactionService transactionService = new TransactionService();
         IMoneyTransactionService moneyTransactionService = new MoneyTransactionService();
+        HttpSession session = request.getSession();
         if(path.equals("/index")){
+            session.removeAttribute("phoneNumber");
             request.getRequestDispatcher("/view/counter/index.jsp").forward(request, response);
         } else if(path.equals("/check")){
-
-
             String phoneNumber = "";
             if(request.getParameter("phoneNumber") != null &&
                     !String.valueOf(request.getParameter("phoneNumber")).isEmpty()
@@ -36,12 +36,10 @@ public class CounterController extends HttpServlet {
                 System.out.println(phoneNumber);
             }
 
-
-
-            if(request.getAttribute("phoneNumber") != null &&
-                    !String.valueOf(request.getAttribute("phoneNumber")).isEmpty()
+            if(session.getAttribute("phoneNumber") != null &&
+                    !String.valueOf(session.getAttribute("phoneNumber")).isEmpty()
             ){
-                phoneNumber = (String)request.getAttribute("phoneNumber");
+                phoneNumber = (String)session.getAttribute("phoneNumber");
                 System.out.println(phoneNumber);
             }
             Customer customer = customerService.getCustomerByPhoneNum(phoneNumber);
@@ -61,21 +59,21 @@ public class CounterController extends HttpServlet {
                 request.setAttribute("BALANCE", balance);
                 request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
             } else {
-                request.setAttribute("phoneNumber",phoneNumber);
+                session.setAttribute("phoneNumber",phoneNumber);
                 request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
                          .forward(request, response);
-
             }
         } else if(path.equals("/addMoney")){
-            boolean success = moneyTransactionService.addMoney(request);
+            boolean success = moneyTransactionService.addMoney(request, session);
             if (success) {
-                response.sendRedirect(request.getContextPath() + "/counter/index");
+                response.sendRedirect(request.getContextPath() + "/counter/check");
+//                request.getRequestDispatcher("/counter/check")
+//                        .forward(request, response);
             }
-
         } else if(path.equals("/withDraw")){
-            boolean success = moneyTransactionService.withDraw(request);
+            boolean success = moneyTransactionService.withDraw(request, session);
             if (success) {
-                response.sendRedirect(request.getContextPath() + "/counter/index");
+                response.sendRedirect(request.getContextPath() + "/counter/check");
             }
         }
 
