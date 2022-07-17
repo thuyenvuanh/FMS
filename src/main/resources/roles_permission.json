@@ -34,6 +34,7 @@
       "/order/list",
       "/account/logout",
       "/dashboard",
+      "/transactionShared/list",
       "/js",
       "/css",
       "/img",

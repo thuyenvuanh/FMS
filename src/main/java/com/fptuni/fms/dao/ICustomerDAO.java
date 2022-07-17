@@ -12,4 +12,5 @@ public interface ICustomerDAO extends GenericDAO<Customer>{
     Customer getByName(String name);
     Integer count ();
     Customer getCustomerByOrderID(int id);
+    Customer getCustomer(int customerID);
 }

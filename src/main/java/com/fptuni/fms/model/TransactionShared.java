@@ -7,6 +7,7 @@ package com.fptuni.fms.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -84,6 +85,16 @@ public class TransactionShared implements Serializable {
     @JoinColumn(name = "WalletID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Wallet walletID;
+
+    private Timestamp createDateTime;
+
+    public Timestamp getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(Timestamp createDateTime) {
+        this.createDateTime = createDateTime;
+    }
 
     public TransactionShared() {
     }

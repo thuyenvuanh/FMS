@@ -47,7 +47,8 @@
                 >
             </li>
             <li class="active">
-                <a href="transaction.html"
+                <c:url var="transactionListLink" value="${requestScope.contextPath}/transactionShared/list"></c:url>
+                <a href="${transactionListLink}"
                 ><i class="fa fa-money"></i>
                     <span class="nav-label">Transaction</span></a
                 >

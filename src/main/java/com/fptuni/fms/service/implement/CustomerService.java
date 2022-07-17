@@ -105,4 +105,9 @@ public class CustomerService implements ICustomerService {
         }
         return customer;
     }
+
+    @Override
+    public Customer getCustomer(int customerID) {
+        return customerDAO.getCustomer(customerID);
+    }
 }
