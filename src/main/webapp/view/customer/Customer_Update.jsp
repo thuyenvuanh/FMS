@@ -71,13 +71,13 @@
                 </li>
 
                 <li class="active">
-                    <a href="ecommerce_product_list.html">
+                    <a href="/FMS/counter/index">
                         <i class="fa fa-id-card"></i>
                         <span class="nav-label">Counter</span></a
                     >
                 </li>
                 <li class="active">
-                    <a href="ecommerce-orders.html">
+                    <a href="/FMS/customer/list">
                         <i class="fa fa-user-o"></i>
                         <span class="nav-label">Customer</span></a
                     >
