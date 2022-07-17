@@ -6,6 +6,7 @@ package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.dao.IIdentityCardDAO;
 import com.fptuni.fms.mapper.IdentityCardMapper;
+import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.model.IdentityCard;
 import com.fptuni.fms.paging.Pageable;
 
@@ -61,5 +62,12 @@ public class IdentityCardDAO extends AbstractDAO<IdentityCard> implements IIdent
     public int getTotalItem() {
         String sql = "SELECT count(*) FROM IdentityCard WHERE IsDeleted = 0";
         return count(sql);
+    }
+
+    @Override
+    public Integer createIdentityCard(Customer customer) {
+        String sql = "INSERT INTO [dbo].[IdentityCard] (Status, CustomerID, IsDeleted)\n" +
+                "VALUES (0,?,0)";
+        return insert(sql,customer.getId());
     }
 }

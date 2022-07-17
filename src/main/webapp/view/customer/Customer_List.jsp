@@ -5,8 +5,10 @@
   Time: 3:30 PM
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -16,7 +18,7 @@
     <title>Customer List</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
-<%--    Jquery--%>
+    <%--    Jquery--%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- FooTable -->
@@ -49,7 +51,8 @@
                                 class="rounded-circle"
                                 src="img/profile_small.html"
                         />
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <a data-toggle="dropdown" class="dropdown-toggle"
+                           href="/view/counter/index.jsp">
                   <span class="block m-t-xs font-bold"
                   >Counter<b class="caret"></b
                   ></span>
@@ -68,13 +71,13 @@
                 </li>
 
                 <li class="active">
-                    <a href="ecommerce_product_list.html">
+                    <a href="/FMS/counter/index">
                         <i class="fa fa-id-card"></i>
                         <span class="nav-label">Counter</span></a
                     >
                 </li>
                 <li class="active">
-                    <a href="ecommerce-orders.html">
+                    <a href="/FMS/customer/list">
                         <i class="fa fa-user-o"></i>
                         <span class="nav-label">Customer</span></a
                     >
@@ -195,7 +198,7 @@
                                 <tbody>
 
                                 <%--For listing--%>
-
+                                <c:set var="amount" value="${requestScope.amountlist}"></c:set>
                                 <c:forEach var="list" items="${requestScope.customerList}">
                                     <tr>
                                         <td>${list.name}</td>
@@ -217,39 +220,46 @@
                                             <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}"
                                                class="btn btn-primary btn-sm">Delete</a>
                                             <a
-                                               class="btn btn-primary btn-sm ${list.phone}">Detail</a>
+                                                    class="btn btn-primary btn-sm ${list.phone}">Detail</a>
                                             <a href="<%=request.getContextPath()%>/customer/Movetoupdate?phonenum=${list.phone}"
                                                class="btn btn-primary btn-sm">Update</a>
                                         </td>
-                                        <td class="text-right">100$</td>
+
+                                            <%-- For taking out the balance--%>
+
+                                        <fmt:setLocale value="vi_VN"/>
+                                        <td class="text-right"><fmt:formatNumber
+                                                value="${amount.get(list)}" type="currency"/></td>
+
+
                                     </tr>
-                                    <%--                                    Show detail here--%>
+                                    <%-- Show detail here--%>
                                     <input name="var" value="${list.phone}" type="hidden">
-                                        <tr id="${list.phone}" style="display: none">
-                                            <td class="col-sm-3">
-                                                <p>DoB: ${list.doB}</p>
-                                            </td>
-                                            <td class="col-sm-3">
-                                                <p>Address: ${list.address}</p>
-                                            </td>
-                                            <c:choose>
-                                                <c:when test="${list.gender == 0}">
-                                                    <td class="col-sm-3">
-                                                        <p>Gender: Male</p>
-                                                    </td>
-                                                </c:when>
-                                                <c:when test="${list.gender == 1}">
-                                                    <td class="col-sm-3">
-                                                        <p>Gender: Female</p>
-                                                    </td>
-                                                </c:when>
-                                                <c:when test="${list.gender == 2}">
-                                                    <td class="col-sm-3">
-                                                        <p>Gender: None</p>
-                                                    </td>
-                                                </c:when>
-                                            </c:choose>
-                                        </tr>
+                                    <tr id="${list.phone}" style="display: none">
+                                        <td class="col-sm-3">
+                                            <p>DoB: ${list.doB}</p>
+                                        </td>
+                                        <td class="col-sm-3">
+                                            <p>Address: ${list.address}</p>
+                                        </td>
+                                        <c:choose>
+                                            <c:when test="${list.gender == 0}">
+                                                <td class="col-sm-3">
+                                                    <p>Gender: Male</p>
+                                                </td>
+                                            </c:when>
+                                            <c:when test="${list.gender == 1}">
+                                                <td class="col-sm-3">
+                                                    <p>Gender: Female</p>
+                                                </td>
+                                            </c:when>
+                                            <c:when test="${list.gender == 2}">
+                                                <td class="col-sm-3">
+                                                    <p>Gender: None</p>
+                                                </td>
+                                            </c:when>
+                                        </c:choose>
+                                    </tr>
 
                                 </c:forEach>
                                 </tbody>
@@ -358,21 +368,21 @@
 </script>
 
 <script>
-   <c:forEach var="list" items="${requestScope.customerList}">
-   $(".${list.phone}").click(function() {
-       //var searchString = $('#showMore').val();
+    <c:forEach var="list" items="${requestScope.customerList}">
+    $(".${list.phone}").click(function () {
+        //var searchString = $('#showMore').val();
 
-       if($("#${list.phone}").css('display') == 'none'){
-           $("#${list.phone}").css("display","block").filter(function() {
-               //return $(this).text().trim() === searchString;
-           })
-       }else if ($("#${list.phone}").css('display') == 'block'){
-           $("#${list.phone}").css("display","none").filter(function() {
-               //return $(this).text().trim() === searchString;
-           })
-       }
-   });
-   </c:forEach>
+        if ($("#${list.phone}").css('display') == 'none') {
+            $("#${list.phone}").css("display", "block").filter(function () {
+                //return $(this).text().trim() === searchString;
+            })
+        } else if ($("#${list.phone}").css('display') == 'block') {
+            $("#${list.phone}").css("display", "none").filter(function () {
+                //return $(this).text().trim() === searchString;
+            })
+        }
+    });
+    </c:forEach>
 </script>
 
 </body>

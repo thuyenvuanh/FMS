@@ -28,9 +28,22 @@ public class CounterController extends HttpServlet {
         } else if(path.equals("/check")){
 
 
-            String phoneNumber = request.getParameter("phoneNumber").trim().replaceAll("\\s+","");
-            System.out.println(phoneNumber);
+            String phoneNumber = "";
+            if(request.getParameter("phoneNumber") != null &&
+                    !String.valueOf(request.getParameter("phoneNumber")).isEmpty()
+            ){
+                phoneNumber = request.getParameter("phoneNumber").trim().replaceAll("\\s+","");
+                System.out.println(phoneNumber);
+            }
 
+
+
+            if(request.getAttribute("phoneNumber") != null &&
+                    !String.valueOf(request.getAttribute("phoneNumber")).isEmpty()
+            ){
+                phoneNumber = (String)request.getAttribute("phoneNumber");
+                System.out.println(phoneNumber);
+            }
             Customer customer = customerService.getCustomerByPhoneNum(phoneNumber);
 
             if(customer != null){
@@ -48,6 +61,9 @@ public class CounterController extends HttpServlet {
                 request.setAttribute("BALANCE", balance);
                 request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
             } else {
+                request.setAttribute("phoneNumber",phoneNumber);
+                request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
+                         .forward(request, response);
 
             }
         } else if(path.equals("/addMoney")){

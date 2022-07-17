@@ -3,21 +3,29 @@ package com.fptuni.fms.controller;
 import com.fptuni.fms.dao.ICustomerDAO;
 import com.fptuni.fms.dao.implement.CustomerDAO;
 import com.fptuni.fms.model.Customer;
+import com.fptuni.fms.model.TransactionShared;
+import com.fptuni.fms.model.Wallet;
 import com.fptuni.fms.service.ICustomerService;
-import com.fptuni.fms.service.implement.CustomerService;
-import com.fptuni.fms.service.implement.ProductService;
-import com.sun.xml.internal.ws.addressing.EPRSDDocumentFilter;
-import org.eclipse.persistence.sessions.Session;
+import com.fptuni.fms.service.IIdentityCardService;
+import com.fptuni.fms.service.ITransactionService;
+import com.fptuni.fms.service.IWalletService;
+import com.fptuni.fms.service.implement.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//import java.util.Iterator;
 
 
 @MultipartConfig
@@ -25,10 +33,12 @@ import java.util.List;
 public class CustomerController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
-        System.out.println(path);
+//        System.out.println(path);
 
         if (path.equals("/addcustomer")) {
             ICustomerService customerService = new CustomerService();
+            IWalletService walletService = new WalletService();
+            IIdentityCardService identityCardService = new IdentityCardService();
             String name = request.getParameter("Cusname");
             String phone = request.getParameter("Cusphone");
             if (name != null && !name.equals("") && phone != null && !phone.equals("")) {
@@ -44,8 +54,13 @@ public class CustomerController extends HttpServlet {
                         request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
                                 .forward(request, response);
                     } else {
+                        Customer cus = customerDAO.getByPhoneNum(phone);
+                        walletService.insertWallet(cus);
+                        identityCardService.createIdentityCard(cus);
                         request.setAttribute("createStatus", "success");
-                        response.sendRedirect(request.getContextPath() + "/customer/list");
+                        request.setAttribute("phoneNumber",phone);
+                        request.getRequestDispatcher("/counter/check")
+                                .forward(request, response);
                     }
                 }
             }else {
@@ -79,15 +94,42 @@ public class CustomerController extends HttpServlet {
             int pageSize = 3;
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
-            System.out.println("CUSTOMER LIST");
+
             //Get Amount
-//            List<Customer> amounts = customerService.getAmount();
+            IWalletService walletService = new WalletService();
+            ITransactionService transactionService = new TransactionService();
+            List<Wallet> walletList = new ArrayList<>();
+            TransactionShared transactionShared = new TransactionShared();
+            Wallet wallet = new Wallet();
+            HashMap<Customer, BigDecimal> getAmount = new HashMap<>();
+//            List<HashMap<Customer,BigDecimal>> amountlist = new ArrayList<>();
+
+            if(customers != null){
+                for (Customer cus : customers) {
+                    wallet = walletService.getWallet(cus.getId());
+                    if(wallet != null){
+                        walletList.add(wallet);
+                        transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
+                        BigDecimal b = (transactionShared == null)
+                                ? BigDecimal.ZERO
+                                : transactionService.getCustomerBalance(transactionShared);
+
+                        getAmount.put(cus , b);
+//                        amountlist.add(getAmount);
+                    }else{
+                        System.out.println("No wallet found");
+                    }
+                }
+            }else {
+                System.out.println("No customer found");
+            }
+            request.setAttribute("amountlist", getAmount);
+
             int totalPages = customerService.CountCustomer() / pageSize;
             if (customerService.CountCustomer() % pageSize != 0) {
                 totalPages++;
             }
             request.setAttribute("customerList", customers);
-//            request.setAttribute("amount", amounts);
             request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("/view/customer/Customer_List.jsp")
                     .forward(request, response);

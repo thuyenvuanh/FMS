@@ -146,12 +146,13 @@
                                                                               placeholder="Customer name"
                                                                               name="Cusname"></div>
                                             </div>
+                                            <c:set var="cusCreate" value="${requestScope.phoneNumber}"></c:set>
                                             <div class="form-group row"><label class="col-sm-2 col-form-label">Phone
                                                 number:</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" data-mask="000 000 0000"
                                                            placeholder="" autocomplete="off" maxlength="14"
-                                                           name="Cusphone">
+                                                           name="Cusphone" value="${cusCreate}">
                                                     <span class="form-text">000 000 0000</span>
                                                 </div>
                                             </div>
