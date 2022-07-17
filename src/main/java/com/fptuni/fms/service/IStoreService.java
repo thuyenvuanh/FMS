@@ -30,4 +30,6 @@ public interface IStoreService {
 
     String search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
+    String getStoreManager(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+
 }

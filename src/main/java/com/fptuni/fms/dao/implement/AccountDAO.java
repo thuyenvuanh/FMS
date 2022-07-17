@@ -150,4 +150,11 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         String sql = "SELECT COUNT(ID) FROM dbo.Account";
         return count(sql);
     }
+
+    @Override
+    public List<Account> getListStoreManager(){
+        String sql = "SELECT ID, Username, FullName FROM Account WHERE roleID = 3 AND IsDeleted = 0";
+        List<Account> listAcc = query(sql, new AccountMapper());
+        return listAcc.isEmpty() ? null : listAcc;
+    }
 }
