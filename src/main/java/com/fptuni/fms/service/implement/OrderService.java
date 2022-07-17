@@ -22,6 +22,10 @@ import java.util.*;
 
 public class OrderService implements IOrderService {
 
+    private IOrderDAO orderDAO = new OrderDAO();
+    private IStoreDAO storeDAO = new StoreDAO();
+    private IProductDAO productDAO = new ProductDAO();
+    private ICategoryDAO categoryDAO = new CategoryDAO();
 
     @Override
     public void index(HttpServletRequest request, HttpServletResponse response) {
@@ -41,39 +45,7 @@ public class OrderService implements IOrderService {
             request.getSession().setAttribute("productsMap", loadData(request));
         }
 
-        loadProducts(request, response);
-    }
-
-    public void loadProducts(HttpServletRequest request, HttpServletResponse response) {
-        Map<Category, List<Product>> categoryListMap = (Map<Category, List<Product>>) request.getSession().getAttribute("productsMap");
-        List<Category> categories = (List<Category>) request.getSession().getAttribute("categories");
-        if (categories == null) {
-            categories = new ArrayList<Category>(categoryListMap.keySet());
-            request.getSession().setAttribute("categories", categories);
-        }
-        String catID = request.getParameter("catID");
-        Category currentCate = null;
-        if (catID == null){
-            currentCate = categories.get(0);
-        }
-        else {
-            for (Category category : categories) {
-                if (String.valueOf(category.getId()).equals(catID)){
-                    currentCate = category;
-                    request.getSession().setAttribute("currentCate", currentCate);
-                    break;
-                }
-            }
-        }
-//        Category currentCate = (Category) request.getSession().getAttribute("currentCate");
-//        if (currentCate == null) {
-//            currentCate = categories.get(0);
-//
-//        }
-
-        List<Product> products = categoryListMap.get(currentCate);
-        request.getSession().setAttribute("products", products);
-
+        new CategoryService().loadProducts(request, response);
     }
 
     @Override
@@ -86,11 +58,11 @@ public class OrderService implements IOrderService {
         for (OrderDetail orderDetail : details) {
             if ((orderDetail.getProduct()).equals(product)) {
                 orderDetail.increaseOne();
-                isNewItem  = false;
+                isNewItem = false;
                 break;
             }
         }
-        if (details.isEmpty() || isNewItem){
+        if (details.isEmpty() || isNewItem) {
             OrderDetail newDetail = new OrderDetail();
             newDetail.setOrders(orders);
             newDetail.setProduct(product);
@@ -124,14 +96,12 @@ public class OrderService implements IOrderService {
     @Override
     public void voidAll(HttpServletRequest request, HttpServletResponse response) {
         Orders orders = (Orders) request.getSession().getAttribute("order");
-        orders.setOrderDetailList( new ArrayList<>());
+        orders.setOrderDetailList(new ArrayList<>());
         orders.calcTotal();
         request.getSession().setAttribute("order", orders);
     }
 
     public HashMap<Category, List<Product>> loadData(HttpServletRequest request) {
-        IProductDAO productDAO = new ProductDAO();
-        ICategoryDAO categoryDAO = new CategoryDAO();
         Store store = (Store) request.getSession().getAttribute("store");
         List<Product> productList = productDAO.getProductsByStore(store);
         HashMap<Category, List<Product>> productMap = new HashMap<>();
@@ -152,9 +122,7 @@ public class OrderService implements IOrderService {
     public List<Orders> getOrders(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-        IOrderDAO orderDAO = new OrderDAO();
-        IStoreDAO storeDAO = new StoreDAO();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         int page = 1;
         int pageSize = 5;
         String sortField = "ID";
@@ -168,19 +136,19 @@ public class OrderService implements IOrderService {
         if (request.getParameter("isAscending") != null) {
             isAsc = Boolean.parseBoolean(request.getParameter("isAscending"));
         }
-
         Sorter sorter = new Sorter(sortField, isAsc);
         Pageable pageable = new PageRequest(page, pageSize, sorter);
-
         Map<String, String> searcher = new HashMap<>();
-        Account test = new Account(6);
-        Store store = storeDAO.getStoreByAccount(test);
+        Store store = storeDAO.getStoreByAccount(account);
         searcher.put("totalAmount", request.getParameter("totalAmount"));
         searcher.put("storeID", String.valueOf(store.getId()));
         try {
             if (request.getParameter("startDate") != null && request.getParameter("endDate") != null) {
                 Date start = sdf.parse(request.getParameter("startDate"));
                 Date end = sdf.parse(request.getParameter("endDate"));
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                request.setAttribute("startDateFmt", simpleDateFormat.format(start));
+                request.setAttribute("endDateFmt", simpleDateFormat.format(end));
                 if (start.after(end)) {
                     throw new Exception("Start date must be before end date");
                 } else {
@@ -209,6 +177,31 @@ public class OrderService implements IOrderService {
             request.setAttribute("dateError", e.getMessage());
             return null;
         }
-
     }
+
+    @Override
+    public Orders getOrder(HttpServletRequest request, HttpServletResponse response) {
+        int orderID = Integer.parseInt(request.getParameter("orderID"));
+        Orders order = orderDAO.getOrderById(orderID);
+        return order;
+    }
+
+    @Override
+    public List<Orders> getOrdersByDate(HttpServletRequest request, Date date) {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        Store store = storeDAO.getStoreByAccount(account);
+        List<Orders> orders = orderDAO.getOrdersByDate(store, date);
+        return orders;
+    }
+
+    @Override
+    public List<Orders> getOrdersByTimeRange(HttpServletRequest request, Date startTime, Date endTime) {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        Store store = storeDAO.getStoreByAccount(account);
+        List<Orders> orders = orderDAO.getOrdersByTimeRange(store, startTime, endTime);
+        return orders;
+    }
+
 }

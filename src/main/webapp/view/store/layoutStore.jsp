@@ -12,7 +12,7 @@
                     />
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
             <span class="block m-t-xs font-bold"
-            >${requestScope.store.name} <b class="caret"></b
+            >${sessionScope.store.name} <b class="caret"></b
             ></span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -27,7 +27,8 @@
             </li>
 
             <li class="active">
-                <a href="layout.html"
+                <c:url var="storeDashBoardLink" value="${requestScope.contextPath}/dashboard/store"></c:url>
+                <a href="${storeDashBoardLink}"
                 ><i class="fa fa-home"></i> <span class="nav-label">Home</span></a
                 >
             </li>

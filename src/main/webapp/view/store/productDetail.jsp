@@ -81,8 +81,8 @@
                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Image:</label>
 
                                         <div class="col-sm-10 text-align">
-                                            <img src="${productDetail.imagePath}" alt="${productDetail.name}"
-                                                 style="width: 35%"/>
+                                            <img src="../${productDetail.imagePath}" alt="${productDetail.name}"
+                                                 style="width: 25%"/>
                                         </div>
                                     </div>
                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Category</label>
@@ -108,13 +108,15 @@
                                     <a href="${updateProductLink}">
                                         <button class="btn btn-primary bd-0">Update</button>
                                     </a>
-                                    <a href="${deleteProductLink}">
-                                        <button class="btn btn-danger bd-0">Delete</button>
+<%--                                    <a href="${deleteProductLink}" class="deleteLink">--%>
+                                    <a>
+                                        <button class="btn btn-danger bd-0 btn_delete_product_${productDetail.id}" type="button" >Delete</button>
                                     </a>
-                                    <a href="ecommerce_product_list.html">
-                                        <button class="btn btn-secondary bd-0">Back to list</button>
-                                    </a>
-
+<%--                                    <a href="ecommerce_product_list.html">--%>
+<%--                                        <button class="btn btn-secondary bd-0">Back to list</button>--%>
+<%--                                    </a>--%>
+                                    <button onclick="history.back()" type="button" class="btn btn-dark">Back to list
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -166,6 +168,77 @@
         $(".footable").footable();
     });
 </script>
+<script>
+    $(document).ready(function () {
+        $(".btn_delete_product_${productDetail.id}").click(function () {
+            swal({
+                    title: "Are you sure?",
+                    text: "Your will not be able to recover this product!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        // $('.deleteLink').submit();
+                        window.location.href ='${deleteProductLink}';
+                        swal("Deleted!", "Your product has been deleted.", "success");
+                    } else {
+                        swal("Cancelled", "", "error");
+                    }
+                });
+        });
+    });
+    <%
+        session.removeAttribute("deleteStatus");
+    %>
+</script>
+<%--<!-- Alert -->--%>
+<div class="sweet-overlay" tabindex="-1" style="opacity: -0.03; display: none;"></div>
+<div class="sweet-alert hideSweetAlert" data-custom-class="" data-has-cancel-button="false"
+     data-has-confirm-button="true" data-allow-outside-click="false" data-has-done-function="false"
+     data-animation="pop" data-timer="null" style="display: none; margin-top: -171px; opacity: 0;">
+    <div class="sa-icon sa-error" style="display: none;">
+    <span class="sa-x-mark">
+    <span class="sa-line sa-left"></span>
+    <span class="sa-line sa-right"></span>
+    </span>
+    </div>
+    <div class="sa-icon sa-warning" style="display: none;">
+        <span class="sa-body"></span>
+        <span class="sa-dot"></span>
+    </div>
+    <div class="sa-icon sa-info" style="display: none;"></div>
+    <div class="sa-icon sa-success" style="display: block;">
+        <span class="sa-line sa-tip"></span>
+        <span class="sa-line sa-long"></span>
 
+        <div class="sa-placeholder"></div>
+        <div class="sa-fix"></div>
+    </div>
+    <div class="sa-icon sa-custom" style="display: none;"></div>
+    <h2>Update success!</h2>
+    <p style="display: block;">Your Product has been deleted.</p>
+    <fieldset>
+        <input type="text" tabindex="3" placeholder="">
+        <div class="sa-input-error"></div>
+    </fieldset>
+    <div class="sa-error-container">
+        <div class="icon">!</div>
+        <p>Not valid!</p>
+    </div>
+    <div class="sa-button-container">
+        <button class="cancel" tabindex="2" style="display: none; box-shadow: none;">Cancel</button>
+
+        <button class="confirm" tabindex="1"
+                style="display: inline-block; background-color: rgb(174, 222, 244); box-shadow: rgba(174, 222, 244, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">
+            OK
+        </button>
+    </div>
+</div>
 </body>
 </html>

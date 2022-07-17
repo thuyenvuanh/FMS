@@ -1,9 +1,12 @@
 package com.fptuni.fms.service;
 
 import com.fptuni.fms.model.Product;
+import com.fptuni.fms.model.Store;
+import jdk.nashorn.internal.ir.LiteralNode;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,9 +15,9 @@ public interface IProductService {
 
     Product getProductById(String productId);
 
-    Integer insertProduct(HttpServletRequest request, HttpServletResponse response);
+    List<Product> getProductByOrderID(HttpServletRequest request, HttpServletResponse response);
 
-    boolean updateProduct(Product product);
+    Integer insertProduct(HttpServletRequest request, HttpServletResponse response);
 
     boolean updateProduct(HttpServletRequest request, HttpServletResponse response);
 
@@ -23,4 +26,6 @@ public interface IProductService {
     int countProduct();
 
     int countProductBySearch(HttpServletRequest request, HttpServletResponse response);
+    List<Product> getTop5ProductsOrderByAmount(HttpServletRequest request, HttpServletResponse response);
+    List<Double> getPercentageOfProductInCategory(HttpServletRequest request, HttpServletResponse response);
 }

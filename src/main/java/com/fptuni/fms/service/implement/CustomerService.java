@@ -11,6 +11,7 @@ import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.ICustomerService;
 import com.fptuni.fms.sort.Sorter;
 import com.fptuni.fms.utils.RequestUtils;
+import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
 
 import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 public class CustomerService implements ICustomerService {
+    ICustomerDAO customerDAO = new CustomerDAO();
+
     @Override
     public List<Customer> getList(HttpServletRequest request, HttpServletResponse response) {
-        ICustomerDAO customerDAO = new CustomerDAO();
         int pageIndex = 1;
         int pageSize = 3;
         String sortField = "Name";
@@ -47,7 +49,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer getCustomerByPhoneNum(HttpServletRequest request , HttpServletResponse response) {
+    public Customer getCustomerByPhoneNum(HttpServletRequest request, HttpServletResponse response) {
         Customer customer = null;
         String[] phoneNumbers = request.getParameter("phoneNumber").trim().split(" ");
         String phoneNumber = "";
@@ -56,7 +58,7 @@ public class CustomerService implements ICustomerService {
         }
         System.out.println(phoneNumber);
         CustomerDAO customerDAO = new CustomerDAO();
-        if(phoneNumber != null && !phoneNumber.equals("")){
+        if (phoneNumber != null && !phoneNumber.equals("")) {
             customer = customerDAO.getByPhoneNum(phoneNumber);
         }
 
@@ -65,7 +67,6 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Integer addnewCustomer(HttpServletRequest request, HttpServletResponse response) {
-        ICustomerDAO customerDAO = new CustomerDAO();
         String name = "";
         String phone = "";
         if (request.getParameter("name") != null
@@ -88,7 +89,20 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Integer CountCustomer() {
-        ICustomerDAO customerDAO = new CustomerDAO();
         return customerDAO.count();
+    }
+
+    @Override
+    public Customer getCustomerByOrderID(HttpServletRequest request, HttpServletResponse response) {
+        Customer customer = null;
+        try {
+            if (request.getParameter("orderID") == null) throw new Exception("Order ID is not valid");
+            int orderID = Integer.parseInt(request.getParameter("orderID"));
+            customer = customerDAO.getCustomerByOrderID(orderID);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return customer;
     }
 }
