@@ -21,8 +21,7 @@ public class AdminDashboardController extends HttpServlet {
         System.out.println(path);
 
         if(path.equals("/index")){
-
-            URL = dashboardService.index(request, response);
+            URL = dashboardService.getDashboardData(request, response);
             request.getRequestDispatcher(URL).forward(request, response);
         }
 

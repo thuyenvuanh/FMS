@@ -134,7 +134,7 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
         String sql = "select top (?) s.StoreID as ID, Store.Name as Name\n" +
                 "from Store join (select StoreID, sum(total) as total\n" +
                                     "from Orders\n" +
-                                    "where CreatedDate between ? and ?\n" +
+                                    "where CONVERT(DATE,CreatedDate) between ? and ?\n" +
                                     "group by StoreID) as s\n" +
                 "on Store.ID = s.StoreID\n" +
                 "order by s.total desc";

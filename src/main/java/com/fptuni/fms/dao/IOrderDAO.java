@@ -30,11 +30,11 @@ public interface IOrderDAO extends GenericDAO<Orders> {
 
     int GetTotalOrderOfAllStore(Date startDate, Date endDate);
 
-    Integer GetTotalOrderByTime(Date date);
+    Integer GetTotalOrderByDate(Date date);
 
-    BigDecimal GetTotalValueByTime(Date date);
+    BigDecimal GetTotalValueByDate(Date date);
 
-    BigDecimal GetTotalValueToday(Date time1, Date time2);
+    BigDecimal GetTotalValueByTime(Date time1, Date time2);
 
-    Integer GetTotalOrderToday(Date time1, Date time2);
+    Integer GetTotalOrderByTime(Date time1, Date time2);
 }

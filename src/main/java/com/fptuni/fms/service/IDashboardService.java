@@ -6,5 +6,5 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public interface IDashboardService {
-    String index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+    String getDashboardData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }
