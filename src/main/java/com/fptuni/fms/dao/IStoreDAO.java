@@ -16,7 +16,7 @@ import java.util.List;
 public interface IStoreDAO extends GenericDAO<Store> {
 
 //    Store getStore(String name);
-    Store getStoreByAccount(Account account);
+    Store getStoreById(int id);
 
     List<Store> getStores();
 

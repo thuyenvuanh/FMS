@@ -141,7 +141,7 @@ public class OrderService implements IOrderService {
 
         Map<String, String> searcher = new HashMap<>();
         Account test = new Account(6);
-        Store store = storeDAO.getStoreByAccount(test);
+        Store store = storeDAO.getStoreById(test.getId());
         searcher.put("totalAmount", request.getParameter("totalAmount"));
         searcher.put("storeID", String.valueOf(store.getId()));
         try {

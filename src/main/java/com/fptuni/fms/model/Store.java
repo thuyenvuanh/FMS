@@ -1,6 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.fptuni.fms.model;
 
@@ -10,11 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -26,40 +23,44 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author LucasBV
+ * @author thuyn
  */
 @Entity
 @Table(name = "Store")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Store.findAll", query = "SELECT s FROM Store s"),
-    @NamedQuery(name = "Store.findById", query = "SELECT s FROM Store s WHERE s.id = :id"),
-    @NamedQuery(name = "Store.findByName", query = "SELECT s FROM Store s WHERE s.name = :name")})
+    @NamedQuery(name = "Store.findAll", query = "SELECT s FROM Store s")
+    , @NamedQuery(name = "Store.findById", query = "SELECT s FROM Store s WHERE s.id = :id")
+    , @NamedQuery(name = "Store.findByName", query = "SELECT s FROM Store s WHERE s.name = :name")
+    , @NamedQuery(name = "Store.findByIsDeleted", query = "SELECT s FROM Store s WHERE s.isDeleted = :isDeleted")})
 public class Store implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "ID")
     private Integer id;
     @Size(max = 255)
     @Column(name = "Name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "storeID")
-    private List<Orders> ordersList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "storeID")
-    private List<Product> productList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "storeID")
-    private List<Account> accountID;
+    @Basic(optional = false)
     @NotNull
+    @Column(name = "IsDeleted")
     private boolean isDeleted;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "store")
+    private List<StoreAccount> storeAccountList;
 
     public Store() {
     }
 
     public Store(Integer id) {
         this.id = id;
+    }
+
+    public Store(Integer id, boolean isDeleted) {
+        this.id = id;
+        this.isDeleted = isDeleted;
     }
 
     public Integer getId() {
@@ -78,38 +79,21 @@ public class Store implements Serializable {
         this.name = name;
     }
 
-    @XmlTransient
-    public List<Orders> getOrdersList() {
-        return ordersList;
-    }
-
-    public void setOrdersList(List<Orders> ordersList) {
-        this.ordersList = ordersList;
-    }
-
-    @XmlTransient
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }
-
-    public List<Account> getAccountID() {
-        return accountID;
-    }
-
-    public void setAccountID(List<Account> accountID) {
-        this.accountID = accountID;
-    }
-
-    public boolean isDeleted() {
+    public boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    @XmlTransient
+    public List<StoreAccount> getStoreAccountList() {
+        return storeAccountList;
+    }
+
+    public void setStoreAccountList(List<StoreAccount> storeAccountList) {
+        this.storeAccountList = storeAccountList;
     }
 
     @Override
@@ -126,12 +110,15 @@ public class Store implements Serializable {
             return false;
         }
         Store other = (Store) object;
-        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
         return "com.fptuni.fms.model.Store[ id=" + id + " ]";
     }
-
+    
 }

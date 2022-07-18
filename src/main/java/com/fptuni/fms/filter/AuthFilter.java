@@ -36,7 +36,7 @@ public class AuthFilter implements Filter {
         System.out.println("Filtering on " + ((HttpServletRequest) request).getRequestURI());
         HttpServletRequest req = (HttpServletRequest) request;
         Account account = (Account) req.getSession().getAttribute("account");
-        available.addAll(servletMapper.get(account == null ? "none": account.getRole().getName()));
+        available.addAll(servletMapper.get(account == null ? "none": account.getRoleID().getName()));
         String svl = req.getServletPath(), pInfo = req.getPathInfo();
         System.out.println(account == null ? "not sign in" : "signed in with username " + account.getUsername());
         if (svl.equals("/view/error.jsp") || svl.equals("/view/404.jsp")) {

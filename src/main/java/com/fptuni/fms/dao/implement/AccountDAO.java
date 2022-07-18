@@ -153,7 +153,9 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
 
     @Override
     public List<Account> getListStoreManager(){
-        String sql = "SELECT ID, Username, FullName FROM Account WHERE roleID = 3 AND IsDeleted = 0";
+        String sql = "SELECT Account.ID, Username, FullName, Role.Name AS Name\n" +
+                "FROM Account JOIN Role on Account.RoleID = Role.ID\n" +
+                "WHERE Role.Name = 'Store Manager' AND Account.IsDeleted = 0";
         List<Account> listAcc = query(sql, new AccountMapper());
         return listAcc.isEmpty() ? null : listAcc;
     }

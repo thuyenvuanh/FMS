@@ -5,6 +5,7 @@
 package com.fptuni.fms.service.implement;
 
 import com.fptuni.fms.dao.implement.AccountDAO;
+import com.fptuni.fms.dao.implement.StoreAccountDAO;
 import com.fptuni.fms.dao.implement.StoreDAO;
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Store;
@@ -13,6 +14,8 @@ import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.IStoreService;
 import com.fptuni.fms.sort.Sorter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +31,8 @@ public class StoreService implements IStoreService {
     private static final StoreDAO storeDAO = new StoreDAO();
     private static final AccountDAO accountDAO = new AccountDAO();
 
+    private static final StoreAccountDAO storeAccountDAO = new StoreAccountDAO();
+
     @Override
     public String create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -38,6 +43,8 @@ public class StoreService implements IStoreService {
         store.setName(name);
 //        store.setAccountID(accountDAO.getAccount(Integer.parseInt(storeManager)));
         Integer check = storeDAO.insertStore(store);
+        store.setId(check);
+        storeAccountDAO.insert(new Account(Integer.parseInt(storeManager)), store);
         if (check == null) {
             session.setAttribute("createStatus", "fail");
             return "/store/createPage";
@@ -71,9 +78,19 @@ public class StoreService implements IStoreService {
         Sorter sorter = new Sorter(sortField, isAsc);
         Pageable pageable = new PageRequest(pageIndex, pageSize, sorter);
         List<Store> listStore = storeDAO.getListStore(pageable);
+        HashMap<Store, List<Account>> accountsMap = new HashMap<>();
+
         for (Store s : listStore) {
-            s.setAccountID(accountDAO.getListStoreAccount(s.getId()));
+            //s.setAccount(accountDAO.getListStoreAccount(s.getId()));
+            //lay danh sach account thuoc ve store
+            accountsMap.put(s, new ArrayList<>());
+            for (Account account :
+                    storeAccountDAO.getAccountsByStoreID(s.getId())) {
+                accountsMap.get(s).add(accountDAO.getAccount(account.getId()));
+            }
         }
+
+
         request.setAttribute("currentPage", pageIndex);
         request.setAttribute("sortField", sortField);
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
@@ -84,6 +101,7 @@ public class StoreService implements IStoreService {
             totalPages++;
         }
         request.setAttribute("storeList", listStore);
+        request.setAttribute("map", accountsMap);
         request.setAttribute("totalPages", totalPages);
         return "/view/admin/storeList.jsp";
     }
@@ -95,7 +113,14 @@ public class StoreService implements IStoreService {
             return "/store/list";
         }
         Store store = storeDAO.getStore(Integer.parseInt(storeID));
-        store.setAccountID(accountDAO.getListStoreAccount(store.getId()));
+//        store.setAccountID(accountDAO.getListStoreAccount(store.getId()));
+
+        List<Account> accounts = new ArrayList<>();
+        for (Account account :
+                storeAccountDAO.getAccountsByStoreID(store.getId())) {
+            accounts.add(accountDAO.getAccount(account.getId()));
+        }
+        request.setAttribute("accountList", accounts);
         request.setAttribute("store", store);
         return "/view/admin/storeView.jsp";
     }
@@ -107,7 +132,14 @@ public class StoreService implements IStoreService {
             return "/store/list";
         }
         Store store = storeDAO.getStore(Integer.parseInt(storeID));
-        store.setAccountID(accountDAO.getListStoreAccount(store.getId()));
+//        store.setAccountID(accountDAO.getListStoreAccount(store.getId()));
+
+        List<Account> accounts = new ArrayList<>();
+        for (Account account :
+                storeAccountDAO.getAccountsByStoreID(store.getId())) {
+            accounts.add(accountDAO.getAccount(account.getId()));
+        }
+
         request.setAttribute("store", store);
         return "/view/admin/storeUpdate.jsp";
     }
@@ -164,9 +196,16 @@ public class StoreService implements IStoreService {
         String name = request.getParameter("name");
         String storeManager = request.getParameter("storeManager");
         List<Store> listStore = storeDAO.search(pageable, isDelete, name, storeManager);
+        HashMap<Store, List<Account>> storeAccountsMap = new HashMap<>();
         for (Store s : listStore) {
-            s.setAccountID(accountDAO.getListStoreAccount(s.getId()));
+//            s.setAccountID(accountDAO.getListStoreAccount(s.getId()));
+            storeAccountsMap.put(s, new ArrayList<>());
+            for (Account account :
+                    storeAccountDAO.getAccountsByStoreID(s.getId())) {
+                storeAccountsMap.get(s).add(accountDAO.getAccount(account.getId()));
+            }
         }
+        request.setAttribute("map", storeAccountsMap);
         request.setAttribute("currentPage", pageIndex);
         request.setAttribute("sortField", sortField);
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField

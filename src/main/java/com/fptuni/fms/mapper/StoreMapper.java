@@ -28,8 +28,7 @@ public class StoreMapper implements RowMapper<Store> {
                 if (metaData.getColumnLabel(i).equals("Name"))
                     store.setName(rs.getString(i));
                 if (metaData.getColumnLabel(i).equals("IsDeleted"))
-                    store.setDeleted(rs.getBoolean(i));
-
+                    store.setIsDeleted((rs.getBoolean(i)));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

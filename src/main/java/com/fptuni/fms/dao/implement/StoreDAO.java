@@ -9,18 +9,18 @@ import com.fptuni.fms.paging.Pageable;
 import com.fptuni.mapper.ProductMapper;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- *
  * @author Anh Quoc
  */
 public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
 
     private final StoreMapper mapper = new StoreMapper();
 
-//    @Override
+    //    @Override
 //    public Store getStore(String Name) { //get 1 store
 //        String sql = "SELECT Store.ID, Name, Store.AccountID, Account.FullName from Store\n" +
 //                "Join Account on Store.AccountID = Account.ID\n" +
@@ -29,16 +29,15 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
 //        return stores.isEmpty() ? null : stores.get(0);
 //    }
     @Override
-    public Store getStoreByAccount(Account account) {
-        String sql = "SELECT ID, Name FROM Store WHERE AccountID = ? AND IsDeleted = 0";
-        List<Store> list = query(sql, mapper, account.getId());
+    public Store getStoreById(int id) {
+        String sql = "SELECT ID, Name FROM Store WHERE ID = ? AND IsDeleted = 0";
+        List<Store> list = query(sql, mapper, id);
         return (list != null && !list.isEmpty()) ? list.get(0) : null;
     }
 
     @Override
     public List<Store> getStores() {
-        String sql = "SELECT Store.ID, Name, Store.AccountID, Account.FullName from Store\n"
-                + "Join Account on Store.AccountID = Account.ID\n";
+        String sql = "SELECT Store.ID, Name, Account.FullName from Store";
         List<Product> products = query(sql, new ProductMapper());
         List<Store> stores = query(sql, new StoreMapper());
         return stores.isEmpty() ? null : stores;
@@ -53,7 +52,7 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
 
     @Override
     public Integer insertStore(Store store) {
-        String sql = "INSERT INTO Store VALUES(?,?,0)";
+        String sql = "INSERT INTO Store VALUES(?,0)";
         return insert(sql, store.getName());
     }
 
@@ -94,11 +93,26 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
         // Sort theo field xong moi paging
         // Neu chon sortField khac thi cac Product moi trang se thay doi
         // Vi du: sortField = ID ==> list ID ASC ==> paging
-        String sql = "SELECT * FROM \n"
-                + "(SELECT s.ID, s.Name \n"
-                + "FROM Store s JOIN StoreAccount sa ON s.ID = sa.StoreID \n"
-                + "JOIN Account a ON sa.AccountID = a.ID\n"
-                + "WHERE a.IsDeleted = 0 AND sa.IsDeleted = 0 AND s.IsDeleted = ? AND s.Name LIKE ? AND a.FullName LIKE ? \n";
+//        String sql = "SELECT * FROM \n"
+//                + "(SELECT s.ID, s.Name \n"
+//                + "FROM Store s JOIN StoreAccount sa ON s.ID = sa.StoreID \n"
+//                + "JOIN Account a ON sa.AccountID = a.ID\n"
+//                + "WHERE a.IsDeleted = 0 AND sa.IsDeleted = 0 AND s.IsDeleted = ? AND s.Name LIKE ? AND a.FullName LIKE ? \n";
+        String sql = "select s.Name, a.FullName, s.IsDeleted\n" +
+                "FROM Store S LEFT OUTER JOIN StoreAccount SA on S.ID = SA.StoreID left join Account A on SA.AccountID = A.ID\n" +
+                "WHERE (s.IsDeleted = ?)\n";
+
+        List<Object> params = new ArrayList<>();
+
+        Object[] params = {isDelete};
+        if (storeManager != null && !storeManager.isEmpty()) {
+            params.add("%" + storeManager + "%");
+            sql += "    and (a.IsDeleted = 0 and a.FullName like ? )";
+        }
+        if (name != null && !name.isEmpty()) {
+            params.add("%" + name + "%");
+            sql += "    and (s.IsDeleted = 0 AND s.Name LIKE ?) ";
+        }
         String orderBy;
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
             orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
@@ -112,7 +126,8 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
             orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
             sql += "ORDER BY A." + pageable.getSorter().getSortField() + " " + orderBy;
         }
-        List<Store> listStore = query(sql, new StoreMapper(), isDelete, "%" + name + "%", "%" + storeManager + "%");
+//        List<Store> listStore = query(sql, new StoreMapper(), isDelete, "%" + name + "%", "%" + storeManager + "%");
+        List<Store> listStore = query(sql, new StoreMapper(), params);
         return listStore;
     }
 

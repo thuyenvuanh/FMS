@@ -2,6 +2,7 @@ package com.fptuni.fms.service.implement;
 
 import com.fptuni.fms.dao.implement.AccountDAO;
 import com.fptuni.fms.dao.implement.RoleDAO;
+import com.fptuni.fms.dao.implement.StoreAccountDAO;
 import com.fptuni.fms.dao.implement.StoreDAO;
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Role;
@@ -27,41 +28,30 @@ public class AccountService implements IAccountService {
         request.getSession().removeAttribute("message");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        System.out.println(username + " " + password);
         String url = null;
         try {
             Account account = accountDAO.checkLogin(username, password);
-            System.out.println(account == null ? "Account not found" : "Account found");
             if (account != null) {
                 //kiem tra role va dieu huong vao man hinh
-                account.setRole(new RoleDAO().getRole(account.getRole().getId()));
+                //luu thong tin ve tai khoan dang nhap va cua hang lien quan
+                account.setRoleID(new RoleDAO().getRole(account.getRoleID().getId()));
                 request.getSession().setAttribute("account", account);
-                System.out.println("Account role: "+account.getRole().getName());
-                Store store = new StoreDAO().getStoreByAccount(account);
-                if (store != null) {
-                    request.getSession().setAttribute("store", store);
-                    System.out.println("Store Name: " + store.getName());
-                }
-                switch (account.getRole().getName()) {
-                    case "Admin":
-                        //response toi link cua admin
-                        url = request.getContextPath() + "/adminDashboard/index";
-                        break;
-                    case "Cashier":
-                        //response toi link cua cashier
-                        url = request.getContextPath() + "/order/index";
-                        break;
-                    case "Counter":
-                        //respone toi link cua counter
-                        url = request.getContextPath() + "/counter/index";
-                        break;
-                    case "Store Manager":
-                        url = request.getContextPath() + "/product/list";
-                        //response toi link cua store manager
-                        break;
-                    default:
-                        //chuyen huong den trang error
-                        break;
+                Store store = null;
+                //chuyen huong den trang error
+                if ("Admin".equals(account.getRoleID().getName())) {
+                    //response toi link cua admin
+                    url = request.getContextPath() + "/adminDashboard/index";
+                } else if ("Cashier".equals(account.getRoleID().getName())) {
+                    store = getStore(account);
+                    if (store != null) request.getSession().setAttribute("storeSession", store);
+                    url = request.getContextPath() + "/order/index";
+                } else if ("Counter".equals(account.getRoleID().getName())) {//respone toi link cua counter
+                    url = request.getContextPath() + "/counter/index";
+                } else if ("Store Manager".equals(account.getRoleID().getName())) {
+                    store = getStore(account);
+                    if (store != null) request.getSession().setAttribute("storeSession", store);
+                    url = request.getContextPath() + "/product/list";
+                    //response toi link cua store manager
                 }
             } else {
                 url = request.getContextPath();
@@ -73,6 +63,13 @@ public class AccountService implements IAccountService {
             //chuyen huong den trang error
         }
         return url;
+    }
+
+    private Store getStore(Account account) {
+        //response toi link cua cashier
+        StoreAccountDAO storeAccountDAO = new StoreAccountDAO();
+        int storeId = storeAccountDAO.getStoreIDByAccountID(account.getId());
+        return new StoreDAO().getStoreById(storeId);
     }
 
     @Override

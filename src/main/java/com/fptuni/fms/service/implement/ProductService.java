@@ -8,10 +8,10 @@ import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Product;
 import com.fptuni.fms.model.Store;
-import com.fptuni.fms.service.ICategoryService;
-import com.fptuni.fms.service.IProductService;
 import com.fptuni.fms.paging.PageRequest;
 import com.fptuni.fms.paging.Pageable;
+import com.fptuni.fms.service.ICategoryService;
+import com.fptuni.fms.service.IProductService;
 import com.fptuni.fms.sort.Sorter;
 import com.fptuni.fms.utils.RequestUtils;
 
@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+import static com.sun.xml.ws.spi.db.BindingContextFactory.LOGGER;
 
 public class ProductService implements IProductService {
 
@@ -38,7 +38,7 @@ public class ProductService implements IProductService {
         Account account = (Account) session.getAttribute("account");
         IProductDAO productDAO = new ProductDAO();
         IStoreDAO storeDAO = new StoreDAO();
-        Store store = storeDAO.getStoreByAccount(account);
+        Store store = (Store) session.getAttribute("store");
         int pageIndex = 1;
         int pageSize = 5;
         String sortField = "ID";
@@ -95,7 +95,7 @@ public class ProductService implements IProductService {
         ICategoryService categoryService = new CategoryService();
         IProductDAO productDAO = new ProductDAO();
         IStoreDAO storeDAO = new StoreDAO();
-        Store store = storeDAO.getStoreByAccount(account);
+        Store store = (Store) session.getAttribute("store");
         String id = "";
         String name = "";
         BigDecimal price = BigDecimal.valueOf(0.0);
@@ -157,7 +157,7 @@ public class ProductService implements IProductService {
         ICategoryService categoryService = new CategoryService();
         IProductDAO productDAO = new ProductDAO();
         IStoreDAO storeDAO = new StoreDAO();
-        Store store = storeDAO.getStoreByAccount(account);
+        Store store = (Store) session.getAttribute("store");
         String id = "";
         String name = "";
         String imgPath = "";
@@ -293,7 +293,7 @@ public class ProductService implements IProductService {
         Account account = (Account) session.getAttribute("account");
         IProductDAO productDAO = new ProductDAO();
         IStoreDAO storeDAO = new StoreDAO();
-        Store store = storeDAO.getStoreByAccount(account);
+        Store store = (Store) session.getAttribute("store");
         int pageIndex = 1;
         int pageSize = 5;
         String sortField = "ID";

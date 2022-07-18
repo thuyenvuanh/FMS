@@ -17,8 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @MultipartConfig
@@ -42,7 +40,11 @@ public class ProductController extends HttpServlet {
                 totalPages++;
             }
             List<Category> categories = categoryService.getCategories();
-            Store store = storeDAO.getStoreByAccount(account);
+            //store already save in session when logged in
+            //Store store = storeDAO.getStoreById(account);
+            Store store = (Store) session.getAttribute("store");
+
+
             request.setAttribute("store", store);
             request.setAttribute("categories", categories);
             request.setAttribute("productList", products);

@@ -9,7 +9,7 @@ class SecurityUtilsTest {
     @Test
     public void TestOutput() {
         String[] email = {"admin1", "stm1", "cashier", "counter", "store"};
-        String[] password = {"root", "123456789", "123456789", "123456789", "store"};
+        String[] password = {"root", "123456789", "12345", "123456789", "store"};
 
         try {
             for (int i = 0; i < 5; i++) {

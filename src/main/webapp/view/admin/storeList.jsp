@@ -121,32 +121,34 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach var="store" items="${requestScope.storeList}">
+                                        <c:forEach var="store" items="${map}" >
+                                            <c:set var="key" value="${store.key}" target="com.fptuni.fms.model.Store"/>
+                                            <c:set var="value" value="${store.value}" target="java.util.List"/>
                                             <tr>
-                                                <td>${store.name}</td>
+                                                <td>${key.name}</td>
                                                 <td>
-                                                    |<c:forEach var="acc" items="${store.accountID}">
-                                                        ${acc.fullName} |
+                                                    <c:forEach var="acc" items="${value}">
+                                                        ${acc.roleID.name == "Store Manager" ? acc.fullName : ""}
                                                     </c:forEach>
                                                 </td>
-                                                <c:if test="${store.isDeleted()==false}">
+                                                <c:if test="${key.isDeleted == false}">
                                                     <td>
                                                         <span class="label label-primary">Enable</span>
                                                     </td>
                                                 </c:if>
-                                                <c:if test="${store.isDeleted() == true}">
+                                                <c:if test="${key.isDeleted == true}">
                                                     <td>
                                                         <span class="label label-danger">Disable</span>
                                                     </td>
                                                 </c:if>
                                                 <td class="text-right">
                                                     <form>
-                                                        <input  type="hidden" name="storeId" value="${store.id}"/>
+                                                        <input  type="hidden" name="storeId" value="${key.id}"/>
                                                             <c:url var="viewLink" value="/store/view">
-                                                                <c:param name="storeId" value="${store.id}"></c:param>
+                                                                <c:param name="storeId" value="${key.id}"></c:param>
                                                             </c:url>
                                                             <c:url var="updateLink" value="/store/updatePage">
-                                                                <c:param name="storeId" value="${store.id}"></c:param>
+                                                                <c:param name="storeId" value="${key.id}"></c:param>
                                                             </c:url>
                                                             <button class="btn-white btn btn-xs" formmethod="post" formaction="${viewLink}">View</button>
                                                             <button class="btn-white btn btn-xs" formmethod="post" formaction="${updateLink}">Edit</button>
