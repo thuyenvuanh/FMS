@@ -157,4 +157,11 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         List<Account> listAcc = query(sql, new AccountMapper());
         return listAcc.isEmpty() ? null : listAcc;
     }
+
+    @Override
+    public List<Account> getListStoreAccount(int storeID){
+        String sql = "SELECT ID, FullName FROM Account a JOIN StoreAccount s ON a.ID = s.AccountID WHERE s.StoreID = ? AND s.IsDeleted = 0 AND s.IsDeleted = 0";
+        List<Account> listAcc = query(sql, new AccountMapper(), storeID);
+        return listAcc.isEmpty() ? null : listAcc;
+    }
 }

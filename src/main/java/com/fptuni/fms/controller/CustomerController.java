@@ -5,9 +5,6 @@ import com.fptuni.fms.dao.implement.CustomerDAO;
 import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.service.ICustomerService;
 import com.fptuni.fms.service.implement.CustomerService;
-import com.fptuni.fms.service.implement.ProductService;
-import com.sun.xml.internal.ws.addressing.EPRSDDocumentFilter;
-import org.eclipse.persistence.sessions.Session;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

@@ -115,9 +115,7 @@
                                             <th data-toggle="true" data-sort-ignore="true">
                                                 <a href="${sort}&sortField=Name">Store</a>
                                             </th>
-                                            <th data-hide="phone" data-sort-ignore="true">
-                                                <a href="${sort}&sortField=fullName">Store Manager</a>
-                                            </th>
+                                            <th class="text-left" data-sort-ignore="true">Store Manager</th>
                                             <th data-hide="phone" data-sort-ignore="true">Status</th>
                                             <th class="text-right" data-sort-ignore="true">Action</th>
                                         </tr>
@@ -126,7 +124,11 @@
                                         <c:forEach var="store" items="${requestScope.storeList}">
                                             <tr>
                                                 <td>${store.name}</td>
-                                                <td>${store.accountID.fullName}</td>
+                                                <td>
+                                                    |<c:forEach var="acc" items="${store.accountID}">
+                                                        ${acc.fullName} |
+                                                    </c:forEach>
+                                                </td>
                                                 <c:if test="${store.isDeleted()==false}">
                                                     <td>
                                                         <span class="label label-primary">Enable</span>

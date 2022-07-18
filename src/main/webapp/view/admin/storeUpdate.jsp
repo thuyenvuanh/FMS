@@ -86,7 +86,9 @@
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Store Manager:</label>
                                                     <div class="col-sm-10">
-                                                        <input type="text" class="form-control" value="${store.accountID.fullName}" placeholder="Store Name" readonly="">
+                                                        <c:forEach var="acc" items="${store.accountID}">
+                                                            <input type="text" class="form-control" value="${acc.fullName}" placeholder="Store Manager" readonly="">
+                                                        </c:forEach>                                                        
                                                     </div>
                                                 </div>
                                             </fieldset>

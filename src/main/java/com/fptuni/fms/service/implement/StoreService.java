@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
 public class StoreService implements IStoreService {
 
     private static final StoreDAO storeDAO = new StoreDAO();
+    private static final AccountDAO accountDAO = new AccountDAO();
 
     @Override
     public String create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,8 +36,7 @@ public class StoreService implements IStoreService {
         String storeManager = request.getParameter("storeManager");
         Store store = new Store();
         store.setName(name);
-        AccountDAO accDAO = new AccountDAO();
-        store.setAccountID(accDAO.getAccount(Integer.parseInt(storeManager)));
+//        store.setAccountID(accountDAO.getAccount(Integer.parseInt(storeManager)));
         Integer check = storeDAO.insertStore(store);
         if (check == null) {
             session.setAttribute("createStatus", "fail");
@@ -71,6 +71,9 @@ public class StoreService implements IStoreService {
         Sorter sorter = new Sorter(sortField, isAsc);
         Pageable pageable = new PageRequest(pageIndex, pageSize, sorter);
         List<Store> listStore = storeDAO.getListStore(pageable);
+        for (Store s : listStore) {
+            s.setAccountID(accountDAO.getListStoreAccount(s.getId()));
+        }
         request.setAttribute("currentPage", pageIndex);
         request.setAttribute("sortField", sortField);
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
@@ -92,6 +95,7 @@ public class StoreService implements IStoreService {
             return "/store/list";
         }
         Store store = storeDAO.getStore(Integer.parseInt(storeID));
+        store.setAccountID(accountDAO.getListStoreAccount(store.getId()));
         request.setAttribute("store", store);
         return "/view/admin/storeView.jsp";
     }
@@ -103,6 +107,7 @@ public class StoreService implements IStoreService {
             return "/store/list";
         }
         Store store = storeDAO.getStore(Integer.parseInt(storeID));
+        store.setAccountID(accountDAO.getListStoreAccount(store.getId()));
         request.setAttribute("store", store);
         return "/view/admin/storeUpdate.jsp";
     }
@@ -159,6 +164,9 @@ public class StoreService implements IStoreService {
         String name = request.getParameter("name");
         String storeManager = request.getParameter("storeManager");
         List<Store> listStore = storeDAO.search(pageable, isDelete, name, storeManager);
+        for (Store s : listStore) {
+            s.setAccountID(accountDAO.getListStoreAccount(s.getId()));
+        }
         request.setAttribute("currentPage", pageIndex);
         request.setAttribute("sortField", sortField);
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
@@ -178,9 +186,8 @@ public class StoreService implements IStoreService {
     }
 
     @Override
-    public String getStoreManager(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        AccountDAO acc = new AccountDAO();
-        List<Account> listAcc = acc.getListStoreManager();
+    public String getStoreManager(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Account> listAcc = accountDAO.getListStoreManager();
         request.setAttribute("listStoreManager", listAcc);
         return "/view/admin/storeCreate.jsp";
     }

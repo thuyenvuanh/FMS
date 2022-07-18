@@ -50,9 +50,8 @@ public class Store implements Serializable {
     private List<Orders> ordersList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "storeID")
     private List<Product> productList;
-    @JoinColumn(name = "AccountID", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private Account accountID;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "storeID")
+    private List<Account> accountID;
     @NotNull
     private boolean isDeleted;
 
@@ -97,11 +96,11 @@ public class Store implements Serializable {
         this.productList = productList;
     }
 
-    public Account getAccountID() {
+    public List<Account> getAccountID() {
         return accountID;
     }
 
-    public void setAccountID(Account accountID) {
+    public void setAccountID(List<Account> accountID) {
         this.accountID = accountID;
     }
 
