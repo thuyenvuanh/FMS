@@ -138,7 +138,7 @@
                             <div id="tab-1" class="tab-pane active">
                                 <c:url var="createCus" value="${requestScope.contextPath}/customer/addcustomer" >
                                 </c:url>
-                                <form action="${createCus}">
+                                <form id="form_create_customer" action="${createCus}">
                                     <div class="panel-body">
 
                                         <fieldset>
@@ -195,10 +195,50 @@
 <!-- FooTable -->
 <script src="../../js/plugins/footable/footable.all.min.js"></script>
 
+<%--Main--%>
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="../js/inspinia.js"></script>
+<script src="../js/plugins/pace/pace.min.js"></script>
+
+<!-- FooTable -->
+<script src="../js/plugins/footable/footable.all.min.js"></script>
+
+<!-- Jquery Validate -->
+<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
+
 <!-- Page-Level Scripts -->
 <script>
     $(document).ready(function () {
         $(".footable").footable();
+
+
+        $("#form_create_customer").validate({
+            rules: {
+                Cusname: {
+                    required: true,
+                },
+                Cusphone: {
+                    required: true
+                }
+            },
+            messages: {
+                Cusname: {
+                    required: 'Please enter customer name',
+                },
+                Cusphone: {
+                    required: 'Please enter customer phone'
+                }
+            }
+        })
     });
 </script>
 
