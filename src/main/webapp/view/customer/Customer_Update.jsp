@@ -142,7 +142,7 @@
 <%--                                    class="btn btn-primary"--%>
                                     <c:url var="CustomerUpdate" value="${requestScope.contextPath}/customer/update" >
                                     </c:url>
-                                    <form action="${CustomerUpdate}">
+                                    <form action="${CustomerUpdate}" id="formUpdateCus">
                                     <div class="col-lg-8">
                                         <div class="form-group">
                                             <label>Username</label>
@@ -158,13 +158,17 @@
 <%--                                        </div>--%>
                                         <div class="form-group">
                                             <label>Date of Birth</label>
-                                            <input placeholder="${update.doB}" type="text" class="form-control" data-mask="00/00/0000" autocomplete="off" maxlength="10">
+                                            <input placeholder="${update.doB}"
+                                                   name="Dob" type="text"
+                                                   class="form-control" data-mask="00/00/0000" autocomplete="off" maxlength="10">
                                             <span class="form-text">dd/mm/yyyy</span>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Address</label>
-                                            <input placeholder="${update.address}" name="address" type="text" class="form-control required" aria-required="true">
+                                            <input placeholder="${update.address}"
+                                                   name="address" type="text"
+                                                   class="form-control required" aria-required="true">
                                         </div>
 
                                         <c:choose>
@@ -223,6 +227,9 @@
     <script src="js/bootstrap.js"></script>
     <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="../js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
 
     <!-- Custom and plugin javascript -->
     <script src="js/inspinia.js"></script>
@@ -235,8 +242,30 @@
     <script>
         $(document).ready(function () {
             $(".footable").footable();
+
+            $("#formUpdateCus").validate({
+                rules: {
+                    Dob: {
+                        required: true,
+                    },
+                    address:{
+                      required: true,
+                    }
+                },
+                messages: {
+                    Dob: {
+                        required: 'Please enter Date of birth'
+                    },
+                    address: {
+                      required: 'Please enter Address'
+                    }
+                }
+            });
         });
+
+
     </script>
+
     <script src="js/plugins/jqueryMask/jquery.mask.min.js"></script>
 </div>
 </body>

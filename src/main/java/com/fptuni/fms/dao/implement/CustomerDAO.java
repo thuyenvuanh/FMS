@@ -14,7 +14,8 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
     @Override
     public List<Customer> getAllCustomer(Pageable pageable) {
         String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
-                "from [dbo].[Customer]\n";
+                "from [dbo].[Customer]\n" +
+                "where IsDeleted = 0";
         String order;
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
             order = pageable.getSorter().isAscending() ? "ASC" : "DESC";

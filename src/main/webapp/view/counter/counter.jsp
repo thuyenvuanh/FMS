@@ -238,6 +238,7 @@
                     required: true,
                     min: 1000
                 }
+
             },
             messages: {
                 amount: {

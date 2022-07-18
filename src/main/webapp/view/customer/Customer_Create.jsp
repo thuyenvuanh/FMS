@@ -138,7 +138,7 @@
                             <div id="tab-1" class="tab-pane active">
                                 <c:url var="createCus" value="${requestScope.contextPath}/customer/addcustomer" >
                                 </c:url>
-                                <form action="${createCus}">
+                                <form action="${createCus}" id="formCreateCus">
                                     <div class="panel-body">
 
                                         <fieldset>
@@ -187,6 +187,9 @@
 <script src="../../js/bootstrap.js"></script>
 <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
 
 <!-- Custom and plugin javascript -->
 <script src="../../js/inspinia.js"></script>
@@ -199,6 +202,25 @@
 <script>
     $(document).ready(function () {
         $(".footable").footable();
+
+        $("#formCreateCus").validate({
+            rules: {
+                Cusname: {
+                    required: true
+                },
+                Cusphone: {
+                    request: true
+                }
+            },
+            messages: {
+                Cusname: {
+                    request: 'Please enter name'
+                },
+                Cusphone: {
+                    request: 'Please enter phone number'
+                }
+            }
+        })
     });
 </script>
 

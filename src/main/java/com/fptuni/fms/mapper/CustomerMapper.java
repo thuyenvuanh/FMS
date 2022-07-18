@@ -20,9 +20,9 @@ public class CustomerMapper implements RowMapper<Customer>{
             if(rs.getString("Phone") != null){
                 cus.setPhone((rs.getString("phone")));
             }
-            if(rs.getString("isDeleted") != null){
-                cus.setIsDeleted(rs.getBoolean("isDeleted"));
-            }
+//            if(rs.getString("isDeleted") != null){
+//                cus.setIsDeleted(rs.getBoolean("isDeleted"));
+//            }
             if(rs.getString("DoB") != null){
                 cus.setDoB(rs.getDate("DoB"));
             }

@@ -147,7 +147,7 @@
                         <%--                                </select>--%>
                         <%--                            </div>--%>
                         <%--                        </div>--%>
-                        <div class="col-lg-10 text-center">
+                        <div class="col-xl-5 col-lg-9 col-md-12 text-left">
                             <div class="form-group">
                                 <%--                                for="status"--%>
                                 <label class="col-form-label">Search by</label>
@@ -159,17 +159,23 @@
                                     </div>
                                     <input name="searchItem"
                                            type="text" class="form-control"/>
+                                    <button name="action"
+                                            class="btn btn-outline-success float-right"
+                                            type="submit"
+                                    >
+                                        Search
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2 container-fluid pt-5">
-                            <button name="action"
-                                    class="btn btn-outline-success float-right"
-                                    type="submit"
-                            >
-                                Search
-                            </button>
-                        </div>
+<%--                        <div class="col-lg-2 container-fluid pt-5">--%>
+<%--                            <button name="action"--%>
+<%--                                    class="btn btn-outline-success float-right"--%>
+<%--                                    type="submit"--%>
+<%--                            >--%>
+<%--                                Search--%>
+<%--                            </button>--%>
+<%--                        </div>--%>
                     </div>
                 </form>
 
@@ -189,11 +195,13 @@
 
                                     <th data-hide="phone">Phone number</th>
 
-                                    <th>Status</th>
-
-                                    <th class="text-center">Actions</th>
+<%--                                    <th>Status</th>--%>
 
                                     <th class="text-right">Amounts</th>
+
+                                    <th class="text-right">Actions</th>
+
+
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -204,20 +212,26 @@
                                     <tr>
                                         <td>${list.name}</td>
                                         <td class="text-left">${list.phone}</td>
-                                        <c:choose>
-                                            <c:when test="${list.isDeleted == false}">
-                                                <td style="padding-top: 17px" class="">
-                                                    <span class="label label-primary">Active</span>
-                                                </td>
-                                            </c:when>
-                                            <c:when test="${list.isDeleted == true}">
-                                                <td style="padding-top: 17px">
-                                                    <span class="label label-danger">Inactive</span>
-                                                </td>
-                                            </c:when>
-                                        </c:choose>
+                                            <%--                                        <c:choose>--%>
+                                            <%--                                            <c:when test="${list.isDeleted == false}">--%>
+                                            <%--                                                <td style="padding-top: 17px" class="">--%>
+                                            <%--                                                    <span class="label label-primary">Active</span>--%>
+                                            <%--                                                </td>--%>
+                                            <%--                                            </c:when>--%>
+                                            <%--                                            <c:when test="${list.isDeleted == true}">--%>
+                                            <%--                                                <td style="padding-top: 17px">--%>
+                                            <%--                                                    <span class="label label-danger">Inactive</span>--%>
+                                            <%--                                                </td>--%>
+                                            <%--                                            </c:when>--%>
+                                            <%--                                        </c:choose>--%>
 
-                                        <td class="text-center">
+                                            <%-- For taking out the balance--%>
+
+                                            <%--                                        <fmt:setLocale value="vi_VN"/>--%>
+                                        <td class="text-right"><fmt:formatNumber
+                                                value="${amount.get(list)}" pattern="###,###,### ₫"/></td>
+
+                                        <td class="text-right">
                                             <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}"
                                                class="btn btn-primary btn-sm">Delete</a>
                                             <a
@@ -225,12 +239,6 @@
                                             <a href="<%=request.getContextPath()%>/customer/Movetoupdate?phonenum=${list.phone}"
                                                class="btn btn-primary btn-sm">Update</a>
                                         </td>
-
-                                            <%-- For taking out the balance--%>
-
-                                        <fmt:setLocale value="vi_VN"/>
-                                        <td class="text-right"><fmt:formatNumber
-                                                value="${amount.get(list)}" type="currency"/></td>
 
 
                                     </tr>
@@ -353,6 +361,7 @@
 <script src="js/bootstrap.js"></script>
 <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
 <!-- Custom and plugin javascript -->
 <script src="js/inspinia.js"></script>
