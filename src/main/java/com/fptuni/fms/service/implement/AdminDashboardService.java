@@ -3,7 +3,7 @@ package com.fptuni.fms.service.implement;
 import com.fptuni.fms.dao.implement.OrderDAO;
 import com.fptuni.fms.dao.implement.StoreDAO;
 import com.fptuni.fms.model.Store;
-import com.fptuni.fms.service.IDashboardService;
+import com.fptuni.fms.service.IAdminDashboardService;
 import com.fptuni.fms.utils.DateUtils;
 import javafx.util.Pair;
 
@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class DashboardService implements IDashboardService {
+public class AdminDashboardService implements IAdminDashboardService {
 
     private StoreDAO storeDAO = new StoreDAO();
     private OrderDAO orderDAO = new OrderDAO();

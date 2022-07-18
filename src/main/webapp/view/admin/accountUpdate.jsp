@@ -247,7 +247,7 @@
                         },
                         cfPassword: {
                             required: true,
-                            equalTo: ".password"
+                            equalTo: "input[name=password]"
                         }
                     },
                     messages: {
