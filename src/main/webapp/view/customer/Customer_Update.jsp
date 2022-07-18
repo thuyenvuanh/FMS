@@ -18,6 +18,8 @@
     <title>Customer Update</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link href="../css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
     <%--    Jquery--%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -156,11 +158,11 @@
 <%--                                            <label>Date of Birth</label>--%>
 <%--                                            <input placeholder="${update.doB}" name="DoB" type="text" class="form-control required" aria-required="true">--%>
 <%--                                        </div>--%>
-                                        <div class="form-group">
+                                        <div class="form-group" id="update-Dob">
                                             <label>Date of Birth</label>
                                             <input placeholder="${update.doB}"
                                                    name="Dob" type="text"
-                                                   class="form-control" data-mask="00/00/0000" autocomplete="off" maxlength="10">
+                                                   class="form-control input-Dob" data-mask="00/00/0000" autocomplete="off" maxlength="10">
                                             <span class="form-text">dd/mm/yyyy</span>
                                         </div>
 
@@ -221,22 +223,43 @@
         </div>
         <!-- Body -->
     </div>
-    <script src="js/plugins/jqueryMask/jquery.mask.min.js"></script>
-    <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
-    <script src="../js/plugins/validate/jquery.validate.min.js"></script>
-    <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../plugins/jqueryMask/jquery.mask.min.js"></script>
+<script src="../../js/jquery-3.1.1.min.js"></script>
+<script src="../../js/popper.min.js"></script>
+<script src="../../js/bootstrap.js"></script>
+<script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
-    <!-- Custom and plugin javascript -->
-    <script src="js/inspinia.js"></script>
-    <script src="js/plugins/pace/pace.min.js"></script>
+<!-- Custom and plugin javascript -->
+<script src="../../js/inspinia.js"></script>
+<script src="../../js/plugins/pace/pace.min.js"></script>
 
-    <!-- FooTable -->
-    <script src="js/plugins/footable/footable.all.min.js"></script>
+<!-- FooTable -->
+<script src="../../js/plugins/footable/footable.all.min.js"></script>
+
+<%--Main--%>
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="../js/inspinia.js"></script>
+<script src="../js/plugins/pace/pace.min.js"></script>
+
+<!-- FooTable -->
+<script src="../js/plugins/footable/footable.all.min.js"></script>
+
+<!-- Jquery Validate -->
+<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
     <!-- Page-Level Scripts -->
     <script>
@@ -263,10 +286,18 @@
             });
         });
 
+        $(document).ready(function () {
+            $('#update-Dob .input-Dob').datepicker({
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+                format: "dd/mm/yyyy"
+            });
+        });
 
     </script>
 
-    <script src="js/plugins/jqueryMask/jquery.mask.min.js"></script>
-</div>
+<script src="js/plugins/jqueryMask/jquery.mask.min.js"></script>
+
 </body>
 </html>

@@ -176,8 +176,8 @@ public class CustomerController extends HttpServlet {
             } else {
                 Sgender = 2;
             }
-            if(!date.equals("") && date != null && !address.equals("") && address != null &&
-            gender != null && !gender.equals("")){
+            if(date != null && !date.isEmpty() && address != null && !address.isEmpty() &&
+            gender != null && !gender.isEmpty()){
                 try {
                     Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                     customer.setDoB(dob);
