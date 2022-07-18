@@ -41,7 +41,7 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
     public Customer getByPhoneNum(String phoneNum) {
         String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
                 "from [dbo].[Customer]\n" +
-                "where Phone = ?";
+                "where Phone = ? and IsDeleted = 0";
         List<Customer> cus = query(sql, new CustomerMapper(), phoneNum);
         return cus.isEmpty() ? null : cus.get(0);
     }

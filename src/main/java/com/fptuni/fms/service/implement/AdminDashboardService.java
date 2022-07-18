@@ -64,7 +64,7 @@ public class AdminDashboardService implements IAdminDashboardService {
         try{
             //Get Top Store
             List<Store> listStore = storeDAO.getTopStore(5, date1, date2);
-            Map<Store, Pair<DecimalFormat, Integer>> listTopStores =  new HashMap<>();
+            Map<Store, Pair<BigDecimal, Integer>> listTopStores =  new HashMap<>();
             for (Store item : listStore) {
                 listTopStores.put(item, new Pair(orderDAO.GetTotalValueOfStore(item.getId(), date1, date2), orderDAO.GetOrderQuantity(item.getId(), date1, date2)));
                 System.out.println(item.getName());

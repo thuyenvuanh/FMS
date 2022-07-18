@@ -81,8 +81,8 @@
                                 <tr>
                                     <td>${requestScope.CUSTOMER.getName()}</td>
                                     <td>${requestScope.CUSTOMER.getPhone()}</td>
-                                    <fmt:setLocale value="vi_VN"/>
-                                    <td><fmt:formatNumber value="${requestScope.BALANCE}" type="currency"/></td>
+<%--                                    <fmt:setLocale value="vi_VN"/>--%>
+                                    <td><fmt:formatNumber value="${requestScope.BALANCE}" pattern="###,###,### ₫"/></td>
 
                                 </tr>
                                 </tbody>
