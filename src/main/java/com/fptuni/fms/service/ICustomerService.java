@@ -15,4 +15,5 @@ public interface ICustomerService {
     
     Integer CountCustomer ();
     Customer getCustomerByOrderID(HttpServletRequest request , HttpServletResponse response);
+    Customer getCustomer(int customerID);
 }

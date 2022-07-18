@@ -1,18 +1,21 @@
 package com.fptuni.fms.service.implement;
 
 import com.fptuni.fms.dao.implement.TransactionSharedDAO;
+import com.fptuni.fms.model.Store;
 import com.fptuni.fms.model.TransactionShared;
 import com.fptuni.fms.service.ITransactionService;
 import com.fptuni.fms.utils.SecurityUtils;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class TransactionService implements ITransactionService {
+    TransactionSharedDAO transactionSharedDAO = new TransactionSharedDAO();
     @Override
     public TransactionShared getTransactionSharedByWalletID(Integer walletID) {
         TransactionShared transactionShared = null;
-        TransactionSharedDAO transactionSharedDAO = new TransactionSharedDAO();
+//        TransactionSharedDAO transactionSharedDAO = new TransactionSharedDAO();
         String hashString = "";
         if(walletID != null){
             transactionShared = transactionSharedDAO.getLatestTransactionOf(walletID);
@@ -60,4 +63,9 @@ public class TransactionService implements ITransactionService {
                 : transactionShared.getWalletID().getId());
         return s;
     }
+
+    public List<TransactionShared> getTransactionSharedByStore(Store store){
+        return transactionSharedDAO.getTransactionSharedByStore(store);
+    }
+
 }

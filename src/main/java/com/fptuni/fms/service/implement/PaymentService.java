@@ -12,6 +12,7 @@ import javax.swing.plaf.basic.BasicIconFactory;
 import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 public class PaymentService implements IPaymentService {
 
@@ -60,5 +61,10 @@ public class PaymentService implements IPaymentService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    @Override
+    public List<Payment> getPaymentsByOrderID(int orderID) {
+        return paymentDAO.getPaymentsByOrderId(orderID);
     }
 }

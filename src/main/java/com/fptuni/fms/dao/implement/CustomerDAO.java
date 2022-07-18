@@ -70,4 +70,12 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
         List<Customer> result = query(sql, new CustomerMapper(), id);
         return result == null ? null : result.get(0);
     }
+
+    @Override
+    public Customer getCustomer(int customerID) {
+        String sql = "SELECT ID, Name, DoB, Address, Gender, Phone FROM Customer\n" +
+                "WHERE ID = ?";
+        List<Customer> result = query(sql, new CustomerMapper(), customerID);
+        return result == null ? null : result.get(0);
+    }
 }
