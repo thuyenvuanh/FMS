@@ -77,20 +77,20 @@
     </div>
     <div class="col-md-6 align-items-md-center justify-content-md-start col-12 justify-content-center d-flex">
         <div class="bg-light shadow-lg rounded-3 p-4 d-flex align-items-start login-section" style="min-height: 500px;">
-            <form method="post" class="w-100" autocomplete="off">
+            <form method="post" class="w-100">
                 <p class="fw-bold fs-1 text-center mb-5 mt-3">SIGN IN</p>
                 <!--Username-->
                 <div class="mb-3">
                     <label for="loginUsername" class="form-label">Username</label>
                     <input type="text" class="form-control" id="loginUsername" placeholder="Enter username"
-                           name="username"
+                           name="username" value="store" autofocus
                            required/>
                 </div>
                 <!-- Password input -->
                 <div class="mb-3">
                     <label for="loginPassword" class="form-label">Password</label>
                     <input type="password" class="form-control" id="loginPassword" placeholder="Enter password"
-                           name="password" required>
+                           name="password" value="store" required>
                 </div>
                 <!-- 2 column grid layout -->
                 <div class="row mb-3">

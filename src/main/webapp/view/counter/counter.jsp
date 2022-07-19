@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: LEGION
@@ -40,16 +42,14 @@
     <jsp:include page="layoutCounter.jsp"></jsp:include>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>E-commerce orders</h2>
+            <h2>Money Transaction</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a>E-commerce</a>
+                    <c:url var="index" value="${requestScope.contextPath}/counter/index"></c:url>
+                    <a href="${index}">Counter</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <strong>Orders</strong>
+                    <strong>Money Transaction</strong>
                 </li>
             </ol>
         </div>
@@ -66,11 +66,11 @@
                             <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
                                 <thead>
                                 <tr>
-                                    <th data-toggle="true">Customer</th>
+                                    <th data-toggle="true" data-sort-ignore="true">Customer</th>
 
-                                    <th data-hide="phone">Phone number</th>
+                                    <th data-hide="phone" data-sort-ignore="true">Phone number</th>
 
-                                    <th>Amounts</th>
+                                    <th data-sort-ignore="true">Amounts</th>
 
                                 </tr>
                                 </thead>
@@ -78,7 +78,8 @@
                                 <tr>
                                     <td>${requestScope.CUSTOMER.getName()}</td>
                                     <td>${requestScope.CUSTOMER.getPhone()}</td>
-                                    <td>100k</td>
+                                    <fmt:setLocale value="vi_VN"/>
+                                    <td><fmt:formatNumber value="${requestScope.BALANCE}" type="currency"/></td>
 
                                 </tr>
                                 </tbody>
@@ -87,24 +88,33 @@
 
 
                         </div>
-                        <div class="form-group row pt-5">
-                            <!-- <label class="col-sm-6 col-form-label">Currency</label> -->
-                            <div class="col-sm-12 ">
-                                <input type="text" class="form-control text-center h-100 d-inline-block"
-                                       data-mask="$ 000,000,000.00" placeholder="Currency" style="font-size: 3em;" autocomplete="off"
-                                       maxlength="16">
-                                <span class="form-text text-center">$ 000,000,000.00</span>
-                            </div>
 
-                            <div class="col-sm-6 pt-5">
-                                <button class="btn btn-warning dim btn-large-dim w-100 p-3 " type="button"><i
-                                        class="fa-solid fa-hand-holding-dollar"></i></i></button>
+                        <form id="form_create_transaction" action="">
+                            <div class="form-group row pt-5">
+                                <!-- <label class="col-sm-6 col-form-label">Currency</label> -->
+
+                                <div class="col-sm-12 ">
+                                    <input type="text" name="amount"
+                                           class="form-control text-center h-100 d-inline-block"
+                                           data-mask="000 000 000" placeholder="Amount" style="font-size: 3em;" autocomplete="off"
+                                           maxlength="16" required>
+                                    <input type="hidden" name="walletID" value="${requestScope.WALLET}">
+                                    <input type="hidden" name="customerPhone" value="${requestScope.CUSTOMER.getPhone()}">
+                                    <span class="form-text text-center">VNĐ</span>
+                                </div>
+
+                                <div class="col-sm-6 pt-5">
+                                    <button id="buttonDepositMoney" class="btn btn-warning dim btn-large-dim w-100 p-3 " type="submit"><i
+                                            class="fa-solid fa-hand-holding-dollar"></i></button>
+                                </div>
+                                <div class="col-sm-6 pt-5">
+
+                                    <button id="buttonAddMoney" class="btn btn-success dim btn-large-dim w-100 p-3 " type="submit"><i
+                                            class="fa fa-money"></i></button>
+                                </div>
                             </div>
-                            <div class="col-sm-6 pt-5">
-                                <button class="btn btn-success dim btn-large-dim w-100 p-3 " type="button"><i
-                                        class="fa fa-money"></i></button>
-                            </div>
-                        </div>
+                        </form>
+
 
                     </div>
                 </div>
@@ -112,12 +122,14 @@
         </div>
         <!-- TMP -->
 
-        <div class="footer">
-            <div class="float-right">10GB of <strong>250GB</strong> Free.</div>
-            <div><strong>Copyright</strong> Example Company &copy; 2014-2018</div>
-        </div>
+
+    </div>
+    <div class="footer">
+        <div class="float-right">10GB of <strong>250GB</strong> Free.</div>
+        <div><strong>Copyright</strong> Example Company &copy; 2014-2018</div>
     </div>
 </div>
+
 </div>
 
 <!-- Script -->
@@ -148,13 +160,42 @@
 <!-- FooTable -->
 <script src="../js/plugins/footable/footable.all.min.js"></script>
 
+<!-- Jquery Validate -->
+<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
+
 <!-- Page-Level Scripts -->
 <script>
     $(document).ready(function () {
         $(".footable").footable();
+
+        $('#buttonAddMoney').click(function(){
+            <c:url var="addMoneyLink" value="${requestScope.contextPath}/counter/addMoney"></c:url>
+            $('#form_create_transaction').attr('action', '${addMoneyLink}');
+        });
+        $('#buttonDepositMoney').click(function(){
+            $('#form_create_transaction').attr('action', '${requestScope.contextPath}/counter/withDraw');
+        });
+
+        $('#form_create_transaction').validate({
+            rules: {
+                amount: {
+                    required: true
+                }
+            },
+            messages: {
+                amount: {
+                    required: 'Please enter amount'
+                }
+            }
+        })
     });
 </script>
 <script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>
 <script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
+
+
 </body>
 </html>

@@ -11,14 +11,32 @@ public class CustomerMapper implements RowMapper<Customer>{
         Customer cus = null;
         try {
             cus = new Customer();
-            cus.setId(rs.getInt("ID"));
-            cus.setName(rs.getString("Name"));
-            cus.setPhone((rs.getString("Phone")));
+            if(rs.getObject("ID") != null){
+                cus.setId(rs.getInt("ID"));
+            }
+            if(rs.getString("Name") != null){
+                cus.setName(rs.getString("Name"));
+            }
+            if(rs.getString("Phone") != null){
+                cus.setPhone((rs.getString("phone")));
+            }
+            if(rs.getString("isDeleted") != null){
+                cus.setIsDeleted(rs.getBoolean("isDeleted"));
+            }
+            if(rs.getString("DoB") != null){
+                cus.setDoB(rs.getDate("DoB"));
+            }
+            if(rs.getString("Address") != null){
+                cus.setAddress(rs.getString("Address"));
+            }
+            if(rs.getString("Gender") != null){
+                cus.setGender(rs.getShort("Gender"));
+            }
+
         }
         catch (Exception e){
             System.out.println(e.getMessage());
         }
-
         return cus;
     }
 }
