@@ -94,7 +94,7 @@
                                                     <div class="col-sm-10"><input name="fullName" type="text" class="form-control" placeholder="Full Name"></div>
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Password:</label>
-                                                    <div class="col-sm-10"><input name="password" type="password" class="form-control" placeholder="Password"></div>
+                                                    <div class="col-sm-10"><input name="password" type="password" class="form-control password" placeholder="Password"></div>
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Confirm password:</label>
                                                     <div class="col-sm-10"><input name="cfPassword" type="password" class="form-control" placeholder="Confirm password"></div>

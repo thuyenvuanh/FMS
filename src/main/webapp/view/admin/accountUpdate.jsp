@@ -96,7 +96,7 @@
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Password:</label>
                                                     <div class="col-sm-10">
-                                                        <input type="password" class="form-control" name="password" value="${acc.password}" placeholder="Password">
+                                                        <input type="password" class="form-control password" name="password" value="${acc.password}" placeholder="Password">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Confirm password:</label>
@@ -109,7 +109,7 @@
                                                     <div class="col-sm-10">
                                                         <select id="select_role" name="roleId" class="form-control">
                                                             <c:forEach var="role" items="${requestScope.roleList}">
-                                                                <option  value="${role.id}" ${role.id == acc.role.id ? "selected" : ""}>${role.name}</option>
+                                                                <option  value="${role.id}" ${roleID.id == acc.roleID.id ? "selected" : ""}>${role.name}</option>
                                                             </c:forEach>
                                                         </select>
                                                     </div>

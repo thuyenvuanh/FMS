@@ -98,20 +98,17 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
 //                + "FROM Store s JOIN StoreAccount sa ON s.ID = sa.StoreID \n"
 //                + "JOIN Account a ON sa.AccountID = a.ID\n"
 //                + "WHERE a.IsDeleted = 0 AND sa.IsDeleted = 0 AND s.IsDeleted = ? AND s.Name LIKE ? AND a.FullName LIKE ? \n";
-        String sql = "select s.Name, a.FullName, s.IsDeleted\n" +
+        String sql = "SELECT * FROM (select s.ID, s.Name, a.FullName , s.IsDeleted\n" +
                 "FROM Store S LEFT OUTER JOIN StoreAccount SA on S.ID = SA.StoreID left join Account A on SA.AccountID = A.ID\n" +
                 "WHERE (s.IsDeleted = ?)\n";
-
-        List<Object> params = new ArrayList<>();
-
-        Object[] params = {isDelete};
+        boolean hasName = false, hasStoreManager = false;
         if (storeManager != null && !storeManager.isEmpty()) {
-            params.add("%" + storeManager + "%");
-            sql += "    and (a.IsDeleted = 0 and a.FullName like ? )";
+            hasStoreManager = true;
+            sql += "    and (a.IsDeleted = 0 and a.FullName like ? ) \n";
         }
         if (name != null && !name.isEmpty()) {
-            params.add("%" + name + "%");
-            sql += "    and (s.IsDeleted = 0 AND s.Name LIKE ?) ";
+            hasName = true;
+            sql += "    and (s.IsDeleted = 0 AND s.Name LIKE ? ) \n";
         }
         String orderBy;
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
@@ -127,7 +124,16 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
             sql += "ORDER BY A." + pageable.getSorter().getSortField() + " " + orderBy;
         }
 //        List<Store> listStore = query(sql, new StoreMapper(), isDelete, "%" + name + "%", "%" + storeManager + "%");
-        List<Store> listStore = query(sql, new StoreMapper(), params);
+        List<Store> listStore = null;
+        if (!hasName && !hasStoreManager){
+            listStore = query(sql, new StoreMapper(), isDelete);
+        } else if(!hasName && hasStoreManager){
+            listStore = query(sql, new StoreMapper(), isDelete, "%"+storeManager+"%");
+        } else if(hasName && !hasStoreManager){
+            listStore = query(sql, new StoreMapper(), isDelete, "%" + name+"%");
+        } else {
+            listStore = query(sql, new StoreMapper(), isDelete, "%"+storeManager+"%", "%" + name+"%");
+        }
         return listStore;
     }
 

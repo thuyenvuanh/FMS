@@ -39,7 +39,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         try {
             String sql = "UPDATE dbo.Account SET Password=?, Fullname=?, RoleID=? WHERE Username=? AND IsDeleted = 0";
             String hashPassword = SecurityUtils.createHash(Password, Username);
-            return update(sql, Password, Fullname, RoleID, Username);
+            return update(sql, hashPassword, Fullname, RoleID, Username);
         } catch (Exception e) {
             System.out.println("Database query error: " + e.getMessage());
         }

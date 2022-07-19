@@ -241,11 +241,20 @@ public class AccountService implements IAccountService {
     public String delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.removeAttribute("deleteStatus");
-        String username = request.getParameter("username");
-        if (username == null || username.isEmpty()) {
+        String accountId = request.getParameter("accountId");
+        if (accountId == null || accountId.isEmpty()) {
             session.setAttribute("deleteStatus", "fail");
         }
-        if (!accountDAO.Delete(username)) {
+
+        Account account = accountDAO.getAccount(Integer.parseInt(accountId));
+        if (account == null){
+            return "/account/list";
+        }
+        if (account.getId() == ((Account) request.getSession().getAttribute("account")).getId()){
+            return "/account/list";
+        }
+
+        if (!accountDAO.Delete(accountId)) {
             session.setAttribute("deleteStatus", "fail");
         }
         return "/account/list";
