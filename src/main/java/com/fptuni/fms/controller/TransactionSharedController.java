@@ -33,7 +33,7 @@ public class TransactionSharedController extends HttpServlet {
         Store store = (Store) session.getAttribute("store");
         if (path.equals("/list")) {
             List<TransactionShared> transactionShares = transactionService.getTransactionSharedByStore(store);
-            
+
             Map<Integer, Customer> customerMapByWalletID = new HashMap<>();
             Map<Integer, List<Payment>> paymentMapByOrderID = new HashMap<>();
             for (TransactionShared transactionShared : transactionShares) {
