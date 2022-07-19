@@ -1,11 +1,9 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: LEGION
-  Date: 6/18/2022
-  Time: 12:55 PM
-  To change this template use File | Settings | File Templates.
---%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -15,44 +13,51 @@
 
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet">
-
     <!-- FooTable -->
     <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet">
-
     <!-- Date picker -->
     <link href="../../css/plugins/iCheck/custom.css" rel="stylesheet">
-
     <link href="../../css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
-
     <link href="../../css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
-
     <link href="../../css/plugins/cropper/cropper.min.css" rel="stylesheet">
-
     <link href="../../css/plugins/switchery/switchery.css" rel="stylesheet">
-
     <link href="../../css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
-
     <link href="../../css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-
     <link href="../../css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
-
     <link href="../../css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
-
     <link href="../../css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
-
     <link href="../../css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
-
     <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
     <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-
     <link href="../../css/plugins/touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
-
     <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
-
-
-
     <link href="../../css/animate.css" rel="stylesheet">
     <link href="../../css/style.css" rel="stylesheet">
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
+    <!-- FooTable -->
+    <link href="../css/plugins/footable/footable.core.css" rel="stylesheet">
+    <!-- Date picker -->
+    <link href="../css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="../css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
+    <link href="../css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <link href="../css/plugins/cropper/cropper.min.css" rel="stylesheet">
+    <link href="../css/plugins/switchery/switchery.css" rel="stylesheet">
+    <link href="../css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+    <link href="../css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="../css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="../css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="../css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+    <link href="../css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+    <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+    <link href="../css/plugins/touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
+    <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+    <link href="../css/animate.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+
+
 </head>
 <body>
 
@@ -82,7 +87,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="form-group">
-                        <label class="col-form-label" for="customer">Customer phone</label>
+                        <label class="col-form-label" >Customer phone</label>
                         <input type="text" class="form-control" data-mask="(000) 000-0000" placeholder="(000) 000-0000" autocomplete="off" maxlength="14">
                     </div>
                 </div>
@@ -111,7 +116,7 @@
 
                 <div class="col-lg-2">
                     <div class="form-group">
-                        <label class="col-form-label" for="amount">Amount</label>
+                        <label class="col-form-label" >Amount</label>
                         <input type="text" class="form-control" data-mask="$ 000000000.00" placeholder="" autocomplete="off" maxlength="16">
                     </div>
                 </div>
@@ -126,7 +131,7 @@
                 <div class="ibox">
                     <div class="ibox-content m-b-sm border-bottom">
                         <div class="row">
-                            <div class="col-md-6">Total transaction:</div>
+                            <div class="col-md-6">Total transaction: </div>
                             <div class="col-md-6">Total money:</div>
                         </div>
                     </div>
@@ -139,38 +144,54 @@
                 <div class="ibox">
                     <div class="ibox-content">
 
-                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15" style="font-size: small">
                             <thead>
                             <tr>
-
+                                <th>No</th>
                                 <th>Transaction ID</th>
                                 <th data-hide="phone">Order ID</th>
                                 <th data-hide="phone">Customer Name</th>
                                 <th data-hide="phone">Amount</th>
-                                <th class="text-right">Transaction Date</th>
-
+                                <th>Transaction Date</th>
+                                <th>Status</th>
                             </tr>
                             </thead>
                             <tbody>
+                            <c:set var="customer" value="${requestScope.customerMapByWalletID}"></c:set>
+                            <c:forEach var="transactionShared" items="${requestScope.transactionShares}" varStatus="counter">
                             <tr>
+                                <td>${counter.count}</td>
                                 <td>
-                                    3214
-                                </td>
-                                <td>
-                                    1234
+                                    ${transactionShared.id}
                                 </td>
                                 <td>
-                                    Customer example
+                                    ${transactionShared.paymentID.orderID.id}
                                 </td>
                                 <td>
-                                    $500
+                                    <c:forEach var="customerInfo" items="${customer}">
+                                        <c:if test="${customerInfo.key == transactionShared.id}">
+                                            ${customerInfo.value.name}
+                                        </c:if>
+                                    </c:forEach>
                                 </td>
-                                <td class="text-right">
-                                    09/04/2022
+                                <td>
+                                    <fmt:formatNumber var="amountFmt" value="${transactionShared.amount}" pattern="###,###,### VND"></fmt:formatNumber>
+                                    ${amountFmt}
                                 </td>
-
+                                <td>
+                                    <fmt:formatDate value="${transactionShared.createDateTime}" pattern="dd/MM/yyyy HH:mm:ss" var="dateTimeFmt"></fmt:formatDate>
+                                    ${dateTimeFmt}
+                                </td>
+                                <td>
+                                    <c:if test="${transactionShared.status}">
+                                    <span class="label label-primary">Success</span>
+                                    </c:if>
+                                    <c:if test="${!transactionShared.status}">
+                                    <span class="label label-danger">Fail</span>
+                                    </c:if>
+                                </td>
                             </tr>
-
+                            </c:forEach>
 
 
 
@@ -226,15 +247,22 @@
 <!-- FooTable -->
 <script src="../../js/plugins/footable/footable.all.min.js"></script>
 
+
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="../js/inspinia.js"></script>
+<script src="../js/plugins/pace/pace.min.js"></script>
+
+<!-- FooTable -->
+<script src="../js/plugins/footable/footable.all.min.js"></script>
+
 <!-- Page-Level Scripts -->
-<script>
-    $(document).ready(function () {
 
-        $('.footable').footable();
-
-    });
-
-</script>
 
 <!-- Data picker -->
 <script src="../../js/plugins/datapicker/bootstrap-datepicker.js"></script>
@@ -254,8 +282,67 @@
 <!-- Input Mask-->
 <script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>
 
+<!-- Data picker -->
+<script src="../../js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
+<!-- Image cropper -->
+<script src="../../js/plugins/cropper/cropper.min.js"></script>
 
+<!-- Date range use moment.js same as full calendar plugin -->
+<script src="../../js/plugins/fullcalendar/moment.min.js"></script>
+
+<!-- Date range picker -->
+<script src="../../js/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- Tags Input -->
+<script src="../../js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+
+<!-- Input Mask-->
+<script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>
+
+<!-- Data picker -->
+<script src="../js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+<!-- Image cropper -->
+<script src="../js/plugins/cropper/cropper.min.js"></script>
+
+<!-- Date range use moment.js same as full calendar plugin -->
+<script src="../js/plugins/fullcalendar/moment.min.js"></script>
+
+<!-- Date range picker -->
+<script src="../js/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- Tags Input -->
+<script src="../js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+
+<!-- Input Mask-->
+<script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
+
+<!-- Data picker -->
+<script src="../js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+<!-- Image cropper -->
+<script src="../js/plugins/cropper/cropper.min.js"></script>
+
+<!-- Date range use moment.js same as full calendar plugin -->
+<script src="../js/plugins/fullcalendar/moment.min.js"></script>
+
+<!-- Date rane picker -->
+<script src="../js/plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- Tags Input -->
+<script src="../js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+
+<!-- Input Mask-->
+<script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('.footable').footable();
+
+    });
+
+</script>
 
 <script>
     $(document).ready(function () {

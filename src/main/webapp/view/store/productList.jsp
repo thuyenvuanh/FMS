@@ -46,6 +46,7 @@
 <body>
 <div id="wrapper">
     <jsp:include page="layoutStore.jsp"></jsp:include>
+
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>E-commerce product list</h2>
@@ -216,7 +217,7 @@
                                     </td>
                                     <td>${product.name}</td>
                                     <td>
-                                        <img src="${product.imagePath}" alt="${product.name}" style="width: 35%"/>
+                                        <img src="../${product.imagePath}" alt="${product.name}" style="width: 25%"/>
                                     </td>
                                     <fmt:setLocale value="vi_VN"/>
                                     <td><fmt:formatNumber value="${product.price}" type="currency"/></td>

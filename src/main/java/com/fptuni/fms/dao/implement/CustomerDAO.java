@@ -13,9 +13,10 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
 
     @Override
     public List<Customer> getAllCustomer(Pageable pageable) {
-//        String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
-//                "from [dbo].[Customer]\n";
-        String sql = "select sum(m.Amount) as Amount, c.ID , c.Phone, c.IsDeleted, c.Gender,c.DoB, c.Name, c.Address\n" +
+        // String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
+        // "from [dbo].[Customer]\n";
+        String sql = "select sum(m.Amount) as Amount, c.ID , c.Phone, c.IsDeleted, c.Gender,c.DoB, c.Name, c.Address\n"
+                +
                 "from [dbo].[Customer] c join [dbo].[MoneyTransaction] m\n" +
                 "on c.ID = m.CustomerID\n" +
                 "group by c.ID, c.Name, c.Phone, c.IsDeleted, c.Gender,c.DoB, c.Address";
@@ -91,4 +92,22 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
                 customer.getPhone());
     }
 
+    public Customer getCustomerByOrderID(int id) {
+        String sql = "SELECT c.ID, Name, c.DoB, Address, Gender, Phone FROM Customer c\n" +
+                "JOIN MoneyTransaction mt ON mt.CustomerID = c.ID AND c.IsDeleted = 0 AND mt.IsDeleted = 0\n" +
+                "JOIN TransactionShared ts ON ts.MoneyTransactionID = mt.ID AND ts.IsDeleted = 0\n" +
+                "JOIN Payment p ON p.ID = ts.PaymentID AND p.IsDeleted = 0\n" +
+                "JOIN Orders o ON o.ID = p.OrderID AND o.IsDeleted = 0\n" +
+                "WHERE o.ID = ?";
+        List<Customer> result = query(sql, new CustomerMapper(), id);
+        return result == null ? null : result.get(0);
+    }
+
+    @Override
+    public Customer getCustomer(int customerID) {
+        String sql = "SELECT ID, Name, DoB, Address, Gender, Phone FROM Customer\n" +
+                "WHERE ID = ?";
+        List<Customer> result = query(sql, new CustomerMapper(), customerID);
+        return result == null ? null : result.get(0);
+    }
 }

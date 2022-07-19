@@ -7,6 +7,8 @@ package com.fptuni.fms.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -27,19 +29,19 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 
 /**
- *
  * @author LucasBV
  */
 @Entity
 @Table(name = "Orders")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o"),
-    @NamedQuery(name = "Orders.findById", query = "SELECT o FROM Orders o WHERE o.id = :id"),
-    @NamedQuery(name = "Orders.findByTotal", query = "SELECT o FROM Orders o WHERE o.total = :total"),
-    @NamedQuery(name = "Orders.findByCreatedDate", query = "SELECT o FROM Orders o WHERE o.createdDate = :createdDate")})
+        @NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o"),
+        @NamedQuery(name = "Orders.findById", query = "SELECT o FROM Orders o WHERE o.id = :id"),
+        @NamedQuery(name = "Orders.findByTotal", query = "SELECT o FROM Orders o WHERE o.total = :total"),
+        @NamedQuery(name = "Orders.findByCreatedDate", query = "SELECT o FROM Orders o WHERE o.createdDate = :createdDate") })
 public class Orders implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,7 +50,8 @@ public class Orders implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // @Max(value=?) @Min(value=?)//if you know range of your decimal fields
+    // consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "Total")
@@ -65,6 +68,8 @@ public class Orders implements Serializable {
     private List<OrderDetail> orderDetailList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderID")
     private List<Payment> paymentList;
+
+    private Timestamp createdDateTime;
 
     public Orders() {
     }
@@ -107,8 +112,16 @@ public class Orders implements Serializable {
         return createdDate;
     }
 
+    public Timestamp getCreatedDateTime() {
+        return createdDateTime;
+    }
+
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public void setCreatedDateTime(Timestamp createdDateTime) {
+        this.createdDateTime = createdDateTime;
     }
 
     public Store getStoreID() {

@@ -79,7 +79,7 @@
 
                                 <c:url var="createLink" value="${requestScope.contextPath}/product/create">
                                 </c:url>
-                                <form id="form_product_create" class="createForm" action="${createLink}">
+                                <form class="createForm" id="form_product_create" action="${createLink}" autocomplete="off" enctype="multipart/form-data" method="post">
                                     <fieldset>
                                         <div class="form-group row">
                                             <label class="col-sm-1 col-form-label">Name:</label>
