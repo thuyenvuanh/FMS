@@ -108,7 +108,7 @@ public class CustomerController extends HttpServlet {
                     wallet = walletService.getWallet(cus.getId());
                     if(wallet != null){
                         walletList.add(wallet);
-                        transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
+                            transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
                         BigDecimal b = (transactionShared == null)
                                 ? BigDecimal.ZERO
                                 : transactionService.getCustomerBalance(transactionShared);

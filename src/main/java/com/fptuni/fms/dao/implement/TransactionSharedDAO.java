@@ -19,10 +19,9 @@ import java.util.List;
  */
 public class TransactionSharedDAO extends AbstractDAO<TransactionShared> implements ITransactionShared {
 
-        RowMapper<TransactionShared> mapper;
+        TransactionSharedMapper mapper = new TransactionSharedMapper();
 
         public TransactionSharedDAO() {
-                mapper = new TransactionSharedMapper();
         }
 
         @Override

@@ -156,17 +156,7 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
     }
 
 
-    @Override
-    public Integer GetTotalOrderByTime(Date startTime, Date endTime) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String start = simpleDateFormat.format(startTime);
-        String end = simpleDateFormat.format(endTime);
-        String sql = "select count(ID)\n" +
-                "from Orders\n" +
-                "where CreatedDate between ? and ? ";
 
-        return count(sql, start, end);
-    }
     public int countNumberOfOrders() {
         String sql = "SELECT COUNT(ID) AS ID FROM Orders";
         List<Orders> orders = query(sql, new OrderMapper());
