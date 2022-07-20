@@ -212,3 +212,25 @@
         </div>
     </body>
 </html>
+
+<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+<!-- Sweet Alert -->
+<link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+<link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+<link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
+
+<c:if test="${sessionScope.updateStatus != null && sessionScope.updateStatus eq 'fail'}">
+    <script>
+        $(document).ready(function () {
+            swal({
+                title: "Update Failed!",
+                text: "Account Updated Failed",
+                type: "error"
+            });
+        });
+    </script>
+    <%
+        session.removeAttribute("updateStatus");
+    %>
+</c:if>

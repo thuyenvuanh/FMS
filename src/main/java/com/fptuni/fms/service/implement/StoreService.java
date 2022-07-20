@@ -38,7 +38,7 @@ public class StoreService implements IStoreService {
         HttpSession session = request.getSession();
         session.removeAttribute("createStatus");
         String name = request.getParameter("storeName");
-        String storeManager = request.getParameter("storeManager");
+        String storeManager = request.getParameter("select_storeManager");
         Store store = new Store();
         store.setName(name);
 //        store.setAccountID(accountDAO.getAccount(Integer.parseInt(storeManager)));
@@ -153,13 +153,28 @@ public class StoreService implements IStoreService {
     @Override
     public String update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+
+        //get parameters from requests
         session.removeAttribute("updateStatus");
-        String id = request.getParameter("storeId");
-        String name = request.getParameter("name");
-        boolean check = storeDAO.updateStore(Integer.parseInt(id), name);
-        if (check == false) {
+        Store store = storeDAO.getStore(Integer.parseInt(request.getParameter("storeId")));
+        store.setName(request.getParameter("name"));
+        String manager_id = request.getParameter("manager_id");
+        String cashier_id = request.getParameter("cashier_id");
+
+        boolean isSuccess = storeDAO.updateStore(store.getId(), store.getName());
+        if (manager_id != null && !manager_id.isEmpty()){
+            Account manager = accountDAO.getAccount(Integer.parseInt(manager_id));
+            isSuccess = storeAccountDAO.insert(manager, store) > 0;
+        }
+
+        if (cashier_id != null && !cashier_id.isEmpty()){
+            Account cashier = accountDAO.getAccount(Integer.parseInt(request.getParameter("cashier_id")));
+            isSuccess = storeAccountDAO.insert(cashier, store) > 0;
+        }
+
+        if (isSuccess == false) {
             session.setAttribute("updateStatus", "fail");
-            return request.getContextPath() + "/store/list";
+            return "/store/list";
         }
         session.setAttribute("updateStatus", "success");
 
@@ -232,8 +247,10 @@ public class StoreService implements IStoreService {
 
     @Override
     public String getStoreManager(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Account> listAcc = accountDAO.getListStoreManager();
-        request.setAttribute("listStoreManager", listAcc);
+        List<Account> avaiAccounts = accountDAO.getAvailableAccounts();
+        request.setAttribute("avaiAccounts", avaiAccounts);
+        //        List<Account> listAcc = accountDAO.getListStoreManager();
+//        request.setAttribute("listStoreManager", listAcc);
         return "/view/admin/storeCreate.jsp";
     }
 }

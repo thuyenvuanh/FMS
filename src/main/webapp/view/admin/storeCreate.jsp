@@ -36,6 +36,14 @@
 
         <link href="../../css/animate.css" rel="stylesheet"/>
         <link href="../../css/style.css" rel="stylesheet"/>
+
+        <!-- Select2 -->
+        <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
+        <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+        <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+        <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
+        <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+        <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
     </head>
     <body>
 
@@ -82,16 +90,35 @@
                                                 <div class="form-group row"><label  class="col-sm-2 col-form-label">Store Manager:</label>
                                                     <div class="col-sm-10">
                                                         <div>
-                                                            <input name="tmp" type="hidden" value="tmp">
-                                                            <select class="form-control m-b" id="select_storemanager" name="storeManager">
+                                                            <select id="select_manager" name="select_storeManager"
+                                                                    class="form-control">
                                                                 <option value="0">None</option>
-                                                                <c:forEach var="acc" items="${requestScope.listStoreManager}">
-                                                                    <option value="${acc.id}" ${acc.id==storeManager?"selected":""} >${acc.username}</option>
+                                                                <c:forEach var="acc" items="${requestScope.avaiAccounts}">
+                                                                    <c:if test="${acc.roleID.name eq 'Store Manager'}">
+                                                                        <option value="${acc.id}" >${acc.fullName}</option>
+                                                                    </c:if>
                                                                 </c:forEach>
                                                             </select>
                                                         </div>
-                                                        <div id="TextAreaBtn"></div>
-                                                        <button class="btn btn-light" type="button" id="URLbtn" onclick="createInput()">More</button>
+<%--                                                        <div id="TextAreaBtn"></div>--%>
+<%--                                                        <button class="btn btn-light" type="button" id="URLbtn" onclick="createInput()">More</button>--%>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row"><label  class="col-sm-2 col-form-label">Store Cashier:</label>
+                                                    <div class="col-sm-10">
+                                                        <div>
+                                                            <select id="select_cashier" name="select_cashier"
+                                                                    class="form-control">
+                                                                <option value="0">None</option>
+                                                                <c:forEach var="acc" items="${requestScope.avaiAccounts}">
+                                                                    <c:if test="${acc.roleID.name eq 'Cashier'}">
+                                                                        <option value="${acc.id}" >${acc.fullName}</option>
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </select>
+                                                        </div>
+                                                        <%--                                                        <div id="TextAreaBtn"></div>--%>
+                                                        <%--                                                        <button class="btn btn-light" type="button" id="URLbtn" onclick="createInput()">More</button>--%>
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -203,6 +230,8 @@
                 this.closest('.group').remove();
             }
         </script>
+        <!-- select 2 -->
+        <script src="../js/plugins/select2/select2.full.min.js"></script>
 
         <!-- Alert -->
         <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
@@ -222,6 +251,15 @@
                 $('.confirm').click(function () {
                     $(".createForm").submit();
                 });
+
+                $('#select_manager').select2({
+                    theme: 'bootstrap4',
+                });
+
+                $('#select_cashier').select2({
+                    theme: 'bootstrap4',
+                });
+
                 $.validator.addMethod("valueNotEquals", function (value, element, arg) {
                     return arg !== value;
                 }, "Value must not equal arg.");

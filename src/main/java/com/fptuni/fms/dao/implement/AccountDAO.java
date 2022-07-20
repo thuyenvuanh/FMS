@@ -86,6 +86,14 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         return listAcc;
     }
 
+    public Account isAccountLinkToStore(String username){
+        String sql = "select a.ID, a.Username, a.FullName, a.RoleID\n" +
+                "from Account a join StoreAccount SA on a.ID = SA.AccountID\n" +
+                "where Username = ?\n";
+        List<Account> result = query(sql, new AccountMapper(), username);
+        return result.isEmpty() ? null : result.get(0);
+    }
+
     @Override
     public List<Account> search(Pageable pageable, int isDelete, String username, String fullName, int roleId) {
         // Sort theo field xong moi paging

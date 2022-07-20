@@ -98,11 +98,12 @@
                                                        value="${store.name}" placeholder="Store Name">
                                             </div>
                                         </div>
+                                        <!-- Store manager input -->
                                         <div class="form-group row"><label class="col-sm-2 col-form-label">Store
                                             Manager:</label>
                                             <div class="col-sm-10">
                                                 <c:if test="${requestScope.accountList == null || requestScope.accountList.isEmpty()}">
-                                                    <select id="select_availableAccount" name="avAccount"
+                                                    <select id="select_manager" name="manager_id"
                                                             class="form-control">
                                                         <c:forEach var="acc" items="${requestScope.avaiAccounts}">
                                                             <c:if test="${acc.roleID.name eq 'Store Manager'}">
@@ -113,8 +114,33 @@
                                                 </c:if>
                                                 <c:if test="${requestScope.accountList != null}">
                                                     <c:forEach var="acc" items="${requestScope.accountList}">
-                                                        <input type="text" class="form-control" value="${acc.fullName}"
-                                                               placeholder="Store Cashier" readonly>
+                                                        <c:if test="${acc.roleID.name eq 'Store Manager'}">
+                                                            <input type="text" name="manager_id" class="form-control" value="${acc.fullName}"
+                                                                   placeholder="Store Manager" readonly>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:if>
+                                            </div>
+                                        </div>
+                                        <!-- Cashier input-->
+                                        <div class="form-group row"><label class="col-sm-2 col-form-label">Cashier: </label>
+                                            <div class="col-sm-10">
+                                                <c:if test="${requestScope.accountList == null || requestScope.accountList.isEmpty()}">
+                                                    <select id="select_cashier" name="cashier_id"
+                                                            class="form-control">
+                                                        <c:forEach var="acc" items="${requestScope.avaiAccounts}">
+                                                            <c:if test="${acc.roleID.name eq 'Cashier'}">
+                                                                <option value="${acc.id}" >${acc.fullName}</option>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </select>
+                                                </c:if>
+                                                <c:if test="${requestScope.accountList != null}">
+                                                    <c:forEach var="acc" items="${requestScope.accountList}">
+                                                        <c:if test="${acc.roleID.name eq 'Cashier'}">
+                                                            <input type="text" name="cashier_id" class="form-control" value="${acc.fullName}"
+                                                                   placeholder="Cashier" readonly>
+                                                        </c:if>
                                                     </c:forEach>
                                                 </c:if>
                                             </div>
@@ -124,9 +150,7 @@
                                         <button type="button" id="update_store_form"
                                                 class="btn btn-primary bd-0 update_store_form">Submit
                                         </button>
-                                        <button onclick="history.back()" type="button" class="btn btn-dark">Back to
-                                            list
-                                        </button>
+                                        <a href="<c:url value="/store/list"/>" type="button" class="btn btn-dark">Cancel</a>
                                     </div>
                                 </form>
                             </div>
@@ -210,7 +234,10 @@
             $(".updateForm").submit();
         });
 
-        $("#select_availableAccount").select2({
+        $("#select_manager").select2({
+            theme: 'bootstrap4',
+        });
+        $("#select_cashier").select2({
             theme: 'bootstrap4',
         });
 
@@ -218,11 +245,17 @@
             rules: {
                 name: {
                     required: true
-                }
+                },
+                manager_id: {
+                    required: true
+                },
             },
             messages: {
                 name: {
-                    required: "Please enter product name"
+                    required: "Please enter Store name"
+                },
+                manager_id: {
+                    required: "Please select an account"
                 }
             }
         })

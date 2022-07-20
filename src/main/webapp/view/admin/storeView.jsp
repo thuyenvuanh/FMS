@@ -75,13 +75,24 @@
                                                     <div class="col-sm-10 text-align">${store.id}</div>
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Store Name:</label>
-                                                    <div class="col-sm-10 text-align">${store.name}</div>
+                                                    <div class="col-sm-10 text-align" style="padding: 7px 15px;">${store.name}</div>
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Store Manager:</label>
-                                                    <div class="col-sm-10">
+                                                    <div class="col-sm-10" style="padding: 7px 15px;">
                                                     <c:forEach var="acc" items="${requestScope.accountList}">
-                                                        <div class="text-align">${acc.fullName}</div>
+                                                        <c:if test="${acc.roleID.name eq 'Store Manager'}">
+                                                            <div class="text-align">${acc.fullName}</div>
+                                                        </c:if>
                                                     </c:forEach>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row"><label class="col-sm-2 col-form-label">Cashier: </label>
+                                                    <div class="col-sm-10" style="padding: 7px 15px;">
+                                                        <c:forEach var="acc" items="${requestScope.accountList}">
+                                                            <c:if test="${acc.roleID.name eq 'Cashier'}">
+                                                                <div class="text-align">${acc.fullName}</div>
+                                                            </c:if>
+                                                        </c:forEach>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Status:</label>

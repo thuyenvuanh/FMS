@@ -228,10 +228,21 @@ public class AccountService implements IAccountService {
             session.setAttribute("updateStatus", "fail");
             return request.getContextPath() + "/account/create";
         }
+
+        //check does the account link to a store or not
+        Account account = accountDAO.isAccountLinkToStore(userName);
+        if (account != null){
+            if (account.getRoleID().getId() != Integer.parseInt(roleId)){
+                session.setAttribute("updateStatus", "fail");
+                session.setAttribute("message", "This account has link to a store. Remove constraint to update role or keep role as default");
+                return "/account/updatePage?accountId=" + account.getId();
+            }
+        }
+
         boolean check = accountDAO.Update(userName, password, fullName, Integer.parseInt(roleId));
         if (check == false) {
             session.setAttribute("updateStatus", "fail");
-            return request.getContextPath() + "/account/create";
+            return "/account/updatePage?accountId=" + account.getId();
         }
         session.setAttribute("updateStatus", "success");
         return "/account/list";
