@@ -16,30 +16,29 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Customer Update</title>
-    <link href="../css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
-    <link href="../css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-
-    <%--    Jquery--%>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- FooTable -->
-    <link href="../css/plugins/footable/footable.core.css" rel="stylesheet"/>
+    <link href="../css/plugins/footable/footable.core.css" rel="stylesheet" />
 
-    <link href="../css/animate.css" rel="stylesheet"/>
-    <link href="../css/style.css" rel="stylesheet"/>
+    <link href="../css/animate.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+
     <!-- Sweet Alert -->
     <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
 
-    <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
-
+    <%--    --%>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <%--    <link rel="stylesheet"--%>
+    <%--          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">--%>
     <!-- FooTable -->
-    <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
+    <link href="../css/plugins/footable/footable.core.css" rel="stylesheet" />
 
-    <link href="../../css/animate.css" rel="stylesheet"/>
-    <link href="../../css/style.css" rel="stylesheet"/>
+    <link href="../css/animate.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -160,8 +159,10 @@
 <%--                                        </div>--%>
                                         <div class="form-group" id="update-Dob">
                                             <label>Date of Birth</label>
-                                            <input placeholder="${update.doB}"
+                                            <input
+<%--                                                    placeholder="${update.doB}"--%>
                                                    name="Dob" type="text"
+                                                   value="${update.doB}"
                                                    class="form-control input-Dob" data-mask="00/00/0000" autocomplete="off" maxlength="10">
                                             <span class="form-text">dd/mm/yyyy</span>
                                         </div>
@@ -223,16 +224,11 @@
         </div>
         <!-- Body -->
     </div>
-<script src="../../plugins/jqueryMask/jquery.mask.min.js"></script>
 <script src="../../js/jquery-3.1.1.min.js"></script>
 <script src="../../js/popper.min.js"></script>
 <script src="../../js/bootstrap.js"></script>
 <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
-<script src="../js/plugins/validate/jquery.validate.min.js"></script>
-<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="../js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
 <!-- Custom and plugin javascript -->
 <script src="../../js/inspinia.js"></script>
@@ -241,7 +237,7 @@
 <!-- FooTable -->
 <script src="../../js/plugins/footable/footable.all.min.js"></script>
 
-<%--Main--%>
+<%----%>
 <script src="../js/jquery-3.1.1.min.js"></script>
 <script src="../js/popper.min.js"></script>
 <script src="../js/bootstrap.js"></script>
@@ -260,6 +256,9 @@
 <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
 <script src="../js/plugins/validate/jquery.validate.min.js"></script>
+
+<!-- Sweet alert -->
+<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
     <!-- Page-Level Scripts -->
     <script>
@@ -283,10 +282,10 @@
                         required: 'Please enter Date of birth'
                     },
                     address: {
-                      required: 'Please enter Address'
+                        required: 'Please enter Address'
                     },
                     name: {
-                        required: 'Please enter name'
+                        required: 'Please enter Name'
                     }
                 }
             });
@@ -297,7 +296,7 @@
                 keyboardNavigation: false,
                 forceParse: false,
                 autoclose: true,
-                format: "dd/mm/yyyy"
+                format: "yyyy-MM-dd"
             });
         });
 

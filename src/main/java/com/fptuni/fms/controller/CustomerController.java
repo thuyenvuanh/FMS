@@ -157,7 +157,8 @@ public class CustomerController extends HttpServlet {
             Customer customer = new Customer();
             String phone = request.getParameter("phone");
             customer = customerService.getCustomerByPhoneNum(phone);
-            String date = request.getParameter("DoB");
+            String name = request.getParameter("name");
+            String date = request.getParameter("Dob");
             String address = request.getParameter("address");
             String gender = request.getParameter("gender");
             Short Sgender = 0;
@@ -172,6 +173,7 @@ public class CustomerController extends HttpServlet {
             gender != null && !gender.isEmpty()){
                 try {
                     Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                    customer.setName(name);
                     customer.setDoB(dob);
                     customer.setAddress(address);
                     customer.setGender(Sgender);
