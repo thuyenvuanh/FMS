@@ -28,11 +28,11 @@
     <!-- Sweet Alert -->
     <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
 
-    <%--    --%>
+<%--    --%>
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <%--    <link rel="stylesheet"--%>
-    <%--          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">--%>
+<%--    <link rel="stylesheet"--%>
+<%--          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">--%>
     <!-- FooTable -->
     <link href="../css/plugins/footable/footable.core.css" rel="stylesheet" />
 
@@ -81,7 +81,7 @@
                                 <tr>
                                     <td>${requestScope.CUSTOMER.getName()}</td>
                                     <td>${requestScope.CUSTOMER.getPhone()}</td>
-                                    <%--                                    <fmt:setLocale value="vi_VN"/>--%>
+<%--                                    <fmt:setLocale value="vi_VN"/>--%>
                                     <td><fmt:formatNumber value="${requestScope.BALANCE}" pattern="###,###,### ₫"/></td>
 
                                 </tr>
@@ -109,8 +109,8 @@
                                 <div class="col-sm-6 pt-5">
                                     <a href="<c:url value="/counter/index"/>" class="btn btn-primary dim btn-large-dim w-100 p-3"> <i class="fa fa-long-arrow-left"></i></a>
 
-                                    <%--                                    <button id="buttonDepositMoney" class="btn btn-warning dim btn-large-dim w-100 p-3 " type="submit"><i--%>
-                                    <%--                                            class="fa-solid fa-hand-holding-dollar"></i></button>--%>
+<%--                                    <button id="buttonDepositMoney" class="btn btn-warning dim btn-large-dim w-100 p-3 " type="submit"><i--%>
+<%--                                            class="fa-solid fa-hand-holding-dollar"></i></button>--%>
                                 </div>
                                 <div class="col-sm-6 pt-5">
                                     <button id="buttonAddMoney" class="btn btn-success dim btn-large-dim w-100 p-3 " type="submit"><i
@@ -119,14 +119,14 @@
 
                             </div>
                         </form>
-                        <%--                        <form>--%>
-                        <%--                            <div class="col-sm-12 d-flex align-items-center justify-content-center">--%>
+<%--                        <form>--%>
+<%--                            <div class="col-sm-12 d-flex align-items-center justify-content-center">--%>
 
-                        <%--                                <button formmethod="post" formaction="<c:url value="/counter/index"/>" class="btn btn-primary dim btn-large-dim w-50 p-3" type="submit">--%>
-                        <%--                                    <i class="fa fa-long-arrow-left"></i>--%>
-                        <%--                                </button>--%>
-                        <%--                            </div>--%>
-                        <%--                        </form>--%>
+<%--                                <button formmethod="post" formaction="<c:url value="/counter/index"/>" class="btn btn-primary dim btn-large-dim w-50 p-3" type="submit">--%>
+<%--                                    <i class="fa fa-long-arrow-left"></i>--%>
+<%--                                </button>--%>
+<%--                            </div>--%>
+<%--                        </form>--%>
 
                     </div>
                 </div>
@@ -219,22 +219,24 @@
         session.removeAttribute("AMOUNT");
         %>
         </c:if>
-        <%--        <c:if test="${sessionScope.withdrawStatus != null}">--%>
-        <%--        swal({--%>
-        <%--            title: "Add Money Success!",--%>
-        <%--            text: "You clicked the button!",--%>
-        <%--            type: "success"--%>
-        <%--        });--%>
-        <%--        <%--%>
-        <%--        session.removeAttribute("withdrawStatus");--%>
-        <%--        %>--%>
-        <%--        </c:if>--%>
+<%--        <c:if test="${sessionScope.withdrawStatus != null}">--%>
+<%--        swal({--%>
+<%--            title: "Add Money Success!",--%>
+<%--            text: "You clicked the button!",--%>
+<%--            type: "success"--%>
+<%--        });--%>
+<%--        <%--%>
+<%--        session.removeAttribute("withdrawStatus");--%>
+<%--        %>--%>
+<%--        </c:if>--%>
+
         $('#form_create_transaction').validate({
             rules: {
                 amount: {
                     required: true,
                     min: 1000
                 }
+
             },
             messages: {
                 amount: {

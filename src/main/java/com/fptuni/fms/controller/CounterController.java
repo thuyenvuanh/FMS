@@ -61,7 +61,7 @@ public class CounterController extends HttpServlet {
             } else {
                 session.setAttribute("phoneNumber",phoneNumber);
                 request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
-                        .forward(request, response);
+                         .forward(request, response);
             }
         } else if(path.equals("/addMoney")){
             boolean success = moneyTransactionService.addMoney(request, session);

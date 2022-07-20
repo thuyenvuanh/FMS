@@ -10,6 +10,7 @@ import com.fptuni.fms.paging.Pageable;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +79,7 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
     public BigDecimal GetTotalValueOfStore(Integer storeID, Date startDate, Date endDate) {
         String sql = "select sum(total)\n" +
                 "from Orders\n" +
-                "where StoreID = ? and CreatedDate between ? and ?\n" +
+                "where StoreID = ? and CONVERT(DATE,CreatedDate)  between ? and ?\n" +
                 "group by StoreID";
 
         return sum(sql, storeID, startDate, endDate);
@@ -88,7 +89,7 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
     public Integer GetOrderQuantity(Integer storeID, Date startDate, Date endDate) {
         String sql = "select count(ID)\n" +
                 "from Orders\n" +
-                "where StoreID = ? and CreatedDate between ? and ?\n" +
+                "where StoreID = ? and CONVERT(DATE,CreatedDate)  between ? and ?\n" +
                 "group by StoreID";
         return count(sql, storeID, startDate, endDate);
     }
@@ -97,7 +98,7 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
     public BigDecimal GetTotalValueOfAllStore(Date startDate, Date endDate) {
         String sql = "select sum(total)\n" +
                 "from Orders\n" +
-                "where CreatedDate between ? and ?\n";
+                "where CONVERT(DATE,CreatedDate)  between ? and ?\n";
 
         return sum(sql, startDate, endDate);
     }
@@ -106,7 +107,7 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
     public int GetTotalOrderOfAllStore(Date startDate, Date endDate) {
         String sql = "select count(ID)\n" +
                 "from Orders\n" +
-                "where CreatedDate between ? and ?";
+                "where CONVERT(DATE,CreatedDate)  between ? and ?";
 
         return count(sql, startDate, endDate);
     }
@@ -154,22 +155,17 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
         return sum(sql, start, end);
     }
 
-    @Override
-    public BigDecimal GetTotalValueToday(Date time1, Date time2) {
-        String sql = "select sum(total)\n" +
-                "from Orders\n" +
-                "where CreatedDate between ? and ? ";
-
-        return sum(sql, time1, time2);
-    }
 
     @Override
-    public Integer GetTotalOrderToday(Date time1, Date time2) {
+    public Integer GetTotalOrderByTime(Date startTime, Date endTime) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String start = simpleDateFormat.format(startTime);
+        String end = simpleDateFormat.format(endTime);
         String sql = "select count(ID)\n" +
                 "from Orders\n" +
                 "where CreatedDate between ? and ? ";
 
-        return count(sql, time1, time2);
+        return count(sql, start, end);
     }
     public int countNumberOfOrders() {
         String sql = "SELECT COUNT(ID) AS ID FROM Orders";

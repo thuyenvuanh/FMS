@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: LEGION
@@ -97,7 +98,8 @@
                             <td>${loop.index + 1}</td>
                             <td>${item.name}</td>
                             <td>${MAP.get(item).getValue()}</td>
-                            <td>${MAP.get(item).getKey()}</td>
+<%--                            <fmt:setLocale value="vi_VN"/>--%>
+                            <td><fmt:formatNumber value="${MAP.get(item).getKey()}" pattern="###,###,###.### ₫"/></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -114,7 +116,8 @@
                         <h5>TOTAL VALUE</h5>
                     </div>
                     <div class="ibox-content  text-success">
-                        <h1 class="no-margins">${requestScope.TOTAL_VALUE_ALLSTORES == null ? 0 : requestScope.TOTAL_VALUE_ALLSTORES}</h1>
+<%--                        <fmt:setLocale value="vi_VN"/>--%>
+                        <h1 class="no-margins"><fmt:formatNumber value="${requestScope.TOTAL_VALUE_ALLSTORES == null ? 0 : requestScope.TOTAL_VALUE_ALLSTORES}" pattern="###,###,###.### ₫"/></h1>
 
                         <div class="stat-percent font-bold">98% <i class="fa fa-level-up"></i></div>
                         <small>Total income</small>

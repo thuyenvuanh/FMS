@@ -3,7 +3,11 @@ package com.fptuni.fms.service.implement;
 import com.fptuni.fms.dao.implement.OrderDAO;
 import com.fptuni.fms.dao.implement.StoreDAO;
 import com.fptuni.fms.model.Store;
+<<<<<<<< HEAD:src/main/java/com/fptuni/fms/service/implement/DashBoardService.java
 import com.fptuni.fms.service.IDashBoardService;
+========
+import com.fptuni.fms.service.IAdminDashboardService;
+>>>>>>>> origin/dev-Tai:src/main/java/com/fptuni/fms/service/implement/AdminDashboardService.java
 import com.fptuni.fms.utils.DateUtils;
 import javafx.util.Pair;
 
@@ -16,13 +20,19 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+<<<<<<<< HEAD:src/main/java/com/fptuni/fms/service/implement/DashBoardService.java
 public class DashBoardService implements IDashBoardService {
     Calendar calendar = Calendar.getInstance();
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+========
+public class AdminDashboardService implements IAdminDashboardService {
+
+>>>>>>>> origin/dev-Tai:src/main/java/com/fptuni/fms/service/implement/AdminDashboardService.java
     private StoreDAO storeDAO = new StoreDAO();
     private OrderDAO orderDAO = new OrderDAO();
 
     @Override
+<<<<<<<< HEAD:src/main/java/com/fptuni/fms/service/implement/DashBoardService.java
     public List<Date> getDateRange(HttpServletRequest request, HttpServletResponse response) {
         List<Date> listOfDate = null;
         try {
@@ -82,6 +92,8 @@ public class DashBoardService implements IDashBoardService {
     }
 
     @Override
+========
+>>>>>>>> origin/dev-Tai:src/main/java/com/fptuni/fms/service/implement/AdminDashboardService.java
     public String getDashboardData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");

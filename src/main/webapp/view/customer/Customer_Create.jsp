@@ -38,88 +38,145 @@
 <body>
 <div id="wrapper">
     <jsp:include page="../counter/layoutCounter.jsp"></jsp:include>
-    <%--    <nav class="navbar-default navbar-static-side" role="navigation">--%>
-    <%--        <div class="sidebar-collapse">--%>
-    <%--            <ul class="nav metismenu" id="side-menu">--%>
-    <%--                <li class="nav-header">--%>
-    <%--                    <div class="dropdown profile-element">--%>
-    <%--                        <img--%>
-    <%--                                alt="image"--%>
-    <%--                                class="rounded-circle"--%>
-    <%--                                src="img/profile_small.html"--%>
-    <%--                        />--%>
-    <%--                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">--%>
-    <%--                  <span class="block m-t-xs font-bold"--%>
-    <%--                  >Counter<b class="caret"></b--%>
-    <%--                  ></span>--%>
-    <%--                        </a>--%>
-    <%--                        <ul class="dropdown-menu animated fadeInRight m-t-xs">--%>
-    <%--                            <li>--%>
-    <%--                                <a class="dropdown-item" href="profile.html"--%>
-    <%--                                >Store profile</a--%>
-    <%--                                >--%>
-    <%--                            </li>--%>
-    <%--                            <li class="dropdown-divider"></li>--%>
-    <%--                            <li><a class="dropdown-item" href="login.html">Logout</a></li>--%>
-    <%--                        </ul>--%>
-    <%--                    </div>--%>
-    <%--                    <div class="logo-element">FMS</div>--%>
-    <%--                </li>--%>
+<%--    <nav class="navbar-default navbar-static-side" role="navigation">--%>
+<%--        <div class="sidebar-collapse">--%>
+<%--            <ul class="nav metismenu" id="side-menu">--%>
+<%--                <li class="nav-header">--%>
+<%--                    <div class="dropdown profile-element">--%>
+<%--                        <img--%>
+<%--                                alt="image"--%>
+<%--                                class="rounded-circle"--%>
+<%--                                src="img/profile_small.html"--%>
+<%--                        />--%>
+<%--                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">--%>
+<%--                  <span class="block m-t-xs font-bold"--%>
+<%--                  >Counter<b class="caret"></b--%>
+<%--                  ></span>--%>
+<%--                        </a>--%>
+<%--                        <ul class="dropdown-menu animated fadeInRight m-t-xs">--%>
+<%--                            <li>--%>
+<%--                                <a class="dropdown-item" href="profile.html"--%>
+<%--                                >Store profile</a--%>
+<%--                                >--%>
+<%--                            </li>--%>
+<%--                            <li class="dropdown-divider"></li>--%>
+<%--                            <li><a class="dropdown-item" href="login.html">Logout</a></li>--%>
+<%--                        </ul>--%>
+<%--                    </div>--%>
+<%--                    <div class="logo-element">FMS</div>--%>
+<%--                </li>--%>
 
-    <%--                <li class="active">--%>
-    <%--                    <a href="ecommerce_product_list.html">--%>
-    <%--                        <i class="fa fa-id-card"></i>--%>
-    <%--                        <span class="nav-label">Counter</span></a>--%>
-    <%--                </li>--%>
-    <%--                <li class="active">--%>
-    <%--                    <a href="customer-list.html">--%>
-    <%--                        <i class="fa fa-user-o"></i>--%>
-    <%--                        <span class="nav-label">Customer</span></a--%>
-    <%--                    >--%>
-    <%--                </li>--%>
-    <%--            </ul>--%>
-    <%--        </div>--%>
-    <%--    </nav>--%>
-    <%--    <!-- Body -->--%>
-    <%--    <div id="page-wrapper" class="gray-bg">--%>
-    <%--        <div class="row border-bottom">--%>
-    <%--            <nav--%>
-    <%--                    class="navbar navbar-static-top"--%>
-    <%--                    role="navigation"--%>
-    <%--                    style="margin-bottom: 0"--%>
-    <%--            >--%>
-    <%--                <div class="navbar-header">--%>
-    <%--                    <a--%>
-    <%--                            class="navbar-minimalize minimalize-styl-2 btn btn-primary"--%>
-    <%--                            href="#"--%>
-    <%--                    ><i class="fa fa-bars"></i--%>
-    <%--                    ></a>--%>
-    <%--                </div>--%>
-    <%--                <ul class="nav navbar-top-links navbar-right">--%>
-    <%--                    <li>--%>
-    <%--                        <a href="login.html">--%>
-    <%--                            <i class="fa fa-sign-out"></i> Log out--%>
-    <%--                        </a>--%>
-    <%--                    </li>--%>
-    <%--                </ul>--%>
-    <%--            </nav>--%>
-    <%--        </div>--%>
+<%--                <li class="active">--%>
+<%--                    <a href="ecommerce_product_list.html">--%>
+<%--                        <i class="fa fa-id-card"></i>--%>
+<%--                        <span class="nav-label">Counter</span></a>--%>
+<%--                </li>--%>
+<%--                <li class="active">--%>
+<%--                    <a href="customer-list.html">--%>
+<%--                        <i class="fa fa-user-o"></i>--%>
+<%--                        <span class="nav-label">Customer</span></a--%>
+<%--                    >--%>
+<%--                </li>--%>
+<%--            </ul>--%>
+<%--        </div>--%>
+<%--    </nav>--%>
+<%--    <!-- Body -->--%>
+<%--    <div id="page-wrapper" class="gray-bg">--%>
+<%--        <div class="row border-bottom">--%>
+<%--            <nav--%>
+<%--                    class="navbar navbar-static-top"--%>
+<%--                    role="navigation"--%>
+<%--                    style="margin-bottom: 0"--%>
+<%--            >--%>
+<%--                <div class="navbar-header">--%>
+<%--                    <a--%>
+<%--                            class="navbar-minimalize minimalize-styl-2 btn btn-primary"--%>
+<%--                            href="#"--%>
+<%--                    ><i class="fa fa-bars"></i--%>
+<%--                    ></a>--%>
+<%--                </div>--%>
+<%--                <ul class="nav navbar-top-links navbar-right">--%>
+<%--                    <li>--%>
+<%--                        <a href="login.html">--%>
+<%--                            <i class="fa fa-sign-out"></i> Log out--%>
+<%--                        </a>--%>
+<%--                    </li>--%>
+<%--                </ul>--%>
+<%--            </nav>--%>
+<%--        </div>--%>
 
-    <!-- TMP -->
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-10">
-            <h2>Product edit</h2>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a>E-commerce</a>
-                </li>
-                <li class="breadcrumb-item active">
-                    <strong>Product edit</strong>
-                </li>
-            </ol>
+        <!-- TMP -->
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>Product edit</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a>E-commerce</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <strong>Product edit</strong>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="wrapper wrapper-content animated fadeInRight ecommerce">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li><a class="nav-link active" data-toggle="tab" href="#tab-1"> Customer info</a></li>
+
+                        </ul>
+
+
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <c:url var="createCus" value="${requestScope.contextPath}/customer/addcustomer" >
+                                </c:url>
+                                <form id="form_create_customer" action="${createCus}">
+                                    <div class="panel-body">
+
+                                        <fieldset>
+                                            <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
+                                                <div class="col-sm-10"><input type="text" class="form-control"
+                                                                              placeholder="Customer name"
+                                                                              name="Cusname"></div>
+                                            </div>
+                                            <c:set var="cusCreate" value="${sessionScope.phoneNumber}"></c:set>
+                                            <div class="form-group row"><label class="col-sm-2 col-form-label">Phone
+                                                number:</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" data-mask="000 000 0000"
+                                                           placeholder="" autocomplete="off" maxlength="14"
+                                                           name="Cusphone" value="${cusCreate}">
+                                                    <span class="form-text">000 000 0000</span>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <div class="form-layout-footer text-center">
+                                            <button class="btn btn-primary bd-0" type="submit"
+                                            name="action" value="add" >Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- TMP -->
+
+        <div class="footer">
+            <div class="float-right">10GB of <strong>250GB</strong> Free.</div>
+            <div><strong>Copyright</strong> Example Company &copy; 2014-2018</div>
         </div>
     </div>
 
@@ -187,6 +244,9 @@
 <script src="../../js/bootstrap.js"></script>
 <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
 
 <!-- Custom and plugin javascript -->
 <script src="../../js/inspinia.js"></script>
@@ -219,6 +279,8 @@
 <script>
     $(document).ready(function () {
         $(".footable").footable();
+
+
         $("#form_create_customer").validate({
             rules: {
                 Cusname: {

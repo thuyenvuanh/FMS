@@ -104,6 +104,8 @@ public class MoneyTransactionService implements IMoneyTransactionService {
                 transactionSharedDAO.insertTransaction(newTransaction);
             }
             session.setAttribute("phoneNumber", request.getParameter("customerPhone"));
+            session.setAttribute("addStatus", "SUCCESS");
+            session.setAttribute("AMOUNT", amount);
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -150,6 +152,8 @@ public class MoneyTransactionService implements IMoneyTransactionService {
                 transactionSharedDAO.insertTransaction(newTransaction);
             }
             session.setAttribute("phoneNumber", request.getParameter("customerPhone"));
+            session.setAttribute("withdrawStatus", "SUCCESS");
+
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
