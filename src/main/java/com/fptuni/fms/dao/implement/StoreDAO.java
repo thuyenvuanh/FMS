@@ -36,6 +36,16 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
     }
 
     @Override
+    public Store getStoreByAccount(Account account) {
+        String sql = "select  s.ID, s.Name, s.IsDeleted\n" +
+                "from Store s left join StoreAccount SA on s.ID = SA.StoreID\n" +
+                "            left join Account a on SA.AccountID = a.ID\n" +
+                "where a.ID = ?;";
+        List<Store> result = query(sql, mapper, account.getId());
+        return result.isEmpty() ? null : result.get(0);
+    }
+
+    @Override
     public List<Store> getStores() {
         String sql = "SELECT Store.ID, Name, Account.FullName from Store";
         List<Product> products = query(sql, new ProductMapper());
@@ -125,14 +135,14 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
         }
 //        List<Store> listStore = query(sql, new StoreMapper(), isDelete, "%" + name + "%", "%" + storeManager + "%");
         List<Store> listStore = null;
-        if (!hasName && !hasStoreManager){
+        if (!hasName && !hasStoreManager) {
             listStore = query(sql, new StoreMapper(), isDelete);
-        } else if(!hasName && hasStoreManager){
-            listStore = query(sql, new StoreMapper(), isDelete, "%"+storeManager+"%");
-        } else if(hasName && !hasStoreManager){
-            listStore = query(sql, new StoreMapper(), isDelete, "%" + name+"%");
+        } else if (!hasName && hasStoreManager) {
+            listStore = query(sql, new StoreMapper(), isDelete, "%" + storeManager + "%");
+        } else if (hasName && !hasStoreManager) {
+            listStore = query(sql, new StoreMapper(), isDelete, "%" + name + "%");
         } else {
-            listStore = query(sql, new StoreMapper(), isDelete, "%"+storeManager+"%", "%" + name+"%");
+            listStore = query(sql, new StoreMapper(), isDelete, "%" + storeManager + "%", "%" + name + "%");
         }
         return listStore;
     }
