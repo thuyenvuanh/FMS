@@ -83,8 +83,12 @@ public class CustomerService implements ICustomerService {
     @Override
     public Integer DeleteCustomer(String phoneNum) {
         ICustomerDAO customerDAO = new CustomerDAO();
-        customerDAO.deleteCus(phoneNum);
-        return 1;
+        if(customerDAO.deleteCus(phoneNum)){
+            return 1;
+        }
+        else{
+            return 0;
+        }
     }
 
     @Override

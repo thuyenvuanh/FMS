@@ -102,7 +102,6 @@ public class CustomerController extends HttpServlet {
             TransactionShared transactionShared = new TransactionShared();
             Wallet wallet = new Wallet();
             HashMap<Customer, BigDecimal> getAmount = new HashMap<>();
-//            List<HashMap<Customer,BigDecimal>> amountlist = new ArrayList<>();
 
             if(customers != null){
                 for (Customer cus : customers) {
@@ -115,7 +114,6 @@ public class CustomerController extends HttpServlet {
                                 : transactionService.getCustomerBalance(transactionShared);
 
                         getAmount.put(cus , b);
-//                        amountlist.add(getAmount);
                     }else{
                         System.out.println("No wallet found");
                     }
@@ -138,13 +136,7 @@ public class CustomerController extends HttpServlet {
             String phoneNum = request.getParameter("phonenum");
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
-            int index = 0;
-            for (Customer customer : customers) {
-                if (customer.getPhone().equals(phoneNum)) {
-                    index = customerService.DeleteCustomer(phoneNum);
-                    break;
-                }
-            }
+            customerService.DeleteCustomer(phoneNum);
             response.sendRedirect(request.getContextPath() + "/customer/list");
 
         } else if (path.equals("/Movetoupdate")) {

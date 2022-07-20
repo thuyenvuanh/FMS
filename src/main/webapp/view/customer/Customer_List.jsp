@@ -275,12 +275,8 @@
 
                                 <tfoot>
                                 <tr>
-                                    <!--<td colspan="7">
-                                        <ul class="pagination float-right"></ul>
-                                    </td>-->
 
                                     <td colspan="6">
-                                        <!-- <ul class="pagination float-right"></ul> -->
                                         <nav aria-label="Page navigation example">
                                             <ul class="paginations">
                                                 <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">

@@ -148,7 +148,7 @@
                                     <div class="col-lg-8">
                                         <div class="form-group">
                                             <label>Username</label>
-                                            <input name="name" value="${update.name}" readonly class="form-control required" aria-required="true">
+                                            <input name="name" value="${update.name}" class="form-control required" aria-required="true">
                                         </div>
                                         <div class="form-group">
                                             <label>Phone</label>
@@ -273,6 +273,9 @@
                     },
                     address:{
                       required: true,
+                    },
+                    name:{
+                        request: true,
                     }
                 },
                 messages: {
@@ -281,6 +284,9 @@
                     },
                     address: {
                       required: 'Please enter Address'
+                    },
+                    name: {
+                        required: 'Please enter name'
                     }
                 }
             });
