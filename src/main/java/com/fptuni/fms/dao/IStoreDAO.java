@@ -4,6 +4,9 @@ import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 
+
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,6 +16,8 @@ import java.util.List;
 public interface IStoreDAO extends GenericDAO<Store> {
 
 //    Store getStore(String name);
+    Store getStoreById(int id);
+
     Store getStoreByAccount(Account account);
 
     List<Store> getStores();
@@ -30,4 +35,18 @@ public interface IStoreDAO extends GenericDAO<Store> {
     int count();
 
     boolean Delete(int id);
+
+    List<Store> getTopStore(Integer top, Date startDate, Date endDate);
+
+    BigDecimal GetTotalValueOfStore(Integer storeID, Date startDate, Date endDate);
+
+    Integer GetOrderQuantity(Integer storeID, Date startDate, Date endDate);
+
+    BigDecimal GetTotalValueOfAllStore(Date startDate, Date endDate);
+
+    int GetTotalOrderOfAllStore(Date startDate, Date endDate);
+
+    Integer GetTotalOrderByTime(Date date);
+
+    BigDecimal GetTotalValueByTime(Date date);
 }

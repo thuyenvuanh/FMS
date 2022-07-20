@@ -9,22 +9,32 @@ import com.fptuni.fms.utils.SecurityUtils;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 public class TransactionService implements ITransactionService {
-    TransactionSharedDAO transactionSharedDAO = new TransactionSharedDAO();
+
+    private final TransactionSharedDAO dao = new TransactionSharedDAO();
+
     @Override
-    public TransactionShared getTransactionSharedByWalletID(Integer walletID) {
+    public int insertNewTransaction(TransactionShared transaction) {
+        return dao.insertTransaction(transaction);
+    }
+
+    @Override
+    public TransactionShared getLatestTransactionSharedByWalletID(Integer walletID) {
         TransactionShared transactionShared = null;
-//        TransactionSharedDAO transactionSharedDAO = new TransactionSharedDAO();
         String hashString = "";
         if(walletID != null){
-            transactionShared = transactionSharedDAO.getLatestTransactionOf(walletID);
+            transactionShared = dao.getLatestTransactionOf(walletID);
             if(transactionShared != null){
-                String s = parseToString(transactionShared);
                 try {
-                    boolean isValid = SecurityUtils.validateHash(s,
-                            String.valueOf(transactionShared.getCreatedDate().getTime()),
-                            transactionShared.getHashValue());
+                    transactionShared.setAmount(transactionShared.getAmount().stripTrailingZeros());
+                    transactionShared.setPreviousBalance(transactionShared.getPreviousBalance().stripTrailingZeros());
+                    String target = transactionShared.toString();
+                    String salt = String.valueOf(transactionShared.getCreatedDate().getTime());
+                    String compareString = transactionShared.getHashValue();
+                    boolean isValid = SecurityUtils.validateHash(target, salt, compareString);
                     if(isValid){
                         return transactionShared;
                     }
@@ -39,33 +49,43 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public BigDecimal getCustomerAmount(TransactionShared transactionShared) {
-        BigDecimal amount = BigDecimal.ZERO;
-        amount = amount.add(transactionShared.getAmount());
-        amount = amount.add(transactionShared.getPreviousBalance());
-        return amount;
+    public TransactionShared getLatestTransaction() {
+        TransactionShared transactionShared = null;
+        transactionShared = dao.getLatestTransaction();
+        if (transactionShared != null){
+            transactionShared.setPreviousBalance(transactionShared.getPreviousBalance().stripTrailingZeros());
+            transactionShared.setAmount(transactionShared.getAmount().stripTrailingZeros());
+            String target = transactionShared.toString();
+            String salt = String.valueOf(transactionShared.getCreatedDate().getTime());
+            String compareString = transactionShared.getHashValue();
+            try {
+                if (SecurityUtils.validateHash(target, salt, compareString)){
+                    return transactionShared;
+                }
+            } catch (NoSuchAlgorithmException e) {
+                System.out.println("Cannot hash");
+            } catch (InvalidKeySpecException e) {
+                System.out.println("Invalid Key Spec");
+            }
+        }
+        return null;
     }
 
-    private String parseToString(TransactionShared transactionShared){
-        String s = "";
-
-        s += String.valueOf(transactionShared.getId())
-            + String.valueOf(transactionShared.getAmount())
-            + transactionShared.getPreviousHash()
-            + String.valueOf(transactionShared.getPreviousBalance())
-            + String.valueOf(transactionShared.getCreatedDate().getTime())
-            + String.valueOf(transactionShared.getStatus())
-            + String.valueOf(transactionShared.getMoneyTransactionID() == null ? ""
-                : transactionShared.getMoneyTransactionID().getId())
-            + String.valueOf(transactionShared.getPaymentID() == null ? ""
-                : transactionShared.getPaymentID().getId())
-            + String.valueOf(transactionShared.getWalletID() == null ? ""
-                : transactionShared.getWalletID().getId());
-        return s;
+    @Override
+    public BigDecimal getCustomerBalance(TransactionShared transactionShared) {
+        BigDecimal amount = BigDecimal.ZERO.add(transactionShared.getPreviousBalance());
+        //if payment == null => is moneyTransaction transaction for top up => add amount
+        //otherwise transaction for buy product => subtract amount
+        if (transactionShared.getPaymentID() == null) {
+            amount = amount.add(transactionShared.getAmount());
+        } else {
+            amount = amount.subtract(transactionShared.getAmount());
+        }
+        return amount.stripTrailingZeros();
     }
 
     public List<TransactionShared> getTransactionSharedByStore(Store store){
-        return transactionSharedDAO.getTransactionSharedByStore(store);
+        return dao.getTransactionSharedByStore(store);
     }
 
 }

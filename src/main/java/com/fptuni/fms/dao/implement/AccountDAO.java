@@ -6,6 +6,7 @@ import com.fptuni.fms.model.Account;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.utils.SecurityUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         try {
             String sql = "UPDATE dbo.Account SET Password=?, Fullname=?, RoleID=? WHERE Username=? AND IsDeleted = 0";
             String hashPassword = SecurityUtils.createHash(Password, Username);
-            return update(sql, Password, Fullname, RoleID, Username);
+            return update(sql, hashPassword, Fullname, RoleID, Username);
         } catch (Exception e) {
             System.out.println("Database query error: " + e.getMessage());
         }
@@ -85,15 +86,35 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         return listAcc;
     }
 
+    public Account isAccountLinkToStore(String username){
+        String sql = "select a.ID, a.Username, a.FullName, a.RoleID\n" +
+                "from Account a join StoreAccount SA on a.ID = SA.AccountID\n" +
+                "where Username = ?\n";
+        List<Account> result = query(sql, new AccountMapper(), username);
+        return result.isEmpty() ? null : result.get(0);
+    }
+
     @Override
     public List<Account> search(Pageable pageable, int isDelete, String username, String fullName, int roleId) {
         // Sort theo field xong moi paging
         // Neu chon sortField khac thi cac Product moi trang se thay doi
         // Vi du: sortField = ID ==> list ID ASC ==> paging
-        String sql = "SELECT * FROM \n"
-                + "(SELECT Account.ID, Username, FullName, RoleID, Name, Account.IsDeleted "
-                + "FROM Account Join Role On Account.RoleID = Role.ID "
-                + "WHERE Account.IsDeleted = ? AND Username LIKE ? AND FullName LIKE ? AND RoleID = ?\n";
+
+        String sql = "";
+
+        if(roleId == 0){
+            sql = "SELECT * FROM \n"
+                    + "(SELECT Account.ID, Username, FullName, RoleID, Name, Account.IsDeleted "
+                    + "FROM Account Join Role On Account.RoleID = Role.ID "
+                    + "WHERE Account.IsDeleted = ? AND Username LIKE ? AND FullName LIKE ?\n";
+        }
+        else {
+            sql = "SELECT * FROM \n"
+                    + "(SELECT Account.ID, Username, FullName, RoleID, Name, Account.IsDeleted "
+                    + "FROM Account Join Role On Account.RoleID = Role.ID "
+                    + "WHERE Account.IsDeleted = ? AND Username LIKE ? AND FullName LIKE ? AND RoleID = ?\n";
+        }
+
         String orderBy;
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
             orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
@@ -108,8 +129,14 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
             sql += "ORDER BY A." + pageable.getSorter().getSortField() + " " + orderBy;
         }
 
-        List<Account> listAcc = query(sql, new AccountMapper(), isDelete, "%" + username + "%", "%" + fullName + "%", roleId);
-        return listAcc;
+
+        if(roleId == 0){
+            return query(sql, new AccountMapper(), isDelete, "%" + username + "%", "%" + fullName + "%");
+        }
+        else {
+            return query(sql, new AccountMapper(), isDelete, "%" + username + "%", "%" + fullName + "%", roleId);
+        }
+
     }
 
     @Override
@@ -117,6 +144,19 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         String sql = "SELECT Account.ID, Username, FullName, RoleID, Name FROM Account Join Role On Account.RoleID = Role.ID WHERE Account.ID = ?";
         List<Account> listAcc = query(sql, new AccountMapper(), id);
         return listAcc == null ? null : listAcc.get(0);
+    }
+
+    public List<Account> getAvailableAccounts() {
+        String sql = "select a.id as ID, a.username as Username,\n" +
+                "       a.fullname as FullName, a.roleid as RoleID,\n" +
+                "       r2.Name as [Name], a.isdeleted as IsDeleted\n" +
+                "from Account a join Role R2 on a.RoleID = R2.ID\n" +
+                "where r2.Name = 'Store Manager' OR r2.Name = 'Cashier'\n" +
+                "EXCEPT (select AccountID, Username, FullName, RoleID, Role.Name, Account.IsDeleted\n" +
+                "    from Account JOIN storeAccount on Account.ID = StoreAccount.AccountID\n" +
+                "    join role on Account.RoleID = Role.ID)";
+        List<Account> avaiAccount = query(sql, new AccountMapper());
+        return avaiAccount;
     }
 
     @Override
@@ -130,5 +170,21 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
     public int count() {
         String sql = "SELECT COUNT(ID) FROM dbo.Account";
         return count(sql);
+    }
+
+    @Override
+    public List<Account> getListStoreManager(){
+        String sql = "SELECT Account.ID, Username, FullName, Role.Name AS Name\n" +
+                "FROM Account JOIN Role on Account.RoleID = Role.ID\n" +
+                "WHERE Role.Name = 'Store Manager' AND Account.IsDeleted = 0";
+        List<Account> listAcc = query(sql, new AccountMapper());
+        return listAcc.isEmpty() ? null : listAcc;
+    }
+
+    @Override
+    public List<Account> getListStoreAccount(int storeID){
+        String sql = "SELECT ID, FullName FROM Account a JOIN StoreAccount s ON a.ID = s.AccountID WHERE s.StoreID = ? AND s.IsDeleted = 0 AND s.IsDeleted = 0";
+        List<Account> listAcc = query(sql, new AccountMapper(), storeID);
+        return listAcc.isEmpty() ? null : listAcc;
     }
 }

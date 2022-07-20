@@ -28,4 +28,7 @@ public interface IAccountDAO extends GenericDAO<Account> {
 
     int count();
 
+    List<Account> getListStoreManager();
+
+    List<Account> getListStoreAccount(int storeID);
 }

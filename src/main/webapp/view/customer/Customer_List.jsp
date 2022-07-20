@@ -16,6 +16,8 @@
     <title>Customer List</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
+<%--    Jquery--%>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- FooTable -->
     <link href="../css/plugins/footable/footable.core.css" rel="stylesheet"/>
@@ -125,57 +127,49 @@
 
         <div class="wrapper wrapper-content animated fadeInRight ecommerce">
             <div class="ibox-content m-b-sm border-bottom">
-                <div class="row">
-
-                    <div class="col-lg-2">
-                        <div class="form-group">
-                            <label class="col-form-label" for="status"
-                            >Order status</label
-                            >
-                            <select name="status" id="status" class="form-control">
-                                <option value="" selected="">None</option>
-                                <option value="1">Online</option>
-                                <option value="0">Offline</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label class="col-form-label" for="status">Search by</label>
-                            <div class="input-group m-b">
-                                <div class="input-group-prepend">
-                                    <select name="" id="" class="form-control">
-                                        <option value="">Customer name</option>
-                                        <option value="">Phone</option>
-                                    </select>
+                <c:url var="searchfield"
+                       value="${requestScope.contextPath}/customer/search"></c:url>
+                <form action="${searchfield}">
+                    <div class="row">
+                        <%--                        <div class="col-lg-2">--%>
+                        <%--                            <div class="form-group">--%>
+                        <%--                                <label class="col-form-label" for="status"--%>
+                        <%--                                >Order status</label--%>
+                        <%--                                >--%>
+                        <%--                                <select name="status" id="status" class="form-control">--%>
+                        <%--                                    <option value="" selected="">None</option>--%>
+                        <%--                                    <option value="1">Active</option>--%>
+                        <%--                                    <option value="0">Inactive</option>--%>
+                        <%--                                </select>--%>
+                        <%--                            </div>--%>
+                        <%--                        </div>--%>
+                        <div class="col-lg-10 text-center">
+                            <div class="form-group">
+                                <%--                                for="status"--%>
+                                <label class="col-form-label">Search by</label>
+                                <div class="input-group m-b">
+                                    <div class="input-group-prepend">
+                                        <select name="" id="" class="form-control">
+                                            <option value="">Phone</option>
+                                        </select>
+                                    </div>
+                                    <input name="searchItem"
+                                           type="text" class="form-control"/>
                                 </div>
-                                <input type="text" class="form-control"/>
                             </div>
                         </div>
+                        <div class="col-lg-2 container-fluid pt-5">
+                            <button name="action"
+                                    class="btn btn-outline-success float-right"
+                                    type="submit"
+                            >
+                                Search
+                            </button>
+                        </div>
                     </div>
+                </form>
 
-                    <div class="container-fluid">
-                        <button
-                                class="btn btn-outline-success float-right"
-                                type="submit"
-                        >
-                            Search
-                        </button>
-                    </div>
-                </div>
             </div>
-
-            <nav class="navbar navbar-light bg-light">
-                <div class="container-fluid">
-                    <a href="customer-create.html" class=""
-                    >
-                        <button class="btn btn-outline-primary" type="submit">
-                            Create
-                        </button>
-                    </a
-                    >
-                </div>
-            </nav>
 
             <div class="row">
                 <div class="col-lg-12">
@@ -193,23 +187,71 @@
 
                                     <th>Status</th>
 
+                                    <th class="text-center">Actions</th>
+
                                     <th class="text-right">Amounts</th>
                                 </tr>
                                 </thead>
                                 <tbody>
 
+                                <%--For listing--%>
+
                                 <c:forEach var="list" items="${requestScope.customerList}">
                                     <tr>
                                         <td>${list.name}</td>
                                         <td class="text-left">${list.phone}</td>
-                                        <td>
-                                            <span class="label label-primary">Alive</span>
+                                        <c:choose>
+                                            <c:when test="${list.isDeleted == false}">
+                                                <td style="padding-top: 17px" class="">
+                                                    <span class="label label-primary">Active</span>
+                                                </td>
+                                            </c:when>
+                                            <c:when test="${list.isDeleted == true}">
+                                                <td style="padding-top: 17px">
+                                                    <span class="label label-danger">Inactive</span>
+                                                </td>
+                                            </c:when>
+                                        </c:choose>
+
+                                        <td class="text-center">
+                                            <a href="<%=request.getContextPath()%>/customer/remove?phonenum=${list.phone}"
+                                               class="btn btn-primary btn-sm">Delete</a>
+                                            <a
+                                               class="btn btn-primary btn-sm ${list.phone}">Detail</a>
+                                            <a href="<%=request.getContextPath()%>/customer/Movetoupdate?phonenum=${list.phone}"
+                                               class="btn btn-primary btn-sm">Update</a>
                                         </td>
-
-                                        <td class="text-right">100k</td>
+                                        <td class="text-right">100$</td>
                                     </tr>
-                                </c:forEach>
+                                    <%--                                    Show detail here--%>
+                                    <input name="var" value="${list.phone}" type="hidden">
+                                        <tr id="${list.phone}" style="display: none">
+                                            <td class="col-sm-3">
+                                                <p>DoB: ${list.doB}</p>
+                                            </td>
+                                            <td class="col-sm-3">
+                                                <p>Address: ${list.address}</p>
+                                            </td>
+                                            <c:choose>
+                                                <c:when test="${list.gender == 0}">
+                                                    <td class="col-sm-3">
+                                                        <p>Gender: Male</p>
+                                                    </td>
+                                                </c:when>
+                                                <c:when test="${list.gender == 1}">
+                                                    <td class="col-sm-3">
+                                                        <p>Gender: Female</p>
+                                                    </td>
+                                                </c:when>
+                                                <c:when test="${list.gender == 2}">
+                                                    <td class="col-sm-3">
+                                                        <p>Gender: None</p>
+                                                    </td>
+                                                </c:when>
+                                            </c:choose>
+                                        </tr>
 
+                                </c:forEach>
                                 </tbody>
 
                                 <tfoot>
@@ -229,7 +271,8 @@
                                                                  value="${requestScope.currentPage - 1}"></c:param>
                                                         <c:param name="sortField"
                                                                  value="${requestScope.sortField}"></c:param>
-                                                        <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
+                                                        <c:param name="isAscending"
+                                                                 value="${!requestScope.isAsc}"></c:param>
                                                     </c:url>
                                                     <a
                                                             class="page-link"
@@ -246,7 +289,8 @@
                                                         <c:param name="page" value="${page}"></c:param>
                                                         <c:param name="sortField"
                                                                  value="${requestScope.sortField}"></c:param>
-                                                        <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
+                                                        <c:param name="isAscending"
+                                                                 value="${!requestScope.isAsc}"></c:param>
                                                     </c:url>
                                                     <li class="page-item ${requestScope.currentPage == page ?"active":""}">
                                                         <a class="page-link "
@@ -260,7 +304,8 @@
                                                                  value="${requestScope.currentPage + 1}"></c:param>
                                                         <c:param name="sortField"
                                                                  value="${requestScope.sortField}"></c:param>
-                                                        <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
+                                                        <c:param name="isAscending"
+                                                                 value="${!requestScope.isAsc}"></c:param>
                                                     </c:url>
                                                     <a class="page-link" href="${nextPage}" aria-label="Next">
                                                         <span aria-hidden="true">&raquo;</span>
@@ -290,6 +335,7 @@
         </div>
     </div>
     <!-- Body -->
+
 </div>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/popper.min.js"></script>
@@ -310,5 +356,24 @@
         $(".footable").footable();
     });
 </script>
+
+<script>
+   <c:forEach var="list" items="${requestScope.customerList}">
+   $(".${list.phone}").click(function() {
+       //var searchString = $('#showMore').val();
+
+       if($("#${list.phone}").css('display') == 'none'){
+           $("#${list.phone}").css("display","block").filter(function() {
+               //return $(this).text().trim() === searchString;
+           })
+       }else if ($("#${list.phone}").css('display') == 'block'){
+           $("#${list.phone}").css("display","none").filter(function() {
+               //return $(this).text().trim() === searchString;
+           })
+       }
+   });
+   </c:forEach>
+</script>
+
 </body>
 </html>

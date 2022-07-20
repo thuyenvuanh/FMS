@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface IPaymentService {
 
-    void makePayment(HttpServletRequest request);
+    boolean makePayment(HttpServletRequest request);
 
+    boolean addMoney(HttpServletRequest request);
+
+    boolean withDraw(HttpServletRequest request);
     List<Payment> getPaymentsByOrderID(int orderID);
 }

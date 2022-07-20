@@ -4,11 +4,10 @@ import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.model.TransactionShared;
 import com.fptuni.fms.model.Wallet;
 import com.fptuni.fms.service.ICustomerService;
+import com.fptuni.fms.service.IPaymentService;
 import com.fptuni.fms.service.ITransactionService;
 import com.fptuni.fms.service.IWalletService;
-import com.fptuni.fms.service.implement.CustomerService;
-import com.fptuni.fms.service.implement.TransactionService;
-import com.fptuni.fms.service.implement.WalletService;
+import com.fptuni.fms.service.implement.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -23,28 +22,45 @@ public class CounterController extends HttpServlet {
             throws ServletException, IOException {
         String path = request.getPathInfo();
         System.out.println("Path:" + path);
+        ICustomerService customerService = new CustomerService();
+        IWalletService walletService = new WalletService();
+        ITransactionService transactionService = new TransactionService();
+        IPaymentService paymentService = new PaymentService();
         if(path.equals("/index")){
             request.getRequestDispatcher("/view/counter/index.jsp").forward(request, response);
         } else if(path.equals("/check")){
-            ICustomerService customerService = new CustomerService();
-            IWalletService walletService = new WalletService();
-            ITransactionService transactionService = new TransactionService();
 
-            Customer customer = customerService.getCustomerByPhoneNum(request, response);
+
+            String phoneNumber = request.getParameter("phoneNumber").trim().replaceAll("\\s+","");
+            System.out.println(phoneNumber);
+
+            Customer customer = customerService.getCustomerByPhoneNum(phoneNumber);
 
             if(customer != null){
                 Wallet wallet = walletService.getWallet(customer.getId());
+                System.out.println(wallet.getId());
+                BigDecimal balance = BigDecimal.ZERO;
                 if(wallet != null){
-                    TransactionShared transactionShared = transactionService.getTransactionSharedByWalletID(wallet.getId());
+                    TransactionShared transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
                     if(transactionShared != null){
-                        BigDecimal amount = transactionService.getCustomerAmount(transactionShared);
-                        request.setAttribute("CUSTOMER", customer);
-                        request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
+                        balance = transactionService.getCustomerBalance(transactionShared);
                     }
                 }
+                request.setAttribute("CUSTOMER", customer);
+                request.setAttribute("WALLET", wallet.getId());
+                request.setAttribute("BALANCE", balance);
+                request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
             } else {
-                 response.sendRedirect("error.jsp");
+
             }
+        } else if(path.equals("/addMoney")){
+            boolean success = paymentService.addMoney(request);
+            if (success) {
+                response.sendRedirect(request.getContextPath() + "/counter/index");
+            }
+
+        } else if(path.equals("/deposit")){
+
         }
 
 

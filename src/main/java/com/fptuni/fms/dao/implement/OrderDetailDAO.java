@@ -29,10 +29,10 @@ public class OrderDetailDAO extends AbstractDAO<OrderDetail> implements IOrderDe
 
     @Override
     public int createOrderDetail(OrderDetail orderDetail) {
-        String sql = "INSERT INTO dbo.OrderDetail(OrderID, ProID, Price, Quantity, Amount) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO dbo.OrderDetail(OrderID, ProID, Price, Quantity) VALUES (?,?,?,?)";
         BigDecimal quantity = new BigDecimal(orderDetail.getQuantity());
         BigDecimal amount = quantity.multiply(orderDetail.getPrice());
-        return insert(sql, orderDetail.getOrders(), orderDetail.getProduct(), orderDetail.getPrice(), orderDetail.getQuantity(), amount);
+        return insert(sql, orderDetail.getOrders().getId(), orderDetail.getProduct().getId(), orderDetail.getPrice(), orderDetail.getQuantity());
     }
 
     @Override

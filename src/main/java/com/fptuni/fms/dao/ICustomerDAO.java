@@ -1,6 +1,7 @@
 package com.fptuni.fms.dao;
 
 import com.fptuni.fms.model.Customer;
+import com.fptuni.fms.model.MoneyTransaction;
 import com.fptuni.fms.paging.Pageable;
 
 import java.util.List;
@@ -13,4 +14,8 @@ public interface ICustomerDAO extends GenericDAO<Customer>{
     Integer count ();
     Customer getCustomerByOrderID(int id);
     Customer getCustomer(int customerID);
+    boolean deleteCus(String phoneNum);
+    Customer getDetail(String phoneNum);
+    boolean updateCustomerInfo (Customer customer);
+
 }

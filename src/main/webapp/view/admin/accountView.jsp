@@ -81,14 +81,14 @@
                                                 <div class="col-sm-10 text-align">${acc.username}</div>
                                             </div>
                                             <div class="form-group row"><label class="col-sm-2 col-form-label">Role:</label>
-                                                <div class="col-sm-10 text-align">${acc.role.name}</div>
+                                                <div class="col-sm-10 text-align">${acc.roleID.name}</div>
                                             </div>
                                             <div class="form-group row"><label class="col-sm-2 col-form-label">Status:</label>
                                                 <div class="col-sm-10 text-align">
-                                                    <c:if test="${acc.isDeleted()==false}">
+                                                    <c:if test="${acc.isDeleted == false}">
                                                         <span class="label label-primary">Enable</span>
                                                     </c:if>
-                                                    <c:if test="${acc.isDeleted()==true}">
+                                                    <c:if test="${acc.isDeleted == true}">
                                                         <span class="label label-danger">Disable</span>
                                                     </c:if>
                                                 </div>
@@ -99,10 +99,10 @@
                                                 <c:param name="accountId" value="${acc.id}"></c:param>
                                             </c:url>
                                             <c:url var="deleteLink" value="${requestScope.contextPath}/account/delete">
-                                                <c:param name="username" value="${acc.username}"></c:param>
+                                                <c:param name="accountId" value="${acc.id}"></c:param>
                                             </c:url>
                                             <a href="${deleteLink}">
-                                                <button class="btn btn-danger bd-0">Delete</button>
+                                                <button class="btn btn-danger bd-0" <c:if test="${sessionScope.account.username == acc.username}">disabled</c:if>>Delete</button>
                                             </a>
                                             <a href="${updateLink}">
                                                 <button class="btn btn-primary bd-0">Update</button>
@@ -212,3 +212,25 @@
         </div>
     </body>
 </html>
+
+<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+<!-- Sweet Alert -->
+<link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+<link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+<link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
+
+<c:if test="${sessionScope.updateStatus != null && sessionScope.updateStatus eq 'fail'}">
+    <script>
+        $(document).ready(function () {
+            swal({
+                title: "Update Failed!",
+                text: "Account Updated Failed",
+                type: "error"
+            });
+        });
+    </script>
+    <%
+        session.removeAttribute("updateStatus");
+    %>
+</c:if>
