@@ -272,6 +272,12 @@
                     },
                     Dob: {
                         required: true
+                    },
+                    address: {
+                        required: true
+                    },
+                    gender: {
+                        required: true
                     }
                 },
                 messages: {
@@ -280,6 +286,12 @@
                     },
                     Dob: {
                         required: 'Please enter date'
+                    },
+                    address:{
+                        required: 'Please enter address'
+                    },
+                    gender: {
+                        required: 'Please enter gender'
                     }
                 }
             })
