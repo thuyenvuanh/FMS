@@ -180,61 +180,6 @@
         </div>
     </div>
 
-    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="tabs-container">
-                    <ul class="nav nav-tabs">
-                        <li><a class="nav-link active" data-toggle="tab" href="#tab-1"> Customer info</a></li>
-
-                    </ul>
-
-
-                    <div class="tab-content">
-                        <div id="tab-1" class="tab-pane active">
-                            <c:url var="createCus" value="${requestScope.contextPath}/customer/addcustomer" >
-                            </c:url>
-                            <form id="form_create_customer" action="${createCus}">
-                                <div class="panel-body">
-
-                                    <fieldset>
-                                        <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
-                                            <div class="col-sm-10"><input type="text" class="form-control"
-                                                                          placeholder="Customer name"
-                                                                          name="Cusname"></div>
-                                        </div>
-                                        <c:set var="cusCreate" value="${sessionScope.phoneNumber}"></c:set>
-                                        <div class="form-group row"><label class="col-sm-2 col-form-label">Phone
-                                            number:</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" data-mask="000 000 0000"
-                                                       placeholder="" autocomplete="off" maxlength="14"
-                                                       name="Cusphone" value="${cusCreate}">
-                                                <span class="form-text">000 000 0000</span>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                    <div class="form-layout-footer text-center">
-                                        <button class="btn btn-primary bd-0" type="submit"
-                                                name="action" value="add" >Submit</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <!-- TMP -->
-
-    <div class="footer">
-        <div class="float-right">10GB of <strong>250GB</strong> Free.</div>
-        <div><strong>Copyright</strong> Example Company &copy; 2014-2018</div>
-    </div>
 </div>
 <!-- Body -->
 </div>

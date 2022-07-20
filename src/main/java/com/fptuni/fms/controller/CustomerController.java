@@ -157,7 +157,7 @@ public class CustomerController extends HttpServlet {
             Customer customer = new Customer();
             String phone = request.getParameter("phone");
             customer = customerService.getCustomerByPhoneNum(phone);
-            String date = request.getParameter("DoB");
+            String date = request.getParameter("Dob");
             String address = request.getParameter("address");
             String gender = request.getParameter("gender");
             Short Sgender = 0;
