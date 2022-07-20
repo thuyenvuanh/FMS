@@ -9,7 +9,5 @@ import java.util.List;
 public interface IPaymentService {
 
     public boolean makePayment(HttpServletRequest request);
-
-
     List<Payment> getPaymentsByOrderID(int orderID);
 }

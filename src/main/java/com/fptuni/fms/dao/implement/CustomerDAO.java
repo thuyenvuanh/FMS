@@ -105,4 +105,14 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
         List<Customer> result = query(sql, new CustomerMapper(), customerID);
         return result == null ? null : result.get(0);
     }
+
+    @Override
+    public Customer getCustomerByWalletID(int walletID) {
+        String sql = "SELECT c.ID, c.Name, c.Address, c.DoB, c.Phone, c.Gender FROM Customer c\n" +
+                "JOIN \n" +
+                "(SELECT ID, CustomerID FROM Wallet WHERE IsDeleted = 0 AND ID = ?) AS subWallet ON c.ID = subWallet.CustomerID\n" +
+                "AND c.IsDeleted = 0";
+        List<Customer> customers = query(sql, new CustomerMapper(), walletID);
+        return customers == null ? null : customers.get(0);
+    }
 }

@@ -17,6 +17,7 @@ import com.fptuni.fms.sort.Sorter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.plaf.synth.SynthRootPaneUI;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -189,8 +190,7 @@ public class OrderService implements IOrderService {
     @Override
     public List<Orders> getOrdersByDate(HttpServletRequest request, Date date) {
         HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        Store store = storeDAO.getStoreByAccount(account);
+        Store store = (Store) session.getAttribute("store");
         List<Orders> orders = orderDAO.getOrdersByDate(store, date);
         return orders;
     }
@@ -198,10 +198,15 @@ public class OrderService implements IOrderService {
     @Override
     public List<Orders> getOrdersByTimeRange(HttpServletRequest request, Date startTime, Date endTime) {
         HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        Store store = storeDAO.getStoreByAccount(account);
+        Store store = (Store) session.getAttribute("store");
         List<Orders> orders = orderDAO.getOrdersByTimeRange(store, startTime, endTime);
         return orders;
     }
 
+    @Override
+    public Orders getOrdersByPaymentID(HttpServletRequest request, int paymentID) {
+        HttpSession session = request.getSession();
+        Store store = (Store) session.getAttribute("store");
+        return orderDAO.getOrdersByPaymentID(paymentID, store);
+    }
 }

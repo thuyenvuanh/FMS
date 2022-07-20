@@ -20,14 +20,59 @@ public class DashBoardService implements IDashBoardService {
 
     private StoreDAO storeDAO = new StoreDAO();
     private OrderDAO orderDAO = new OrderDAO();
+    Calendar calendar = Calendar.getInstance();
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
     @Override
     public List<Date> getDateRange(HttpServletRequest request, HttpServletResponse response) {
-        return null;
+        List<Date> listOfDate = null;
+        try {
+            Date end = calendar.getTime();
+            calendar.add(Calendar.MONTH, -1);
+            calendar.add(Calendar.DATE, +1);
+            Date start = calendar.getTime();
+            if (request.getParameter("startDate") != null && request.getParameter("endDate") != null) {
+                start = simpleDateFormat.parse(request.getParameter("startDate"));
+                end = simpleDateFormat.parse(request.getParameter("endDate"));
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                request.setAttribute("startDateFmt", sdf.format(start));
+                request.setAttribute("endDateFmt", sdf.format(end));
+                if (start.after(end)) {
+                    throw new Exception("Start date must be before end date");
+                }
+            }
+            listOfDate = DateUtils.getDaysBetweenDates(start, end);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listOfDate;
     }
 
     @Override
     public List<Date> getTimeRange(HttpServletRequest request, HttpServletResponse response) {
-        return null;
+
+        List<Date> listOfDate = null;
+        int range = 15;
+        try {
+            Date end = calendar.getTime();
+            calendar.add(Calendar.MONTH, -1);
+            calendar.add(Calendar.DATE, +1);
+            Date start = calendar.getTime();
+            if (request.getParameter("startDate") != null && request.getParameter("endDate") != null) {
+                start = simpleDateFormat.parse(request.getParameter("startDate"));
+                end = simpleDateFormat.parse(request.getParameter("endDate"));
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                request.setAttribute("startDateFmt", sdf.format(start));
+                request.setAttribute("endDateFmt", sdf.format(end));
+                if (start.after(end)) {
+                    throw new Exception("Start date must be before end date");
+                }
+            }
+            listOfDate = DateUtils.addHoursToJavaUtilDate(start, range);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listOfDate;
     }
 
     @Override
@@ -49,31 +94,30 @@ public class DashBoardService implements IDashBoardService {
             String tmpDate1 = sdf.format(date1);
             date1 = sdf.parse(tmpDate1);
             listDateBetween = DateUtils.getDaysBetweenDates(date1, date2);
-            if(startDate != null && endDate != null){
+            if (startDate != null && endDate != null) {
                 date1 = sdf.parse(startDate);
                 date2 = sdf.parse(endDate);
                 //Get data today or yesterday
                 listTime = DateUtils.addHoursToJavaUtilDate(date1, range);
                 listDateBetween = DateUtils.getDaysBetweenDates(date1, date2);
-                if(listDateBetween.size() == 1){
+                if (listDateBetween.size() == 1) {
                     setDataByTime(request, listTime, date1, date2, startDate, endDate);
                     return "/view/admin/dashboard.jsp";
                 }
             }
             //Get data not today or yesterday
             setData(request, listDateBetween, date1, date2, startDate, endDate);
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         return "/view/admin/dashboard.jsp";
     }
 
-    private void setData(HttpServletRequest request, List<Date> listDateBetween, Date date1, Date date2, String startDate, String endDate){
-        try{
+    private void setData(HttpServletRequest request, List<Date> listDateBetween, Date date1, Date date2, String startDate, String endDate) {
+        try {
             //Get Top Store
             List<Store> listStore = storeDAO.getTopStore(5, date1, date2);
-            Map<Store, Pair<BigDecimal, Integer>> listTopStores =  new HashMap<>();
+            Map<Store, Pair<BigDecimal, Integer>> listTopStores = new HashMap<>();
             for (Store item : listStore) {
                 listTopStores.put(item, new Pair(orderDAO.GetTotalValueOfStore(item.getId(), date1, date2), orderDAO.GetOrderQuantity(item.getId(), date1, date2)));
                 System.out.println(item.getName());
@@ -90,7 +134,7 @@ public class DashBoardService implements IDashBoardService {
             HashMap<Date, BigDecimal> listValueByTime = new HashMap<>();
             List<String> listKeyDateBetween = new ArrayList<>();
 
-            for (Date item : listDateBetween)  {
+            for (Date item : listDateBetween) {
                 listOrderByTime.put(item, orderDAO.GetTotalOrderByDate(item));
                 listValueByTime.put(item, orderDAO.GetTotalValueByDate(item));
                 listKeyDateBetween.add(new SimpleDateFormat("dd-MM").format(item));
@@ -108,17 +152,16 @@ public class DashBoardService implements IDashBoardService {
             request.setAttribute("TOTAL_ORDER_BY_TIME", listOrderByTime);
             request.setAttribute("TOTAL_VALUE_BY_TIME", listValueByTime);
             request.setAttribute("KEY_DATE", listDateBetween);
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
 
-    private void setDataByTime(HttpServletRequest request, List<Date> listDateBetween, Date date1, Date date2, String startDate, String endDate){
+    private void setDataByTime(HttpServletRequest request, List<Date> listDateBetween, Date date1, Date date2, String startDate, String endDate) {
         //Get Top Store
         try {
             List<Store> listStore = storeDAO.getTopStoreToday(5, date1);
-            Map<Store, Pair<DecimalFormat, Integer>> listTopStores =  new HashMap<>();
+            Map<Store, Pair<DecimalFormat, Integer>> listTopStores = new HashMap<>();
             for (Store item : listStore) {
                 listTopStores.put(item, new Pair(orderDAO.GetTotalValueOfStore(item.getId(), date1, date2), orderDAO.GetOrderQuantity(item.getId(), date1, date2)));
                 System.out.println(item.getName());
@@ -134,7 +177,7 @@ public class DashBoardService implements IDashBoardService {
             HashMap<Date, BigDecimal> listValueByTime = new HashMap<>();
             List<String> listKeyDateBetween = new ArrayList<>();
 
-            for(int i = 0; i < listDateBetween.size() - 1; i++){
+            for (int i = 0; i < listDateBetween.size() - 1; i++) {
                 listOrderByTime.put(listDateBetween.get(i), orderDAO.GetTotalOrderByTime(listDateBetween.get(i), listDateBetween.get(i + 1)));
                 listValueByTime.put(listDateBetween.get(i), orderDAO.GetTotalValueByTime(listDateBetween.get(i), listDateBetween.get(i + 1)));
                 listKeyDateBetween.add(new SimpleDateFormat("HH:mm").format(listDateBetween.get(i)) + "-" + new SimpleDateFormat("HH:mm").format(listDateBetween.get(i + 1)));
@@ -152,8 +195,7 @@ public class DashBoardService implements IDashBoardService {
             request.setAttribute("TOTAL_ORDER_BY_TIME", listOrderByTime);
             request.setAttribute("TOTAL_VALUE_BY_TIME", listValueByTime);
             request.setAttribute("KEY_DATE", listDateBetween);
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }

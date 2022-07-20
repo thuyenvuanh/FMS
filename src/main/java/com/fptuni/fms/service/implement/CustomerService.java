@@ -122,4 +122,9 @@ public class CustomerService implements ICustomerService {
     public Customer getCustomer(int customerID) {
         return customerDAO.getCustomer(customerID);
     }
+
+    @Override
+    public Customer getCustomerByWalletID(int walletID) {
+        return customerDAO.getCustomerByWalletID(walletID);
+    }
 }

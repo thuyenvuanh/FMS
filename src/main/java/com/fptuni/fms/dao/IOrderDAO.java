@@ -46,4 +46,5 @@ public interface IOrderDAO extends GenericDAO<Orders> {
 
     List<Orders> getOrdersByTimeRange(Store store, Date startTime, Date endTime);
 
+    Orders getOrdersByPaymentID(int paymentID, Store store);
 }

@@ -24,4 +24,5 @@ public interface ICustomerService {
     Customer getCustomerByOrderID(HttpServletRequest request, HttpServletResponse response);
 
     Customer getCustomer(int customerID);
+    Customer getCustomerByWalletID(int walletID);
 }

@@ -26,4 +26,5 @@ public interface ICustomerDAO extends GenericDAO<Customer> {
     Customer getCustomerByOrderID(int id);
 
     Customer getCustomer(int customerID);
+    Customer getCustomerByWalletID(int walletID);
 }

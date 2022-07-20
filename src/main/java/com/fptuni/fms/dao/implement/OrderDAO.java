@@ -5,9 +5,11 @@ import com.fptuni.fms.mapper.OrderDetailMapper;
 import com.fptuni.fms.mapper.OrderMapper;
 import com.fptuni.fms.model.OrderDetail;
 import com.fptuni.fms.model.Orders;
+import com.fptuni.fms.model.Payment;
 import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 
+import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -156,7 +158,6 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
     }
 
 
-
     public int countNumberOfOrders() {
         String sql = "SELECT COUNT(ID) AS ID FROM Orders";
         List<Orders> orders = query(sql, new OrderMapper());
@@ -183,5 +184,13 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
                 "WHERE CreatedDate between CONVERT(datetime, ? ,120) and CONVERT(datetime, ? ,120)\n" +
                 "AND StoreID = ? AND IsDeleted = 0";
         return query(sql, new OrderMapper(), start, end, store.getId());
+    }
+
+    @Override
+    public Orders getOrdersByPaymentID(int paymentID, Store store) {
+        String sql = "SELECT O.ID, O.Total FROM Orders O\n" +
+                "JOIN (SELECT ID, OrderID FROM Payment WHERE ID = ?) SUB ON O.ID = SUB.OrderID AND O.StoreID = ?\n";
+        List<Orders> orders = query(sql, new OrderMapper(), paymentID, store.getId());
+        return orders == null ? null : orders.get(0);
     }
 }

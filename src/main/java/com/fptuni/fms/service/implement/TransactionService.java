@@ -88,5 +88,4 @@ public class TransactionService implements ITransactionService {
     public List<TransactionShared> getTransactionSharedByStore(Store store) {
         return dao.getTransactionSharedByStore(store);
     }
-
 }

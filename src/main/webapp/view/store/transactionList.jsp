@@ -157,7 +157,6 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <c:set var="customer" value="${requestScope.customerMapByWalletID}"></c:set>
                             <c:forEach var="transactionShared" items="${requestScope.transactionShares}" varStatus="counter">
                             <tr>
                                 <td>${counter.count}</td>
@@ -168,11 +167,7 @@
                                     ${transactionShared.paymentID.orderID.id}
                                 </td>
                                 <td>
-                                    <c:forEach var="customerInfo" items="${customer}">
-                                        <c:if test="${customerInfo.key == transactionShared.id}">
-                                            ${customerInfo.value.name}
-                                        </c:if>
-                                    </c:forEach>
+                                    ${transactionShared.walletID.customerID.name}
                                 </td>
                                 <td>
                                     <fmt:formatNumber var="amountFmt" value="${transactionShared.amount}" pattern="###,###,### VND"></fmt:formatNumber>

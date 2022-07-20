@@ -32,25 +32,27 @@ public class TransactionSharedMapper implements RowMapper<TransactionShared> {
             //Payment payment = new Payment();
             for (int i = 1; i <= columns; i++) {
                 if (metaData.getColumnLabel(i).equals("ID"))
-                    result.setId(rs.getInt(i));
+                    result.setId(rs.getInt("ID"));
                 else if (metaData.getColumnLabel(i).equals("Amount"))
-                    result.setAmount(rs.getBigDecimal(i));
+                    result.setAmount(rs.getBigDecimal("Amount"));
                 else if (metaData.getColumnLabel(i).equals("WalletID"))
-                    result.setWalletID(rs.getInt(i) == 0 ? null : new Wallet(rs.getInt(i)));
+                    result.setWalletID(rs.getInt("WalletID") == 0 ? null : new Wallet(rs.getInt("WalletID")));
                 else if (metaData.getColumnLabel(i).equals("PreviousHash"))
                     result.setPreviousHash(rs.getString(i));
                 else if (metaData.getColumnLabel(i).equals("HashValue"))
                     result.setHashValue(rs.getString(i));
                 else if (metaData.getColumnLabel(i).equals("PreviousBalance"))
                     result.setPreviousBalance(rs.getBigDecimal(i));
-                else if (metaData.getColumnLabel(i).equals("CreatedDate"))
+                else if (metaData.getColumnLabel(i).equals("CreatedDate")){
                     result.setCreatedDate(new Date(rs.getTimestamp(i).getTime()));
+                    result.setCreateDateTime(rs.getTimestamp("CreatedDate"));
+                }
                 else if (metaData.getColumnLabel(i).equals("Status"))
                     result.setStatus(rs.getBoolean(i));
                 else if (metaData.getColumnLabel(i).equals("MoneyTransactionID"))
                     result.setMoneyTransactionID(rs.getInt(i) == 0 ? null : new MoneyTransaction(rs.getInt(i)));
                 else if (metaData.getColumnLabel(i).equals("PaymentID"))
-                    result.setPaymentID(rs.getInt(i) == 0 ? null : new Payment(rs.getInt(i)));
+                    result.setPaymentID(rs.getInt("PaymentID") == 0 ? null : new Payment(rs.getInt("PaymentID")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(TransactionSharedMapper.class.getName()).log(Level.SEVERE, null, ex);
