@@ -139,7 +139,13 @@ public class StoreService implements IStoreService {
                 storeAccountDAO.getAccountsByStoreID(store.getId())) {
             accounts.add(accountDAO.getAccount(account.getId()));
         }
+        List<Account> avaiAccounts = new ArrayList<>();
+        if (accounts.isEmpty()){
+            avaiAccounts = accountDAO.getAvailableAccounts();
+        }
 
+        request.setAttribute("avaiAccounts", avaiAccounts);
+        request.setAttribute("accountList", accounts);
         request.setAttribute("store", store);
         return "/view/admin/storeUpdate.jsp";
     }

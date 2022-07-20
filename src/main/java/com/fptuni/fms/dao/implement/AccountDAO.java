@@ -138,6 +138,19 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         return listAcc == null ? null : listAcc.get(0);
     }
 
+    public List<Account> getAvailableAccounts() {
+        String sql = "select a.id as ID, a.username as Username,\n" +
+                "       a.fullname as FullName, a.roleid as RoleID,\n" +
+                "       r2.Name as [Name], a.isdeleted as IsDeleted\n" +
+                "from Account a join Role R2 on a.RoleID = R2.ID\n" +
+                "where r2.Name = 'Store Manager' OR r2.Name = 'Cashier'\n" +
+                "EXCEPT (select AccountID, Username, FullName, RoleID, Role.Name, Account.IsDeleted\n" +
+                "    from Account JOIN storeAccount on Account.ID = StoreAccount.AccountID\n" +
+                "    join role on Account.RoleID = Role.ID)";
+        List<Account> avaiAccount = query(sql, new AccountMapper());
+        return avaiAccount;
+    }
+
     @Override
     public Account getAccountUpdate(int id) {
         String sql = "SELECT Account.ID, Username, FullName, RoleID, Name FROM Account Join Role On Account.RoleID = Role.ID WHERE Account.ID = ? AND Account.IsDeleted = 0";

@@ -79,17 +79,17 @@
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Store Manager:</label>
                                                     <div class="col-sm-10">
-                                                    <c:forEach var="acc" items="${store.accountID}">
+                                                    <c:forEach var="acc" items="${requestScope.accountList}">
                                                         <div class="text-align">${acc.fullName}</div>
                                                     </c:forEach>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Status:</label>
                                                     <div class="col-sm-10 text-align">
-                                                        <c:if test="${store.isDeleted()==false}">
+                                                        <c:if test="${store.isDeleted == false}">
                                                             <span class="label label-primary">Enable</span>
                                                         </c:if>
-                                                        <c:if test="${store.isDeleted()==true}">
+                                                        <c:if test="${store.isDeleted == true}">
                                                             <span class="label label-danger">Disable</span>
                                                         </c:if>
                                                     </div>
