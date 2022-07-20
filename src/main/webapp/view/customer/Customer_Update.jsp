@@ -267,37 +267,22 @@
 
             $("#formUpdateCus").validate({
                 rules: {
+                    name: {
+                        required: true
+                    },
                     Dob: {
-                        required: true,
-                    },
-                    address:{
-                      required: true,
-                    },
-                    name:{
-                        request: true,
+                        required: true
                     }
                 },
                 messages: {
-                    Dob: {
-                        required: 'Please enter Date of birth'
-                    },
-                    address: {
-                        required: 'Please enter Address'
-                    },
                     name: {
-                        required: 'Please enter Name'
+                        required: 'Please enter name'
+                    },
+                    Dob: {
+                        required: 'Please enter date'
                     }
                 }
-            });
-        });
-
-        $(document).ready(function () {
-            $('#update-Dob .input-Dob').datepicker({
-                keyboardNavigation: false,
-                forceParse: false,
-                autoclose: true,
-                format: "yyyy-MM-dd"
-            });
+            })
         });
 
     </script>
