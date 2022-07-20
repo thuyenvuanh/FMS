@@ -32,7 +32,7 @@ public class TransactionSharedController extends HttpServlet {
         HttpSession session = request.getSession();
         Store store = (Store) session.getAttribute("store");
         if (path.equals("/list")) {
-            List<TransactionShared> transactionShares = transactionService.getTransactionSharedByStore(store);
+            List<TransactionShared> transactionShares = transactionService.getTransactionSharedByStore(request, store);
 
             for (TransactionShared transactionShared : transactionShares) {
                 Payment payment = transactionShared.getPaymentID();

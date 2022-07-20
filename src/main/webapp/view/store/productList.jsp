@@ -128,6 +128,7 @@
                 </div>
                 <div class="container-fluid">
                     <button class="btn btn-outline-success  float-right" type="submit">Search</button>
+                    <button type="reset" value="Reset" class="btn btn-outline-danger float-right" style="margin-right: 2%">Reset</button>
                 </div>
             </div>
 

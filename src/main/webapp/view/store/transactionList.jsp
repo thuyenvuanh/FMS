@@ -1,9 +1,7 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -84,46 +82,57 @@
 
 
         <div class="ibox-content m-b-sm border-bottom">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="form-group">
-                        <label class="col-form-label" >Customer phone</label>
-                        <input type="text" class="form-control" data-mask="(000) 000-0000" placeholder="(000) 000-0000" autocomplete="off" maxlength="14">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="form-group">
-                        <label class="col-form-label" for="status">Order status</label>
-                        <select name="status" id="status" class="form-control">
-                            <option value="" selected="">None</option>
-                            <option value="1">Enabled</option>
-                            <option value="0">Disabled</option>
-                        </select>
-
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-group" id="date_range_transaction">
-                        <label class="col-form-label">Range Date</label>
-                        <div class="input-daterange input-group" id="datepicker">
-
-                            <input type="text" class="form-control" name="start" value="" data-mask="00/00/0000" placeholder="" autocomplete="on" maxlength="10">
-                            <span class="input-group-addon">to</span>
-                            <input type="text" class="form-control" name="end" value="" data-mask="00/00/0000" placeholder="" autocomplete="on" maxlength="10">
+            <c:url var="searchLink" value="${requestScope.contextPath}/transactionShared/list"></c:url>
+            <form action="${searchLink}" method="get">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label">Customer phone</label>
+                            <input type="text" name="customerPhone" class="form-control" data-mask="(000) 000-0000"
+                                   placeholder="(000) 000-0000" autocomplete="off" maxlength="14">
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label class="col-form-label" for="status">Transaction status</label>
+                            <select name="status" id="status" class="form-control">
+                                <option value="" selected="">None</option>
+                                <option value="1">Enabled</option>
+                                <option value="0">Disabled</option>
+                            </select>
 
-                <div class="col-lg-2">
-                    <div class="form-group">
-                        <label class="col-form-label" >Amount</label>
-                        <input type="text" class="form-control" data-mask="$ 000000000.00" placeholder="" autocomplete="off" maxlength="16">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group" id="date_range_transaction">
+                            <label class="col-form-label">Date</label>
+                            <div class="input-daterange input-group" id="datepicker">
+
+                                <%--                            <input type="text" class="form-control" name="start" value="" data-mask="00/00/0000" placeholder="" autocomplete="on" maxlength="10">--%>
+                                <%--                            <span class="input-group-addon">to</span>--%>
+                                <input type="text" class="form-control" name="dateSearch" value=""
+                                       data-mask="00/00/0000" placeholder="" autocomplete="on" maxlength="10">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label">Amount</label>
+                            <input type="text" class="form-control" name="amount" data-mask="000,000,000" placeholder=""
+                                   autocomplete="off" maxlength="16">
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <button class="btn btn-outline-success  float-right"
+                                type="submit">Search
+                        </button>
+                        <button type="reset" value="Reset" class="btn btn-outline-danger float-right"
+                                style="margin-right: 2%">Reset
+                        </button>
                     </div>
                 </div>
-                <div class="container-fluid"><button class="btn btn-outline-success  float-right"
-                                                     type="submit">Search</button></div>
-            </div>
-
+            </form>
         </div>
 
         <div class="row">
@@ -131,7 +140,7 @@
                 <div class="ibox">
                     <div class="ibox-content m-b-sm border-bottom">
                         <div class="row">
-                            <div class="col-md-6">Total transaction: </div>
+                            <div class="col-md-6">Total transaction:</div>
                             <div class="col-md-6">Total money:</div>
                         </div>
                     </div>
@@ -144,50 +153,57 @@
                 <div class="ibox">
                     <div class="ibox-content">
 
-                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15" style="font-size: small">
+                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15"
+                               style="font-size: small">
                             <thead>
                             <tr>
-                                <th>No</th>
                                 <th>Transaction ID</th>
                                 <th data-hide="phone">Order ID</th>
                                 <th data-hide="phone">Customer Name</th>
+                                <th data-hide="phone">Customer Phone</th>
                                 <th data-hide="phone">Amount</th>
                                 <th>Transaction Date</th>
                                 <th>Status</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="transactionShared" items="${requestScope.transactionShares}" varStatus="counter">
-                            <tr>
-                                <td>${counter.count}</td>
-                                <td>
-                                    ${transactionShared.id}
-                                </td>
-                                <td>
-                                    ${transactionShared.paymentID.orderID.id}
-                                </td>
-                                <td>
-                                    ${transactionShared.walletID.customerID.name}
-                                </td>
-                                <td>
-                                    <fmt:formatNumber var="amountFmt" value="${transactionShared.amount}" pattern="###,###,### VND"></fmt:formatNumber>
-                                    ${amountFmt}
-                                </td>
-                                <td>
-                                    <fmt:formatDate value="${transactionShared.createDateTime}" pattern="dd/MM/yyyy HH:mm:ss" var="dateTimeFmt"></fmt:formatDate>
-                                    ${dateTimeFmt}
-                                </td>
-                                <td>
-                                    <c:if test="${transactionShared.status}">
-                                    <span class="label label-primary">Success</span>
-                                    </c:if>
-                                    <c:if test="${!transactionShared.status}">
-                                    <span class="label label-danger">Fail</span>
-                                    </c:if>
-                                </td>
-                            </tr>
+                            <c:forEach var="transactionShared" items="${requestScope.transactionShares}">
+                                <tr>
+                                    <td>
+                                            ${transactionShared.id}
+                                    </td>
+                                    <td>
+                                            ${transactionShared.paymentID.orderID.id}
+                                    </td>
+                                    <td>
+                                            ${transactionShared.walletID.customerID.name}
+                                    </td>
+                                    <td>
+                                        <c:set var="phoneNumber"
+                                               value="${transactionShared.walletID.customerID.phone}"></c:set>
+                                        <c:out value="${phoneNumber}"></c:out>
+                                    </td>
+                                    <td>
+                                        <fmt:formatNumber var="amountFmt" value="${transactionShared.amount}"
+                                                          pattern="###,###,### VND"></fmt:formatNumber>
+                                            ${amountFmt}
+                                    </td>
+                                    <td>
+                                        <fmt:formatDate value="${transactionShared.createDateTime}"
+                                                        pattern="dd/MM/yyyy HH:mm:ss"
+                                                        var="dateTimeFmt"></fmt:formatDate>
+                                            ${dateTimeFmt}
+                                    </td>
+                                    <td>
+                                        <c:if test="${transactionShared.status}">
+                                            <span class="label label-primary">Success</span>
+                                        </c:if>
+                                        <c:if test="${!transactionShared.status}">
+                                            <span class="label label-danger">Fail</span>
+                                        </c:if>
+                                    </td>
+                                </tr>
                             </c:forEach>
-
 
 
                             </tbody>
@@ -202,8 +218,9 @@
                                                     <span class="sr-only">Previous</span>
                                                 </a>
                                             </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-
+                                            <c:forEach var="page" begin="1" end="${requestScope.totalPages}">
+                                                <li class="page-item"><a class="page-link" href="#">${page}</a></li>
+                                            </c:forEach>
                                             <li class="page-item">
                                                 <a class="page-link" href="#" aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>

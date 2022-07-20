@@ -48,7 +48,7 @@ public class TransactionSharedMapper implements RowMapper<TransactionShared> {
                     result.setCreateDateTime(rs.getTimestamp("CreatedDate"));
                 }
                 else if (metaData.getColumnLabel(i).equals("Status"))
-                    result.setStatus(rs.getBoolean(i));
+                    result.setStatus(rs.getBoolean("Status"));
                 else if (metaData.getColumnLabel(i).equals("MoneyTransactionID"))
                     result.setMoneyTransactionID(rs.getInt(i) == 0 ? null : new MoneyTransaction(rs.getInt(i)));
                 else if (metaData.getColumnLabel(i).equals("PaymentID"))
