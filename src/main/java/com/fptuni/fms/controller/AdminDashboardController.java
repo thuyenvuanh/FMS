@@ -1,8 +1,9 @@
 package com.fptuni.fms.controller;
 
-import com.fptuni.fms.service.IDashboardService;
+import com.fptuni.fms.service.IDashBoardService;
 import com.fptuni.fms.service.IStoreService;
-import com.fptuni.fms.service.implement.DashboardService;
+import com.fptuni.fms.service.implement.DashBoardService;
+
 import com.fptuni.fms.service.implement.StoreService;
 
 import javax.servlet.*;
@@ -16,13 +17,13 @@ public class AdminDashboardController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String URL = null;
-        IDashboardService dashboardService = new DashboardService();
+        IDashBoardService dashboardService = new DashBoardService();
         String path = request.getPathInfo();
         System.out.println(path);
 
         if(path.equals("/index")){
 
-            URL = dashboardService.index(request, response);
+            URL = dashboardService.getDashboardData(request, response);
             request.getRequestDispatcher(URL).forward(request, response);
         }
 

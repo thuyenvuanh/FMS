@@ -7,11 +7,15 @@ import com.fptuni.fms.service.ITransactionService;
 import com.fptuni.fms.utils.SecurityUtils;
 
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class TransactionService implements ITransactionService {
-    TransactionSharedDAO transactionSharedDAO = new TransactionSharedDAO();
+
+
+    private final TransactionSharedDAO dao = new TransactionSharedDAO();
 
     @Override
     public int insertNewTransaction(TransactionShared transaction) {
@@ -82,7 +86,7 @@ public class TransactionService implements ITransactionService {
     }
 
     public List<TransactionShared> getTransactionSharedByStore(Store store) {
-        return transactionSharedDAO.getTransactionSharedByStore(store);
+        return dao.getTransactionSharedByStore(store);
     }
 
 }

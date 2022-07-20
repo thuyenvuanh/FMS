@@ -16,7 +16,6 @@ public interface ITransactionService {
 
     BigDecimal getCustomerBalance(TransactionShared transactionShared);
 
-    BigDecimal getCustomerAmount(TransactionShared transactionShared);
 
     List<TransactionShared> getTransactionSharedByStore(Store store);
 }

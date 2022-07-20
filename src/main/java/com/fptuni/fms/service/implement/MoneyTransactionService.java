@@ -6,6 +6,7 @@ import com.fptuni.fms.service.IMoneyTransactionService;
 import com.fptuni.fms.utils.SecurityUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -65,7 +66,7 @@ public class MoneyTransactionService implements IMoneyTransactionService {
     }
 
     @Override
-    public boolean addMoney(HttpServletRequest request) {
+    public boolean addMoney(HttpServletRequest request, HttpSession session) {
         BigDecimal amount = BigDecimal.valueOf(Integer.parseInt(request.getParameter("amount").replaceAll("[^\\d.]", "")));
         Wallet wallet = walletDAO.getWalletWithID(Integer.parseInt(request.getParameter("walletID")));
         Customer customer = customerDAO.getByPhoneNum(request.getParameter("customerPhone"));
@@ -102,7 +103,7 @@ public class MoneyTransactionService implements IMoneyTransactionService {
                 newTransaction.setHashValue(SecurityUtils.createHash(newTransaction.toString(), String.valueOf(newTransaction.getCreatedDate().getTime())));
                 transactionSharedDAO.insertTransaction(newTransaction);
             }
-            request.setAttribute("phoneNumber", request.getParameter("customerPhone"));
+            session.setAttribute("phoneNumber", request.getParameter("customerPhone"));
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -111,7 +112,7 @@ public class MoneyTransactionService implements IMoneyTransactionService {
     }
 
     @Override
-    public boolean withDraw(HttpServletRequest request) {
+    public boolean withDraw(HttpServletRequest request, HttpSession session) {
         BigDecimal amount = BigDecimal.valueOf(Integer.parseInt(request.getParameter("amount").replaceAll("[^\\d.]", ""))).negate();
         Wallet wallet = walletDAO.getWalletWithID(Integer.parseInt(request.getParameter("walletID")));
         Customer customer = customerDAO.getByPhoneNum(request.getParameter("customerPhone"));
@@ -148,7 +149,7 @@ public class MoneyTransactionService implements IMoneyTransactionService {
                 newTransaction.setHashValue(SecurityUtils.createHash(newTransaction.toString(), String.valueOf(newTransaction.getCreatedDate().getTime())));
                 transactionSharedDAO.insertTransaction(newTransaction);
             }
-            request.setAttribute("phoneNumber", request.getParameter("customerPhone"));
+            session.setAttribute("phoneNumber", request.getParameter("customerPhone"));
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());

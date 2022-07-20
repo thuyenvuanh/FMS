@@ -65,6 +65,7 @@
       "/customer",
       "/counter/index",
       "/counter",
+      "/account/logout",
       "/js",
       "/css",
       "/img",
