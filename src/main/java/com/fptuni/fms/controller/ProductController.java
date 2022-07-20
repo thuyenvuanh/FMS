@@ -35,6 +35,16 @@ public class ProductController extends HttpServlet {
         if (path.equals("/list")) {
             int pageSize = 5;
             List<Product> products = productService.getProducts(request, response);
+
+//            Collections.sort(products, new Comparator<Product>() {
+//                public int compare(Product o1, Product o2) {
+//                    return extractInt(o1.getId()) - extractInt(o2.getId());
+//                }
+//                int extractInt(String s) {
+//                    String num = s.replaceAll("\\D", "");
+//                    return num.isEmpty() ? 0 : Integer.parseInt(num);
+//                }
+//            });
             int totalPages = productService.countProductBySearch(request, response) / pageSize;
             if (productService.countProductBySearch(request, response) % pageSize != 0) {
                 totalPages++;
@@ -76,7 +86,6 @@ public class ProductController extends HttpServlet {
             List<Category> categories = categoryService.getCategories();
             Product product = productService.getProductById(productID);
             request.setAttribute("product", product);
-            request.setAttribute("categories", categories);
             request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
         } else if (path.equals("/update")) {
             if (productService.updateProduct(request, response)) {

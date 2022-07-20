@@ -3,40 +3,35 @@ package com.fptuni.fms.mapper;
 import com.fptuni.fms.model.Customer;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 
-public class CustomerMapper implements RowMapper<Customer>{
+public class CustomerMapper implements RowMapper<Customer> {
 
     @Override
     public Customer mapRow(ResultSet rs) {
         Customer cus = null;
         try {
             cus = new Customer();
-            if(rs.getObject("ID") != null){
-                cus.setId(rs.getInt("ID"));
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columns = metaData.getColumnCount();
+            for (int i = 1; i <= columns; i++) {
+                if (metaData.getColumnLabel(i).equals("ID"))
+                    cus.setId(rs.getInt("ID"));
+                if (metaData.getColumnLabel(i).equals("Name"))
+                    cus.setName(rs.getString("Name"));
+                if (metaData.getColumnLabel(i).equals("DoB"))
+                    cus.setDoB(rs.getDate("DoB"));
+                if (metaData.getColumnLabel(i).equals("Address"))
+                    cus.setAddress(rs.getString("Address"));
+                if (metaData.getColumnLabel(i).equals("Gender"))
+                    cus.setGender(rs.getShort("Gender"));
+                if (metaData.getColumnLabel(i).equals("Phone"))
+                    cus.setPhone((rs.getString("Phone")));
             }
-            if(rs.getString("Name") != null){
-                cus.setName(rs.getString("Name"));
-            }
-            if(rs.getString("Phone") != null){
-                cus.setPhone((rs.getString("phone")));
-            }
-            if(rs.getString("isDeleted") != null){
-                cus.setIsDeleted(rs.getBoolean("isDeleted"));
-            }
-            if(rs.getString("DoB") != null){
-                cus.setDoB(rs.getDate("DoB"));
-            }
-            if(rs.getString("Address") != null){
-                cus.setAddress(rs.getString("Address"));
-            }
-            if(rs.getString("Gender") != null){
-                cus.setGender(rs.getShort("Gender"));
-            }
-
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
         return cus;
     }
 }

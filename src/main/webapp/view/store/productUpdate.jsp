@@ -99,14 +99,13 @@
                                         <div class="form-group row"><label
                                                 class="col-sm-2 col-form-label">Image:</label>
                                             <div class="col-sm-10 ">
-                                                <img src="${productDetail.imagePath}" alt="${productDetail.name}"
-                                                     style="width: 35%"/>
+                                                <img src="../${productDetail.imagePath}" alt="${productDetail.name}"
+                                                     style="width: 25%"/>
                                                 <div class="input-group col-sm-3">
                                                     <div class="mb-3">
                                                         <input class="form-control" type="file" id="formFileMultiple"
                                                                name="imagePath" placeholder="${productDetail.imagePath}"
                                                                multiple>
-<%--                                                        <input type="file" name="imagePath" id="imagePath">--%>
                                                     </div>
                                                 </div>
                                             </div>

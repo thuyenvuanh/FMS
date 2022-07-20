@@ -4,6 +4,7 @@
  */
 package com.fptuni.fms.dao;
 
+import com.fptuni.fms.model.Store;
 import com.fptuni.fms.model.TransactionShared;
 
 import java.util.List;
@@ -23,4 +24,5 @@ public interface ITransactionShared extends GenericDAO<TransactionShared>{
     TransactionShared getLatestTransaction();
 
     int insertTransaction(TransactionShared transactionShared);
+    List<TransactionShared> getTransactionSharedByStore(Store store);
 }

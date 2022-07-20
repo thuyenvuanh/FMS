@@ -7,6 +7,9 @@ import com.fptuni.fms.utils.SecurityUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 import java.util.Date;
 
 public class PaymentService implements IPaymentService {
@@ -116,5 +119,10 @@ public class PaymentService implements IPaymentService {
     @Override
     public boolean withDraw(HttpServletRequest request) {
         return false;
+    }
+
+    @Override
+    public List<Payment> getPaymentsByOrderID(int orderID) {
+        return paymentDAO.getPaymentsByOrderId(orderID);
     }
 }

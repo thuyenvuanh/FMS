@@ -12,6 +12,8 @@ public interface ICustomerDAO extends GenericDAO<Customer>{
     Customer getByPhoneNum(String phoneNum);
     Customer getByName(String name);
     Integer count ();
+    Customer getCustomerByOrderID(int id);
+    Customer getCustomer(int customerID);
     boolean deleteCus(String phoneNum);
     Customer getDetail(String phoneNum);
     boolean updateCustomerInfo (Customer customer);

@@ -11,6 +11,7 @@ import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.ICustomerService;
 import com.fptuni.fms.sort.Sorter;
 import com.fptuni.fms.utils.RequestUtils;
+import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
 
 import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 public class CustomerService implements ICustomerService {
+    ICustomerDAO customerDAO = new CustomerDAO();
+
     @Override
     public List<Customer> getList(HttpServletRequest request, HttpServletResponse response) {
-        ICustomerDAO customerDAO = new CustomerDAO();
         int pageIndex = 1;
         int pageSize = 3;
         String sortField = "Name";
@@ -42,6 +44,7 @@ public class CustomerService implements ICustomerService {
         request.setAttribute("sortField", sortField);
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
         request.setAttribute("isAsc", !isAsc);
+
         return customers;
     }
 
@@ -53,7 +56,6 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Integer addnewCustomer(HttpServletRequest request, HttpServletResponse response) {
-       ICustomerDAO customerDAO = new CustomerDAO();
         String name = "";
         String phone = "";
         if (request.getParameter("Cusname") != null
@@ -76,7 +78,6 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Integer CountCustomer() {
-        ICustomerDAO customerDAO = new CustomerDAO();
         return customerDAO.count();
     }
 
@@ -99,4 +100,23 @@ public class CustomerService implements ICustomerService {
         return customerDAO.updateCustomerInfo(customer);
     }
 
+
+    @Override
+    public Customer getCustomerByOrderID(HttpServletRequest request, HttpServletResponse response) {
+        Customer customer = null;
+        try {
+            if (request.getParameter("orderID") == null) throw new Exception("Order ID is not valid");
+            int orderID = Integer.parseInt(request.getParameter("orderID"));
+            customer = customerDAO.getCustomerByOrderID(orderID);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return customer;
+    }
+
+    @Override
+    public Customer getCustomer(int customerID) {
+        return customerDAO.getCustomer(customerID);
+    }
 }

@@ -1,11 +1,14 @@
 package com.fptuni.fms.service.implement;
 
 import com.fptuni.fms.dao.implement.TransactionSharedDAO;
+import com.fptuni.fms.model.Store;
 import com.fptuni.fms.model.TransactionShared;
 import com.fptuni.fms.service.ITransactionService;
 import com.fptuni.fms.utils.SecurityUtils;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.List;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -38,8 +41,10 @@ public class TransactionService implements ITransactionService {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
         }
+
         return null;
     }
 
@@ -78,4 +83,9 @@ public class TransactionService implements ITransactionService {
         }
         return amount.stripTrailingZeros();
     }
+
+    public List<TransactionShared> getTransactionSharedByStore(Store store){
+        return dao.getTransactionSharedByStore(store);
+    }
+
 }

@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ *
  * @author anhthuyn2412@gmail.com - Vu Anh Thuyen
  */
 public class TransactionSharedMapper implements RowMapper<TransactionShared> {
