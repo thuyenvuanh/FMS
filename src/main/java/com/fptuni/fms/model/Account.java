@@ -1,44 +1,48 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-
 package com.fptuni.fms.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * @author LucasBV
+ *
+ * @author thuyn
  */
 @Entity
 @Table(name = "Account")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
-        @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id"),
-        @NamedQuery(name = "Account.findByUsername", query = "SELECT a FROM Account a WHERE a.username = :username"),
-        @NamedQuery(name = "Account.findByPassword", query = "SELECT a FROM Account a WHERE a.password = :password"),
-        @NamedQuery(name = "Account.findByFullName", query = "SELECT a FROM Account a WHERE a.fullName = :fullName")})
+    @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")
+    , @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id")
+    , @NamedQuery(name = "Account.findByUsername", query = "SELECT a FROM Account a WHERE a.username = :username")
+    , @NamedQuery(name = "Account.findByPassword", query = "SELECT a FROM Account a WHERE a.password = :password")
+    , @NamedQuery(name = "Account.findByFullName", query = "SELECT a FROM Account a WHERE a.fullName = :fullName")
+    , @NamedQuery(name = "Account.findByIsDeleted", query = "SELECT a FROM Account a WHERE a.isDeleted = :isDeleted")})
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "ID")
     private Integer id;
     @Basic(optional = false)
@@ -56,12 +60,15 @@ public class Account implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "FullName")
     private String fullName;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "IsDeleted")
+    private boolean isDeleted;
     @JoinColumn(name = "RoleID", referencedColumnName = "ID")
     @ManyToOne
-    private Role role;
-    @NotNull
-    private boolean isDeleted;
-
+    private Role roleID;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private List<StoreAccount> storeAccountList;
 
     public Account() {
     }
@@ -70,14 +77,13 @@ public class Account implements Serializable {
         this.id = id;
     }
 
-    public Account(String username, String password, String fullName, Role role) {
+    public Account(Integer id, String username, String password, String fullName, boolean isDeleted) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.fullName = fullName;
-        this.role = role;
+        this.isDeleted = isDeleted;
     }
-
-    
 
     public Integer getId() {
         return id;
@@ -111,20 +117,29 @@ public class Account implements Serializable {
         this.fullName = fullName;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role roleID) {
-        this.role = roleID;
-    }
-
-    public boolean isDeleted() {
+    public boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Role getRoleID() {
+        return roleID;
+    }
+
+    public void setRoleID(Role roleID) {
+        this.roleID = roleID;
+    }
+
+    @XmlTransient
+    public List<StoreAccount> getStoreAccountList() {
+        return storeAccountList;
+    }
+
+    public void setStoreAccountList(List<StoreAccount> storeAccountList) {
+        this.storeAccountList = storeAccountList;
     }
 
     @Override
@@ -141,12 +156,15 @@ public class Account implements Serializable {
             return false;
         }
         Account other = (Account) object;
-        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
         return "com.fptuni.fms.model.Account[ id=" + id + " ]";
     }
-
+    
 }

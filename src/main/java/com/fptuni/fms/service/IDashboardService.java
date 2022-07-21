@@ -7,9 +7,10 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-public interface IDashBoardService {
+public interface IDashboardService {
+    String index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+
     List<Date> getDateRange(HttpServletRequest request, HttpServletResponse response);
 
     List<Date> getTimeRange(HttpServletRequest request, HttpServletResponse response);
-    String getDashboardData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }

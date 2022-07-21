@@ -25,8 +25,7 @@ import java.util.List;
 @WebServlet(name = "ProductController", urlPatterns = "/product/*")
 public class ProductController extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         System.out.println(request.getQueryString());
         HttpSession session = request.getSession();
@@ -42,15 +41,15 @@ public class ProductController extends HttpServlet {
             int pageSize = 5;
             List<Product> products = productService.getProducts(request, response);
 
-            // Collections.sort(products, new Comparator<Product>() {
-            // public int compare(Product o1, Product o2) {
-            // return extractInt(o1.getId()) - extractInt(o2.getId());
-            // }
-            // int extractInt(String s) {
-            // String num = s.replaceAll("\\D", "");
-            // return num.isEmpty() ? 0 : Integer.parseInt(num);
-            // }
-            // });
+//            Collections.sort(products, new Comparator<Product>() {
+//                public int compare(Product o1, Product o2) {
+//                    return extractInt(o1.getId()) - extractInt(o2.getId());
+//                }
+//                int extractInt(String s) {
+//                    String num = s.replaceAll("\\D", "");
+//                    return num.isEmpty() ? 0 : Integer.parseInt(num);
+//                }
+//            });
             int totalPages = productService.countProductBySearch(request, response) / pageSize;
             if (productService.countProductBySearch(request, response) % pageSize != 0) {
                 totalPages++;
@@ -65,7 +64,7 @@ public class ProductController extends HttpServlet {
                 session.setAttribute("createStatus", "success");
                 response.sendRedirect(request.getContextPath() + "/product/list");
             } else {
-                // List<Category> categories = categoryService.getCategories();
+                List<Category> categories = categoryService.getCategories();
                 request.setAttribute("categories", categories);
                 request.setAttribute("createStatus", "fail");
                 request.getRequestDispatcher("/view/store/productCreate.jsp").forward(request, response);
@@ -87,7 +86,7 @@ public class ProductController extends HttpServlet {
                 session.setAttribute("updateStatus", "success");
                 response.sendRedirect(request.getContextPath() + "/product/list");
             } else {
-                // List<Category> categories = categoryService.getCategories();
+                List<Category> categories = categoryService.getCategories();
                 request.setAttribute("categories", categories);
                 session.setAttribute("updateStatus", "fail");
                 request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
@@ -105,14 +104,12 @@ public class ProductController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 }

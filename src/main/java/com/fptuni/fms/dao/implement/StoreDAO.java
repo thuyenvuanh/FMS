@@ -8,20 +8,19 @@ import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.mapper.ProductMapper;
 
-
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- *
  * @author Anh Quoc
  */
 public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
 
     private final StoreMapper mapper = new StoreMapper();
 
-//    @Override
+    //    @Override
 //    public Store getStore(String Name) { //get 1 store
 //        String sql = "SELECT Store.ID, Name, Store.AccountID, Account.FullName from Store\n" +
 //                "Join Account on Store.AccountID = Account.ID\n" +
@@ -131,18 +130,70 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
 
     @Override
     public List<Store> getTopStore(Integer top, Date startDate, Date endDate) {
-        String sql = "select top (?) s.StoreID as ID, Store.Name as Name\n" +
-                "from Store join (select StoreID, sum(total) as total\n" +
-                                    "from Orders\n" +
-                                    "where CONVERT(DATE,CreatedDate) between ? and ?\n" +
-                                    "group by StoreID) as s\n" +
-                "on Store.ID = s.StoreID\n" +
-                "order by s.total desc";
+        String sql = "select top (?) s.StoreID as ID, Store.Name as Name\n"
+                + "from Store join (select StoreID, sum(total) as total\n"
+                + "from Orders\n"
+                + "where CreatedDate between ? and ?\n"
+                + "group by StoreID) as s\n"
+                + "on Store.ID = s.StoreID\n"
+                + "order by s.total desc";
+//        String sql = "select top (?) s.StoreID as ID, Store.Name as Name\n" +
+//                "from Store join (select StoreID, sum(total) as total\n" +
+//                                    "from Orders\n" +
+//                                    "where CONVERT(DATE,CreatedDate) between ? and ?\n" +
+//                                    "group by StoreID) as s\n" +
+//                "on Store.ID = s.StoreID\n" +
+//                "order by s.total desc";
         List<Store> list = query(sql, new StoreMapper(), top, startDate, endDate);
         return list;
     }
 
     @Override
+    public BigDecimal GetTotalValueOfStore(Integer storeID, Date startDate, Date endDate) {
+        String sql = "select sum(total)\n"
+                + "from Orders\n"
+                + "where StoreID = ? and CreatedDate between ? and ?\n"
+                + "group by StoreID";
+
+        return sum(sql, storeID, startDate, endDate);
+    }
+
+    @Override
+    public Integer GetOrderQuantity(Integer storeID, Date startDate, Date endDate) {
+        String sql = "select count(ID)\n"
+                + "from Orders\n"
+                + "where StoreID = ? and CreatedDate between ? and ?\n"
+                + "group by StoreID";
+        return count(sql, storeID, startDate, endDate);
+    }
+
+    @Override
+    public BigDecimal GetTotalValueOfAllStore(Date startDate, Date endDate) {
+        String sql = "select sum(total)\n"
+                + "from Orders\n"
+                + "where CreatedDate between ? and ?\n";
+
+        return sum(sql, startDate, endDate);
+    }
+
+    @Override
+    public int GetTotalOrderOfAllStore(Date startDate, Date endDate) {
+        String sql = "select count(ID)\n"
+                + "from Orders\n"
+                + "where CreatedDate between ? and ?";
+
+        return count(sql, startDate, endDate);
+    }
+
+    @Override
+    public Integer GetTotalOrderByTime(Date date) {
+        String sql = "select count(ID)\n"
+                + "from Orders\n"
+                + "where CONVERT(DATE,CreatedDate) \n"
+                + "=     CONVERT(DATE,CAST(? AS DATETIME))";
+
+        return count(sql, date);
+    }
     public List<Store> getTopStoreToday(Integer top, Date startDate) {
         String sql = "select top (?) s.StoreID as ID, Store.Name as Name\n" +
                 "from Store join (select StoreID, sum(total) as total\n" +
@@ -156,5 +207,13 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
         return list;
     }
 
+    @Override
+    public BigDecimal GetTotalValueByTime(Date date) {
+        String sql = "select sum(total)\n"
+                + "from Orders\n"
+                + "where CONVERT(DATE,CreatedDate) \n"
+                + "=     CONVERT(DATE,CAST(? AS DATETIME))";
 
+        return sum(sql, date);
+    }
 }

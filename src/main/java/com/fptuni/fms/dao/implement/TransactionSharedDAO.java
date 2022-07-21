@@ -32,7 +32,8 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
     @Override
     public List<TransactionShared> getAll() {
         String sql = "select * from TransactionShared\n"
-                + "order by TransactionShared.CreatedDate DESC";
+                + "order by TransactionShared.CreatedDate\n"
+                + "DESC";
         return query(sql, mapper);
     }
 
@@ -47,25 +48,25 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
 
     @Override
     public List<TransactionShared> getHistoryOf(int WalletID, Boolean... isAscending) {
-        String sql = "select * from TransactionShared\n" +
-                "where WalletID = ?\n" +
-                "order by CreatedDate ";
+        String sql = "select * from TransactionShared\n"
+                + "where TransactionShared.WalletID = ?\n"
+                + "order by CreatedDate\n";
         sql += ((isAscending[0] != null && isAscending[0]) ? "ASC" : "DESC");
         return query(sql, mapper, WalletID);
     }
 
     @Override
     public TransactionShared getLatestTransaction() {
-        String sql = "select top(1) * from TransactionShared\n" +
-                "order by ID desc";
+        String sql = "select top(1) * from TransactionShared\n"
+                + "order by TransactionShared.CreatedDate\n"
+                + "DESC";
         List<TransactionShared> list = query(sql, mapper);
         return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
     public int insertTransaction(TransactionShared transactionShared) {
-        String sql = "INSERT INTO TransactionShared (Amount, WalletID, PreviousHash, HashValue, PreviousBalance, CreatedDate, Status, MoneyTransactionID, PaymentID)\n"
-                +
+        String sql = "INSERT INTO TransactionShared (Amount, WalletID, PreviousHash, HashValue, PreviousBalance, CreatedDate, Status, MoneyTransactionID, PaymentID)\n" +
                 "values (?,?,?,?,?,?,?,?,?)";
         return insert(sql,
                 transactionShared.getAmount().stripTrailingZeros(),
@@ -75,10 +76,8 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
                 transactionShared.getPreviousBalance().stripTrailingZeros(),
                 new Timestamp(transactionShared.getCreatedDate().getTime()),
                 transactionShared.getStatus(),
-                transactionShared.getMoneyTransactionID() == null ? null
-                        : transactionShared.getMoneyTransactionID().getId(),
-                transactionShared.getPaymentID() == null ? null
-                        : transactionShared.getPaymentID().getId());
+                transactionShared.getMoneyTransactionID() == null ? null : transactionShared.getMoneyTransactionID().getId(),
+                transactionShared.getPaymentID() == null ? null : transactionShared.getPaymentID().getId());
     }
 
     @Override

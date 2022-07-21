@@ -13,9 +13,13 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
 
     @Override
     public List<Customer> getAllCustomer(Pageable pageable) {
-        String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
-                "from [dbo].[Customer]\n" +
-                "where IsDeleted = 0";
+//        String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
+//                "from [dbo].[Customer]\n";
+        String sql = "select sum(m.Amount) as Amount, c.ID , c.Phone, c.IsDeleted, c.Gender,c.DoB, c.Name, c.Address\n" +
+                "from [dbo].[Customer] c join [dbo].[MoneyTransaction] m\n" +
+                "on c.ID = m.CustomerID\n" +
+                "group by c.ID, c.Name, c.Phone, c.IsDeleted, c.Gender,c.DoB, c.Address";
+
         String order;
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
             order = pageable.getSorter().isAscending() ? "ASC" : "DESC";
@@ -41,7 +45,7 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
     public Customer getByPhoneNum(String phoneNum) {
         String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
                 "from [dbo].[Customer]\n" +
-                "where Phone = ? and IsDeleted = 0";
+                "where Phone = ?";
         List<Customer> cus = query(sql, new CustomerMapper(), phoneNum);
         return cus.isEmpty() ? null : cus.get(0);
     }
@@ -87,6 +91,8 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
                 customer.getPhone());
     }
 
+
+    @Override
     public Customer getCustomerByOrderID(int id) {
         String sql = "SELECT c.ID, Name, c.DoB, Address, Gender, Phone FROM Customer c\n" +
                 "JOIN MoneyTransaction mt ON mt.CustomerID = c.ID AND c.IsDeleted = 0 AND mt.IsDeleted = 0\n" +

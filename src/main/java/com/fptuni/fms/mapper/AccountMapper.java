@@ -19,6 +19,7 @@ public class AccountMapper implements RowMapper<Account> {
         try {
             metaData = rs.getMetaData();
             acc = new Account();
+            acc.setRoleID(new Role());
             int rsColumns = metaData.getColumnCount();
             for (int i = 1; i <= rsColumns; i++) {
                 if (metaData.getColumnLabel(i).equals("ID"))
@@ -28,11 +29,11 @@ public class AccountMapper implements RowMapper<Account> {
                 if (metaData.getColumnLabel(i).equals("FullName"))
                     acc.setFullName(rs.getString(i));
                 if (metaData.getColumnLabel(i).equals("RoleID"))
-                    acc.setRole(new Role(rs.getInt(i)));
+                    acc.getRoleID().setId(rs.getInt(i));
                 if (metaData.getColumnLabel(i).equals("Name"))
-                    acc.getRole().setName(rs.getString(i));
+                    acc.getRoleID().setName(rs.getString(i));
                 if (metaData.getColumnLabel(i).equals("IsDeleted"))
-                    acc.setDeleted(rs.getBoolean(i));
+                    acc.setIsDeleted(rs.getBoolean(i));
             }
         } catch (SQLException e) {
             System.out.println("Mapping error: " + e.getMessage());

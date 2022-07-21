@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * @author LucasBV
  */
-public class OrderMapper extends AbstractDAO<Orders> implements RowMapper {
+public class    OrderMapper extends AbstractDAO<Orders> implements RowMapper {
 
     @Override
     public Orders mapRow(ResultSet rs) {

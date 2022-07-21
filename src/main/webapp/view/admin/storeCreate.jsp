@@ -28,11 +28,6 @@
         <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
         <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
 
-        <!-- Select2 -->
-        <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
-        <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-        <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
-
         <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
         <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
@@ -154,10 +149,7 @@
     <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
     <script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
-        <%-- Select2 --%>
-        <script src="../js/plugins/select2/select2.full.min.js"></script>
-
-    <script>
+        <script>
                                                     $(document).ready(function () {
 
                                                         $('.footable').footable();
@@ -174,44 +166,53 @@
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>
 
-                                                    $(document).ready(function () {
-                                                        $('.create_store_form').click(function () {
-                                                            swal({
-                                                                title: "Are you sure create?",
-                                                                type: "warning",
-                                                                showCancelButton: true,
-                                                                confirmButtonColor: "#DD6B55",
-                                                                confirmButtonText: "Yes, create it!",
-                                                                closeOnConfirm: false
-                                                            });
-                                                        });
-                                                        $('.confirm').click(function () {
-                                                            $(".createForm").submit();
-                                                        });
-                                                        $.validator.addMethod("valueNotEquals", function(value, element, arg){
-                                                            return arg !== value;
-                                                        }, "Value must not equal arg.");
+            $(document).ready(function () {
+                $('.create_store_form').click(function () {
+                    swal({
+                        title: "Are you sure create?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, create it!",
+                        closeOnConfirm: false
+                    });
+                });
+                $('.confirm').click(function () {
+                    $(".createForm").submit();
+                });
 
-                                                        $("#form_store_create").validate({
-                                                            rules: {
-                                                                storeName: {
-                                                                    required: true
-                                                                },
-                                                                storeManager: {
-                                                                    valueNotEquals: "0"
-                                                                }
-                                                            },
-                                                            messages: {
-                                                                storeName: {
-                                                                     required: "Please enter Store Name"
-                                                                },
-                                                                 storeManager: {
-                                                                    valueNotEquals: "Please choose Store Manager"
-                                                                }
-                                                            }
-                                                        })
-                                                    });
-    </script>
+                $('#select_manager').select2({
+                    theme: 'bootstrap4',
+                });
+
+                $('#select_cashier').select2({
+                    theme: 'bootstrap4',
+                });
+
+                $.validator.addMethod("valueNotEquals", function (value, element, arg) {
+                    return arg !== value;
+                }, "Value must not equal arg.");
+
+                $("#form_store_create").validate({
+                    rules: {
+                        storeName: {
+                            required: true
+                        },
+                        storeManager: {
+                            valueNotEquals: "0"
+                        }
+                    },
+                    messages: {
+                        storeName: {
+                            required: "Please enter Store Name"
+                        },
+                        storeManager: {
+                            valueNotEquals: "Please choose Store Manager"
+                        }
+                    }
+                })
+            });
+        </script>
 
     <!-- Alert -->
     <div class="sweet-overlay" tabindex="-1" style="opacity: -0.03; display: none;"></div>

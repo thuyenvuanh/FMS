@@ -35,9 +35,9 @@ public class TransactionService implements ITransactionService {
         TransactionShared transactionShared = null;
         // TransactionSharedDAO transactionSharedDAO = new TransactionSharedDAO();
         String hashString = "";
-        if (walletID != null) {
+        if(walletID != null){
             transactionShared = dao.getLatestTransactionOf(walletID);
-            if (transactionShared != null) {
+            if(transactionShared != null){
                 try {
                     transactionShared.setAmount(transactionShared.getAmount().stripTrailingZeros());
                     transactionShared.setPreviousBalance(transactionShared.getPreviousBalance().stripTrailingZeros());
@@ -45,7 +45,7 @@ public class TransactionService implements ITransactionService {
                     String salt = String.valueOf(transactionShared.getCreatedDate().getTime());
                     String compareString = transactionShared.getHashValue();
                     boolean isValid = SecurityUtils.validateHash(target, salt, compareString);
-                    if (isValid) {
+                    if(isValid){
                         return transactionShared;
                     }
                 } catch (Exception e) {
@@ -60,14 +60,14 @@ public class TransactionService implements ITransactionService {
     public TransactionShared getLatestTransaction() {
         TransactionShared transactionShared = null;
         transactionShared = dao.getLatestTransaction();
-        if (transactionShared != null) {
+        if (transactionShared != null){
             transactionShared.setPreviousBalance(transactionShared.getPreviousBalance().stripTrailingZeros());
             transactionShared.setAmount(transactionShared.getAmount().stripTrailingZeros());
             String target = transactionShared.toString();
             String salt = String.valueOf(transactionShared.getCreatedDate().getTime());
             String compareString = transactionShared.getHashValue();
             try {
-                if (SecurityUtils.validateHash(target, salt, compareString)) {
+                if (SecurityUtils.validateHash(target, salt, compareString)){
                     return transactionShared;
                 }
             } catch (NoSuchAlgorithmException e) {
@@ -82,9 +82,8 @@ public class TransactionService implements ITransactionService {
     @Override
     public BigDecimal getCustomerBalance(TransactionShared transactionShared) {
         BigDecimal amount = BigDecimal.ZERO.add(transactionShared.getPreviousBalance());
-        // if payment == null => is moneyTransaction transaction for top up => add
-        // amount
-        // otherwise transaction for buy product => subtract amount
+        //if payment == null => is moneyTransaction transaction for top up => add amount
+        //otherwise transaction for buy product => subtract amount
         if (transactionShared.getPaymentID() == null) {
             amount = amount.add(transactionShared.getAmount());
         } else {
@@ -155,14 +154,4 @@ public class TransactionService implements ITransactionService {
         if (request.getParameter("dateSearch") != null) {
             dateSearch = request.getParameter("dateSearch");
 
-        }
-        if (request.getParameter("amount") != null) {
-            amount = request.getParameter("amount").replaceAll(",", "");
-        }
-        searcher.put("customerPhone", customerPhone);
-        searcher.put("status", status);
-        searcher.put("dateSearch", dateSearch);
-        searcher.put("amount", amount);
-        return dao.searchTransactionShare(store, searcher);
-    }
 }

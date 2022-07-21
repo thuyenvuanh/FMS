@@ -1,14 +1,11 @@
 package com.fptuni.fms.mapper;
 
-import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Counter;
 import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.model.MoneyTransaction;
-import com.sun.org.apache.bcel.internal.classfile.ConstantUtf8;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.util.Date;
 
 public class MoneyTransactionMapper implements RowMapper<MoneyTransaction> {
     @Override
