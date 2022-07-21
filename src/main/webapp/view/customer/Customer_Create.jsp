@@ -38,73 +38,6 @@
 <body>
 <div id="wrapper">
     <jsp:include page="../counter/layoutCounter.jsp"></jsp:include>
-<%--    <nav class="navbar-default navbar-static-side" role="navigation">--%>
-<%--        <div class="sidebar-collapse">--%>
-<%--            <ul class="nav metismenu" id="side-menu">--%>
-<%--                <li class="nav-header">--%>
-<%--                    <div class="dropdown profile-element">--%>
-<%--                        <img--%>
-<%--                                alt="image"--%>
-<%--                                class="rounded-circle"--%>
-<%--                                src="img/profile_small.html"--%>
-<%--                        />--%>
-<%--                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">--%>
-<%--                  <span class="block m-t-xs font-bold"--%>
-<%--                  >Counter<b class="caret"></b--%>
-<%--                  ></span>--%>
-<%--                        </a>--%>
-<%--                        <ul class="dropdown-menu animated fadeInRight m-t-xs">--%>
-<%--                            <li>--%>
-<%--                                <a class="dropdown-item" href="profile.html"--%>
-<%--                                >Store profile</a--%>
-<%--                                >--%>
-<%--                            </li>--%>
-<%--                            <li class="dropdown-divider"></li>--%>
-<%--                            <li><a class="dropdown-item" href="login.html">Logout</a></li>--%>
-<%--                        </ul>--%>
-<%--                    </div>--%>
-<%--                    <div class="logo-element">FMS</div>--%>
-<%--                </li>--%>
-
-<%--                <li class="active">--%>
-<%--                    <a href="ecommerce_product_list.html">--%>
-<%--                        <i class="fa fa-id-card"></i>--%>
-<%--                        <span class="nav-label">Counter</span></a>--%>
-<%--                </li>--%>
-<%--                <li class="active">--%>
-<%--                    <a href="customer-list.html">--%>
-<%--                        <i class="fa fa-user-o"></i>--%>
-<%--                        <span class="nav-label">Customer</span></a--%>
-<%--                    >--%>
-<%--                </li>--%>
-<%--            </ul>--%>
-<%--        </div>--%>
-<%--    </nav>--%>
-<%--    <!-- Body -->--%>
-<%--    <div id="page-wrapper" class="gray-bg">--%>
-<%--        <div class="row border-bottom">--%>
-<%--            <nav--%>
-<%--                    class="navbar navbar-static-top"--%>
-<%--                    role="navigation"--%>
-<%--                    style="margin-bottom: 0"--%>
-<%--            >--%>
-<%--                <div class="navbar-header">--%>
-<%--                    <a--%>
-<%--                            class="navbar-minimalize minimalize-styl-2 btn btn-primary"--%>
-<%--                            href="#"--%>
-<%--                    ><i class="fa fa-bars"></i--%>
-<%--                    ></a>--%>
-<%--                </div>--%>
-<%--                <ul class="nav navbar-top-links navbar-right">--%>
-<%--                    <li>--%>
-<%--                        <a href="login.html">--%>
-<%--                            <i class="fa fa-sign-out"></i> Log out--%>
-<%--                        </a>--%>
-<%--                    </li>--%>
-<%--                </ul>--%>
-<%--            </nav>--%>
-<%--        </div>--%>
-
         <!-- TMP -->
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
@@ -159,7 +92,9 @@
                                             </div>
                                         </fieldset>
                                         <div class="form-layout-footer text-center">
-                                            <button class="btn btn-primary bd-0" type="submit"
+                                            <button class="btn btn-primary bd-0"
+                                                    id="btnCreateCus"
+                                                    type="button"
                                             name="action" value="add" >Submit</button>
                                         </div>
                                     </div>
@@ -214,6 +149,9 @@
 <!-- FooTable -->
 <script src="../js/plugins/footable/footable.all.min.js"></script>
 
+<!-- Sweet alert -->
+<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+
 <!-- Jquery Validate -->
 <script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -225,6 +163,26 @@
     $(document).ready(function () {
         $(".footable").footable();
 
+        $("#btnCreateCus").click(function () {
+            swal({
+                    title: "Are you sure?",
+                    text: " ",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, update it!",
+                    cancelButtonText: "No, cancel!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        $("#form_create_customer").submit();
+                    } else {
+                        swal("Cancelled", "", "error");
+                    }
+                });
+        });
 
         $("#form_create_customer").validate({
             rules: {
@@ -250,6 +208,76 @@
         })
     });
 </script>
+
+<!-- Alert -->
+<div
+        class="sweet-overlay"
+        tabindex="-1"
+        style="opacity: -0.03; display: none"
+></div>
+<div
+        class="sweet-alert hideSweetAlert"
+        data-custom-class=""
+        data-has-cancel-button="false"
+        data-has-confirm-button="true"
+        data-allow-outside-click="false"
+        data-has-done-function="false"
+        data-animation="pop"
+        data-timer="null"
+        style="display: none; margin-top: -171px; opacity: 0"
+>
+    <div class="sa-icon sa-error" style="display: none">
+        <span class="sa-x-mark">
+          <span class="sa-line sa-left"></span>
+          <span class="sa-line sa-right"></span>
+        </span>
+    </div>
+    <div class="sa-icon sa-warning" style="display: none">
+        <span class="sa-body"></span>
+        <span class="sa-dot"></span>
+    </div>
+    <div class="sa-icon sa-info" style="display: none"></div>
+    <div class="sa-icon sa-success" style="display: block">
+        <span class="sa-line sa-tip"></span>
+        <span class="sa-line sa-long"></span>
+
+        <div class="sa-placeholder"></div>
+        <div class="sa-fix"></div>
+    </div>
+    <div class="sa-icon sa-custom" style="display: none"></div>
+    <h2>Create success!</h2>
+    <p style="display: block">Your imaginary file has been deleted.</p>
+    <fieldset>
+        <input type="text" tabindex="3" placeholder=""/>
+        <div class="sa-input-error"></div>
+    </fieldset>
+    <div class="sa-error-container">
+        <div class="icon">!</div>
+        <p>Not valid!</p>
+    </div>
+    <div class="sa-button-container">
+        <button
+                class="cancel"
+                tabindex="2"
+                style="display: none; box-shadow: none"
+        >
+            Cancel
+        </button>
+
+        <button
+                class="confirm"
+                tabindex="1"
+                style="
+            display: inline-block;
+            background-color: rgb(174, 222, 244);
+            box-shadow: rgba(174, 222, 244, 0.8) 0px 0px 2px,
+              rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;
+          "
+        >
+            a
+        </button>
+    </div>
+</div>
 
 </body>
 </html>

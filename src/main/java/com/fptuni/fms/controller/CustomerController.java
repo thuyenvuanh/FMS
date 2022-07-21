@@ -29,6 +29,7 @@ import java.util.List;
 public class CustomerController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
+        HttpSession session = request.getSession(true);
 //        System.out.println(path);
 
         if (path.equals("/addcustomer")) {
@@ -55,6 +56,7 @@ public class CustomerController extends HttpServlet {
                         identityCardService.createIdentityCard(cus);
                         request.setAttribute("createStatus", "success");
                         request.setAttribute("phoneNumber",phone);
+                        session.setAttribute("createStatus","success");
                         request.getRequestDispatcher("/counter/check")
                                 .forward(request, response);
                     }
@@ -68,10 +70,11 @@ public class CustomerController extends HttpServlet {
         } else if (path.equals("/search")) {
             CustomerDAO customerDAO = new CustomerDAO();
             String phoneNum = request.getParameter("searchItem");
+            List<Customer> customer = new ArrayList<>();
+            Customer cus = customerDAO.getByPhoneNum(phoneNum);
             if (phoneNum != null &&
                     !phoneNum.equals("")) {
-                List<Customer> customer = new ArrayList<>();
-                Customer cus = customerDAO.getByPhoneNum(phoneNum);
+
                 if(cus != null){
                     customer.add(cus);
                     request.setAttribute("customerList", customer);
@@ -83,7 +86,9 @@ public class CustomerController extends HttpServlet {
                 }
             } else {
                 request.setAttribute("CNF2","Can not found");
-                response.sendRedirect(request.getContextPath() + "/customer/list");
+                request.setAttribute("customerList", customer);
+                request.getRequestDispatcher("/view/customer/Customer_List.jsp")
+                        .forward(request, response);
             }
 
         } else if (path.equals("/list")) {
@@ -133,6 +138,7 @@ public class CustomerController extends HttpServlet {
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
             customerService.DeleteCustomer(phoneNum);
+            session.setAttribute("deletestatus","success");
             response.sendRedirect(request.getContextPath() + "/customer/list");
 
         } else if (path.equals("/Movetoupdate")) {
@@ -153,6 +159,7 @@ public class CustomerController extends HttpServlet {
             Customer customer = new Customer();
             String phone = request.getParameter("phone");
             customer = customerService.getCustomerByPhoneNum(phone);
+            String name = request.getParameter("name");
             String date = request.getParameter("Dob");
             String address = request.getParameter("address");
             String gender = request.getParameter("gender");
@@ -168,6 +175,7 @@ public class CustomerController extends HttpServlet {
             gender != null && !gender.isEmpty()){
                 try {
                     Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                    customer.setName(name);
                     customer.setDoB(dob);
                     customer.setAddress(address);
                     customer.setGender(Sgender);
@@ -185,6 +193,7 @@ public class CustomerController extends HttpServlet {
                 request.getRequestDispatcher("/view/customer/Customer_Update.jsp")
                         .forward(request,response);
             }
+            session.setAttribute("updateStatus","success");
             customerService.updateCustomerInfo(customer);
             response.sendRedirect(request.getContextPath() + "/customer/list");
         }
