@@ -11,6 +11,7 @@ import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.ICustomerService;
 import com.fptuni.fms.sort.Sorter;
 import com.fptuni.fms.utils.RequestUtils;
+import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
 
 import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +44,6 @@ public class CustomerService implements ICustomerService {
         request.setAttribute("sortField", sortField);
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
         request.setAttribute("isAsc", !isAsc);
-
         return customers;
     }
 
@@ -81,6 +81,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
+
     public Integer DeleteCustomer(String phoneNum) {
         ICustomerDAO customerDAO = new CustomerDAO();
         customerDAO.deleteCus(phoneNum);
@@ -99,8 +100,6 @@ public class CustomerService implements ICustomerService {
         return customerDAO.updateCustomerInfo(customer);
     }
 
-
-    @Override
     public Customer getCustomerByOrderID(HttpServletRequest request, HttpServletResponse response) {
         Customer customer = null;
         try {
@@ -117,5 +116,10 @@ public class CustomerService implements ICustomerService {
     @Override
     public Customer getCustomer(int customerID) {
         return customerDAO.getCustomer(customerID);
+    }
+
+    @Override
+    public Customer getCustomerByWalletID(int walletID) {
+        return customerDAO.getCustomerByWalletID(walletID);
     }
 }

@@ -80,9 +80,7 @@
                                                         type="text"
                                                         class="form-control"
                                                         placeholder="Product name"
-                                                        name="name"
-                                                        value="product test"
-                                                />
+                                                        name="name"/>
 
                                             </div>
                                             <%--                                        </div>--%>
@@ -90,10 +88,8 @@
                                             <label class="col-sm-1 col-form-label">Price:</label>
                                             <div class="col-sm-3">
                                                 <input
-                                                        type="number"
-                                                        class="form-control"
-                                                        placeholder="VND"
-                                                        name="price"
+                                                        type="text" class="form-control" data-mask="0000000000000" placeholder="VND"
+                                                        autocomplete="off" maxlength="17" id="price" name="price"
                                                         value="1"
                                                 />
                                             </div>
@@ -103,14 +99,7 @@
                                             <label class="col-sm-1 col-form-label"
                                             >Image:</label
                                             >
-                                            <div class="col-sm-6">
-<%--                                                <input--%>
-<%--                                                        type="text"--%>
-<%--                                                        class="form-control"--%>
-<%--                                                        placeholder="url"--%>
-<%--                                                        name="imagePath"--%>
-<%--                                                />--%>
-                                            </div>
+
                                             <div class="input-group col-sm-3">
                                                 <%--                                                <div class="custom-file">--%>
                                                 <%--                                                    <input id="inputGroupFile01" type="file" class="custom-file-input">--%>
@@ -126,7 +115,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-1 col-form-label" for="category">Category</label>
                                             <div class="col-sm-4">
-                                                <select name="categoryID" id="category" class="form-control">
+                                                <select name="categoryID" id="category" class="select_category form-control">
                                                     <c:forEach var="category" items="${requestScope.categories}">
                                                         <option value="${category.id}" ${category.id==1?"selected":""} >
                                                                 ${category.name} (${category.shortName})
@@ -139,9 +128,8 @@
                                             >
                                             <div class="col-sm-3">
                                                 <input
-                                                        type="number"
-                                                        class="form-control"
-                                                        name="quantity"
+                                                        type="text" class="form-control" data-mask="0000000000000" placeholder="Quantity"
+                                                        autocomplete="off" maxlength="17" id="quantity" name="quantity"
                                                         value="1"
                                                 />
                                             </div>
@@ -151,8 +139,7 @@
                                     <div class="form-layout-footer text-center">
                                         <button type="button"
                                                 class="btn btn-primary bd-0"
-                                                id="create_product_form"
-                                        >
+                                                id="create_product_form">
                                             Submit Form
                                         </button>
                                         <%--                                        <a href="productList.jsp">--%>

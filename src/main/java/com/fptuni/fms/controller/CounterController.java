@@ -3,10 +3,7 @@ package com.fptuni.fms.controller;
 import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.model.TransactionShared;
 import com.fptuni.fms.model.Wallet;
-import com.fptuni.fms.service.ICustomerService;
-import com.fptuni.fms.service.IPaymentService;
-import com.fptuni.fms.service.ITransactionService;
-import com.fptuni.fms.service.IWalletService;
+import com.fptuni.fms.service.*;
 import com.fptuni.fms.service.implement.*;
 
 import javax.servlet.*;
@@ -25,15 +22,26 @@ public class CounterController extends HttpServlet {
         ICustomerService customerService = new CustomerService();
         IWalletService walletService = new WalletService();
         ITransactionService transactionService = new TransactionService();
-        IPaymentService paymentService = new PaymentService();
+        IMoneyTransactionService moneyTransactionService = new MoneyTransactionService();
+        HttpSession session = request.getSession();
         if(path.equals("/index")){
+            session.removeAttribute("phoneNumber");
             request.getRequestDispatcher("/view/counter/index.jsp").forward(request, response);
         } else if(path.equals("/check")){
+            String phoneNumber = "";
+            if(request.getParameter("phoneNumber") != null &&
+                    !String.valueOf(request.getParameter("phoneNumber")).isEmpty()
+            ){
+                phoneNumber = request.getParameter("phoneNumber").trim().replaceAll("\\s+","");
+                System.out.println(phoneNumber);
+            }
 
-
-            String phoneNumber = request.getParameter("phoneNumber").trim().replaceAll("\\s+","");
-            System.out.println(phoneNumber);
-
+            if(session.getAttribute("phoneNumber") != null &&
+                    !String.valueOf(session.getAttribute("phoneNumber")).isEmpty()
+            ){
+                phoneNumber = (String)session.getAttribute("phoneNumber");
+                System.out.println(phoneNumber);
+            }
             Customer customer = customerService.getCustomerByPhoneNum(phoneNumber);
 
             if(customer != null){
@@ -51,16 +59,22 @@ public class CounterController extends HttpServlet {
                 request.setAttribute("BALANCE", balance);
                 request.getRequestDispatcher("/view/counter/counter.jsp").forward(request, response);
             } else {
-
+                session.setAttribute("phoneNumber",phoneNumber);
+                request.getRequestDispatcher("/view/customer/Customer_Create.jsp")
+                         .forward(request, response);
             }
         } else if(path.equals("/addMoney")){
-            boolean success = paymentService.addMoney(request);
+            boolean success = moneyTransactionService.addMoney(request, session);
             if (success) {
-                response.sendRedirect(request.getContextPath() + "/counter/index");
+                response.sendRedirect(request.getContextPath() + "/counter/check");
+//                request.getRequestDispatcher("/counter/check")
+//                        .forward(request, response);
             }
-
-        } else if(path.equals("/deposit")){
-
+        } else if(path.equals("/withDraw")){
+            boolean success = moneyTransactionService.withDraw(request, session);
+            if (success) {
+                response.sendRedirect(request.getContextPath() + "/counter/check");
+            }
         }
 
 

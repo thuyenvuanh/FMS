@@ -4,6 +4,7 @@ import com.fptuni.fms.model.Orders;
 import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -22,10 +23,27 @@ public interface IOrderDAO extends GenericDAO<Orders> {
 
     boolean updateOrder(int id, int storeID, double total, Timestamp createdDate);
 
-    int countNumberOfOrders();
+    BigDecimal GetTotalValueOfStore(Integer storeID, Date startDate, Date endDate);
+
+    Integer GetOrderQuantity(Integer storeID, Date startDate, Date endDate);
+
+    BigDecimal GetTotalValueOfAllStore(Date startDate, Date endDate);
+
+    int GetTotalOrderOfAllStore(Date startDate, Date endDate);
+
+    Integer GetTotalOrderByDate(Date date);
+
+    BigDecimal GetTotalValueByDate(Date date);
+
+    Integer GetTotalOrderByTime(Date startTime, Date endTime);
+
+    BigDecimal GetTotalValueByTime(Date startTime, Date endTime);
+
+    List<Orders> searchOrdersByStore(Store store, Map<String, String> searcher);
 
     List<Orders> getOrdersByDate(Store store, Date date);
 
     List<Orders> getOrdersByTimeRange(Store store, Date startTime, Date endTime);
 
+    Orders getOrdersByPaymentID(int paymentID, Store store);
 }

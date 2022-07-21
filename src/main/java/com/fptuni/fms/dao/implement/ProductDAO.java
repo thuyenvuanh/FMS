@@ -57,13 +57,15 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
                 sql += " AND QtyAvailable > 0 ";
             }
         }
-        if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
-            String orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
-            sql += " ORDER BY " + pageable.getSorter().getSortField() + "  " + orderBy;
-        }
-        if (pageable.getOffset() != null && pageable.getLimit() != null) {
-            sql += " OFFSET " + pageable.getOffset() + " ROWS\n" +
-                    " FETCH NEXT " + pageable.getLimit() + " ROWS ONLY  \n";
+        if (pageable != null) {
+            if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
+                String orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
+                sql += " ORDER BY " + pageable.getSorter().getSortField() + "  " + orderBy;
+            }
+            if (pageable.getOffset() != null && pageable.getLimit() != null) {
+                sql += " OFFSET " + pageable.getOffset() + " ROWS\n" +
+                        " FETCH NEXT " + pageable.getLimit() + " ROWS ONLY  \n";
+            }
         }
         List<Product> products = query(sql, new ProductMapper());
         return products;

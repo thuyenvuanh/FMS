@@ -32,18 +32,16 @@ public class TransactionSharedController extends HttpServlet {
         HttpSession session = request.getSession();
         Store store = (Store) session.getAttribute("store");
         if (path.equals("/list")) {
-            List<TransactionShared> transactionShares = transactionService.getTransactionSharedByStore(store);
-            
-            Map<Integer, Customer> customerMapByWalletID = new HashMap<>();
-            Map<Integer, List<Payment>> paymentMapByOrderID = new HashMap<>();
+            List<TransactionShared> transactionShares = transactionService.getTransactionSharedByStore(request, store);
+
             for (TransactionShared transactionShared : transactionShares) {
-                customerMapByWalletID.put(transactionShared.getId(), customerService.getCustomer(transactionShared.getWalletID().getCustomerID().getId()));
-                paymentMapByOrderID.put(transactionShared.getId(), paymentService.getPaymentsByOrderID(transactionShared.getPaymentID().getOrderID().getId()));
+                Payment payment = transactionShared.getPaymentID();
+                Wallet wallet = transactionShared.getWalletID();
+                payment.setOrderID(orderService.getOrdersByPaymentID(request, transactionShared.getPaymentID().getId()));
+                wallet.setCustomerID(customerService.getCustomerByWalletID(wallet.getId()));
             }
 
             request.setAttribute("transactionShares", transactionShares);
-            request.setAttribute("customerMapByWalletID", customerMapByWalletID);
-            request.setAttribute("paymentMapByOrderID", paymentMapByOrderID);
             request.getRequestDispatcher("/view/store/transactionList.jsp").forward(request, response);
         }
     }

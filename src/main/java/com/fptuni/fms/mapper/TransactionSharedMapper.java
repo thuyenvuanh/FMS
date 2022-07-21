@@ -8,6 +8,7 @@ import com.fptuni.fms.model.MoneyTransaction;
 import com.fptuni.fms.model.Payment;
 import com.fptuni.fms.model.TransactionShared;
 import com.fptuni.fms.model.Wallet;
+import com.fptuni.fms.model.*;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -17,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author anhthuyn2412@gmail.com - Vu Anh Thuyen
  */
 public class TransactionSharedMapper implements RowMapper<TransactionShared> {

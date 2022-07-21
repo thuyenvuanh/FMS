@@ -48,5 +48,8 @@ public interface IStoreDAO extends GenericDAO<Store> {
 
     Integer GetTotalOrderByTime(Date date);
 
+    List<Store> getTopStoreToday(Integer top, Date startDate);
+
+
     BigDecimal GetTotalValueByTime(Date date);
 }

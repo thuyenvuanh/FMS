@@ -9,22 +9,24 @@ import com.fptuni.fms.mapper.RowMapper;
 import com.fptuni.fms.model.Store;
 import com.fptuni.fms.model.TransactionShared;
 import com.fptuni.fms.mapper.TransactionSharedMapper;
+import com.fptuni.fms.paging.Pageable;
+import jdk.nashorn.internal.ir.IfNode;
 
+import java.awt.datatransfer.StringSelection;
 import java.sql.Timestamp;
-
 import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
- *
  * @author anhthuyn2412@gmail.com - Vu Anh Thuyen
  */
 public class TransactionSharedDAO extends AbstractDAO<TransactionShared> implements ITransactionShared {
 
-    RowMapper<TransactionShared> mapper;
+    TransactionSharedMapper mapper = new TransactionSharedMapper();
 
     public TransactionSharedDAO() {
-        mapper = new TransactionSharedMapper();
     }
 
     @Override
@@ -79,14 +81,72 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
     }
 
     @Override
-    public List<TransactionShared> getTransactionSharedByStore(Store store) {
-        String sql = "SELECT ts.ID, ts.Amount, WalletID, PreviousHash, HashValue, PreviousBalance, ts.CreatedDate, Status, MoneyTransactionID, PaymentID, w.CustomerID, s.ID AS StoreID, o.ID AS OrderID \n" +
+    public List<TransactionShared> getTransactionSharedByStore(Store store, Map<String, String> searcher, Pageable pageable) {
+        List<String> params = new ArrayList<>();
+        params.add(store.getId().toString());
+        String sql = "SELECT ts.ID, ts.Amount, WalletID, PreviousHash, HashValue, PreviousBalance, ts.CreatedDate, Status, MoneyTransactionID, PaymentID\n" +
                 "FROM TransactionShared ts\n" +
-                "JOIN Wallet w ON w.ID = ts.WalletID AND w.IsDeleted = 0 AND ts.IsDeleted = 0\n" +
+                "JOIN Wallet w ON w.ID = ts.WalletID AND w.IsDeleted = 0" +
+                "JOIN Customer c ON c.ID = w.CustomerID\n" +
                 "JOIN Payment p ON p.ID = ts.PaymentID AND p.IsDeleted = 0\n" +
-                "JOIN Orders o ON o.ID = p.OrderID AND o.IsDeleted = 0\n" +
+                "JOIN Orders o ON o.ID = p.OrderID  AND o.IsDeleted = 0\n" +
                 "JOIN Store s ON s.ID = o.StoreID AND s.ID = ? ";
-        return query(sql, new TransactionSharedMapper(), store.getId());
+        if (searcher.get("status") != null && !searcher.get("status").isEmpty()) {
+            sql += " AND ts.Status = ? \n";
+            params.add(searcher.get("status"));
+        }
+        if (searcher.get("customerPhone") != null && !searcher.get("customerPhone").isEmpty()) {
+            sql += " AND c.Phone = ? \n";
+            params.add(searcher.get("customerPhone"));
+        }
+        if (searcher.get("dateSearch") != null && !searcher.get("dateSearch").isEmpty()) {
+            sql += " AND CONVERT(date, ts.CreatedDate, 103)  = CONVERT(date, ? , 103)  \n";
+            params.add(searcher.get("dateSearch"));
+        }
+        if (searcher.get("amount") != null && !searcher.get("amount").isEmpty()) {
+            sql += " AND ts.Amount = ? \n";
+            params.add(searcher.get("amount"));
+        }
+        if (pageable != null) {
+            if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
+                String orderBy = pageable.getSorter().isAscending() ? " ASC " : " DESC ";
+                sql += " ORDER BY  " + pageable.getSorter().getSortField() + " " + orderBy;
+            }
+            if (pageable.getOffset() != null && pageable.getLimit() != null) {
+                sql += " OFFSET " + pageable.getOffset() + " ROWS\n " +
+                        " FETCH NEXT " + pageable.getLimit() + " ROW ONLY";
+            }
+        }
+        return query(sql, new TransactionSharedMapper(), params.toArray());
     }
 
+    @Override
+    public List<TransactionShared> searchTransactionShare(Store store, Map<String, String> searcher) {
+        List<String> params = new ArrayList<>();
+        params.add(store.getId().toString());
+        String sql = "SELECT ts.ID, ts.Amount, WalletID, PreviousHash, HashValue, PreviousBalance, ts.CreatedDate, Status, MoneyTransactionID, PaymentID\n" +
+                "FROM TransactionShared ts\n" +
+                "JOIN Wallet w ON w.ID = ts.WalletID AND w.IsDeleted = 0" +
+                "JOIN Customer c ON c.ID = w.CustomerID\n" +
+                "JOIN Payment p ON p.ID = ts.PaymentID AND p.IsDeleted = 0\n" +
+                "JOIN Orders o ON o.ID = p.OrderID  AND o.IsDeleted = 0\n" +
+                "JOIN Store s ON s.ID = o.StoreID AND s.ID = ? ";
+        if (searcher.get("status") != null && !searcher.get("status").isEmpty()) {
+            sql += " AND ts.Status = ? \n";
+            params.add(searcher.get("status"));
+        }
+        if (searcher.get("customerPhone") != null && !searcher.get("customerPhone").isEmpty()) {
+            sql += " AND c.Phone = ? \n";
+            params.add(searcher.get("customerPhone"));
+        }
+        if (searcher.get("dateSearch") != null && !searcher.get("dateSearch").isEmpty()) {
+            sql += " AND CONVERT(date, ts.CreatedDate, 103)  = CONVERT(date, ? , 103)  \n";
+            params.add(searcher.get("dateSearch"));
+        }
+        if (searcher.get("amount") != null && !searcher.get("amount").isEmpty()) {
+            sql += " AND ts.Amount = ? \n";
+            params.add(searcher.get("amount"));
+        }
+        return query(sql, new TransactionSharedMapper(), params.toArray());
+    }
 }

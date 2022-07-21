@@ -4,7 +4,10 @@ import com.fptuni.fms.dao.ICustomerDAO;
 import com.fptuni.fms.dao.implement.CustomerDAO;
 import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.service.ICustomerService;
-import com.fptuni.fms.service.implement.CustomerService;
+import com.fptuni.fms.service.IIdentityCardService;
+import com.fptuni.fms.service.ITransactionService;
+import com.fptuni.fms.service.IWalletService;
+import com.fptuni.fms.service.implement.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -84,7 +87,6 @@ public class CustomerController extends HttpServlet {
                 totalPages++;
             }
             request.setAttribute("customerList", customers);
-//            request.setAttribute("amount", amounts);
             request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("/view/customer/Customer_List.jsp")
                     .forward(request, response);

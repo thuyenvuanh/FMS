@@ -41,7 +41,7 @@ import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
         @NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o"),
         @NamedQuery(name = "Orders.findById", query = "SELECT o FROM Orders o WHERE o.id = :id"),
         @NamedQuery(name = "Orders.findByTotal", query = "SELECT o FROM Orders o WHERE o.total = :total"),
-        @NamedQuery(name = "Orders.findByCreatedDate", query = "SELECT o FROM Orders o WHERE o.createdDate = :createdDate")})
+        @NamedQuery(name = "Orders.findByCreatedDate", query = "SELECT o FROM Orders o WHERE o.createdDate = :createdDate") })
 public class Orders implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,7 +50,8 @@ public class Orders implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // @Max(value=?) @Min(value=?)//if you know range of your decimal fields
+    // consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "Total")
@@ -110,6 +111,7 @@ public class Orders implements Serializable {
     public Date getCreatedDate() {
         return createdDate;
     }
+
     public Timestamp getCreatedDateTime() {
         return createdDateTime;
     }
@@ -121,6 +123,7 @@ public class Orders implements Serializable {
     public void setCreatedDateTime(Timestamp createdDateTime) {
         this.createdDateTime = createdDateTime;
     }
+
     public Store getStoreID() {
         return storeID;
     }

@@ -1,9 +1,7 @@
 package com.fptuni.fms.controller;
 
 import com.fptuni.fms.service.IDashboardService;
-import com.fptuni.fms.service.IStoreService;
 import com.fptuni.fms.service.implement.DashboardService;
-import com.fptuni.fms.service.implement.StoreService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -21,8 +19,7 @@ public class AdminDashboardController extends HttpServlet {
         System.out.println(path);
 
         if(path.equals("/index")){
-
-            URL = dashboardService.index(request, response);
+            URL = dashboardService.getDashboardData(request, response);
             request.getRequestDispatcher(URL).forward(request, response);
         }
 

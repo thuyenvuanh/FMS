@@ -4,6 +4,7 @@
  */
 package com.fptuni.fms.dao;
 
+import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.model.Wallet;
 import java.util.List;
 
@@ -18,5 +19,7 @@ public interface IWalletDAO extends GenericDAO<Wallet> {
     Wallet getWalletWithID(int ID);
 
     Wallet getWalletWithCustomerID(int cusID);
+
+    Integer createWallet (Customer customer);
 
 }

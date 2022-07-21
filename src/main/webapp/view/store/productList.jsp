@@ -128,6 +128,7 @@
                 </div>
                 <div class="container-fluid">
                     <button class="btn btn-outline-success  float-right" type="submit">Search</button>
+                    <button type="reset" value="Reset" class="btn btn-outline-danger float-right" style="margin-right: 2%">Reset</button>
                 </div>
             </div>
 
@@ -164,9 +165,9 @@
                                 <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
                                 <c:param name="productName" value="${requestScope.productName}"></c:param>
                             </c:url>
-                            <c:url var="sortFromLink" value="${requestScope.contextPath}/product/list"></c:url>
+                            <c:url var="sortFormLink" value="${requestScope.contextPath}/product/list"></c:url>
 
-                            <form action="${sortFromLink}" method="post" id="sortFrom" style="display: none">
+                            <form action="${sortFormLink}" method="post" id="sortForm" style="display: none">
                                 <input type="hidden" name="currentPage" value="${requestScope.currentPage}"/>
                                 <input type="hidden" name="isAscending" value="${requestScope.isAscending}">
                                 <input type="hidden" name="minPrice" value="${requestScope.minPrice}">
@@ -174,30 +175,27 @@
                                 <input type="hidden" name="quantity" value="${requestScope.quantity}">
                                 <input type="hidden" name="categoryID" value="${requestScope.categoryID}">
                                 <input type="hidden" name="productName" value="${requestScope.productName}">
-
-                                <%--                                <input type="hidden" id="sortFieldInput" name="sortField" value="${requestScope.sortField}">--%>
-
                                 <input type="hidden" id="sortFieldInput" name="sortField">
 
                                 <tr style="color: dodgerblue">
                                     <th data-toggle="true" data-sort-ignore="true">
                                         <%--                                    <a href="${sort}&sortField=ID">Product ID</a>--%>
-                                        <a onclick="document.getElementById('sortFieldInput').value = 'ID'; document.getElementById('sortFrom').submit();">Product
+                                        <a onclick="document.getElementById('sortFieldInput').value = 'ID'; document.getElementById('sortForm').submit();">Product
                                             ID</a>
                                     </th>
                                     <th data-hide="phone" data-sort-ignore="true">
                                         <%--                                    <a href="${sort}&sortField=Name">Product Name</a>--%>
-                                        <a onclick="document.getElementById('sortFieldInput').value = 'Name';document.getElementById('sortFrom').submit();">Product
+                                        <a onclick="document.getElementById('sortFieldInput').value = 'Name';document.getElementById('sortForm').submit();">Product
                                             Name</a>
                                     </th>
                                     <th data-hide="all" data-sort-ignore="true">Image</th>
                                     <th data-hide="phone" data-sort-ignore="true">
                                         <%--                                        <a href="${sort}&sortField=Price">Price</a>--%>
-                                        <a onclick="document.getElementById('sortFieldInput').value = 'Price';document.getElementById('sortFrom').submit();">Price</a>
+                                        <a onclick="document.getElementById('sortFieldInput').value = 'Price';document.getElementById('sortForm').submit();">Price</a>
                                     </th>
                                     <th data-hide="phone,tablet" data-sort-ignore="true">
                                         <%--                                        <a href="${sort}&sortField=QtyAvailable">Quantity</a>--%>
-                                        <a onclick="document.getElementById('sortFieldInput').value = 'QtyAvailable';document.getElementById('sortFrom').submit();">Quantity</a>
+                                        <a onclick="document.getElementById('sortFieldInput').value = 'QtyAvailable';document.getElementById('sortForm').submit();">Quantity</a>
                                     </th>
                                     <th data-hide="phone" data-sort-ignore="true">Status</th>
                                     <th class="text-right" data-sort-ignore="true">
@@ -309,11 +307,6 @@
 
                                                 </form>
 
-                                                <%--    <a--%>
-                                                <%--    class="page-link"--%>
-                                                <%--    href="${previousPage}"--%>
-                                                <%--    aria-label="Previous"--%>
-                                                <%--    >--%>
                                                 <a class="page-link" aria-label="Previous"
                                                    onclick="document.getElementById('previousPage').value=${requestScope.currentPage - 1}; document.getElementById('previousPagingForm').submit();">
                                                     <span aria-hidden="true">&laquo;</span>
@@ -340,7 +333,6 @@
                                                        value="${requestScope.contextPath}/product/list"></c:url>
 
                                                 <form action="${pagingLink}" method="post" id="pagingForm">
-                                                        <%--                                                    <input type="hidden" name="currentPage" value="${page}"/>--%>
                                                     <input type="hidden" name="currentPage" id="currentPage"/>
                                                     <input type="hidden" name="isAscending"
                                                            value="${!requestScope.isAscending}">
@@ -359,8 +351,6 @@
 
                                                 </form>
                                                 <li class="page-item ${requestScope.currentPage == page ?"active":""}">
-                                                        <%--                                                        <a class="page-link "--%>
-                                                        <%--                                                           href="${paging}">${page}</a>--%>
                                                     <a class="page-link"
                                                        onclick="document.getElementById('currentPage').value=${page}; document.getElementById('pagingForm').submit();">${page}</a>
                                                 </li>

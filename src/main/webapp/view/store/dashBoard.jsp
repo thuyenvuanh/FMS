@@ -109,7 +109,7 @@
                             <td>${mapProduct.key.value.name}</td>
                             <td>${mapProduct.value.quantity}</td>
                             <td>
-                                <fmt:formatNumber type="number" pattern="###,###,### VND"
+                                <fmt:formatNumber type="number" pattern="###,###,### ₫"
                                                   value="${mapProduct.value.amount}"></fmt:formatNumber>
                             </td>
                         </tr>
@@ -128,7 +128,7 @@
                     <div class="ibox-content text-success">
 
                         <h1 class="no-margins">
-                            <fmt:formatNumber type="number" pattern="###,###,### VND"
+                            <fmt:formatNumber type="number" pattern="###,###,### ₫"
                                               value="${requestScope.totalAmount}"></fmt:formatNumber>
                         </h1>
 
@@ -222,7 +222,7 @@
             <div class="col-lg-12">
                 <div class="ibox">
                     <div class="ibox-title">
-                        <h5>Income</h5>
+                        <h5>Income (₫)</h5>
                     </div>
                     <div class="ibox-content">
                         <div>

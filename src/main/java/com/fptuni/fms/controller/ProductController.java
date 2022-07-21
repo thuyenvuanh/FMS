@@ -10,13 +10,15 @@ import com.fptuni.fms.service.ICategoryService;
 import com.fptuni.fms.service.IProductService;
 import com.fptuni.fms.service.implement.CategoryService;
 import com.fptuni.fms.service.implement.ProductService;
-
 import java.io.*;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @MultipartConfig
@@ -31,7 +33,10 @@ public class ProductController extends HttpServlet {
         ICategoryService categoryService = new CategoryService();
         IStoreDAO storeDAO = new StoreDAO();
         Account account = (Account) session.getAttribute("account");
-        System.out.println("path: " + path);
+        Store store = storeDAO.getStoreByAccount(account);
+        session.setAttribute("store", store);
+        List<Category> categories = categoryService.getCategories();
+        request.setAttribute("categories", categories);
         if (path.equals("/list")) {
             int pageSize = 5;
             List<Product> products = productService.getProducts(request, response);
@@ -49,27 +54,17 @@ public class ProductController extends HttpServlet {
             if (productService.countProductBySearch(request, response) % pageSize != 0) {
                 totalPages++;
             }
-            List<Category> categories = categoryService.getCategories();
-            //store already save in session when logged in
-            //Store store = storeDAO.getStoreById(account);
-            Store store = (Store) session.getAttribute("store");
-
-
-            request.setAttribute("store", store);
-            request.setAttribute("categories", categories);
             request.setAttribute("productList", products);
             request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("/view/store/productList.jsp").forward(request, response);
         } else if (path.equals("/createPage")) {
-            List<Category> categories = categoryService.getCategories();
-            request.setAttribute("categories", categories);
             request.getRequestDispatcher("/view/store/productCreate.jsp").forward(request, response);
         } else if (path.equals("/create")) {
-            if (productService.insertProduct(request, response) != 0) {
+            if (productService.insertProduct(request, response) == 1) {
                 session.setAttribute("createStatus", "success");
                 response.sendRedirect(request.getContextPath() + "/product/list");
             } else {
-                List<Category> categories = categoryService.getCategories();
+                // List<Category> categories = categoryService.getCategories();
                 request.setAttribute("categories", categories);
                 request.setAttribute("createStatus", "fail");
                 request.getRequestDispatcher("/view/store/productCreate.jsp").forward(request, response);
@@ -83,7 +78,6 @@ public class ProductController extends HttpServlet {
             request.getRequestDispatcher("/view/store/productDetail.jsp").forward(request, response);
         } else if (path.equals("/updatePage")) {
             String productID = request.getParameter("productID");
-            List<Category> categories = categoryService.getCategories();
             Product product = productService.getProductById(productID);
             request.setAttribute("product", product);
             request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
@@ -92,7 +86,7 @@ public class ProductController extends HttpServlet {
                 session.setAttribute("updateStatus", "success");
                 response.sendRedirect(request.getContextPath() + "/product/list");
             } else {
-                List<Category> categories = categoryService.getCategories();
+                // List<Category> categories = categoryService.getCategories();
                 request.setAttribute("categories", categories);
                 session.setAttribute("updateStatus", "fail");
                 request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
@@ -110,12 +104,14 @@ public class ProductController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 }

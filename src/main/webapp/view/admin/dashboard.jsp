@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: LEGION
@@ -12,7 +13,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>INSPINIA | E-commerce</title>
+    <title>Dashboard</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -29,7 +30,7 @@
     <jsp:include page="layoutAdmin.jsp"></jsp:include>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-9">
-            <h2>Income</h2>
+            <h2>DASHBOARD</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <c:url var="homelink" value="${requestScope.contextPath}/adminDashboard/index"></c:url>
@@ -51,13 +52,13 @@
 <%--                        <span></span> <i class="fa fa-caret-down"></i>--%>
 <%--                    </div>--%>
                         <form id="form_date_range" action="${homelink}" method="GET">
-                            <input type="text" class="form-control" name="daterangepicker" value="${requestScope.BEGIN_DATE} - ${requestScope.END_DATE}" readonly>
+                            <input id="input_data_range" type="text" class="form-control" name="daterangepicker" value="" readonly>
                             <input type="hidden" name="startDate" id="Start" value="" />
                             <input type="hidden" name="endDate" id="End" value="" />
                         </form>
 
                 </div>
-                <button id="search_date_range" class="btn btn-outline-success float-right">Search</button>
+<%--                <button id="search_date_range" class="btn btn-outline-success float-right">Search</button>--%>
             </div>
 
 <%--            <form id="form_date_range" action="${homelink}" method="GET">--%>
@@ -97,7 +98,8 @@
                             <td>${loop.index + 1}</td>
                             <td>${item.name}</td>
                             <td>${MAP.get(item).getValue()}</td>
-                            <td>${MAP.get(item).getKey()}</td>
+<%--                            <fmt:setLocale value="vi_VN"/>--%>
+                            <td><fmt:formatNumber value="${MAP.get(item).getKey()}" pattern="###,###,###.### ₫"/></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -114,10 +116,9 @@
                         <h5>TOTAL VALUE</h5>
                     </div>
                     <div class="ibox-content  text-success">
-                        <h1 class="no-margins">${requestScope.TOTAL_VALUE_ALLSTORES == null ? 0 : requestScope.TOTAL_VALUE_ALLSTORES}</h1>
-
-                        <div class="stat-percent font-bold">98% <i class="fa fa-level-up"></i></div>
-                        <small>Total income</small>
+<%--                        <fmt:setLocale value="vi_VN"/>--%>
+                        <h1 class="no-margins"><fmt:formatNumber value="${requestScope.TOTAL_VALUE_ALLSTORES == null ? 0 : requestScope.TOTAL_VALUE_ALLSTORES}" pattern="###,###,###.### ₫"/></h1>
+                        <small>Total value</small>
                     </div>
                 </div>
 
@@ -126,8 +127,7 @@
                         <h5 class="">TOTAL ORDER</h5>
                     </div>
                     <div class="ibox-content text-warning">
-                        <h1 class="no-margins">${requestScope.TOTAL_ORDER_ALLSTORES == null ? 0 : requestScope.TOTAL_VALUE_ALLSTORES}</h1>
-                        <div class="stat-percent font-bold">98% <i class="fa fa-level-up"></i></div>
+                        <h1 class="no-margins">${requestScope.TOTAL_ORDER_ALLSTORES == null ? 0 : requestScope.TOTAL_ORDER_ALLSTORES}</h1>
                         <small>Total order</small>
                     </div>
                 </div>
@@ -155,16 +155,7 @@
                             width="670" class="chartjs-render-monitor active"></canvas>
                 </div>
 
-                <div class="m-t-md">
-                    <small class="float-right">
-                        <i class="fa fa-clock-o"> </i>
-                        Update on 16.07.2015
-                    </small>
-                    <small>
-                        <strong>Analysis of sales:</strong> The value has been changed over time, and last
-                        month reached a level over $50,000.
-                    </small>
-                </div>
+
 
             </div>
         </div>
@@ -192,17 +183,6 @@
                                     class="chartjs-render-monitor active"></canvas>
                         </div>
 
-                        <div class="m-t-md">
-                            <small class="float-right">
-                                <i class="fa fa-clock-o"> </i>
-                                Update on 16.07.2015
-                            </small>
-                            <small>
-                                <strong>Analysis of sales:</strong> The value has been changed over time, and
-                                last
-                                month reached a level over $50,000.
-                            </small>
-                        </div>
 
                     </div>
                 </div>
@@ -287,6 +267,8 @@
                 separator: ' to ',
                 locale: {
                     applyLabel: 'Submit',
+                    format: 'DD/MM/YYYY',
+                    separator: ' - ',
                     fromLabel: 'From',
                     toLabel: 'To',
                     customRangeLabel: 'Custom Range',
@@ -313,7 +295,22 @@
         // $('#reportrange span').html(moment().subtract('days', 29).format('D MMMM YYYY') + ' - ' + moment().format('D MMMM YYYY'));
 
 
-        $('#search_date_range').click(function () {
+        // $('#search_date_range').click(function () {
+        //     if (startDate == null && endDate == null) {
+        //         console.log(moment().subtract('days', 29).format('YYYY-MM-DD') + ' - ' + moment().format('YYYY-MM-DD'));
+        //         $("#Start").val(moment().subtract('days', 29).format('YYYY-MM-DD'));
+        //         $("#End").val(moment().format('YYYY-MM-DD'));
+        //     }
+        //     else {
+        //         console.log(startDate.format('YYYY-MM-DD') + ' - ' + endDate.format('YYYY-MM-DD'));
+        //         $("#Start").val(startDate.format('YYYY-MM-DD'));
+        //         $("#End").val(endDate.format('YYYY-MM-DD'));
+        //         $("#form_date_range").submit();
+        //     }
+        //
+        // });
+
+        $('#input_data_range').on('change', function (){
             if (startDate == null && endDate == null) {
                 console.log(moment().subtract('days', 29).format('YYYY-MM-DD') + ' - ' + moment().format('YYYY-MM-DD'));
                 $("#Start").val(moment().subtract('days', 29).format('YYYY-MM-DD'));
@@ -325,8 +322,7 @@
                 $("#End").val(endDate.format('YYYY-MM-DD'));
                 $("#form_date_range").submit();
             }
-
-        });
+        })
 
     });
 </script>
@@ -352,9 +348,10 @@
                     borderColor: "rgba(26,179,148,0.7)",
                     pointBackgroundColor: "rgba(26,179,148,1)",
                     pointBorderColor: "#fff",
+                    <c:set var="MAPORDER" value="${requestScope.TOTAL_ORDER_BY_TIME}"/>
                     data: [
-                        <c:forEach var="item" items="${requestScope.TOTAL_ORDER_BY_TIME}">
-                        '${item.value}',
+                        <c:forEach var="item" items="${requestScope.KEY_DATE}">
+                        '${MAPORDER.get(item)}',
                         </c:forEach>
                     ]
 
@@ -368,7 +365,7 @@
                 yAxes: [{
                     display: true,
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
                     }
                 }]
             }
@@ -392,18 +389,19 @@
                     borderColor: "rgba(26,179,148,0.7)",
                     pointBackgroundColor: "rgba(26,179,148,1)",
                     pointBorderColor: "#fff",
+                    <c:set var="MAPTOTAL" value="${requestScope.TOTAL_VALUE_BY_TIME}"/>
                     data: [
-                        <c:forEach var="item" items="${requestScope.TOTAL_VALUE_BY_TIME}">
-                        '${item.value}',
+                        <c:forEach var="item" items="${requestScope.KEY_DATE}">
+                        '${MAPTOTAL.get(item)}',
                         </c:forEach>
                     ]
                 },
             ]
         };
 
-        var lineOptions = {
-            responsive: true
-        };
+        // var lineOptions = {
+        //     responsive: true
+        // };
 
 
 
@@ -412,17 +410,7 @@
         new Chart(ctxs, {
             type: 'bar',
             data: lineDataIncome,
-            options: {
-                responsive: true,
-                scales: {
-                    yAxes: [{
-                        display: true,
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
+            options: lineOptions
         });
 
 

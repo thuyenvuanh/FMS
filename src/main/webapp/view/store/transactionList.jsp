@@ -1,9 +1,7 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -57,7 +55,6 @@
     <link href="../css/animate.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
 
-
 </head>
 <body>
 
@@ -84,46 +81,57 @@
 
 
         <div class="ibox-content m-b-sm border-bottom">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="form-group">
-                        <label class="col-form-label" >Customer phone</label>
-                        <input type="text" class="form-control" data-mask="(000) 000-0000" placeholder="(000) 000-0000" autocomplete="off" maxlength="14">
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="form-group">
-                        <label class="col-form-label" for="status">Order status</label>
-                        <select name="status" id="status" class="form-control">
-                            <option value="" selected="">None</option>
-                            <option value="1">Enabled</option>
-                            <option value="0">Disabled</option>
-                        </select>
-
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-group" id="date_range_transaction">
-                        <label class="col-form-label">Range Date</label>
-                        <div class="input-daterange input-group" id="datepicker">
-
-                            <input type="text" class="form-control" name="start" value="" data-mask="00/00/0000" placeholder="" autocomplete="on" maxlength="10">
-                            <span class="input-group-addon">to</span>
-                            <input type="text" class="form-control" name="end" value="" data-mask="00/00/0000" placeholder="" autocomplete="on" maxlength="10">
+            <c:url var="searchLink" value="${requestScope.contextPath}/transactionShared/list"></c:url>
+            <form action="${searchLink}" id="searchForm" method="post">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label">Customer phone</label>
+                            <input type="text" name="customerPhone" class="form-control"
+                                   value="${requestScope.customerPhone}" data-mask="(000) 000-0000"
+                                   placeholder="(000) 000-0000" autocomplete="off" maxlength="14"
+                                   id="customerPhone">
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label class="col-form-label" for="status">Transaction status</label>
+                            <select name="status" id="status" class="form-control">
+                                <option value="" ${requestScope.status == "" ? "selected":"" }>All</option>
+                                <option value="1" ${requestScope.status == 1 ? "selected":"" }>Success</option>
+                                <option value="0" ${requestScope.status == 0 ? "selected":"" }>Fail</option>
+                            </select>
 
-                <div class="col-lg-2">
-                    <div class="form-group">
-                        <label class="col-form-label" >Amount</label>
-                        <input type="text" class="form-control" data-mask="$ 000000000.00" placeholder="" autocomplete="off" maxlength="16">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group" id="date_range_transaction">
+                            <label class="col-form-label">Date</label>
+                            <div class="input-daterange input-group" id="datepicker">
+                                <input type="text" class="form-control" name="dateSearch"
+                                       value="${requestScope.dateSearch}" id="dateSearch"
+                                       data-mask="00/00/0000" placeholder="" autocomplete="on" maxlength="10">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label">Amount</label>
+                            <input type="text" class="form-control" name="amount" id="amount" placeholder=""
+                                   autocomplete="off" maxlength="16" value="${requestScope.amount}">
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <button class="btn btn-outline-success  float-right"
+                                type="submit">Search
+                        </button>
+                        <button type="button" value="Reset" id="reset-button" class="btn btn-outline-danger float-right"
+                                style="margin-right: 2%" onclick="clear();">Reset
+                        </button>
                     </div>
                 </div>
-                <div class="container-fluid"><button class="btn btn-outline-success  float-right"
-                                                     type="submit">Search</button></div>
-            </div>
-
+            </form>
         </div>
 
         <div class="row">
@@ -131,7 +139,7 @@
                 <div class="ibox">
                     <div class="ibox-content m-b-sm border-bottom">
                         <div class="row">
-                            <div class="col-md-6">Total transaction: </div>
+                            <div class="col-md-6">Total transaction:</div>
                             <div class="col-md-6">Total money:</div>
                         </div>
                     </div>
@@ -144,55 +152,57 @@
                 <div class="ibox">
                     <div class="ibox-content">
 
-                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15" style="font-size: small">
+                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15"
+                               style="font-size: small">
                             <thead>
                             <tr>
-                                <th>No</th>
                                 <th>Transaction ID</th>
                                 <th data-hide="phone">Order ID</th>
                                 <th data-hide="phone">Customer Name</th>
+                                <th data-hide="phone">Customer Phone</th>
                                 <th data-hide="phone">Amount</th>
                                 <th>Transaction Date</th>
                                 <th>Status</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:set var="customer" value="${requestScope.customerMapByWalletID}"></c:set>
-                            <c:forEach var="transactionShared" items="${requestScope.transactionShares}" varStatus="counter">
-                            <tr>
-                                <td>${counter.count}</td>
-                                <td>
-                                    ${transactionShared.id}
-                                </td>
-                                <td>
-                                    ${transactionShared.paymentID.orderID.id}
-                                </td>
-                                <td>
-                                    <c:forEach var="customerInfo" items="${customer}">
-                                        <c:if test="${customerInfo.key == transactionShared.id}">
-                                            ${customerInfo.value.name}
+                            <c:forEach var="transactionShared" items="${requestScope.transactionShares}">
+                                <tr>
+                                    <td>
+                                            ${transactionShared.id}
+                                    </td>
+                                    <td>
+                                            ${transactionShared.paymentID.orderID.id}
+                                    </td>
+                                    <td>
+                                            ${transactionShared.walletID.customerID.name}
+                                    </td>
+                                    <td>
+                                        <c:set var="phoneNumber"
+                                               value="${transactionShared.walletID.customerID.phone}"></c:set>
+                                        <c:out value="${phoneNumber}"></c:out>
+                                    </td>
+                                    <td>
+                                        <fmt:formatNumber var="amountFmt" value="${transactionShared.amount}"
+                                                          pattern="###,###,### VND"></fmt:formatNumber>
+                                            ${amountFmt}
+                                    </td>
+                                    <td>
+                                        <fmt:formatDate value="${transactionShared.createDateTime}"
+                                                        pattern="dd/MM/yyyy HH:mm:ss"
+                                                        var="dateTimeFmt"></fmt:formatDate>
+                                            ${dateTimeFmt}
+                                    </td>
+                                    <td>
+                                        <c:if test="${transactionShared.status}">
+                                            <span class="label label-primary">Success</span>
                                         </c:if>
-                                    </c:forEach>
-                                </td>
-                                <td>
-                                    <fmt:formatNumber var="amountFmt" value="${transactionShared.amount}" pattern="###,###,### VND"></fmt:formatNumber>
-                                    ${amountFmt}
-                                </td>
-                                <td>
-                                    <fmt:formatDate value="${transactionShared.createDateTime}" pattern="dd/MM/yyyy HH:mm:ss" var="dateTimeFmt"></fmt:formatDate>
-                                    ${dateTimeFmt}
-                                </td>
-                                <td>
-                                    <c:if test="${transactionShared.status}">
-                                    <span class="label label-primary">Success</span>
-                                    </c:if>
-                                    <c:if test="${!transactionShared.status}">
-                                    <span class="label label-danger">Fail</span>
-                                    </c:if>
-                                </td>
-                            </tr>
+                                        <c:if test="${!transactionShared.status}">
+                                            <span class="label label-danger">Fail</span>
+                                        </c:if>
+                                    </td>
+                                </tr>
                             </c:forEach>
-
 
 
                             </tbody>
@@ -201,16 +211,78 @@
                                 <td colspan="7">
                                     <nav aria-label="Page navigation example">
                                         <ul class="paginations">
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Previous">
+                                            <c:url var="previousPageLink" value="${requestScope.contextPath}/transactionShared/list">
+                                            </c:url>
+                                            <form action="${previousPageLink}" method="post" id="previousPagingForm"
+                                                  style="display: none">
+                                                <input type="hidden" name="currentPage" id="previousPage"/>
+                                                <input type="hidden" name="customerPhone"
+                                                       value="${requestScope.customerPhone}">
+                                                <input type="hidden" name="status"
+                                                       value="${requestScope.status}">
+                                                <input type="hidden" name="dateSearch"
+                                                       value="${requestScope.dateSearch}">
+                                                <input type="hidden" name="amount"
+                                                       value="${requestScope.amount}">
+                                                <input type="hidden" name="sortField"
+                                                       value="${requestScope.sortField}">
+                                                <input type="hidden" name="isAscending"
+                                                       value="${!requestScope.isAscending}">
+                                            </form>
+                                            <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
+                                                <a class="page-link" aria-label="Previous"
+                                                   onclick="document.getElementById('previousPage').value=${requestScope.currentPage-1}; document.getElementById('previousPagingForm').submit();">
                                                     <span aria-hidden="true">&laquo;</span>
                                                     <span class="sr-only">Previous</span>
+
                                                 </a>
                                             </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <c:url var="pagingLink"
+                                                   value="${requestScope.contextPath}/transactionShared/list"></c:url>
+                                            <form action="${pagingLink}" method="post" id="pagingForm"
+                                                  style="display: none">
+                                                <input type="hidden" name="currentPage" id="currentPage"/>
+                                                <input type="hidden" name="customerPhone"
+                                                       value="${requestScope.customerPhone}">
+                                                <input type="hidden" name="status"
+                                                       value="${requestScope.status}">
+                                                <input type="hidden" name="dateSearch"
+                                                       value="${requestScope.dateSearch}">
+                                                <input type="hidden" name="amount"
+                                                       value="${requestScope.amount}">
+                                                <input type="hidden" name="sortField"
+                                                       value="${requestScope.sortField}">
+                                                <input type="hidden" name="isAscending"
+                                                       value="${!requestScope.isAscending}">
+                                            </form>
 
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Next">
+                                            <c:forEach var="page" begin="1" end="${requestScope.totalPages}">
+                                                <li class="page-item ${requestScope.currentPage == page?"active":""}">
+                                                    <a class="page-link"
+                                                       onclick="document.getElementById('currentPage').value=${page}; document.getElementById('pagingForm').submit();">${page}</a>
+                                                </li>
+                                            </c:forEach>
+                                            <c:url var="nextPageLink"
+                                                   value="${requestScope.contextPath}/transactionShared/list">
+                                            </c:url>
+                                            <form action="${nextPageLink}" method="post" id="nextPagingForm"
+                                                  style="display: none">
+                                                <input type="hidden" name="currentPage" id="nextPage"/>
+                                                <input type="hidden" name="customerPhone"
+                                                       value="${requestScope.customerPhone}">
+                                                <input type="hidden" name="status"
+                                                       value="${requestScope.status}">
+                                                <input type="hidden" name="dateSearch"
+                                                       value="${requestScope.dateSearch}">
+                                                <input type="hidden" name="amount"
+                                                       value="${requestScope.amount}">
+                                                <input type="hidden" name="sortField"
+                                                       value="${requestScope.sortField}">
+                                                <input type="hidden" name="isAscending"
+                                                       value="${!requestScope.isAscending}">
+                                            </form>
+                                            <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
+                                                <a class="page-link"  aria-label="Next" onclick="document.getElementById('nextPage').value=${requestScope.currentPage + 1}; document.getElementById('nextPagingForm').submit();">
                                                     <span aria-hidden="true">&raquo;</span>
                                                     <span class="sr-only">Next</span>
                                                 </a>
@@ -339,11 +411,15 @@
     $(document).ready(function () {
 
         $('.footable').footable();
-
+        $('#reset-button').click(function () {
+            $('#amount').val("");
+            $('#customerPhone').val("");
+            $('#dateSearch').val("");
+            $('#status').val("");
+        });
     });
 
 </script>
-
 <script>
     $(document).ready(function () {
 

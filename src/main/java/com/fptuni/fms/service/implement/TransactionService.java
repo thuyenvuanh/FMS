@@ -3,16 +3,25 @@ package com.fptuni.fms.service.implement;
 import com.fptuni.fms.dao.implement.TransactionSharedDAO;
 import com.fptuni.fms.model.Store;
 import com.fptuni.fms.model.TransactionShared;
+import com.fptuni.fms.paging.PageRequest;
+import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.ITransactionService;
+import com.fptuni.fms.sort.Sorter;
 import com.fptuni.fms.utils.SecurityUtils;
+import jdk.nashorn.internal.runtime.regexp.joni.ast.StringNode;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.List;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TransactionService implements ITransactionService {
+
 
     private final TransactionSharedDAO dao = new TransactionSharedDAO();
 
@@ -24,6 +33,7 @@ public class TransactionService implements ITransactionService {
     @Override
     public TransactionShared getLatestTransactionSharedByWalletID(Integer walletID) {
         TransactionShared transactionShared = null;
+        // TransactionSharedDAO transactionSharedDAO = new TransactionSharedDAO();
         String hashString = "";
         if(walletID != null){
             transactionShared = dao.getLatestTransactionOf(walletID);
@@ -41,10 +51,8 @@ public class TransactionService implements ITransactionService {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         }
-
         return null;
     }
 
@@ -84,8 +92,75 @@ public class TransactionService implements ITransactionService {
         return amount.stripTrailingZeros();
     }
 
-    public List<TransactionShared> getTransactionSharedByStore(Store store){
-        return dao.getTransactionSharedByStore(store);
+    public List<TransactionShared> getTransactionSharedByStore(HttpServletRequest request, Store store) {
+        String customerPhone = null;
+        String status = null;
+        String dateSearch = null;
+        String amount = null;
+        String sortField = "ID";
+        boolean isAscending = true;
+        int page = 1;
+        int pageSize = 10;
+        Map<String, String> searcher = new HashMap<>();
+        if (request.getParameter("customerPhone") != null) {
+            customerPhone = request.getParameter("customerPhone").replaceAll("[() -]+", "");
+        }
+        if (request.getParameter("status") != null && !request.getParameter("status").isEmpty()) {
+            status = request.getParameter("status");
+        }
+        if (request.getParameter("dateSearch") != null) {
+            dateSearch = request.getParameter("dateSearch");
+
+        }
+        if (request.getParameter("amount") != null) {
+            amount = request.getParameter("amount").replaceAll(",", "");
+        }
+        if (request.getParameter("currentPage") != null) {
+            page = Integer.parseInt(request.getParameter("currentPage"));
+        }
+
+        searcher.put("customerPhone", customerPhone);
+        searcher.put("status", status);
+        searcher.put("dateSearch", dateSearch);
+        searcher.put("amount", amount);
+        Sorter sorter = new Sorter(sortField, isAscending);
+        Pageable pageable = new PageRequest(page, pageSize, sorter);
+        List<TransactionShared> transactionShareds = dao.searchTransactionShare(store, searcher);
+        int totalPages = transactionShareds.size() / pageSize;
+        if (transactionShareds.size() % pageSize != 0) {
+            totalPages++;
+        }
+
+        for (Map.Entry<String,String> searchParam : searcher.entrySet()){
+            request.setAttribute(searchParam.getKey(),searchParam.getValue());
+        }
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage",page);
+        return dao.getTransactionSharedByStore(store, searcher, pageable);
     }
 
+    private List<TransactionShared> countTransactionSharedByStore(HttpServletRequest request, Store store) {
+        String customerPhone = null;
+        String status = null;
+        String dateSearch = null;
+        String amount = null;
+        Map<String, String> searcher = new HashMap<>();
+        if (request.getParameter("customerPhone") != null) {
+            customerPhone = request.getParameter("customerPhone").replaceAll("[() -]+", "");
+        }
+        if (request.getParameter("status") != null) {
+            status = request.getParameter("status");
+        }
+        if (request.getParameter("dateSearch") != null) {
+            dateSearch = request.getParameter("dateSearch");
+        }
+        if (request.getParameter("amount") != null) {
+            amount = request.getParameter("amount").replaceAll(",", "");
+        }
+        searcher.put("customerPhone", customerPhone);
+        searcher.put("status", status);
+        searcher.put("dateSearch", dateSearch);
+        searcher.put("amount", amount);
+        return dao.searchTransactionShare(store, searcher);
+    }
 }

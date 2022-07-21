@@ -6,16 +6,25 @@ import com.fptuni.fms.paging.Pageable;
 
 import java.util.List;
 
-public interface ICustomerDAO extends GenericDAO<Customer>{
+public interface ICustomerDAO extends GenericDAO<Customer> {
     List<Customer> getAllCustomer(Pageable pageable);
-    Integer insertCustomer(Customer customer);
-    Customer getByPhoneNum(String phoneNum);
-    Customer getByName(String name);
-    Integer count ();
-    Customer getCustomerByOrderID(int id);
-    Customer getCustomer(int customerID);
-    boolean deleteCus(String phoneNum);
-    Customer getDetail(String phoneNum);
-    boolean updateCustomerInfo (Customer customer);
 
+    Integer insertCustomer(Customer customer);
+
+    Customer getByPhoneNum(String phoneNum);
+
+    Customer getByName(String name);
+
+    Integer count();
+
+    boolean deleteCus(String phoneNum);
+
+    Customer getDetail(String phoneNum);
+
+    boolean updateCustomerInfo(Customer customer);
+
+    Customer getCustomerByOrderID(int id);
+
+    Customer getCustomer(int customerID);
+    Customer getCustomerByWalletID(int walletID);
 }
