@@ -39,8 +39,7 @@ public interface IOrderDAO extends GenericDAO<Orders> {
 
     BigDecimal GetTotalValueByTime(Date startTime, Date endTime);
 
-
-    int countNumberOfOrders();
+    List<Orders> searchOrdersByStore(Store store, Map<String, String> searcher);
 
     List<Orders> getOrdersByDate(Store store, Date date);
 

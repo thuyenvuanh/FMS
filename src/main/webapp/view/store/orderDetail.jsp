@@ -127,7 +127,10 @@
                         <tbody>
                         <tr>
                             <td><strong>TOTAL :</strong></td>
-                            <td>${requestScope.order.total} VND</td>
+                            <td>
+                                <fmt:formatNumber var="total" value="${requestScope.order.total}" pattern="###,###,### ₫"></fmt:formatNumber>
+                                 ${total}
+                            </td>
                         </tr>
                         </tbody>
                     </table>

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 public class OrderDetailService implements IOrderDetailService {
     IOrderDetailDAO orderDetailDAO = new OrderDetailDAO();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    Calendar calendar = Calendar.getInstance();
+
 
     @Override
     public List<OrderDetail> getOrderDetailByOrderID(HttpServletRequest request, HttpServletResponse response) {
@@ -47,6 +47,7 @@ public class OrderDetailService implements IOrderDetailService {
         Store store = (Store) session.getAttribute("store");
         OrderDetail orderDetails = null;
         try {
+            Calendar calendar = Calendar.getInstance();
             Date end = calendar.getTime();
             calendar.add(Calendar.MONTH, -1);
             calendar.add(Calendar.DATE, +1);
@@ -74,6 +75,7 @@ public class OrderDetailService implements IOrderDetailService {
         Store store = (Store) session.getAttribute("store");
         BigDecimal totalAmount = BigDecimal.valueOf(0);
         try {
+            Calendar calendar = Calendar.getInstance();
             Date end = calendar.getTime();
             calendar.add(Calendar.MONTH, -1);
             calendar.add(Calendar.DATE, +1);
@@ -118,6 +120,8 @@ public class OrderDetailService implements IOrderDetailService {
         Store store = (Store) session.getAttribute("store");
         List<OrderDetail> orderDetails = null;
         try {
+            Calendar calendar = Calendar.getInstance();
+
             Date end = calendar.getTime();
             calendar.add(Calendar.MONTH, -1);
             calendar.add(Calendar.DATE, +1);
@@ -146,20 +150,6 @@ public class OrderDetailService implements IOrderDetailService {
         Store store = (Store) session.getAttribute("store");
         List<OrderDetail> orderDetails = null;
         try {
-//            Date end = calendar.getTime();
-//            calendar.add(Calendar.MONTH, -1);
-//            calendar.add(Calendar.DATE, +1);
-//            Date start = calendar.getTime();
-//            if (request.getParameter("startDate") != null && request.getParameter("endDate") != null) {
-//                start = sdf.parse(request.getParameter("startDate"));
-//                end = sdf.parse(request.getParameter("endDate"));
-//                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-//                request.setAttribute("startDateFmt", simpleDateFormat.format(start));
-//                request.setAttribute("endDateFmt", simpleDateFormat.format(end));
-//                if (start.after(end)) {
-//                    throw new Exception("Start date must be before end date");
-//                }
-//            }
             orderDetails = orderDetailDAO.getOrdersDetailByTimeRange(store, start, end);
         } catch (Exception e) {
             request.setAttribute("dateError", e.getMessage());
