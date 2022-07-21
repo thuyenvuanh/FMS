@@ -55,7 +55,6 @@
     <link href="../css/animate.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
 
-
 </head>
 <body>
 
@@ -83,22 +82,24 @@
 
         <div class="ibox-content m-b-sm border-bottom">
             <c:url var="searchLink" value="${requestScope.contextPath}/transactionShared/list"></c:url>
-            <form action="${searchLink}" method="get">
+            <form action="${searchLink}" id="searchForm" method="post">
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label class="col-form-label">Customer phone</label>
-                            <input type="text" name="customerPhone" class="form-control" data-mask="(000) 000-0000"
-                                   placeholder="(000) 000-0000" autocomplete="off" maxlength="14">
+                            <input type="text" name="customerPhone" class="form-control"
+                                   value="${requestScope.customerPhone}" data-mask="(000) 000-0000"
+                                   placeholder="(000) 000-0000" autocomplete="off" maxlength="14"
+                                   id="customerPhone">
                         </div>
                     </div>
                     <div class="col-lg-2">
                         <div class="form-group">
                             <label class="col-form-label" for="status">Transaction status</label>
                             <select name="status" id="status" class="form-control">
-                                <option value="" selected="">None</option>
-                                <option value="1">Enabled</option>
-                                <option value="0">Disabled</option>
+                                <option value="" ${requestScope.status == "" ? "selected":"" }>All</option>
+                                <option value="1" ${requestScope.status == 1 ? "selected":"" }>Success</option>
+                                <option value="0" ${requestScope.status == 0 ? "selected":"" }>Fail</option>
                             </select>
 
                         </div>
@@ -107,10 +108,8 @@
                         <div class="form-group" id="date_range_transaction">
                             <label class="col-form-label">Date</label>
                             <div class="input-daterange input-group" id="datepicker">
-
-                                <%--                            <input type="text" class="form-control" name="start" value="" data-mask="00/00/0000" placeholder="" autocomplete="on" maxlength="10">--%>
-                                <%--                            <span class="input-group-addon">to</span>--%>
-                                <input type="text" class="form-control" name="dateSearch" value=""
+                                <input type="text" class="form-control" name="dateSearch"
+                                       value="${requestScope.dateSearch}" id="dateSearch"
                                        data-mask="00/00/0000" placeholder="" autocomplete="on" maxlength="10">
                             </div>
                         </div>
@@ -119,16 +118,16 @@
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label class="col-form-label">Amount</label>
-                            <input type="text" class="form-control" name="amount" data-mask="000,000,000" placeholder=""
-                                   autocomplete="off" maxlength="16">
+                            <input type="text" class="form-control" name="amount" id="amount" placeholder=""
+                                   autocomplete="off" maxlength="16" value="${requestScope.amount}">
                         </div>
                     </div>
                     <div class="container-fluid">
                         <button class="btn btn-outline-success  float-right"
                                 type="submit">Search
                         </button>
-                        <button type="reset" value="Reset" class="btn btn-outline-danger float-right"
-                                style="margin-right: 2%">Reset
+                        <button type="button" value="Reset" id="reset-button" class="btn btn-outline-danger float-right"
+                                style="margin-right: 2%" onclick="clear();">Reset
                         </button>
                     </div>
                 </div>
@@ -212,17 +211,80 @@
                                 <td colspan="7">
                                     <nav aria-label="Page navigation example">
                                         <ul class="paginations">
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Previous">
+                                            <c:url var="previousPageLink"
+                                                   value="${requestScope.contextPath}/transactionShared/list">
+
+                                            </c:url>
+                                            <form action="${previousPageLink}" method="post" id="previousPagingForm"
+                                                  style="display: none">
+                                                <input type="hidden" name="currentPage" id="previousPage"/>
+                                                <input type="hidden" name="customerPhone"
+                                                       value="${requestScope.customerPhone}">
+                                                <input type="hidden" name="status"
+                                                       value="${requestScope.status}">
+                                                <input type="hidden" name="dateSearch"
+                                                       value="${requestScope.dateSearch}">
+                                                <input type="hidden" name="amount"
+                                                       value="${requestScope.amount}">
+                                                <input type="hidden" name="sortField"
+                                                       value="${requestScope.sortField}">
+                                                <input type="hidden" name="isAscending"
+                                                       value="${!requestScope.isAscending}">
+                                            </form>
+                                            <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
+                                                <a class="page-link" aria-label="Previous"
+                                                   onclick="document.getElementById('previousPage').value=${requestScope.currentPage-1}; document.getElementById('previousPagingForm').submit();">
                                                     <span aria-hidden="true">&laquo;</span>
                                                     <span class="sr-only">Previous</span>
+
                                                 </a>
                                             </li>
+                                            <c:url var="pagingLink"
+                                                   value="${requestScope.contextPath}/transactionShared/list"></c:url>
+                                            <form action="${pagingLink}" method="post" id="pagingForm"
+                                                  style="display: none">
+                                                <input type="hidden" name="currentPage" id="currentPage"/>
+                                                <input type="hidden" name="customerPhone"
+                                                       value="${requestScope.customerPhone}">
+                                                <input type="hidden" name="status"
+                                                       value="${requestScope.status}">
+                                                <input type="hidden" name="dateSearch"
+                                                       value="${requestScope.dateSearch}">
+                                                <input type="hidden" name="amount"
+                                                       value="${requestScope.amount}">
+                                                <input type="hidden" name="sortField"
+                                                       value="${requestScope.sortField}">
+                                                <input type="hidden" name="isAscending"
+                                                       value="${!requestScope.isAscending}">
+                                            </form>
+
                                             <c:forEach var="page" begin="1" end="${requestScope.totalPages}">
-                                                <li class="page-item"><a class="page-link" href="#">${page}</a></li>
+                                                <li class="page-item ${requestScope.currentPage == page?"active":""}">
+                                                    <a class="page-link"
+                                                       onclick="document.getElementById('currentPage').value=${page}; document.getElementById('pagingForm').submit();">${page}</a>
+                                                </li>
                                             </c:forEach>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Next">
+                                            <c:url var="nextPageLink"
+                                                   value="${requestScope.contextPath}/transactionShared/list">
+                                            </c:url>
+                                            <form action="${nextPageLink}" method="post" id="nextPagingForm"
+                                                  style="display: none">
+                                                <input type="hidden" name="currentPage" id="nextPage"/>
+                                                <input type="hidden" name="customerPhone"
+                                                       value="${requestScope.customerPhone}">
+                                                <input type="hidden" name="status"
+                                                       value="${requestScope.status}">
+                                                <input type="hidden" name="dateSearch"
+                                                       value="${requestScope.dateSearch}">
+                                                <input type="hidden" name="amount"
+                                                       value="${requestScope.amount}">
+                                                <input type="hidden" name="sortField"
+                                                       value="${requestScope.sortField}">
+                                                <input type="hidden" name="isAscending"
+                                                       value="${!requestScope.isAscending}">
+                                            </form>
+                                            <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
+                                                <a class="page-link"  aria-label="Next" onclick="document.getElementById('nextPage').value=${requestScope.currentPage + 1}; document.getElementById('nextPagingForm').submit();">
                                                     <span aria-hidden="true">&raquo;</span>
                                                     <span class="sr-only">Next</span>
                                                 </a>
@@ -351,11 +413,15 @@
     $(document).ready(function () {
 
         $('.footable').footable();
-
+        $('#reset-button').click(function () {
+            $('#amount').val("");
+            $('#customerPhone').val("");
+            $('#dateSearch').val("");
+            $('#status').val("");
+        });
     });
 
 </script>
-
 <script>
     $(document).ready(function () {
 

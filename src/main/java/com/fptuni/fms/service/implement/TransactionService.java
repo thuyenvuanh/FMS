@@ -103,18 +103,10 @@ public class TransactionService implements ITransactionService {
         int page = 1;
         int pageSize = 2;
         Map<String, String> searcher = new HashMap<>();
-        Sorter sorter = new Sorter(sortField, isAscending);
-        Pageable pageable = new PageRequest(page, pageSize, sorter);
-        List<TransactionShared> transactionShareds = dao.searchTransactionShare(store, searcher);
-        int totalPages = transactionShareds.size() / pageSize;
-        if (transactionShareds.size() % pageSize != 0) {
-            totalPages++;
-        }
-        System.out.println(totalPages);
         if (request.getParameter("customerPhone") != null) {
             customerPhone = request.getParameter("customerPhone").replaceAll("[() -]+", "");
         }
-        if (request.getParameter("status") != null) {
+        if (request.getParameter("status") != null && !request.getParameter("status").isEmpty()) {
             status = request.getParameter("status");
         }
         if (request.getParameter("dateSearch") != null) {
@@ -124,11 +116,27 @@ public class TransactionService implements ITransactionService {
         if (request.getParameter("amount") != null) {
             amount = request.getParameter("amount").replaceAll(",", "");
         }
+        if (request.getParameter("currentPage") != null) {
+            page = Integer.parseInt(request.getParameter("currentPage"));
+        }
+
         searcher.put("customerPhone", customerPhone);
         searcher.put("status", status);
         searcher.put("dateSearch", dateSearch);
         searcher.put("amount", amount);
-        request.setAttribute("totalPages",totalPages);
+        Sorter sorter = new Sorter(sortField, isAscending);
+        Pageable pageable = new PageRequest(page, pageSize, sorter);
+        List<TransactionShared> transactionShareds = dao.searchTransactionShare(store, searcher);
+        int totalPages = transactionShareds.size() / pageSize;
+        if (transactionShareds.size() % pageSize != 0) {
+            totalPages++;
+        }
+
+        for (Map.Entry<String,String> searchParam : searcher.entrySet()){
+            request.setAttribute(searchParam.getKey(),searchParam.getValue());
+        }
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage",page);
         return dao.getTransactionSharedByStore(store, searcher, pageable);
     }
 
