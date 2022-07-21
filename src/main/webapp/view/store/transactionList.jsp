@@ -211,9 +211,7 @@
                                 <td colspan="7">
                                     <nav aria-label="Page navigation example">
                                         <ul class="paginations">
-                                            <c:url var="previousPageLink"
-                                                   value="${requestScope.contextPath}/transactionShared/list">
-
+                                            <c:url var="previousPageLink" value="${requestScope.contextPath}/transactionShared/list">
                                             </c:url>
                                             <form action="${previousPageLink}" method="post" id="previousPagingForm"
                                                   style="display: none">
