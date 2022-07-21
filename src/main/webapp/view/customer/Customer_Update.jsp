@@ -186,15 +186,17 @@
                                         </c:choose>
 
                                     </div>
-                                <div class="col-lg-4">
-                                    <div class="text-center">
-                                        <div style="margin-top: 20px">
-                                            <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
-                                        </div>
-                                    </div>
-                                </div>
+<%--                                <div class="col-lg-4">--%>
+<%--                                    <div class="text-center">--%>
+<%--                                        <div style="margin-top: 20px">--%>
+<%--                                            <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
                                 <div class="w-100 p-3">
 <%--                                    <a href="#next" class="btn btn-primary" role="menuitem">Apply</a>--%>
+                                    <a class="btn btn-warning"
+                                            href="${requestScope.contextPath}/FMS/customer/list">Back</a>
                                     <input type="button" value="submit" id="btnUpdateCus" class="btn btn-primary">
                                 </div>
                             </form>
