@@ -101,7 +101,7 @@ public class TransactionService implements ITransactionService {
         String sortField = "ID";
         boolean isAscending = true;
         int page = 1;
-        int pageSize = 2;
+        int pageSize = 10;
         Map<String, String> searcher = new HashMap<>();
         if (request.getParameter("customerPhone") != null) {
             customerPhone = request.getParameter("customerPhone").replaceAll("[() -]+", "");
