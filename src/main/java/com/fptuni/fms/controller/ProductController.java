@@ -64,7 +64,7 @@ public class ProductController extends HttpServlet {
                 session.setAttribute("createStatus", "success");
                 response.sendRedirect(request.getContextPath() + "/product/list");
             } else {
-                List<Category> categories = categoryService.getCategories();
+                // List<Category> categories = categoryService.getCategories();
                 request.setAttribute("categories", categories);
                 request.setAttribute("createStatus", "fail");
                 request.getRequestDispatcher("/view/store/productCreate.jsp").forward(request, response);
@@ -86,7 +86,7 @@ public class ProductController extends HttpServlet {
                 session.setAttribute("updateStatus", "success");
                 response.sendRedirect(request.getContextPath() + "/product/list");
             } else {
-                List<Category> categories = categoryService.getCategories();
+                // List<Category> categories = categoryService.getCategories();
                 request.setAttribute("categories", categories);
                 session.setAttribute("updateStatus", "fail");
                 request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
@@ -104,12 +104,14 @@ public class ProductController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 }

@@ -9,7 +9,6 @@ import com.fptuni.fms.paging.Pageable;
 import com.fptuni.mapper.ProductMapper;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +19,12 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
 
     private final StoreMapper mapper = new StoreMapper();
 
+    @Override
+    public Store getStoreById(int id) {
+        String sql = "SELECT ID, Name FROM Store WHERE ID = ? AND IsDeleted = 0";
+        List<Store> list = query(sql, mapper, id);
+        return (list != null && !list.isEmpty()) ? list.get(0) : null;
+    }
     //    @Override
 //    public Store getStore(String Name) { //get 1 store
 //        String sql = "SELECT Store.ID, Name, Store.AccountID, Account.FullName from Store\n" +
@@ -53,8 +58,8 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
 
     @Override
     public Integer insertStore(Store store) {
-        String sql = "INSERT INTO Store VALUES(?,?,0)";
-        return insert(sql, store.getName(), store.getAccountID().getId());
+        String sql = "INSERT INTO Store VALUES(?,0)";
+        return insert(sql, store.getName());
     }
 
     @Override

@@ -153,5 +153,14 @@ public class TransactionService implements ITransactionService {
         }
         if (request.getParameter("dateSearch") != null) {
             dateSearch = request.getParameter("dateSearch");
-
+        }
+        if (request.getParameter("amount") != null) {
+            amount = request.getParameter("amount").replaceAll(",", "");
+        }
+        searcher.put("customerPhone", customerPhone);
+        searcher.put("status", status);
+        searcher.put("dateSearch", dateSearch);
+        searcher.put("amount", amount);
+        return dao.searchTransactionShare(store, searcher);
+    }
 }

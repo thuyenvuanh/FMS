@@ -13,4 +13,5 @@ public interface IDashboardService {
     List<Date> getDateRange(HttpServletRequest request, HttpServletResponse response);
 
     List<Date> getTimeRange(HttpServletRequest request, HttpServletResponse response);
+    String getDashboardData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }
