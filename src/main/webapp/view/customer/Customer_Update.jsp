@@ -22,23 +22,14 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- FooTable -->
     <link href="../css/plugins/footable/footable.core.css" rel="stylesheet" />
-
-    <link href="../css/animate.css" rel="stylesheet" />
-    <link href="../css/style.css" rel="stylesheet" />
-
     <!-- Sweet Alert -->
     <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
 
-    <%--    --%>
-    <link href="../css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <%--    <link rel="stylesheet"--%>
-    <%--          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">--%>
-    <!-- FooTable -->
-    <link href="../css/plugins/footable/footable.core.css" rel="stylesheet" />
+    <link href="../css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
     <link href="../css/animate.css" rel="stylesheet" />
     <link href="../css/style.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -160,9 +151,8 @@
                                         <div class="form-group" id="update-Dob">
                                             <label>Date of Birth</label>
                                             <input
-<%--                                                    placeholder="${update.doB}"--%>
+                                                   placeholder="${update.doB}"
                                                    name="Dob" type="text"
-                                                   value="${update.doB}"
                                                    class="form-control input-Dob" data-mask="00/00/0000" autocomplete="off" maxlength="10">
                                             <span class="form-text">dd/mm/yyyy</span>
                                         </div>
@@ -248,25 +238,28 @@
 <script src="../js/inspinia.js"></script>
 <script src="../js/plugins/pace/pace.min.js"></script>
 
+<!-- Data picker -->
+<script src="../js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
 <!-- Sweet alert -->
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
-
-<!-- FooTable -->
-<script src="../js/plugins/footable/footable.all.min.js"></script>
 
 <!-- Jquery Validate -->
-<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
 <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
 <script src="../js/plugins/validate/jquery.validate.min.js"></script>
-
-<!-- Sweet alert -->
-<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function () {
-            $(".footable").footable();
+            $('#update-Dob .input-Dob').datepicker({
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true,
+
+                format: "yyyy-mm-dd"
+            });
+
 
             $("#btnUpdateCus").click(function () {
                 swal({
