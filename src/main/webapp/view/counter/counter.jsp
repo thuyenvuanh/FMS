@@ -221,6 +221,18 @@
         session.removeAttribute("AMOUNT");
         %>
         </c:if>
+        // createStatus
+        <c:if test="${sessionScope.createStatus != null}">
+        swal({
+            title: "Create!",
+            text: "Customer has been created.",
+            type: "success"
+        });
+        <%
+        session.removeAttribute("createStatus");
+        %>
+        </c:if>
+
 <%--        <c:if test="${sessionScope.withdrawStatus != null}">--%>
 <%--        swal({--%>
 <%--            title: "Add Money Success!",--%>

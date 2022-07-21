@@ -33,6 +33,7 @@ import java.util.List;
 public class CustomerController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
+        HttpSession session = request.getSession(true);
 //        System.out.println(path);
 
         if (path.equals("/addcustomer")) {
@@ -59,6 +60,7 @@ public class CustomerController extends HttpServlet {
                         identityCardService.createIdentityCard(cus);
                         request.setAttribute("createStatus", "success");
                         request.setAttribute("phoneNumber",phone);
+                        session.setAttribute("createStatus","success");
                         request.getRequestDispatcher("/counter/check")
                                 .forward(request, response);
                     }
@@ -137,6 +139,7 @@ public class CustomerController extends HttpServlet {
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
             customerService.DeleteCustomer(phoneNum);
+            session.setAttribute("deletestatus","success");
             response.sendRedirect(request.getContextPath() + "/customer/list");
 
         } else if (path.equals("/Movetoupdate")) {
@@ -191,6 +194,7 @@ public class CustomerController extends HttpServlet {
                 request.getRequestDispatcher("/view/customer/Customer_Update.jsp")
                         .forward(request,response);
             }
+            session.setAttribute("updateStatus","success");
             customerService.updateCustomerInfo(customer);
             response.sendRedirect(request.getContextPath() + "/customer/list");
         }
