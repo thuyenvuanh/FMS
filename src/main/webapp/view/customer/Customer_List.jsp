@@ -42,75 +42,6 @@
 <body>
 <div id="wrapper">
     <jsp:include page="../counter/layoutCounter.jsp"></jsp:include>
-    <%--    <nav class="navbar-default navbar-static-side" role="navigation">--%>
-    <%--        <div class="sidebar-collapse">--%>
-    <%--            <ul class="nav metismenu" id="side-menu">--%>
-    <%--                <li class="nav-header">--%>
-    <%--                    <div class="dropdown profile-element">--%>
-    <%--                        <img--%>
-    <%--                                alt="image"--%>
-    <%--                                class="rounded-circle"--%>
-    <%--                                src="img/profile_small.html"--%>
-    <%--                        />--%>
-    <%--                        <a data-toggle="dropdown" class="dropdown-toggle"--%>
-    <%--                           href="/view/counter/index.jsp">--%>
-    <%--                  <span class="block m-t-xs font-bold"--%>
-    <%--                  >Counter<b class="caret"></b--%>
-    <%--                  ></span>--%>
-    <%--                        </a>--%>
-    <%--                        <ul class="dropdown-menu animated fadeInRight m-t-xs">--%>
-    <%--                            <li>--%>
-    <%--                                <a class="dropdown-item" href="profile.html"--%>
-    <%--                                >Store profile</a--%>
-    <%--                                >--%>
-    <%--                            </li>--%>
-    <%--                            <li class="dropdown-divider"></li>--%>
-    <%--                            <li><a class="dropdown-item" href="login.html">Logout</a></li>--%>
-    <%--                        </ul>--%>
-    <%--                    </div>--%>
-    <%--                    <div class="logo-element">FMS</div>--%>
-    <%--                </li>--%>
-
-    <%--                <li class="active">--%>
-    <%--                    <a href="/FMS/counter/index">--%>
-    <%--                        <i class="fa fa-id-card"></i>--%>
-    <%--                        <span class="nav-label">Counter</span></a--%>
-    <%--                    >--%>
-    <%--                </li>--%>
-    <%--                <li class="active">--%>
-    <%--                    <a href="/FMS/customer/list">--%>
-    <%--                        <i class="fa fa-user-o"></i>--%>
-    <%--                        <span class="nav-label">Customer</span></a--%>
-    <%--                    >--%>
-    <%--                </li>--%>
-    <%--            </ul>--%>
-    <%--        </div>--%>
-    <%--    </nav>--%>
-    <%--    <!-- Body -->--%>
-    <%--    <div id="page-wrapper" class="gray-bg">--%>
-    <%--        <div class="row border-bottom">--%>
-    <%--            <nav--%>
-    <%--                    class="navbar navbar-static-top"--%>
-    <%--                    role="navigation"--%>
-    <%--                    style="margin-bottom: 0"--%>
-    <%--            >--%>
-    <%--                <div class="navbar-header">--%>
-    <%--                    <a--%>
-    <%--                            class="navbar-minimalize minimalize-styl-2 btn btn-primary"--%>
-    <%--                            href="#"--%>
-    <%--                    ><i class="fa fa-bars"></i--%>
-    <%--                    ></a>--%>
-    <%--                </div>--%>
-    <%--                <ul class="nav navbar-top-links navbar-right">--%>
-    <%--                    <li>--%>
-    <%--                        <a href="login.html">--%>
-    <%--                            <i class="fa fa-sign-out"></i> Log out--%>
-    <%--                        </a>--%>
-    <%--                    </li>--%>
-    <%--                </ul>--%>
-    <%--            </nav>--%>
-    <%--        </div>--%>
-
     <!-- TMP -->
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
@@ -120,7 +51,7 @@
                     <a href="index.html">Home</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a>E-commerce</a>
+                    <a href="">FMS</a>
                 </li>
                 <li class="breadcrumb-item active">
                     <strong>Orders</strong>
@@ -208,61 +139,63 @@
 
                             <%--For listing--%>
                             <c:set var="amount" value="${requestScope.amountlist}"></c:set>
-                            <c:forEach var="list" items="${requestScope.customerList}">
+                            <c:if test="${requestScope.customerList != null}">
+                                <c:forEach var="list" items="${requestScope.customerList}">
 
-                                <tr>
-                                    <td>${list.name}</td>
-                                    <td class="text-left">${list.phone}</td>
+                                    <tr>
+                                        <td>${list.name}</td>
+                                        <td class="text-left">${list.phone}</td>
 
-                                    <td class="text-right"><fmt:formatNumber
-                                            value="${amount.get(list)}" pattern="###,###,### ₫"/></td>
+                                        <td class="text-right"><fmt:formatNumber
+                                                value="${amount.get(list)}" pattern="###,###,### ₫"/></td>
 
-                                    <td class="text-right">
-                                        <c:url var="delete" value="${requestScope.contextPath}/customer/remove"></c:url>
-                                        <form class="form_${list.phone}"
-                                              action="${delete}">
-                                            <input type="hidden" name="phonenum" value="${list.phone}">
-                                            <button type="button" class="btn btn-primary btn-sm delete_${list.phone}">
-                                                Delete
-                                            </button>
+                                        <td class="text-right">
+                                            <c:url var="delete" value="${requestScope.contextPath}/customer/remove"></c:url>
+                                            <form class="form_${list.phone}"
+                                                  action="${delete}">
+                                                <input type="hidden" name="phonenum" value="${list.phone}">
+                                                <button type="button" class="btn btn-primary btn-sm delete_${list.phone}">
+                                                    Delete
+                                                </button>
 
-                                            <a
-                                                    class="btn btn-primary btn-sm ${list.phone}">Detail</a>
-                                            <a href="<%=request.getContextPath()%>/customer/Movetoupdate?phonenum=${list.phone}"
-                                               class="btn btn-primary btn-sm">Update</a>
-                                        </form>
-                                    </td>
-                                </tr>
+                                                <a
+                                                        class="btn btn-primary btn-sm ${list.phone}">Detail</a>
+                                                <a href="<%=request.getContextPath()%>/customer/Movetoupdate?phonenum=${list.phone}"
+                                                   class="btn btn-primary btn-sm">Update</a>
+                                            </form>
+                                        </td>
+                                    </tr>
 
-                                <%-- Show detail here--%>
-                                <input name="var" value="${list.phone}" type="hidden">
-                                <tr id="${list.phone}" style="display: none">
-                                    <td colspan="4">
-                                        <div>DoB: ${list.doB}</div>
-                                        <div>Address: ${list.address}</div>
-                                        <c:choose>
-                                            <c:when test="${list.gender == 0}">
+                                    <%-- Show detail here--%>
+                                    <input name="var" value="${list.phone}" type="hidden">
+                                    <tr id="${list.phone}" style="display: none">
+                                        <td colspan="4">
+                                            <div>DoB: ${list.doB}</div>
+                                            <div>Address: ${list.address}</div>
+                                            <c:choose>
+                                                <c:when test="${list.gender == 0}">
 
-                                                <div>Gender: Male</div>
+                                                    <div>Gender: Male</div>
 
-                                            </c:when>
-                                            <c:when test="${list.gender == 1}">
+                                                </c:when>
+                                                <c:when test="${list.gender == 1}">
 
-                                                <div>Gender: Female</div>
+                                                    <div>Gender: Female</div>
 
-                                            </c:when>
-                                            <c:when test="${list.gender == 2}">
+                                                </c:when>
+                                                <c:when test="${list.gender == 2}">
 
-                                                <div>Gender: None</div>
+                                                    <div>Gender: None</div>
 
-                                            </c:when>
-                                        </c:choose>
-                                    </td>
+                                                </c:when>
+                                            </c:choose>
+                                        </td>
 
 
-                                </tr>
+                                    </tr>
 
-                            </c:forEach>
+                                </c:forEach>
+                            </c:if>
                             </tbody>
 
                             <tfoot>

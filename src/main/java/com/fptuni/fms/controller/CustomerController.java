@@ -74,10 +74,11 @@ public class CustomerController extends HttpServlet {
         } else if (path.equals("/search")) {
             CustomerDAO customerDAO = new CustomerDAO();
             String phoneNum = request.getParameter("searchItem");
+            List<Customer> customer = new ArrayList<>();
+            Customer cus = customerDAO.getByPhoneNum(phoneNum);
             if (phoneNum != null &&
                     !phoneNum.equals("")) {
-                List<Customer> customer = new ArrayList<>();
-                Customer cus = customerDAO.getByPhoneNum(phoneNum);
+
                 if(cus != null){
                     customer.add(cus);
                     request.setAttribute("customerList", customer);
@@ -89,7 +90,9 @@ public class CustomerController extends HttpServlet {
                 }
             } else {
                 request.setAttribute("CNF2","Can not found");
-                response.sendRedirect(request.getContextPath() + "/customer/list");
+                request.setAttribute("customerList", customer);
+                request.getRequestDispatcher("/view/customer/Customer_List.jsp")
+                        .forward(request, response);
             }
 
         } else if (path.equals("/list")) {
