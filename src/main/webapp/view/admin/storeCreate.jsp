@@ -28,6 +28,11 @@
         <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
         <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
 
+        <!-- Select2 -->
+        <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
+        <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+        <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+
         <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
         <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
@@ -148,6 +153,9 @@
     <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
     <script src="../js/plugins/validate/jquery.validate.min.js"></script>
+
+        <%-- Select2 --%>
+        <script src="../js/plugins/select2/select2.full.min.js"></script>
 
     <script>
                                                     $(document).ready(function () {

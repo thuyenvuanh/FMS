@@ -118,9 +118,7 @@
                     <div class="ibox-content  text-success">
 <%--                        <fmt:setLocale value="vi_VN"/>--%>
                         <h1 class="no-margins"><fmt:formatNumber value="${requestScope.TOTAL_VALUE_ALLSTORES == null ? 0 : requestScope.TOTAL_VALUE_ALLSTORES}" pattern="###,###,###.### ₫"/></h1>
-
-                        <div class="stat-percent font-bold">98% <i class="fa fa-level-up"></i></div>
-                        <small>Total income</small>
+                        <small>Total value</small>
                     </div>
                 </div>
 
@@ -130,7 +128,6 @@
                     </div>
                     <div class="ibox-content text-warning">
                         <h1 class="no-margins">${requestScope.TOTAL_ORDER_ALLSTORES == null ? 0 : requestScope.TOTAL_ORDER_ALLSTORES}</h1>
-                        <div class="stat-percent font-bold">98% <i class="fa fa-level-up"></i></div>
                         <small>Total order</small>
                     </div>
                 </div>
@@ -158,16 +155,7 @@
                             width="670" class="chartjs-render-monitor active"></canvas>
                 </div>
 
-                <div class="m-t-md">
-                    <small class="float-right">
-                        <i class="fa fa-clock-o"> </i>
-                        Update on 16.07.2015
-                    </small>
-                    <small>
-                        <strong>Analysis of sales:</strong> The value has been changed over time, and last
-                        month reached a level over $50,000.
-                    </small>
-                </div>
+
 
             </div>
         </div>
@@ -195,17 +183,6 @@
                                     class="chartjs-render-monitor active"></canvas>
                         </div>
 
-                        <div class="m-t-md">
-                            <small class="float-right">
-                                <i class="fa fa-clock-o"> </i>
-                                Update on 16.07.2015
-                            </small>
-                            <small>
-                                <strong>Analysis of sales:</strong> The value has been changed over time, and
-                                last
-                                month reached a level over $50,000.
-                            </small>
-                        </div>
 
                     </div>
                 </div>

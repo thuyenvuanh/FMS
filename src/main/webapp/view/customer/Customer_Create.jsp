@@ -151,10 +151,10 @@
                                             <div class="form-group row"><label class="col-sm-2 col-form-label">Phone
                                                 number:</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" data-mask="000 000 0000"
+                                                    <input type="text" class="form-control" data-mask="000000000000"
                                                            placeholder="" autocomplete="off" maxlength="14"
                                                            name="Cusphone" value="${cusCreate}">
-                                                    <span class="form-text">000 000 0000</span>
+
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -232,7 +232,9 @@
                     required: true,
                 },
                 Cusphone: {
-                    required: true
+                    required: true,
+                    minlength: 9,
+                    maxLength: 12
                 }
             },
             messages: {
@@ -240,7 +242,9 @@
                     required: 'Please enter customer name',
                 },
                 Cusphone: {
-                    required: 'Please enter customer phone'
+                    required: 'Please enter customer phone',
+                    minlength: 'Phone number must be greater than 9',
+                    maxLength: 'Phone number must be lower than 12'
                 }
             }
         })

@@ -77,10 +77,9 @@
                                             <label class="col-sm-2 col-form-label">Phone</label>
                                             <div class="col-sm-10">
                                                 <input type="text" name="phoneNumber"
-                                                       class="form-control" data-mask="000 000 0000"
+                                                       class="form-control" data-mask="000000000000"
                                                        placeholder=""
                                                        autocomplete="off" maxlength="14" required />
-                                                <span class="form-text">000 000 0000</span>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -140,15 +139,19 @@
 <script>
     $(document).ready(function () {
         $(".footable").footable();
-        $("form_phonenumber").validate({
+        $("#form_phonenumber").validate({
             rules: {
                 phoneNumber: {
-                    required: true
+                    required: true,
+                    minlength: 9,
+                    maxLength: 12
                 }
             },
             messages: {
                 phoneNumber: {
-                    required: 'Please enter phone number'
+                    required: 'Please enter phone number',
+                    minlength: 'Phone number must be greater than 9',
+                    maxLength: 'Phone number must be lower than 12'
                 }
             }
         })
