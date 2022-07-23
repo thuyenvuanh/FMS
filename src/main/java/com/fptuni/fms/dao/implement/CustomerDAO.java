@@ -15,11 +15,8 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
     public List<Customer> getAllCustomer(Pageable pageable) {
 //        String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
 //                "from [dbo].[Customer]\n";
-        String sql = "select sum(m.Amount) as Amount, c.ID , c.Phone, c.IsDeleted, c.Gender,c.DoB, c.Name, c.Address\n" +
-                "from [dbo].[Customer] c join [dbo].[MoneyTransaction] m\n" +
-                "on c.ID = m.CustomerID\n" +
-                "group by c.ID, c.Name, c.Phone, c.IsDeleted, c.Gender,c.DoB, c.Address";
-
+        String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
+                "from [dbo].[Customer]\n";
         String order;
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
             order = pageable.getSorter().isAscending() ? "ASC" : "DESC";
