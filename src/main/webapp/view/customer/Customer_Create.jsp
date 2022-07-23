@@ -192,7 +192,7 @@
                 Cusphone: {
                     required: true,
                     minlength: 9,
-                    maxLength: 12
+                    maxlength: 12
                 }
             },
             messages: {
@@ -202,7 +202,7 @@
                 Cusphone: {
                     required: 'Please enter customer phone',
                     minlength: 'Phone number must be greater than 9',
-                    maxLength: 'Phone number must be lower than 12'
+                    maxlength: 'Phone number must be lower than 12'
                 }
             }
         })
