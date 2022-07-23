@@ -36,7 +36,7 @@
         ${errorMessage}
         <% session.removeAttribute("errorMessage"); %>
         <br>
-        <a type="submit" href="<c:url value="/"/>" class="btn btn-primary">Back</a>
+        <a type="submit" href="<c:url value="/"/>" class="btn btn-primary mt-5">Back</a>
     </div>
 </div>
 

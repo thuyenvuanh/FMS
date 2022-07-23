@@ -21,19 +21,44 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
 
         HttpServletRequest req = (HttpServletRequest) request;
-
         System.out.println("============================");
         System.out.println("Filtering on " + ((HttpServletRequest) request).getRequestURI());
+        System.out.println("Servlet Path: " + req.getServletPath());
+        System.out.println("Action Path: " + req.getPathInfo());
         //get account from [session], [cookie]
         Account account = (Account) req.getSession().getAttribute("account");
         account = (account == null) ? getFromCookie(request) : account;
+
+//        try {
+//            if(JsonUtils.getInstance().havePermission(req.getServletPath(),
+//                    req.getPathInfo(), account == null ? "all" : account.getRoleID().getName())){
+//                System.out.println("Pass");
+//                chain.doFilter(request, response);
+//            } else {
+//                req.getSession().setAttribute("message", "Sign in to continue");
+//                System.out.println("required and have to sign in");
+//                ((HttpServletResponse) response).sendRedirect(req.getContextPath());
+//            }
+//        }catch (Exception e){
+//            System.out.println(e.getMessage());
+//            switch (e.getMessage()){
+//                case "controller not found":
+//                    chain.doFilter(request, response);
+//                    return;
+//                case "action not found":
+//                case "Resource file not found":
+//                    ((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/view/404.jsp");
+//                    return;
+//            }
+//        }
+
         boolean isRequired = false;
         try {
             isRequired = JsonUtils.getInstance().isRequired(req.getServletPath(), req.getPathInfo());
             System.out.println("Is Required: " + isRequired);
         } catch (Exception e) {
             if (e.getMessage().equalsIgnoreCase("controller not found")){
-                req.getSession().setAttribute("errorMessage", e.getMessage());
+                req.getSession().setAttribute("errorMessage", "Invalid URL");
                 ((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/view/404.jsp");
                 return;
             }

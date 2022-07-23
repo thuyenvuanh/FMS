@@ -39,7 +39,7 @@ public class StoreService implements IStoreService {
         HttpSession session = request.getSession();
         session.removeAttribute("createStatus");
         String name = request.getParameter("storeName");
-        String storeManager = request.getParameter("select_storeManager");
+        String storeManager = request.getParameter("storeManager");
         Store store = new Store();
         store.setName(name);
 //        store.setAccountID(accountDAO.getAccount(Integer.parseInt(storeManager)));
@@ -260,7 +260,15 @@ public class StoreService implements IStoreService {
     @Override
     public String getStoreManager(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Account> avaiAccounts = accountDAO.getAvailableAccounts();
-        request.setAttribute("avaiAccounts", avaiAccounts);
+        List<Account> avaiManager = new ArrayList<>(), avaiCashier = new ArrayList<>();
+        for (Account avaiAccount : avaiAccounts){
+            if (avaiAccount.getRoleID().getName().equals("Store Manager"))
+                avaiManager.add(avaiAccount);
+            else
+                avaiCashier.add(avaiAccount);
+        }
+        request.setAttribute("avManager", avaiManager);
+        request.setAttribute("avCashier", avaiCashier);
         //        List<Account> listAcc = accountDAO.getListStoreManager();
 //        request.setAttribute("listStoreManager", listAcc);
         return "/view/admin/storeCreate.jsp";

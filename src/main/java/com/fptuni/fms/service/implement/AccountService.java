@@ -78,7 +78,6 @@ public class AccountService implements IAccountService {
         HttpSession session = request.getSession();
         session.removeAttribute("createStatus");
         String userName = request.getParameter("username");
-        if (userName == null) return "/account/list";
         String fullName = request.getParameter("fullName");
         String password = request.getParameter("password");
         String cfPassword = request.getParameter("cfPassword");

@@ -185,5 +185,15 @@
     "/view/store",
     "/pay",
     "/cashier"
+  ],
+  "resources": [
+    "/css",
+    "/js",
+    "/font-awesome",
+    "/images",
+    "/js",
+    "/img",
+    "/IMG",
+    "/skin-config2.html"
   ]
 }

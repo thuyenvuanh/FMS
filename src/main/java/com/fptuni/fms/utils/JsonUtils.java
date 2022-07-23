@@ -50,14 +50,14 @@ public class JsonUtils {
     }
 
     public boolean havePermission(String controllerName, String actionName, String roleName) throws Exception, ParseException {
-
+        if (actionName != null && actionName.equals("/skin-config2.html")) return true;
         HashMap<String, HashMap<String, List<String>>> controllers = (HashMap<String, HashMap<String, List<String>>>) toHashMap().get("controllers");
-        if (controllers == null) throw new Exception("controllers not found");
+        if (controllers == null) throw new Exception("Resource file not found");
         HashMap<String, List<String>> actions = controllers.get(controllerName);
-        if (actions == null) throw new Exception("actions not found");
+        if (actions == null) throw new Exception("controller not found");
         List<String> accessible = actions.get(actionName == null ? "" : actionName);
-        if (accessible == null) throw new Exception("Accessible not found");
-        boolean isAccessible = accessible.contains(roleName);
+        if (accessible == null) throw new Exception("action not found");
+        boolean isAccessible = accessible.contains(roleName) || accessible.contains("all");
 
         return isAccessible;
     }
@@ -80,6 +80,17 @@ public class JsonUtils {
         }
     }
 
+    public boolean isResourceFile(String controllerName, String actionName) throws Exception {
+        List<String> resources = (List<String>) toHashMap().get("resources");
+        boolean isResources = false;
+        for (String resource : resources) {
+            isResources = (controllerName != null && controllerName.contains(resource))
+            || (actionName != null && actionName.contains(resource));
+            if (isResources == true) return true;
+        }
+        return isResources;
+    }
+
     /**
      * first scenario:  /FMS/
      * second scenario: /FMS/controller
@@ -90,7 +101,7 @@ public class JsonUtils {
 
     public boolean isRequired(String controllerName, String actionName) throws Exception {
         //first scenario
-        if (isWelcomeFile(controllerName)) {
+        if (isWelcomeFile(controllerName) || isResourceFile(controllerName, actionName)) {
             return false;
         }
         if (controllerName == null || controllerName.isEmpty())
@@ -121,7 +132,7 @@ public class JsonUtils {
                 return false;
             } else {
                 List<String> action = controller.get(actionName);
-                if (action == null){
+                if (action == null) {
                     return false;
                 }
             }

@@ -94,6 +94,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Store Name:</label>
                                             <div class="col-sm-10">
+                                                <input type="hidden" name="old_name" readonly value="${store.name}">
                                                 <input type="text" class="form-control" name="name" value="${store.name}" placeholder="Store Name">
                                             </div>
                                         </div>
@@ -109,7 +110,7 @@
                                                     </select>
                                                 </c:if>
                                                 <c:if test="${manager != null}">
-                                                    <input type="text" name="manager_id" class="form-control" value="${requestScope.manager.fullName}" readonly>
+                                                    <input type="text" name="manager_id" class="form-control" value="${requestScope.manager.fullName}" disabled>
                                                 </c:if>
                                             </div>
                                         </div>
@@ -125,7 +126,7 @@
                                                     </select>
                                                 </c:if>
                                                 <c:if test="${cashier != null}">
-                                                            <input type="text" name="cashier_id" class="form-control" value="${requestScope.cashier.fullName}" readonly>
+                                                    <input type="text" name="cashier_id" class="form-control" value="${requestScope.cashier.fullName}" disabled>
                                                 </c:if>
                                             </div>
                                         </div>
