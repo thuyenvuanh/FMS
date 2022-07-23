@@ -80,15 +80,15 @@
                                                         type="text"
                                                         class="form-control"
                                                         placeholder="Product name"
-                                                        name="name"/>
+                                                        name="name"
+                                                        autocomplete="off"/>
 
                                             </div>
-                                            <%--                                        </div>--%>
-                                            <%--                                        <div class="form-group row">--%>
+
                                             <label class="col-sm-1 col-form-label">Price:</label>
                                             <div class="col-sm-3">
                                                 <input
-                                                        type="text" class="form-control" data-mask="0000000000000" placeholder="VND"
+                                                        type="text" class="form-control" data-mask="0000000000000" placeholder="₫"
                                                         autocomplete="off" maxlength="17" id="price" name="price"
                                                         value="1"
                                                 />
@@ -101,11 +101,6 @@
                                             >
 
                                             <div class="input-group col-sm-3">
-                                                <%--                                                <div class="custom-file">--%>
-                                                <%--                                                    <input id="inputGroupFile01" type="file" class="custom-file-input">--%>
-                                                <%--                                                    <label class="custom-file-label" for="inputGroupFile01">Choose--%>
-                                                <%--                                                        file</label>--%>
-                                                <%--                                                </div>--%>
                                                 <div class="mb-3">
                                                     <input class="form-control" type="file" id="formFileMultiple"
                                                            name="imagePath" multiple>
@@ -128,7 +123,7 @@
                                             >
                                             <div class="col-sm-3">
                                                 <input
-                                                        type="text" class="form-control" data-mask="0000000000000" placeholder="Quantity"
+                                                        type="number" class="form-control" data-mask="0000000000000" placeholder="Quantity"
                                                         autocomplete="off" maxlength="17" id="quantity" name="quantity"
                                                         value="1"
                                                 />

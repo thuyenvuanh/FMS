@@ -106,7 +106,8 @@
             <h2>E-commerce orders</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
+                    <c:url var="homeLink" value="${requestScope.contextPath}/dashboard/store"></c:url>
+                    <a href="${homeLink}">Home</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a>E-commerce</a>
