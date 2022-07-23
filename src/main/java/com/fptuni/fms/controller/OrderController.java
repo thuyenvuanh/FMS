@@ -70,6 +70,8 @@ public class OrderController extends HttpServlet {
                 request.setAttribute("products", products);
                 request.getRequestDispatcher("/view/store/orderDetail.jsp").forward(request, response);
                 break;
+            default:
+                response.sendError(404, "Not Found");
         }
     }
 

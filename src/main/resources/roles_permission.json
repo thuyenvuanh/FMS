@@ -1,76 +1,189 @@
-[
-  {
-    "role": "none",
-    "permissions": [
-      "/view/authentication/index.jsp",
-      "/images/Background.jpg",
-      "/account/login"
-    ]
+{
+  "index-page": {
+    "Admin": "/adminDashboard/index",
+    "Cashier": "/order/index",
+    "Counter": "/counter/index",
+    "Store Manager": "/dashboard/store"
   },
-  {
-    "role": "Cashier",
-    "permissions": [
-      "/cashier",
-      "/order/index",
-      "/order",
-      "/payment/checkout",
-      "/category/category",
-      "/pay",
-      "/payment/create",
-      "/account/logout",
-      "/js",
-      "/css",
-      "/img",
-      "/IMG"
-    ]
+  "controllers": {
+    "/account": {
+      "/login": ["all"],
+      "/logout": ["all"],
+      "/create": [
+        "Admin"
+      ],
+      "/createPage": [
+        "Admin"
+      ],
+      "/list": [
+        "Admin"
+      ],
+      "/update": [
+        "Admin"
+      ],
+      "/updatePage": [
+        "Admin"
+      ],
+      "/view": [
+        "Admin"
+      ],
+      "/delete": [
+        "Admin"
+      ],
+      "/search": [
+        "Admin"
+      ]
+    },
+    "/adminDashboard": {
+      "/index": [
+        "Admin"
+      ]
+    },
+    "/category": {
+      "/category": [
+        "Cashier",
+        "Store Manager"
+      ]
+    },
+    "/counter": {
+      "/index": [
+        "Counter"
+      ],
+      "/check": [
+        "Counter"
+      ],
+      "/addMoney": [
+        "Counter"
+      ],
+      "/withDraw": [
+        "Counter"
+      ]
+    },
+    "/customer": {
+      "/addCustomer": [
+        "Counter"
+      ],
+      "/search": [
+        "Counter"
+      ],
+      "/list": [
+        "Counter"
+      ],
+      "/remove": [
+        "Counter"
+      ],
+      "/Movetoupdate": [
+        "Counter"
+      ],
+      "/update": [
+        "Counter"
+      ]
+    },
+    "/dashboard": {
+      "/store": [
+        "Store Manager"
+      ]
+    },
+    "/order": {
+      "/index": [
+        "Cashier"
+      ],
+      "/add": [
+        "Cashier"
+      ],
+      "/voidAll": [
+        "Cashier"
+      ],
+      "/remove": [
+        "Cashier"
+      ],
+      "/list": [
+        "Store Manager"
+      ],
+      "/view": [
+        "Store Manager"
+      ]
+    },
+    "/payment": {
+      "/checkout": [
+        "Cashier"
+      ],
+      "/create": [
+        "Cashier"
+      ]
+    },
+    "/product": {
+      "/list": [
+        "Store Manager"
+      ],
+      "/createPage": [
+        "Store Manager"
+      ],
+      "/create": [
+        "Store Manager"
+      ],
+      "/view": [
+        "Store Manager"
+      ],
+      "/updatePage": [
+        "Store Manager"
+      ],
+      "/update": [
+        "Store Manager"
+      ],
+      "/delete": [
+        "Store Manager"
+      ]
+    },
+    "/store": {
+      "/create": [
+        "Admin"
+      ],
+      "/createPage": [
+        "Admin"
+      ],
+      "/list": [
+        "Admin"
+      ],
+      "/update": [
+        "Admin"
+      ],
+      "/updatePage": [
+        "Admin"
+      ],
+      "/view": [
+        "Admin"
+      ],
+      "/delete": [
+        "Admin"
+      ],
+      "/search": [
+        "Admin"
+      ]
+    },
+    "/transactionShared": {
+      "/list": [
+        "Store Manager"
+      ]
+    },
+    "/cashier": {
+      "": ["Cashier"]
+    },
+    "/pay": {
+      "": ["Cashier"]
+    }
   },
-  {
-    "role": "Store Manager",
-    "permissions": [
-      "/product/list",
-      "/product/update",
-      "/product",
-      "/order",
-      "/order/list",
-      "/account/logout",
-      "/dashboard",
-      "/transactionShared/list",
-      "/js",
-      "/css",
-      "/img",
-      "/IMG",
-      "/font-awesome"
-    ]
-  },
-  {
-    "role": "Admin",
-    "permissions": [
-      "/account/list",
-      "/account",
-      "/store",
-      "/transaction",
-      "/adminDashboard",
-      "/adminDashboard/index",
-      "/js",
-      "/css",
-      "/img",
-      "/IMG",
-      "/font-awesome"
-    ]
-  },
-  {
-    "role": "Counter",
-    "permissions": [
-      "/customer/list",
-      "/customer",
-      "/counter/index",
-      "/counter",
-      "/account/logout",
-      "/js",
-      "/css",
-      "/img",
-      "/IMG",
-      "/font-awesome"
-    ]
-  }
-]
+  "welcome-file": [
+    "view/authentication/index.jsp",
+    "/view/authentication/index.jsp"
+  ],
+  "protected-folders": [
+    "/view/admin",
+    "/view/cashier",
+    "/view/counter",
+    "/view/customer",
+    "/view/store",
+    "/pay",
+    "/cashier"
+  ]
+}

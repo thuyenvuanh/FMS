@@ -15,7 +15,7 @@ public class PaymentController extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getPathInfo();
-        String url = request.getContextPath() + "/view/error.jsp";
+        String url = request.getContextPath() + "/pay";
         switch (action) {
             case "/checkout":
                 url = request.getContextPath() + "/pay";
@@ -24,10 +24,13 @@ public class PaymentController extends HttpServlet {
                 boolean success = paymentService.makePayment(request);
                 if (success) {
                     request.getSession().removeAttribute("order");
+                    request.getSession().setAttribute("message", "Payment approved");
                     new OrderService().index(request, response);
-                    url = request.getContextPath() +"/cashier";
+//                    url = request.getContextPath() +"/cashier";
                 }
                 break;
+            default:
+                response.sendError(404, "Not Found");
         }
         response.sendRedirect(url);
     }

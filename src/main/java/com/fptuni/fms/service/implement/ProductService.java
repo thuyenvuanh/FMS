@@ -37,7 +37,7 @@ public class ProductService implements IProductService {
     @Override
     public List<Product> getProducts(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         int pageIndex = 1;
         int pageSize = 5;
         String sortField = "ID";
@@ -93,7 +93,7 @@ public class ProductService implements IProductService {
         try {
             int orderID = 0;
             HttpSession session = request.getSession();
-            Store store = (Store) session.getAttribute("store");
+            Store store = (Store) session.getAttribute("storeSession");
             if (request.getParameter("orderID") != null) orderID = Integer.parseInt(request.getParameter("orderID"));
             products = productDAO.getProductByOrderID(orderID, store);
         } catch (Exception e) {
@@ -105,7 +105,7 @@ public class ProductService implements IProductService {
     @Override
     public Integer insertProduct(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         String id = "";
         String name = "";
         BigDecimal price = BigDecimal.valueOf(0.0);
@@ -154,7 +154,7 @@ public class ProductService implements IProductService {
     @Override
     public boolean updateProduct(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         String id = "";
         String name = "";
         String imgPath = "";
@@ -285,7 +285,7 @@ public class ProductService implements IProductService {
     @Override
     public int countProductBySearch(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         int pageIndex = 1;
         int pageSize = 5;
         String sortField = "ID";
@@ -316,7 +316,7 @@ public class ProductService implements IProductService {
     @Override
     public List<Product> getTop5ProductsOrderByAmount(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         List<Product> products = null;

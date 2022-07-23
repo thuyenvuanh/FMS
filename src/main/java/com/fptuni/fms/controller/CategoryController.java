@@ -19,6 +19,8 @@ public class CategoryController extends HttpServlet {
                 categoryService.loadProducts(request, response);
                 response.sendRedirect(request.getContextPath() + "/cashier");
                 break;
+            default:
+                response.sendError(404, "Not Found");
         }
     }
 

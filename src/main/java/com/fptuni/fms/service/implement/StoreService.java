@@ -9,6 +9,7 @@ import com.fptuni.fms.dao.implement.StoreAccountDAO;
 import com.fptuni.fms.dao.implement.StoreDAO;
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Store;
+import com.fptuni.fms.model.StoreAccount;
 import com.fptuni.fms.paging.PageRequest;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.IStoreService;
@@ -134,18 +135,29 @@ public class StoreService implements IStoreService {
         Store store = storeDAO.getStore(Integer.parseInt(storeID));
 //        store.setAccountID(accountDAO.getListStoreAccount(store.getId()));
 
-        List<Account> accounts = new ArrayList<>();
+        Account manager = null, cashier = null;
         for (Account account :
                 storeAccountDAO.getAccountsByStoreID(store.getId())) {
-            accounts.add(accountDAO.getAccount(account.getId()));
-        }
-        List<Account> avaiAccounts = new ArrayList<>();
-        if (accounts.isEmpty()){
-            avaiAccounts = accountDAO.getAvailableAccounts();
+            Account temp = accountDAO.getAccount(account.getId());
+            if (temp != null && temp.getRoleID().getName().equalsIgnoreCase("store manager"))
+                manager = temp;
+            if (temp != null && temp.getRoleID().getName().equalsIgnoreCase("cashier"))
+                cashier = temp;
         }
 
-        request.setAttribute("avaiAccounts", avaiAccounts);
-        request.setAttribute("accountList", accounts);
+        List<Account> avaiAccounts = accountDAO.getAvailableAccounts();
+        List<Account> avaiManager = new ArrayList<>(), avaiCashier = new ArrayList<>();
+        for (Account avaiAccount : avaiAccounts){
+            if (avaiAccount.getRoleID().getName().equals("Store Manager"))
+                avaiManager.add(avaiAccount);
+            else
+                avaiCashier.add(avaiAccount);
+        }
+
+        request.setAttribute("manager", manager);
+        request.setAttribute("cashier", cashier);
+        request.setAttribute("avManager", avaiManager);
+        request.setAttribute("avCashier", avaiCashier);
         request.setAttribute("store", store);
         return "/view/admin/storeUpdate.jsp";
     }

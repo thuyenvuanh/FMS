@@ -31,9 +31,9 @@ public class PaymentService implements IPaymentService {
         //check if the wallet exist and have enough money
         //if fulfill the criteria write order, orderDetail, payment, and transaction to the database
         //else return to the cashier screen and notify error message
-        Wallet wallet = walletDAO.getWalletWithID(Integer.parseInt(request.getParameter("walletID")));
-        Orders orders = (Orders) request.getSession().getAttribute("order");
         try {
+            Wallet wallet = walletDAO.getWalletWithID(Integer.parseInt(request.getParameter("walletID")));
+            Orders orders = (Orders) request.getSession().getAttribute("order");
             if (wallet == null) throw new Exception("Wallet not found");
             if (orders == null) throw new Exception("Order not found");
             //get the latest transaction of the wallet
@@ -62,9 +62,9 @@ public class PaymentService implements IPaymentService {
                     transactionSharedDAO.insertTransaction(newTransaction);
                     return true;
                 } else throw new Exception("Balance insufficient");
-            }
+            } else throw new Exception("Balance insufficient");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            request.getSession().setAttribute("message", e.getMessage());
         }
         return false;
     }

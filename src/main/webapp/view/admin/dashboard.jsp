@@ -27,13 +27,13 @@
 <body>
 
 <div id="wrapper">
-    <jsp:include page="layoutAdmin.jsp"></jsp:include>
+    <jsp:include page="layoutAdmin.jsp"/>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-9">
             <h2>DASHBOARD</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <c:url var="homelink" value="${requestScope.contextPath}/adminDashboard/index"></c:url>
+                    <c:url var="homelink" value="/adminDashboard/index"/>
                     <a href="${homelink}">Home</a>
                 </li>
                 <li class="breadcrumb-item active">
@@ -191,7 +191,7 @@
 
     </div>
 
-<jsp:include page="footer.jsp"></jsp:include>
+<jsp:include page="footer.jsp"/>
 
 </div>
 

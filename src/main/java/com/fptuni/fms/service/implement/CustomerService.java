@@ -1,19 +1,14 @@
 package com.fptuni.fms.service.implement;
 
 import com.fptuni.fms.dao.ICustomerDAO;
-import com.fptuni.fms.dao.IProductDAO;
 import com.fptuni.fms.dao.implement.CustomerDAO;
-import com.fptuni.fms.dao.implement.ProductDAO;
 import com.fptuni.fms.model.Customer;
-import com.fptuni.fms.model.Product;
 import com.fptuni.fms.paging.PageRequest;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.ICustomerService;
 import com.fptuni.fms.sort.Sorter;
 import com.fptuni.fms.utils.RequestUtils;
-import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
 
-import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
