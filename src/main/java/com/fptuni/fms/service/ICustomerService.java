@@ -14,6 +14,7 @@ public interface ICustomerService {
     Integer addnewCustomer(HttpServletRequest request, HttpServletResponse response);
 
     Integer CountCustomer();
+    Integer CountCustomerNotDeleted();
 
     Integer DeleteCustomer(String phoneNum);
 

@@ -68,16 +68,46 @@ public class CustomerController extends HttpServlet {
             }
 
         } else if (path.equals("/search")) {
+            ICustomerService customerService = new CustomerService();
             CustomerDAO customerDAO = new CustomerDAO();
+            List<Customer> customers = customerService.getList(request, response);
             String phoneNum = request.getParameter("searchItem");
             List<Customer> customer = new ArrayList<>();
-            Customer cus = customerDAO.getByPhoneNum(phoneNum);
+            Customer cus1 = customerDAO.getByPhoneNum(phoneNum);
             if (phoneNum != null &&
                     !phoneNum.equals("")) {
 
-                if(cus != null){
-                    customer.add(cus);
+                if(cus1 != null){
+                    customer.add(cus1);
+                    IWalletService walletService = new WalletService();
+                    ITransactionService transactionService = new TransactionService();
+                    List<Wallet> walletList = new ArrayList<>();
+                    TransactionShared transactionShared = new TransactionShared();
+                    Wallet wallet = new Wallet();
+                    HashMap<Customer, BigDecimal> getAmount = new HashMap<>();
+
+                    if(customers != null){
+                        for (Customer cus : customers) {
+                            wallet = walletService.getWallet(cus.getId());
+                            if(wallet != null){
+                                walletList.add(wallet);
+                                transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
+                                BigDecimal b = (transactionShared == null)
+                                        ? BigDecimal.ZERO
+                                        : transactionService.getCustomerBalance(transactionShared);
+
+                                getAmount.put(cus , b);
+                            }else{
+                                System.out.println("No wallet found");
+                            }
+                        }
+                    }else {
+                        System.out.println("No customer found");
+                    }
+                    request.setAttribute("amountlist", getAmount);
                     request.setAttribute("customerList", customer);
+                    int totalPages = 1;
+                    request.setAttribute("totalPages", totalPages);
                     request.getRequestDispatcher("/view/customer/Customer_List.jsp")
                             .forward(request, response);
                 }else {
@@ -124,8 +154,8 @@ public class CustomerController extends HttpServlet {
             }
             request.setAttribute("amountlist", getAmount);
 
-            int totalPages = customerService.CountCustomer() / pageSize;
-            if (customerService.CountCustomer() % pageSize != 0) {
+            int totalPages = customerService.CountCustomerNotDeleted() / pageSize;
+            if (customerService.CountCustomerNotDeleted() % pageSize != 0) {
                 totalPages++;
             }
             request.setAttribute("customerList", customers);

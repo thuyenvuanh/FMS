@@ -214,14 +214,14 @@
                                                     <c:param name="isAscending"
                                                              value="${!requestScope.isAsc}"></c:param>
                                                 </c:url>
-                                                <a
-                                                        class="page-link"
-                                                        href="${previousPage}"
-                                                        aria-label="Previous"
-                                                >
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a>
+<%--                                                <a--%>
+<%--                                                        class="page-link"--%>
+<%--                                                        href="${previousPage}"--%>
+<%--                                                        aria-label="Previous"--%>
+<%--                                                >--%>
+<%--                                                    <span aria-hidden="true">&laquo;</span>--%>
+<%--                                                    <span class="sr-only">Previous</span>--%>
+<%--                                                </a>--%>
                                             </li>
                                             <c:forEach begin="1" end="${requestScope.totalPages}" var="page">
                                                 <c:url var="paging"
@@ -247,10 +247,10 @@
                                                     <c:param name="isAscending"
                                                              value="${!requestScope.isAsc}"></c:param>
                                                 </c:url>
-                                                <a class="page-link" href="${nextPage}" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
+<%--                                                <a class="page-link" href="${nextPage}" aria-label="Next">--%>
+<%--                                                    <span aria-hidden="true">&raquo;</span>--%>
+<%--                                                    <span class="sr-only">Next</span>--%>
+<%--                                                </a>--%>
                                             </li>
                                         </ul>
                                     </nav>
