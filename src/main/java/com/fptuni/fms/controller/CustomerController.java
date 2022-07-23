@@ -73,12 +73,12 @@ public class CustomerController extends HttpServlet {
             List<Customer> customers = customerService.getList(request, response);
             String phoneNum = request.getParameter("searchItem");
             List<Customer> customer = new ArrayList<>();
-            Customer cus1 = customerDAO.getByPhoneNum(phoneNum);
+            Customer customerbyPhone = customerDAO.getByPhoneNum(phoneNum);
             if (phoneNum != null &&
                     !phoneNum.equals("")) {
 
-                if(cus1 != null){
-                    customer.add(cus1);
+                if(customerbyPhone != null){
+                    customer.add(customerbyPhone);
                     IWalletService walletService = new WalletService();
                     ITransactionService transactionService = new TransactionService();
                     List<Wallet> walletList = new ArrayList<>();
