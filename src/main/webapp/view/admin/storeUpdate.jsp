@@ -47,13 +47,13 @@
 <body>
 
 <div id="wrapper">
-    <jsp:include page="layoutAdmin.jsp"></jsp:include>
+    <jsp:include page="layoutAdmin.jsp"/>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>Store update</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
+                    <a href="#">Home</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a>E-commerce</a>
@@ -80,68 +80,53 @@
                         <div id="tab-1" class="tab-pane active">
                             <div class="panel-body">
                                 <form id="form_store_update" class="updateForm"
-                                      action="${pageContext.servletContext.contextPath}/store/update"
+                                      action="<c:url value="/store/update"/>"
                                       autocomplete="off">
                                     <fieldset>
-                                        <c:set var="store" value="${requestScope.store}"></c:set>
+                                        <c:set var="store" value="${requestScope.store}"/>
                                         <%--                                                <div class="form-group row"><label class="col-sm-2 col-form-label">ID:</label>--%>
                                         <%--                                                    <div class="col-sm-10">--%>
                                         <%--                                                        <input type="hidden" class="form-control" name="storeId" value="${store.id}" readonly/>--%>
                                         <%--                                                    </div>--%>
                                         <%--                                                </div>
-                                        --%> <input type="hidden" class="form-control" name="storeId"
-                                                    value="${store.id}" readonly/>
-                                        <div class="form-group row"><label class="col-sm-2 col-form-label">Store
-                                            Name:</label>
+                                        --%>
+                                        <input type="hidden" class="form-control" name="storeId" value="${store.id}" readonly/>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Store Name:</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" name="name"
-                                                       value="${store.name}" placeholder="Store Name">
+                                                <input type="hidden" name="old_name" readonly value="${store.name}">
+                                                <input type="text" class="form-control" name="name" value="${store.name}" placeholder="Store Name">
                                             </div>
                                         </div>
                                         <!-- Store manager input -->
-                                        <div class="form-group row"><label class="col-sm-2 col-form-label">Store
-                                            Manager:</label>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Store Manager:</label>
                                             <div class="col-sm-10">
-                                                <c:if test="${requestScope.accountList == null || requestScope.accountList.isEmpty()}">
-                                                    <select id="select_manager" name="manager_id"
-                                                            class="form-control">
-                                                        <c:forEach var="acc" items="${requestScope.avaiAccounts}">
-                                                            <c:if test="${acc.roleID.name eq 'Store Manager'}">
+                                                <c:if test="${manager == null}">
+                                                    <select id="select_manager" name="manager_id" class="form-control">
+                                                        <c:forEach var="acc" items="${requestScope.avManager}">
                                                                 <option value="${acc.id}" >${acc.fullName}</option>
-                                                            </c:if>
                                                         </c:forEach>
                                                     </select>
                                                 </c:if>
-                                                <c:if test="${requestScope.accountList != null}">
-                                                    <c:forEach var="acc" items="${requestScope.accountList}">
-                                                        <c:if test="${acc.roleID.name eq 'Store Manager'}">
-                                                            <input type="text" name="manager_id" class="form-control" value="${acc.fullName}"
-                                                                   placeholder="Store Manager" readonly>
-                                                        </c:if>
-                                                    </c:forEach>
+                                                <c:if test="${manager != null}">
+                                                    <input type="text" name="manager_id" class="form-control" value="${requestScope.manager.fullName}" disabled>
                                                 </c:if>
                                             </div>
                                         </div>
                                         <!-- Cashier input-->
-                                        <div class="form-group row"><label class="col-sm-2 col-form-label">Cashier: </label>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Cashier: </label>
                                             <div class="col-sm-10">
-                                                <c:if test="${requestScope.accountList == null || requestScope.accountList.isEmpty()}">
-                                                    <select id="select_cashier" name="cashier_id"
-                                                            class="form-control">
-                                                        <c:forEach var="acc" items="${requestScope.avaiAccounts}">
-                                                            <c:if test="${acc.roleID.name eq 'Cashier'}">
+                                                <c:if test="${cashier == null}">
+                                                    <select id="select_cashier" name="cashier_id" class="form-control">
+                                                        <c:forEach var="acc" items="${requestScope.avCashier}">
                                                                 <option value="${acc.id}" >${acc.fullName}</option>
-                                                            </c:if>
                                                         </c:forEach>
                                                     </select>
                                                 </c:if>
-                                                <c:if test="${requestScope.accountList != null}">
-                                                    <c:forEach var="acc" items="${requestScope.accountList}">
-                                                        <c:if test="${acc.roleID.name eq 'Cashier'}">
-                                                            <input type="text" name="cashier_id" class="form-control" value="${acc.fullName}"
-                                                                   placeholder="Cashier" readonly>
-                                                        </c:if>
-                                                    </c:forEach>
+                                                <c:if test="${cashier != null}">
+                                                    <input type="text" name="cashier_id" class="form-control" value="${requestScope.cashier.fullName}" disabled>
                                                 </c:if>
                                             </div>
                                         </div>

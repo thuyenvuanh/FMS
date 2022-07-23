@@ -156,6 +156,8 @@ public class CustomerController extends HttpServlet {
             }
             customerService.updateCustomerInfo(customer);
             response.sendRedirect(request.getContextPath() + "/customer/list");
+        } else {
+            response.sendError(404, "Not Found");
         }
 }
 

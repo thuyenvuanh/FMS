@@ -36,4 +36,10 @@ public class StoreAccountDAO extends AbstractDAO<StoreAccount> implements IStore
         String sql = "INSERT INTO StoreAccount(AccountID, StoreID) VALUES (?,?)";
         return insert(sql, account.getId(), store.getId());
     }
+
+    public boolean isExist(Store store, Account account){
+        String sql = "SELECT AccountID, StoreID FROM StoreAccount WHERE AccountID = ? AND StoreID = ? and IsDeleted = 0";
+        return !query(sql, storeAccountMapper, account.getId(), store.getId()).isEmpty();
+    }
+
 }

@@ -36,7 +36,7 @@ public class OrderService implements IOrderService {
             order = new Orders();
             order.setCreatedDate(new Date());
             order.setOrderDetailList(new ArrayList<>());
-            order.setStoreID((Store) session.getAttribute("store"));
+            order.setStoreID((Store) session.getAttribute("storeSession"));
             order.setPaymentList(new ArrayList<>());
             order.calcTotal();
         }
@@ -103,7 +103,7 @@ public class OrderService implements IOrderService {
     }
 
     public HashMap<Category, List<Product>> loadData(HttpServletRequest request) {
-        Store store = (Store) request.getSession().getAttribute("store");
+        Store store = (Store) request.getSession().getAttribute("storeSession");
         List<Product> productList = productDAO.getProductsByStore(store);
         HashMap<Category, List<Product>> productMap = new HashMap<>();
         productList.forEach(product -> {
@@ -201,7 +201,7 @@ public class OrderService implements IOrderService {
     @Override
     public List<Orders> getOrdersByDate(HttpServletRequest request, Date date) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         List<Orders> orders = orderDAO.getOrdersByDate(store, date);
         return orders;
     }
@@ -209,7 +209,7 @@ public class OrderService implements IOrderService {
     @Override
     public List<Orders> getOrdersByTimeRange(HttpServletRequest request, Date startTime, Date endTime) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         List<Orders> orders = orderDAO.getOrdersByTimeRange(store, startTime, endTime);
         return orders;
     }
@@ -217,7 +217,7 @@ public class OrderService implements IOrderService {
     @Override
     public Orders getOrdersByPaymentID(HttpServletRequest request, int paymentID) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         return orderDAO.getOrdersByPaymentID(paymentID, store);
     }
 }

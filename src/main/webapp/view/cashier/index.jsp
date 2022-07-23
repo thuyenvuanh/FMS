@@ -56,10 +56,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Stock</a>
+                    <a class="nav-link active" aria-current="page" href="<c:url value="/order/index"/>">Home</a>
                 </li>
             </ul>
             <form class="d-flex">
@@ -177,9 +174,12 @@
                             <a href="<c:url value="/order/add?id=${product.id}"/> "
                                class="col-md-4 col-xxl-3 d-flex align-items-center h-25 py-2" style="
                             position: relative;">
-                                <img style="object-fit: cover; height: 100%;width: 100%; max-height: 160px;"
+                                <img style="object-fit: cover; object-position: 20% 20%; height: 100%;width: 100%; max-height: 160px;"
                                      class="rounded-2"
-                                     src="https://bonjourcoffee.vn/blog/wp-content/uploads/2020/01/capuchino.jpg"
+                                     src="<c:choose>
+                                        <c:when test="${product.imagePath ne 'IMG'}">${product.imagePath}</c:when>
+                                        <c:otherwise>https://bnz05pap002files.storage.live.com/y4mEGyM8o8ZkmmGY0ngagBv0PyYukn1SbdkfnaaXJa3VXZSLL_FOlnxKTDjwdI42kkW6WbrEkxxTzsO00XrT4Zbq1_4U1B2g8lrpwJ47XrbcBSiLT6NAhvWaZFMmwfLnB9rPUrYRmGAEMAoF6sJ_Q-ZIyxI2BJGDSjh7eO_ez_n1I5eTId0lh6sj0V19nR5iukTbRQ6C-uh4G7pjMz_FcRqWw/Untitled%20design.png?psid=1&width=464&height=464&cropMode=center</c:otherwise>
+</c:choose>"
                                      alt=" ">
                                 <div class="bottom-left rounded-bottom px-1 mx-auto text-break"
                                      style="font-size: 20px ;position: absolute; color: aliceblue; bottom: 8px; left: 12px;right: 12px; height: fit-content; background-color: rgba(0, 0, 0, 0.7);">

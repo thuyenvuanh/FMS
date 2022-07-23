@@ -75,6 +75,8 @@ public class CounterController extends HttpServlet {
             if (success) {
                 response.sendRedirect(request.getContextPath() + "/counter/check");
             }
+        } else {
+            response.sendError(404, "Not Found");
         }
 
 

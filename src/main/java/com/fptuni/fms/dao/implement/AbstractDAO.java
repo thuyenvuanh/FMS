@@ -155,6 +155,8 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                     }
                 }
             }
+            //success but no key returned due to the table doensn't have auto generated key
+            if (id == null) id = 1;
         } catch (Exception e) {
             if (conn != null) {
                 try {

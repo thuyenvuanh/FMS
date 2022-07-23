@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Acer
@@ -16,7 +17,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>INSPINIA | 404 Error</title>
+    <title>404 Error - FMS</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -32,10 +33,10 @@
     <h3 class="font-bold">Page Not Found</h3>
 
     <div class="error-desc">
-        Sorry, but the page you are looking for has note been found. Try checking the URL for error, then hit the
-        refresh button on your browser or try found something else in our app.
+        ${errorMessage}
+        <% session.removeAttribute("errorMessage"); %>
         <br>
-        <button type="button" onclick="history.back()" class="btn btn-primary">Back</button>
+        <a type="submit" href="<c:url value="/"/>" class="btn btn-primary mt-5">Back</a>
     </div>
 </div>
 
