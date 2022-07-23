@@ -12,7 +12,7 @@
                     />
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
             <span class="block m-t-xs font-bold"
-            >${sessionScope.store.name} <b class="caret"></b
+            >${sessionScope.storeSession.name} <b class="caret"></b
             ></span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">

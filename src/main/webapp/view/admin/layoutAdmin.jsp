@@ -6,6 +6,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="../../js/inspinia.js"></script>
+<script src="../../js/plugins/pace/pace.min.js"></script>
+
+<script src="../js/inspinia.js"></script>
+<script src="../js/plugins/pace/pace.min.js"></script>
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
@@ -13,7 +18,7 @@
                 <div class="dropdown profile-element">
                     <img alt="image" class="rounded-circle" height="50px;" src="<c:url value="/images/Background.png"/> " />
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="block m-t-xs font-bold">Admin <b class="caret"></b></span>
+                        <span class="block m-t-xs font-bold">Admin</span>
                     </a>
 <%--                    <ul class="dropdown-menu animated fadeInRight m-t-xs">--%>
 <%--                        <li><a class="dropdown-item" href="#">Profile</a></li>--%>

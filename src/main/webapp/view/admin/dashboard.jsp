@@ -15,11 +15,103 @@
 
     <title>Dashboard</title>
 
+    <script src="<c:url value="/js/bootstrap.js"/> "></script>
+
+    <!-- Mainly scripts -->
+    <script src="../../js/jquery-3.1.1.min.js"></script>
+    <script src="../../js/popper.min.js"></script>
+    <script src="../../js/bootstrap.js"></script>
+    <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="../../js/inspinia.js"></script>
+    <script src="../../js/plugins/pace/pace.min.js"></script>
+
+    <!-- FooTable -->
+    <script src="../../js/plugins/footable/footable.all.min.js"></script>
+    <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
+
+    <!-- Mainly scripts -->
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="../js/inspinia.js"></script>
+    <script src="../js/plugins/pace/pace.min.js"></script>
+
+    <!-- FooTable -->
+    <script src="../js/plugins/footable/footable.all.min.js"></script>
+
+    <!-- Page-Level Scripts -->
+    <!-- Sweet alert -->
+    <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+    <link href="../css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
+
+    <!-- FooTable -->
+    <link href="../css/plugins/footable/footable.core.css" rel="stylesheet"/>
+
+    <link href="../css/animate.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <!-- Sweet Alert -->
+    <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+    <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
+
+    <!-- FooTable -->
+    <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
+
+    <link href="../../css/animate.css" rel="stylesheet"/>
+    <link href="../../css/style.css" rel="stylesheet"/>
+
+    <!-- Custom and plugin javascript -->
+    <script src="../js/inspinia.js"></script>
+    <script src="../js/plugins/pace/pace.min.js"></script>
+
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="../../js/bootstrap.js"></script>
+    <script src="../js/bootstrap.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="../../js/inspinia.js"></script>
+    <script src="../../js/plugins/pace/pace.min.js"></script>
+
+    <script src="<c:url value="/js/inspinia.js"/>"></script>
+
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
 
     <link href="../css/animate.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
+
+
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
+
+    <!-- FooTable -->
+    <link href="../css/plugins/footable/footable.core.css" rel="stylesheet"/>
+
+    <link href="../css/animate.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <!-- Sweet Alert -->
+    <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+    <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
+
+    <!-- FooTable -->
+    <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
+
+    <link href="../../css/animate.css" rel="stylesheet"/>
+    <link href="../../css/style.css" rel="stylesheet"/>
 
     <!-- date -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -195,15 +287,27 @@
 
 </div>
 
+
+<!-- Mainly scripts -->
+<script src="../../js/jquery-3.1.1.min.js"></script>
+<script src="../../js/popper.min.js"></script>
+<script src="../../js/bootstrap.js"></script>
+<script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
 <script src="../js/jquery-3.1.1.min.js"></script>
 <script src="../js/popper.min.js"></script>
 <script src="../js/bootstrap.js"></script>
 <script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-<!-- Custom and plugin javascript -->
-<script src="../js/inspinia.js"></script>
-<script src="../js/plugins/pace/pace.min.js"></script>
+<!-- FooTable -->
+<script src="../js/plugins/footable/footable.all.min.js"></script>
+
+<!-- FooTable -->
+<script src="../../js/plugins/footable/footable.all.min.js"></script>
+<script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
+
 
 <!-- jQuery UI -->
 <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>

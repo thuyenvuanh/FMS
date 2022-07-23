@@ -133,14 +133,15 @@
                 <div class="mb-3">
                     <label for="loginUsername" class="form-label">Username</label>
                     <input type="text" class="form-control" id="loginUsername" placeholder="Enter username"
-                           name="username" value="store" autofocus
+                           name="username" value="${sessionScope.username}" autofocus
                            required/>
+                    <% session.removeAttribute("username"); %>
                 </div>
                 <!-- Password input -->
                 <div class="mb-3">
                     <label for="loginPassword" class="form-label">Password</label>
                     <input type="password" class="form-control" id="loginPassword" placeholder="Enter password"
-                           name="password" value="store" required>
+                           name="password" required>
                 </div>
                 <!-- 2 column grid layout -->
                 <div class="row mb-3">

@@ -52,6 +52,7 @@ public class AccountService implements IAccountService {
                 }
             } else {
                 url = request.getContextPath();
+                request.getSession().setAttribute("username", username);
                 request.getSession().setAttribute("message", "Incorrect email or password");
             }
         } catch (Exception e) {
