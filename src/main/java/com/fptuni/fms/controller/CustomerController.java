@@ -212,6 +212,7 @@ public class CustomerController extends HttpServlet {
                         customer.setDoB(dob);
                         customer.setAddress(address);
                         customer.setGender(Sgender);
+                        session.setAttribute("updateStatus","success");
                         customerService.updateCustomerInfo(customer);
                         response.sendRedirect(request.getContextPath() + "/customer/list");
                     }else {
@@ -239,7 +240,6 @@ public class CustomerController extends HttpServlet {
                 request.getRequestDispatcher("/view/customer/Customer_Update.jsp")
                         .forward(request,response);
             }
-//            session.setAttribute("updateStatus","success");
 //            customerService.updateCustomerInfo(customer);
 //            response.sendRedirect(request.getContextPath() + "/customer/list");
         }

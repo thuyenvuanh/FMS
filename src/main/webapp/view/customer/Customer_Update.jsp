@@ -169,7 +169,8 @@
 
                                     <div class="form-group">
                                         <label>Gender</label>
-                                        <select name="gender" class="form-control required" aria-required="true">
+                                        <select name="gender" class="form-control required"
+                                                aria-required="true">
                                             <option value="female">Female</option>
                                             <option value="male">Male</option>
                                             <option value="none">None</option>
