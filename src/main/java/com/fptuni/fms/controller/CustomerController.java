@@ -216,7 +216,7 @@ public class CustomerController extends HttpServlet {
                         customerService.updateCustomerInfo(customer);
                         response.sendRedirect(request.getContextPath() + "/customer/list");
                     }else {
-                        request.setAttribute("InvalidDate","Not old enough");
+                        request.setAttribute("InvalidDate","Chosen date is invalid");
                         customer = customerService.getCustomerByPhoneNum(phone);
                         List<Customer> list = new ArrayList<>();
                         if (customer != null) {

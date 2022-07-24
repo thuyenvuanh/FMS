@@ -154,9 +154,16 @@
                                         <input
                                             <%--                                                placeholder="${update.doB}"--%>
                                                 name="Dob" type="text"
+                                                readonly
+                                                id="input-Dob"
                                                 value="2003-01-01"
                                                 class="form-control input-Dob" data-mask="00/00/0000" autocomplete="off"
                                                 maxlength="10">
+                                        <c:if test="${requestScope.InvalidDate != null}">
+                                            <span class="text-warning" id="alertDate">
+                                                    ${requestScope.InvalidDate}
+                                            </span>
+                                        </c:if>
                                         <span class="form-text">yyyy-MM-dd</span>
                                     </div>
 
@@ -268,9 +275,12 @@
 <script>
     $(document).ready(function () {
 
-        <c:if test="${requestScope.InvalidDate != null}">
-            alert("Invalid date or not old enough");
-        </c:if>
+<%--        <c:if test="${requestScope.InvalidDate != null}">--%>
+<%--            alert("Invalid date or not old enough");--%>
+<%--        </c:if>--%>
+        $('#input-Dob').change(function(){
+            $('#alertDate').hide();
+        });
 
         $('#update-Dob .input-Dob').datepicker({
             keyboardNavigation: false,
