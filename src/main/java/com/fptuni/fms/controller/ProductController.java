@@ -100,6 +100,8 @@ public class ProductController extends HttpServlet {
                 session.setAttribute("deleteStatus", "fail");
             }
             response.sendRedirect(request.getContextPath() + "/product/list");
+        } else {
+            response.sendError(404, "Not Found");
         }
     }
 

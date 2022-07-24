@@ -30,7 +30,7 @@ public class TransactionSharedController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         if (path.equals("/list")) {
             List<TransactionShared> transactionShares = transactionService.getTransactionSharedByStore(request, store);
 
@@ -43,6 +43,8 @@ public class TransactionSharedController extends HttpServlet {
 
             request.setAttribute("transactionShares", transactionShares);
             request.getRequestDispatcher("/view/store/transactionList.jsp").forward(request, response);
+        } else {
+            response.sendError(404, "Not Found");
         }
     }
 

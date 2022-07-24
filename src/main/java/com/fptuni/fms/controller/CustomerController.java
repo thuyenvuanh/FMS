@@ -3,6 +3,8 @@ package com.fptuni.fms.controller;
 import com.fptuni.fms.dao.ICustomerDAO;
 import com.fptuni.fms.dao.implement.CustomerDAO;
 import com.fptuni.fms.model.Customer;
+import com.fptuni.fms.model.TransactionShared;
+import com.fptuni.fms.model.Wallet;
 import com.fptuni.fms.service.ICustomerService;
 import com.fptuni.fms.service.IIdentityCardService;
 import com.fptuni.fms.service.ITransactionService;
@@ -13,10 +15,12 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -79,9 +83,37 @@ public class CustomerController extends HttpServlet {
             int pageSize = 3;
             ICustomerService customerService = new CustomerService();
             List<Customer> customers = customerService.getList(request, response);
-            System.out.println("CUSTOMER LIST");
+
             //Get Amount
-//            List<Customer> amounts = customerService.getAmount();
+            IWalletService walletService = new WalletService();
+            ITransactionService transactionService = new TransactionService();
+            List<Wallet> walletList = new ArrayList<>();
+            TransactionShared transactionShared = new TransactionShared();
+            Wallet wallet = new Wallet();
+            HashMap<Customer, BigDecimal> getAmount = new HashMap<>();
+//            List<HashMap<Customer,BigDecimal>> amountlist = new ArrayList<>();
+
+            if(customers != null){
+                for (Customer cus : customers) {
+                    wallet = walletService.getWallet(cus.getId());
+                    if(wallet != null){
+                        walletList.add(wallet);
+                        transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
+                        BigDecimal b = (transactionShared == null)
+                                ? BigDecimal.ZERO
+                                : transactionService.getCustomerBalance(transactionShared);
+
+                        getAmount.put(cus , b);
+//                        amountlist.add(getAmount);
+                    }else{
+                        System.out.println("No wallet found");
+                    }
+                }
+            }else {
+                System.out.println("No customer found");
+            }
+            request.setAttribute("amountlist", getAmount);
+
             int totalPages = customerService.CountCustomer() / pageSize;
             if (customerService.CountCustomer() % pageSize != 0) {
                 totalPages++;
@@ -90,7 +122,6 @@ public class CustomerController extends HttpServlet {
             request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("/view/customer/Customer_List.jsp")
                     .forward(request, response);
-
         } else if (path.equals("/remove")) {
             String phoneNum = request.getParameter("phonenum");
             ICustomerService customerService = new CustomerService();
@@ -156,6 +187,8 @@ public class CustomerController extends HttpServlet {
             }
             customerService.updateCustomerInfo(customer);
             response.sendRedirect(request.getContextPath() + "/customer/list");
+        } else {
+            response.sendError(404, "Not Found");
         }
 }
 

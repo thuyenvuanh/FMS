@@ -36,6 +36,14 @@
 
         <link href="../../css/animate.css" rel="stylesheet"/>
         <link href="../../css/style.css" rel="stylesheet"/>
+
+        <!-- Select2 -->
+        <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
+        <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+        <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+        <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
+        <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+        <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
     </head>
     <body>
 
@@ -83,8 +91,8 @@
                                                     <div class="col-sm-10">
                                                         <select class="form-control m-b" id="select_storemanager" name="storeManager">
                                                             <option value="0">None</option>
-                                                            <c:forEach var="acc" items="${requestScope.listStoreManager}">
-                                                                <option value="${acc.id}" ${acc.id==storeManager?"selected":""} >${acc.username}</option>
+                                                            <c:forEach var="acc" items="${requestScope.avManager}">
+                                                                <option value="${acc.id}">${acc.username}</option>
                                                             </c:forEach>
                                                         </select>
                                                     </div>
@@ -150,18 +158,19 @@
     <script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
         <script>
-                                                    $(document).ready(function () {
+            $(document).ready(function () {
 
-                                                        $('.footable').footable();
-                                                        
-                                                        $("#select_storemanager").select2({
-                                                            theme: 'bootstrap4',
-                                                        });
+                $('.footable').footable();
 
-                                                    });
+                $("#select_storemanager").select2({
+                    theme: 'bootstrap4',
+                });
+
+            });
 
     </script>
 
+    <script src="../js/plugins/select2/select2.full.min.js"></script>
     <!-- Alert -->
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <script>

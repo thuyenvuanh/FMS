@@ -16,11 +16,12 @@ public class AdminDashboardController extends HttpServlet {
         String URL = null;
         IDashboardService dashboardService = new DashboardService();
         String path = request.getPathInfo();
-        System.out.println(path);
 
         if(path.equals("/index")){
             URL = dashboardService.getDashboardData(request, response);
             request.getRequestDispatcher(URL).forward(request, response);
+        } else {
+            response.sendError(404, "Not Found");
         }
 
     }

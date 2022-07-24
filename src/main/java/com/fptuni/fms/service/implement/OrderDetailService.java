@@ -44,7 +44,7 @@ public class OrderDetailService implements IOrderDetailService {
     @Override
     public OrderDetail getOrderDetailByProductID(HttpServletRequest request, HttpServletResponse response, String productID) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         OrderDetail orderDetails = null;
         try {
             Calendar calendar = Calendar.getInstance();
@@ -72,7 +72,7 @@ public class OrderDetailService implements IOrderDetailService {
 
     public BigDecimal getTotalAmount(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         BigDecimal totalAmount = BigDecimal.valueOf(0);
         try {
             Calendar calendar = Calendar.getInstance();
@@ -104,7 +104,7 @@ public class OrderDetailService implements IOrderDetailService {
     @Override
     public BigDecimal getTotalAmountByDate(HttpServletRequest request, Date date) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         BigDecimal totalAmount = BigDecimal.valueOf(0);
         try {
             totalAmount = orderDetailDAO.getTotalAmountByDate(store, date);
@@ -117,7 +117,7 @@ public class OrderDetailService implements IOrderDetailService {
 
     public List<OrderDetail> getOrderDetailInDateRange(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         List<OrderDetail> orderDetails = null;
         try {
             Calendar calendar = Calendar.getInstance();
@@ -147,7 +147,7 @@ public class OrderDetailService implements IOrderDetailService {
     @Override
     public List<OrderDetail> getOrderDetailInTimeRange(HttpServletRequest request, Date start, Date end) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         List<OrderDetail> orderDetails = null;
         try {
             orderDetails = orderDetailDAO.getOrdersDetailByTimeRange(store, start, end);

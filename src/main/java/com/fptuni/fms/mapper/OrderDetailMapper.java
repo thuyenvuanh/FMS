@@ -5,7 +5,6 @@ import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.OrderDetail;
 import com.fptuni.fms.model.Orders;
 import com.fptuni.fms.model.Product;
-import com.sun.org.apache.xpath.internal.operations.Or;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;

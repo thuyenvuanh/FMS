@@ -32,8 +32,6 @@ public class AccountService implements IAccountService {
         try {
             Account account = accountDAO.checkLogin(username, password);
             if (account != null) {
-                //kiem tra role va dieu huong vao man hinh
-                //luu thong tin ve tai khoan dang nhap va cua hang lien quan
                 account.setRoleID(new RoleDAO().getRole(account.getRoleID().getId()));
                 request.getSession().setAttribute("account", account);
                 Store store = null;
@@ -50,17 +48,14 @@ public class AccountService implements IAccountService {
                 } else if ("Store Manager".equals(account.getRoleID().getName())) {
                     store = getStore(account);
                     if (store != null) request.getSession().setAttribute("storeSession", store);
-                    url = request.getContextPath() + "/product/list";
-                    //response toi link cua store manager
+                    url = request.getContextPath() + "/dashboard/store";
                 }
             } else {
                 url = request.getContextPath();
-                //tra ve man hinh dang nhap va hien thong bao loi
+                request.getSession().setAttribute("username", username);
                 request.getSession().setAttribute("message", "Incorrect email or password");
             }
         } catch (Exception e) {
-            // fail login
-            //chuyen huong den trang error
         }
         return url;
     }

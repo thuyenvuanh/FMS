@@ -38,7 +38,7 @@
 
 
         <div id="wrapper">
-            <jsp:include page="layoutAdmin.jsp"></jsp:include>
+            <jsp:include page="layoutAdmin.jsp"/>
 
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">

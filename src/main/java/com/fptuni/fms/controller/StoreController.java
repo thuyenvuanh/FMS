@@ -56,7 +56,7 @@ public class StoreController extends HttpServlet {
                 request.getRequestDispatcher(url).forward(request, response);
                 break;
             default:
-            //chuyen huong den trang error
+                response.sendError(404, "Not Found");
         }
     }
 

@@ -94,6 +94,8 @@ public class DashBoardController extends HttpServlet {
                 request.setAttribute("percentageOfProductInCategory", percentageOfProductInCategory);
                 request.getRequestDispatcher("/view/store/dashBoard.jsp").forward(request, response);
                 break;
+            default:
+                response.sendError(404, "Not Found");
         }
     }
 

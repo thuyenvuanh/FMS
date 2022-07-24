@@ -11,7 +11,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Login</title>
+    <title>Sign in - FMS</title>
+    <link rel="icon" href="<c:url value="/images/Background.png"/>">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
@@ -19,6 +20,15 @@
     <style>
         body {
             height: 100vh;
+        }
+
+        body{
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
         section {
@@ -39,58 +49,99 @@
         #link-button {
             color: #4fc284 !important;
         }
+        /* Breakpoint xxl */
+        @media screen and (min-width: 1400px) {
+            img[alt = 'Store logo'] {
+                margin-right: 100px;
+            }
+            .sign-in-section{
+                width: 600px;
+                height: 600px;
+            }
+            header{
+                width: 100%;
+            }
+        }
 
-        @media screen and (max-width: 736px) {
-            section {
-                width: 90vw;
+        /* Break point xl*/
+        @media screen and (max-width: 1400px) and (min-width: 1200px){
+            .sign-in-section{
+                width: 450px;
+                height: 600px;
+            }
+            header{
+                width: 100%;
             }
         }
-        @media screen and (min-width: 1200px) {
-            .login-section {
-                width: 50% !important;
+
+        /* Breakpoint lg */
+        @media screen and (max-width: 1200px) and (min-width: 992px){
+            .sign-in-section{
+                width: 95%;
+                height: 600px;
+            }
+            header{
+                width: 100%;
             }
         }
-        @media screen and (max-width: 1200px) {
-            .login-section {
-                width: 80% !important;
+
+        @media screen and (max-width: 992px) {
+            .left-screen{
+                display: none !important;
             }
-        }
-        @media screen and (max-width: 900px) {
-            .login-section {
-                width: 90% !important;
+            .right-screen {
             }
-        }
-        .login-section {
-            width: 95%;
+            .sign-in-section{
+                height: 600px;
+                width: 600px;
+            }
         }
     </style>
 </head>
 
 <body style="background-color:#84f5b4;" class="container-fluid">
-<div class="row d-flex flex-wrap align-items-md-center align-items-stretch h-100 pb-md-auto pb-4">
-    <div class="d-flex col-md-6 pe-md-5 justify-content-md-end col-12 px-auto justify-content-center">
-        <header class="mt-5 mr-1 text-center">
-            <img src="<c:url value="/images/Background.jpg"/>" class="rounded-3"
-                 style="width: 80%; height: auto; object-fit: contain"
+<div class="row d-flex flex-wrap h-100">
+    <div class="left-screen d-flex px-xl-0 px-5
+                align-items-lg-center
+                justify-content-lg-end
+                col-lg-6
+                ">
+        <header class="d-flex
+                        justify-content-xl-end justify-content-lg-center
+                        px-xl-5">
+            <img src="<c:url value="/images/Background1.png"/>" class="rounded-3"
+                 style="height: 100%; object-fit: cover;"
                  alt="Store logo"/>
         </header>
     </div>
-    <div class="col-md-6 align-items-md-center justify-content-md-start col-12 justify-content-center d-flex">
-        <div class="bg-light shadow-lg rounded-3 p-4 d-flex align-items-start login-section" style="min-height: 500px;">
+    <div class="right-screen d-flex
+                align-items-center
+                justify-content-xxl-start justify-content-center
+                col-lg-6
+                px-xl-5
+                ">
+        <div class="d-flex flex-column
+                    justify-content-start
+                    pt-5
+                    align-items-center
+                    px-4 px-md-5 sign-in-section bg-white shadow-lg rounded-3"
+             style="min-height: 500px;">
+            <img src="<c:url value="/images/Background.png"/>" class="rounded-3" height="100px" />
             <form method="post" class="w-100">
-                <p class="fw-bold fs-1 text-center mb-5 mt-3">SIGN IN</p>
+                <p class="fw-bold fs-1 text-center">SIGN IN</p>
                 <!--Username-->
                 <div class="mb-3">
                     <label for="loginUsername" class="form-label">Username</label>
                     <input type="text" class="form-control" id="loginUsername" placeholder="Enter username"
-                           name="username" value="store" autofocus
+                           name="username" value="${sessionScope.username}" autofocus
                            required/>
+                    <% session.removeAttribute("username"); %>
                 </div>
                 <!-- Password input -->
                 <div class="mb-3">
                     <label for="loginPassword" class="form-label">Password</label>
                     <input type="password" class="form-control" id="loginPassword" placeholder="Enter password"
-                           name="password" value="store" required>
+                           name="password" required>
                 </div>
                 <!-- 2 column grid layout -->
                 <div class="row mb-3">
