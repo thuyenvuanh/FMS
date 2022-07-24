@@ -152,7 +152,7 @@
                                     <div class="form-group" id="update-Dob">
                                         <label>Date of Birth</label>
                                         <input
-<%--                                                placeholder="${update.doB}"--%>
+                                            <%--                                                placeholder="${update.doB}"--%>
                                                 name="Dob" type="text"
                                                 value="2003-01-01"
                                                 class="form-control input-Dob" data-mask="00/00/0000" autocomplete="off"
@@ -260,7 +260,7 @@
     $(document).ready(function () {
 
         <c:if test="${requestScope.InvalidDate != null}">
-            alert("Not old enough");
+            alert("Invalid date or not old enough");
         </c:if>
 
         $('#update-Dob .input-Dob').datepicker({
@@ -319,7 +319,8 @@
                 }
             }
         })
-    });
+    })
+    ;
 </script>
 
 <script src="js/plugins/jqueryMask/jquery.mask.min.js"></script>
