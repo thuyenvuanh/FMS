@@ -170,28 +170,34 @@
                                     <input name="var" value="${list.phone}" type="hidden">
                                     <tr id="${list.phone}" style="display: none">
                                         <td colspan="4">
-                                            <div>DoB: ${list.doB}</div>
-                                            <div>Address: ${list.address}</div>
+                                            <c:choose>
+                                                <c:when test="${list.doB != null}">
+                                                    <div>DoB: ${list.doB}</div>
+                                                </c:when>
+                                                <c:when test="${list.doB == null}">
+                                                    <div>DoB: None</div>
+                                                </c:when>
+                                            </c:choose>
+                                            <c:choose>
+                                                <c:when test="${list.address != null}">
+                                                    <div>Address: ${list.address}</div>
+                                                </c:when>
+                                                <c:when test="${list.address == null}">
+                                                    <div>DoB: None</div>
+                                                </c:when>
+                                            </c:choose>
                                             <c:choose>
                                                 <c:when test="${list.gender == 0}">
-
                                                     <div>Gender: Male</div>
-
                                                 </c:when>
                                                 <c:when test="${list.gender == 1}">
-
                                                     <div>Gender: Female</div>
-
                                                 </c:when>
                                                 <c:when test="${list.gender == 2}">
-
                                                     <div>Gender: None</div>
-
                                                 </c:when>
                                             </c:choose>
                                         </td>
-
-
                                     </tr>
 
                                 </c:forEach>
@@ -214,14 +220,14 @@
                                                     <c:param name="isAscending"
                                                              value="${!requestScope.isAsc}"></c:param>
                                                 </c:url>
-                                                <a
-                                                        class="page-link"
-                                                        href="${previousPage}"
-                                                        aria-label="Previous"
-                                                >
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a>
+<%--                                                <a--%>
+<%--                                                        class="page-link"--%>
+<%--                                                        href="${previousPage}"--%>
+<%--                                                        aria-label="Previous"--%>
+<%--                                                >--%>
+<%--                                                    <span aria-hidden="true">&laquo;</span>--%>
+<%--                                                    <span class="sr-only">Previous</span>--%>
+<%--                                                </a>--%>
                                             </li>
                                             <c:forEach begin="1" end="${requestScope.totalPages}" var="page">
                                                 <c:url var="paging"
@@ -247,10 +253,10 @@
                                                     <c:param name="isAscending"
                                                              value="${!requestScope.isAsc}"></c:param>
                                                 </c:url>
-                                                <a class="page-link" href="${nextPage}" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
+<%--                                                <a class="page-link" href="${nextPage}" aria-label="Next">--%>
+<%--                                                    <span aria-hidden="true">&raquo;</span>--%>
+<%--                                                    <span class="sr-only">Next</span>--%>
+<%--                                                </a>--%>
                                             </li>
                                         </ul>
                                     </nav>
