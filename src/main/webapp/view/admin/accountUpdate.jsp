@@ -96,7 +96,7 @@
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Password:</label>
                                                     <div class="col-sm-10">
-                                                        <input type="password" class="form-control" name="password" value="${acc.password}" placeholder="Password">
+                                                        <input type="password" class="form-control password" name="password" value="${acc.password}" placeholder="Password">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">Confirm password:</label>
@@ -109,7 +109,7 @@
                                                     <div class="col-sm-10">
                                                         <select id="select_role" name="roleId" class="form-control">
                                                             <c:forEach var="role" items="${requestScope.roleList}">
-                                                                <option  value="${role.id}" ${role.id == acc.role.id ? "selected" : ""}>${role.name}</option>
+                                                                <option  value="${role.id}" ${role.id == acc.roleID.id ? "selected" : ""}>${role.name}</option>
                                                             </c:forEach>
                                                         </select>
                                                     </div>
@@ -117,7 +117,7 @@
                                             </fieldset>
                                             <div class="form-layout-footer text-center">
                                                 <button type="button" id="update_account_form" class="btn btn-primary bd-0 update_account_form">Submit</button>
-                                                <button onclick="history.back()" type="button" class="btn btn-dark">Back to list</button>
+                                                <a href="<c:url value="/account/list" />"  type="button" class="btn btn-dark">Back to List</a>
                                             </div>
                                         </form>
                                     </div>
@@ -276,3 +276,25 @@
         crossorigin="anonymous"></script>
     </body>
 </html>
+<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+<!-- Sweet Alert -->
+<link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+<link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+<link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
+
+<c:if test="${sessionScope.updateStatus != null && sessionScope.updateStatus eq 'fail'}">
+    <script>
+        $(document).ready(function () {
+            swal({
+                title: "Update Failed!",
+                text: "${sessionScope.message}",
+                type: "error"
+            });
+        });
+    </script>
+    <%
+        session.removeAttribute("updateStatus");
+        session.removeAttribute("message");
+    %>
+</c:if>

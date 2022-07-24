@@ -4,29 +4,29 @@ import com.fptuni.fms.dao.IProductDAO;
 import com.fptuni.fms.dao.IStoreDAO;
 import com.fptuni.fms.dao.implement.ProductDAO;
 import com.fptuni.fms.dao.implement.StoreDAO;
-import com.fptuni.fms.model.*;
+import com.fptuni.fms.model.Category;
+import com.fptuni.fms.model.OrderDetail;
+import com.fptuni.fms.model.Product;
+import com.fptuni.fms.model.Store;
+import com.fptuni.fms.paging.PageRequest;
+import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.ICategoryService;
 import com.fptuni.fms.service.IOrderDetailService;
 import com.fptuni.fms.service.IProductService;
-import com.fptuni.fms.paging.PageRequest;
-import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.sort.Sorter;
-import com.fptuni.fms.utils.RequestUtils;
-import jdk.nashorn.internal.ir.RuntimeNode;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import javax.websocket.Session;
 import java.io.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+import static com.sun.xml.ws.spi.db.BindingContextFactory.LOGGER;
 
 public class ProductService implements IProductService {
     private IStoreDAO storeDAO = new StoreDAO();
@@ -37,7 +37,7 @@ public class ProductService implements IProductService {
     @Override
     public List<Product> getProducts(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         int pageIndex = 1;
         int pageSize = 5;
         String sortField = "ID";
@@ -93,7 +93,7 @@ public class ProductService implements IProductService {
         try {
             int orderID = 0;
             HttpSession session = request.getSession();
-            Store store = (Store) session.getAttribute("store");
+            Store store = (Store) session.getAttribute("storeSession");
             if (request.getParameter("orderID") != null) orderID = Integer.parseInt(request.getParameter("orderID"));
             products = productDAO.getProductByOrderID(orderID, store);
         } catch (Exception e) {
@@ -105,7 +105,7 @@ public class ProductService implements IProductService {
     @Override
     public Integer insertProduct(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         String id = "";
         String name = "";
         BigDecimal price = BigDecimal.valueOf(0.0);
@@ -154,7 +154,7 @@ public class ProductService implements IProductService {
     @Override
     public boolean updateProduct(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         String id = "";
         String name = "";
         String imgPath = "";
@@ -285,7 +285,7 @@ public class ProductService implements IProductService {
     @Override
     public int countProductBySearch(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         int pageIndex = 1;
         int pageSize = 5;
         String sortField = "ID";
@@ -316,7 +316,7 @@ public class ProductService implements IProductService {
     @Override
     public List<Product> getTop5ProductsOrderByAmount(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        Store store = (Store) session.getAttribute("store");
+        Store store = (Store) session.getAttribute("storeSession");
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         List<Product> products = null;

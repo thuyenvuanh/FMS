@@ -131,11 +131,11 @@
 
                                 <input type="text" class="form-control" name="startDate" id="datePickerStart"
                                        value="${requestScope.startDate}" data-mask="00/00/0000"
-                                       placeholder="" autocomplete="on" maxlength="10">
+                                       placeholder="" autocomplete="off" maxlength="10">
                                 <span class="input-group-addon">to</span>
                                 <input type="text" class="form-control" name="endDate" id="datePickerEnd"
                                        value="${requestScope.endDate}" data-mask="00/00/0000"
-                                       placeholder="" autocomplete="on" maxlength="10">
+                                       placeholder="" autocomplete="off" maxlength="10">
                             </div>
                             ${requestScope.dateError}
                         </div>
@@ -144,8 +144,8 @@
                     <div class="col-lg-2">
                         <div class="form-group">
                             <label class="col-form-label">Amount</label>
-                            <input type="text" class="form-control" name="totalAmount"
-                                   value="${requestScope.totalAmount}"
+                            <input type="text" class="form-control" name="amount"
+                                   value="${requestScope.amount}"
                                    autocomplete="off" maxlength="16">
                         </div>
                     </div>
@@ -153,7 +153,10 @@
                         <button class="btn btn-outline-success  float-right"
                                 type="submit">Search
                         </button>
-                        <button type="reset" value="Reset" class="btn btn-outline-danger float-right" style="margin-right: 2%">Reset</button>
+                        <button type="button" value="Reset" class="btn btn-outline-danger float-right "
+                                style="margin-right: 2%"
+                                id="reset-button" onclick="clear();">Reset
+                        </button>
                     </div>
                 </div>
             </form>
@@ -165,20 +168,43 @@
 
                         <table class="footable table table-stripped toggle-arrow-tiny">
                             <thead>
-                            <tr>
+                            <c:url var="sortFormLink" value="${requestScope.contextPath}/order/list"></c:url>
 
-                                <th>Order ID</th>
-                                <th data-hide="phone">Amount</th>
-                                <th data-hide="phone">Date added</th>
+                            <form action="${sortFormLink}" method="post" id="sortForm"  style="display: none">
+                                <input type="hidden" name="currentPage" value="${requestScope.currentPage}"/>
+                                <input type="hidden" name="isAscending" value="${requestScope.isAscending}">
+                                <input type="hidden" name="startDate" value="${requestScope.startDate}">
+                                <input type="hidden" name="endDate" value="${requestScope.endDate}">
+                                <input type="hidden" name="amount" value="${requestScope.amount}">
+                                <input type="hidden" id="sortFieldInput" name="sortField">
+                            </form>
+                            <tr style="color: dodgerblue">
+                                <th data-toggle="true" data-sort-ignore="true">
+                                    <a onclick="document.getElementById('sortFieldInput').value = 'ID'; document.getElementById('sortForm').submit();">
+                                        Order ID</a>
+                                </th>
+                                <th data-toggle="true" data-sort-ignore="true" data-hide="phone">
+                                    <a onclick="document.getElementById('sortFieldInput').value = 'Total'; document.getElementById('sortForm').submit();">
+                                        Amount</a>
+                                </th>
+                                <th data-toggle="true" data-sort-ignore="true" data-hide="phone">
+                                    <a onclick="document.getElementById('sortFieldInput').value = 'CreatedDate'; document.getElementById('sortForm').submit();">
+                                        Created Date</a>
+                                </th>
                                 <th class="text-right" data-sort-ignore="true">Action</th>
 
                             </tr>
                             </thead>
                             <tbody>
+
                             <c:forEach var="order" items="${requestScope.orders}">
                                 <tr>
                                     <td>${order.id}</td>
-                                    <td>${order.total}</td>
+                                    <td>
+                                        <fmt:formatNumber value="${order.total}" var="total"
+                                                          pattern="###,###,### ₫"></fmt:formatNumber>
+                                            ${total}
+                                    </td>
                                     <td>
                                         <fmt:formatDate value="${order.createdDateTime}" var="formattedDate" type="date"
                                                         pattern="dd/MM/yyyy"></fmt:formatDate>
@@ -204,16 +230,70 @@
                                 <td colspan="7">
                                     <nav aria-label="Page navigation example">
                                         <ul class="paginations">
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Previous">
+                                            <c:url value="${requestScope.contextPath}/order/list"
+                                                   var="previousPageLink"></c:url>
+                                            <form action="${previousPageLink}" method="post" id="previousPagingForm"
+                                                  style="display: none">
+                                                <input type="hidden" name="currentPage" id="previousPage"/>
+                                                <input type="hidden" name="startDate"
+                                                       value="${requestScope.startDate} ">
+                                                <input type="hidden" name="endDate" value="${requestScope.endDate}">
+                                                <input type="hidden" name="amount"
+                                                       value="${requestScope.amount}">
+                                                <input type="hidden" name="sortField"
+                                                       value="${requestScope.sortField}">
+                                                <input type="hidden" name="isAscending"
+                                                       value="${!requestScope.isAscending}">
+                                            </form>
+                                            <li class="page-item  ${requestScope.currentPage == 1?"disabled":""}">
+                                                <a class="page-link"
+                                                   aria-label="Previous"
+                                                   onclick="document.getElementById('previousPage').value=${requestScope.currentPage - 1}; document.getElementById('previousPagingForm').submit();">
                                                     <span aria-hidden="true">&laquo;</span>
                                                     <span class="sr-only">Previous</span>
+
                                                 </a>
                                             </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-
-                                            <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Next">
+                                            <c:url var="pagingLink"
+                                                   value="${requestScope.contextPath}/order/list"></c:url>
+                                            <form action="${pagingLink}" method="get" id="pagingForm"
+                                                  style="display: none">
+                                                <input type="hidden" name="currentPage" id="currentPage"/>
+                                                <input type="hidden" name="startDate"
+                                                       value="${requestScope.startDate} ">
+                                                <input type="hidden" name="endDate" value="${requestScope.endDate}">
+                                                <input type="hidden" name="amount"
+                                                       value="${requestScope.amount}">
+                                                <input type="hidden" name="sortField"
+                                                       value="${requestScope.sortField}">
+                                                <input type="hidden" name="isAscending"
+                                                       value="${!requestScope.isAscending}">
+                                            </form>
+                                            <c:forEach var="page" begin="1" end="${requestScope.totalPages}">
+                                                <li class="page-item  ${requestScope.currentPage == page ? "active":""}">
+                                                    <a class="page-link"
+                                                       onclick="document.getElementById('currentPage').value=${page};
+                                                               document.getElementById('pagingForm').submit();">${page}</a>
+                                                </li>
+                                            </c:forEach>
+                                            <c:url value="${requestScope.contextPath}/order/list"
+                                                   var="nextPageLink"></c:url>
+                                            <form action="${nextPageLink}" method="post" id="nextPagingForm"
+                                                  style="display: none">
+                                                <input type="hidden" name="currentPage" id="nextPage"/>
+                                                <input type="hidden" name="startDate"
+                                                       value="${requestScope.startDate} ">
+                                                <input type="hidden" name="endDate" value="${requestScope.endDate}">
+                                                <input type="hidden" name="amount"
+                                                       value="${requestScope.amount}">
+                                                <input type="hidden" name="sortField"
+                                                       value="${requestScope.sortField}">
+                                                <input type="hidden" name="isAscending"
+                                                       value="${!requestScope.isAscending}">
+                                            </form>
+                                            <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
+                                                <a class="page-link" aria-label="Next"
+                                                   onclick="document.getElementById('nextPage').value=${requestScope.currentPage + 1}; document.getElementById('nextPagingForm').submit();">
                                                     <span aria-hidden="true">&raquo;</span>
                                                     <span class="sr-only">Next</span>
                                                 </a>
@@ -312,23 +392,22 @@
 <script>
     $(document).ready(function () {
 
+        $('#reset-button').click(function () {
+            $('#amount').val("");
+            $('#datePickerStart').val("");
+            $('#datePickerEnd').val("");
+        });
         $(document).ready(function () {
             $('#date_range_order .input-daterange').datepicker({
                 keyboardNavigation: false,
-                forceParse: false,
+                forceParse: true,
                 autoclose: true,
                 format: "dd/mm/yyyy"
             });
         });
     });
 </script>
-<c:if test="${requestScope.startDate == null || requestScope.endDate == null}">
-<script>
-    var today = moment().format('DD/MM/YYYY');
-    $('#datePickerStart').val(today);
-    $('#datePickerEnd').val(today);
-</script>
-</c:if>
+
 <div class="datepicker datepicker-dropdown dropdown-menu datepicker-orient-left datepicker-orient-bottom"
      style="top: 3077.83px; left: 46px; z-index: 10; display: none;">
     <div class="datepicker-days" style="display: none;">

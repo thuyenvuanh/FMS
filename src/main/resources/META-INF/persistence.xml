@@ -16,6 +16,7 @@
     <class>com.fptuni.fms.model.Role</class>
     <class>com.fptuni.fms.model.Category</class>
     <class>com.fptuni.fms.model.Customer</class>
+    <class>com.fptuni.fms.model.StoreAccount</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=FMS"/>

@@ -230,7 +230,7 @@ public class CustomerController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
             }else {
-//                request.setAttribute("msgEx","Blank is not accepted");
+                request.setAttribute("msgEx","Blank is not accepted");
                 System.out.println("Blank error");
                 List<Customer> list = new ArrayList<>();
                 if (customer != null) {

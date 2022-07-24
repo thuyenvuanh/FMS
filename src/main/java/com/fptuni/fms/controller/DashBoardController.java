@@ -6,12 +6,10 @@ import com.fptuni.fms.model.Orders;
 import com.fptuni.fms.model.Product;
 import com.fptuni.fms.service.*;
 import com.fptuni.fms.service.implement.*;
-import com.fptuni.fms.utils.DateUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
-import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
@@ -22,7 +20,7 @@ public class DashBoardController extends HttpServlet {
     private IProductService productService = new ProductService();
     private ICategoryService categoryService = new CategoryService();
     private IOrderDetailService orderDetailService = new OrderDetailService();
-    private IDashBoardService dashBoardService = new DashBoardService();
+    private IDashboardService dashBoardService = new DashboardService();
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page = request.getPathInfo();
@@ -96,6 +94,8 @@ public class DashBoardController extends HttpServlet {
                 request.setAttribute("percentageOfProductInCategory", percentageOfProductInCategory);
                 request.getRequestDispatcher("/view/store/dashBoard.jsp").forward(request, response);
                 break;
+            default:
+                response.sendError(404, "Not Found");
         }
     }
 

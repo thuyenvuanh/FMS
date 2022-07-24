@@ -6,9 +6,6 @@ package com.fptuni.fms.dao.implement;
 
 import com.fptuni.fms.dao.GenericDAO;
 import com.fptuni.fms.mapper.RowMapper;
-import com.sun.org.apache.xpath.internal.objects.XNull;
-import org.eclipse.persistence.internal.sessions.DirectCollectionChangeRecord;
-
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
@@ -158,6 +155,8 @@ public class AbstractDAO<T> implements GenericDAO<T> {
                     }
                 }
             }
+            //success but no key returned due to the table doensn't have auto generated key
+            if (id == null) id = 1;
         } catch (Exception e) {
             if (conn != null) {
                 try {

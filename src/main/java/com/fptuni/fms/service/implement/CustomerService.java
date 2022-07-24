@@ -1,18 +1,14 @@
 package com.fptuni.fms.service.implement;
 
 import com.fptuni.fms.dao.ICustomerDAO;
-import com.fptuni.fms.dao.IProductDAO;
 import com.fptuni.fms.dao.implement.CustomerDAO;
-import com.fptuni.fms.dao.implement.ProductDAO;
 import com.fptuni.fms.model.Customer;
-import com.fptuni.fms.model.Product;
 import com.fptuni.fms.paging.PageRequest;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.fms.service.ICustomerService;
 import com.fptuni.fms.sort.Sorter;
 import com.fptuni.fms.utils.RequestUtils;
 
-import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -48,7 +44,7 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer getCustomerByPhoneNum(String PhoneNum) {
-        // ICustomerDAO customerDAO = new CustomerDAO();
+        ICustomerDAO customerDAO = new CustomerDAO();
         return customerDAO.getByPhoneNum(PhoneNum);
     }
 
@@ -65,7 +61,7 @@ public class CustomerService implements ICustomerService {
             phone = request.getParameter("Cusphone");
         }
         Customer customer = new Customer(name, phone);
-        // request.setAttribute("customer", customer);
+        //request.setAttribute("customer", customer);
         Map<String, String> paramMap = RequestUtils.getParameters(request.getQueryString());
         for (Map.Entry<String, String> entry : paramMap.entrySet()) {
             if (entry.getValue().isEmpty())
@@ -88,12 +84,8 @@ public class CustomerService implements ICustomerService {
 
     public Integer DeleteCustomer(String phoneNum) {
         ICustomerDAO customerDAO = new CustomerDAO();
-        if(customerDAO.deleteCus(phoneNum)){
-            return 1;
-        }
-        else{
-            return 0;
-        }
+        customerDAO.deleteCus(phoneNum);
+        return 1;
     }
 
     @Override
@@ -111,8 +103,7 @@ public class CustomerService implements ICustomerService {
     public Customer getCustomerByOrderID(HttpServletRequest request, HttpServletResponse response) {
         Customer customer = null;
         try {
-            if (request.getParameter("orderID") == null)
-                throw new Exception("Order ID is not valid");
+            if (request.getParameter("orderID") == null) throw new Exception("Order ID is not valid");
             int orderID = Integer.parseInt(request.getParameter("orderID"));
             customer = customerDAO.getCustomerByOrderID(orderID);
         } catch (Exception e) {

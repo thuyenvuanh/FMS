@@ -1,6 +1,5 @@
 package com.fptuni.fms.utils;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -10,18 +9,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.HashMap;
 
 public class JsonUtils {
 
     private static JsonUtils INSTANCE;
 
+    private String jsonString;
+
     public static JsonUtils getInstance() {
         if (INSTANCE == null)
             INSTANCE = new JsonUtils();
         return INSTANCE;
+    }
+
+    private JsonUtils() {
+        try {
+            this.jsonString = converter(getFile("roles_permission.json"));
+        } catch (IOException e) {
+            this.jsonString = null;
+        }
     }
 
     private InputStream getFile(String path) {
@@ -30,6 +38,7 @@ public class JsonUtils {
     }
 
     private String converter(InputStream inputStream) throws IOException {
+        if (inputStream == null) throw new IOException("Permissions file not found");
         InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
         BufferedReader bufferedReader = new BufferedReader(streamReader);
         StringBuilder stringBuffer = new StringBuilder();
@@ -40,30 +49,114 @@ public class JsonUtils {
         return stringBuffer.toString();
     }
 
-    public HashMap<String, List<String>> readJson(String path) throws IOException {
+    public boolean havePermission(String controllerName, String actionName, String roleName) throws Exception, ParseException {
+        if (actionName != null && actionName.equals("/skin-config2.html")) return true;
+        HashMap<String, HashMap<String, List<String>>> controllers = (HashMap<String, HashMap<String, List<String>>>) toHashMap().get("controllers");
+        if (controllers == null) throw new Exception("Resource file not found");
+        HashMap<String, List<String>> actions = controllers.get(controllerName);
+        if (actions == null) throw new Exception("controller not found");
+        List<String> accessible = actions.get(actionName == null ? "" : actionName);
+        if (accessible == null) throw new Exception("action not found");
+        boolean isAccessible = accessible.contains(roleName) || accessible.contains("all");
+
+        return isAccessible;
+    }
+
+    private HashMap<String, Object> toHashMap() throws ParseException {
+        if (jsonString == null) throw new NullPointerException("File not found");
         JSONParser jsonParser = new JSONParser();
-        String jsonString = converter(getFile(path));
+        Object obj = jsonParser.parse(jsonString);
+        JSONObject object = (JSONObject) obj;
+        return (HashMap<String, Object>) object;
+    }
+
+    public boolean isWelcomeFile(String servletPath) {
         try {
-            //Read JSON file
-            Object obj = jsonParser.parse(jsonString);
-
-            JSONArray mapList = (JSONArray) obj;
-
-            HashMap<String, List<String>> rolesMap = new HashMap<String, List<String>>();
-
-            mapList.forEach(object -> {
-                JSONObject roleMap = (JSONObject) object;
-                String key = (String) roleMap.get("role");
-                List<String> permissions = new ArrayList<>();
-                ((JSONArray) roleMap.get("permissions")).forEach(o -> {
-                    permissions.add((String) o);
-                });
-                rolesMap.put(key, permissions);
-            });
-            return rolesMap;
+            List<String> welcomeFile = (List<String>) toHashMap().get("welcome-file");
+            return welcomeFile.contains(servletPath);
         } catch (ParseException e) {
-            e.printStackTrace();
+            System.out.println("Error on checking: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isResourceFile(String controllerName, String actionName) throws Exception {
+        List<String> resources = (List<String>) toHashMap().get("resources");
+        boolean isResources = false;
+        for (String resource : resources) {
+            isResources = (controllerName != null && controllerName.contains(resource))
+            || (actionName != null && actionName.contains(resource));
+            if (isResources == true) return true;
+        }
+        return isResources;
+    }
+
+    /**
+     * first scenario:  /FMS/
+     * second scenario: /FMS/controller
+     * third scenario:  /FMS/controller/action
+     * fourth scenario: /FMS/css/js/bootstrap.css
+     */
+
+
+    public boolean isRequired(String controllerName, String actionName) throws Exception {
+        //first scenario
+        if (isWelcomeFile(controllerName) || isResourceFile(controllerName, actionName)) {
+            return false;
+        }
+        if (controllerName == null || controllerName.isEmpty())
+            return false;
+        if (isProtectedFolders(controllerName)) {
+            return true;
+        }
+
+        if (controllerName.startsWith("/view")
+                || controllerName.endsWith(".html")
+                || controllerName.endsWith(".css")
+                || controllerName.endsWith(".map")
+                || controllerName.endsWith(".js")
+        )
+            return false;
+        HashMap<String, HashMap<String, List<String>>> controllers = (HashMap<String, HashMap<String, List<String>>>) toHashMap().get("controllers");
+        if (controllers == null) {
+            throw new Exception("controllers not found");
+        }
+        HashMap<String, List<String>> controller = controllers.get(controllerName);
+        //khong tim thay controller can quan ly
+        //=> khong phai controller
+        //=> Controller khong co
+        if (controller == null) {
+            throw new Exception("controller not found");
+        } else {
+            if (controller.get(actionName) != null && controller.get(actionName).contains("all")) {
+                return false;
+            } else {
+                List<String> action = controller.get(actionName);
+                if (action == null) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    private boolean isProtectedFolders(String controllerName) throws ParseException {
+        List<String> protectedFolders = (List<String>) toHashMap().get("protected-folders");
+        for (String path : protectedFolders) {
+            if (controllerName.contains(path)) return true;
+        }
+        return false;
+    }
+
+    public String getIndexByRole(String name) {
+        try {
+            HashMap<String, String> indexPage = (HashMap<String, String>) toHashMap().get("index-page");
+            if (indexPage.containsKey(name))
+                return indexPage.get(name);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
         }
         return null;
     }
+
 }

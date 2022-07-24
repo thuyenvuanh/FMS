@@ -147,7 +147,7 @@
                                         <td class="text-left">${list.phone}</td>
 
                                         <td class="text-right"><fmt:formatNumber
-                                                value="${amount.get(list)}" pattern="###,###,### ₫"/></td>
+                                                value="${amount.get(list) != null ? amount.get(list) : 0}" pattern="###,###,### ₫" /></td>
 
                                         <td class="text-right">
                                             <c:url var="delete" value="${requestScope.contextPath}/customer/remove"></c:url>

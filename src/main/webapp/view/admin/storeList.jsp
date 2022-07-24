@@ -38,7 +38,7 @@
 
 
         <div id="wrapper">
-            <jsp:include page="layoutAdmin.jsp"></jsp:include>
+            <jsp:include page="layoutAdmin.jsp"/>
 
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
@@ -115,36 +115,40 @@
                                             <th data-toggle="true" data-sort-ignore="true">
                                                 <a href="${sort}&sortField=Name">Store</a>
                                             </th>
-                                            <th data-hide="phone" data-sort-ignore="true">
-                                                <a href="${sort}&sortField=fullName">Store Manager</a>
-                                            </th>
+                                            <th class="text-left" data-sort-ignore="true">Store Manager</th>
                                             <th data-hide="phone" data-sort-ignore="true">Status</th>
                                             <th class="text-right" data-sort-ignore="true">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach var="store" items="${requestScope.storeList}">
+                                        <c:forEach var="store" items="${map}" >
+                                            <c:set var="key" value="${store.key}" target="com.fptuni.fms.model.Store"/>
+                                            <c:set var="value" value="${store.value}" target="java.util.List"/>
                                             <tr>
-                                                <td>${store.name}</td>
-                                                <td>${store.accountID.fullName}</td>
-                                                <c:if test="${store.isDeleted()==false}">
+                                                <td>${key.name}</td>
+                                                <td>
+                                                    <c:forEach var="acc" items="${value}">
+                                                        ${acc.roleID.name == "Store Manager" ? acc.fullName : ""}
+                                                    </c:forEach>
+                                                </td>
+                                                <c:if test="${key.isDeleted == false}">
                                                     <td>
                                                         <span class="label label-primary">Enable</span>
                                                     </td>
                                                 </c:if>
-                                                <c:if test="${store.isDeleted() == true}">
+                                                <c:if test="${key.isDeleted == true}">
                                                     <td>
                                                         <span class="label label-danger">Disable</span>
                                                     </td>
                                                 </c:if>
                                                 <td class="text-right">
                                                     <form>
-                                                        <input  type="hidden" name="storeId" value="${store.id}"/>
+                                                        <input  type="hidden" name="storeId" value="${key.id}"/>
                                                             <c:url var="viewLink" value="/store/view">
-                                                                <c:param name="storeId" value="${store.id}"></c:param>
+                                                                <c:param name="storeId" value="${key.id}"></c:param>
                                                             </c:url>
                                                             <c:url var="updateLink" value="/store/updatePage">
-                                                                <c:param name="storeId" value="${store.id}"></c:param>
+                                                                <c:param name="storeId" value="${key.id}"></c:param>
                                                             </c:url>
                                                             <button class="btn-white btn btn-xs" formmethod="post" formaction="${viewLink}">View</button>
                                                             <button class="btn-white btn btn-xs" formmethod="post" formaction="${updateLink}">Edit</button>

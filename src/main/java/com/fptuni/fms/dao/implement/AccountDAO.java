@@ -39,7 +39,7 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         try {
             String sql = "UPDATE dbo.Account SET Password=?, Fullname=?, RoleID=? WHERE Username=? AND IsDeleted = 0";
             String hashPassword = SecurityUtils.createHash(Password, Username);
-            return update(sql, Password, Fullname, RoleID, Username);
+            return update(sql, hashPassword, Fullname, RoleID, Username);
         } catch (Exception e) {
             System.out.println("Database query error: " + e.getMessage());
         }
@@ -84,6 +84,14 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
 
         List<Account> listAcc = query(sql, new AccountMapper());
         return listAcc;
+    }
+
+    public Account isAccountLinkToStore(String username){
+        String sql = "select a.ID, a.Username, a.FullName, a.RoleID\n" +
+                "from Account a join StoreAccount SA on a.ID = SA.AccountID\n" +
+                "where Username = ?\n";
+        List<Account> result = query(sql, new AccountMapper(), username);
+        return result.isEmpty() ? null : result.get(0);
     }
 
     @Override
@@ -138,6 +146,19 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         return listAcc == null ? null : listAcc.get(0);
     }
 
+    public List<Account> getAvailableAccounts() {
+        String sql = "select a.id as ID, a.username as Username,\n" +
+                "       a.fullname as FullName, a.roleid as RoleID,\n" +
+                "       r2.Name as [Name], a.isdeleted as IsDeleted\n" +
+                "from Account a join Role R2 on a.RoleID = R2.ID\n" +
+                "where r2.Name = 'Store Manager' OR r2.Name = 'Cashier'\n" +
+                "EXCEPT (select AccountID, Username, FullName, RoleID, Role.Name, Account.IsDeleted\n" +
+                "    from Account JOIN storeAccount on Account.ID = StoreAccount.AccountID\n" +
+                "    join role on Account.RoleID = Role.ID)";
+        List<Account> avaiAccount = query(sql, new AccountMapper());
+        return avaiAccount;
+    }
+
     @Override
     public Account getAccountUpdate(int id) {
         String sql = "SELECT Account.ID, Username, FullName, RoleID, Name FROM Account Join Role On Account.RoleID = Role.ID WHERE Account.ID = ? AND Account.IsDeleted = 0";
@@ -153,8 +174,17 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
 
     @Override
     public List<Account> getListStoreManager(){
-        String sql = "SELECT ID, Username, FullName FROM Account WHERE roleID = 3 AND IsDeleted = 0";
+        String sql = "SELECT Account.ID, Username, FullName, Role.Name AS Name\n" +
+                "FROM Account JOIN Role on Account.RoleID = Role.ID\n" +
+                "WHERE Role.Name = 'Store Manager' AND Account.IsDeleted = 0";
         List<Account> listAcc = query(sql, new AccountMapper());
+        return listAcc.isEmpty() ? null : listAcc;
+    }
+
+    @Override
+    public List<Account> getListStoreAccount(int storeID){
+        String sql = "SELECT ID, FullName FROM Account a JOIN StoreAccount s ON a.ID = s.AccountID WHERE s.StoreID = ? AND s.IsDeleted = 0 AND s.IsDeleted = 0";
+        List<Account> listAcc = query(sql, new AccountMapper(), storeID);
         return listAcc.isEmpty() ? null : listAcc;
     }
 }
