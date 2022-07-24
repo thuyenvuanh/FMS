@@ -212,7 +212,7 @@
                                         <ul class="paginations">
                                             <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
                                                 <c:url var="previousPage"
-                                                       value="${requestScope.contextPath}/product/list">
+                                                       value="${requestScope.contextPath}/customer/list">
                                                     <c:param name="page"
                                                              value="${requestScope.currentPage - 1}"></c:param>
                                                     <c:param name="sortField"
@@ -220,14 +220,14 @@
                                                     <c:param name="isAscending"
                                                              value="${!requestScope.isAsc}"></c:param>
                                                 </c:url>
-<%--                                                <a--%>
-<%--                                                        class="page-link"--%>
-<%--                                                        href="${previousPage}"--%>
-<%--                                                        aria-label="Previous"--%>
-<%--                                                >--%>
-<%--                                                    <span aria-hidden="true">&laquo;</span>--%>
-<%--                                                    <span class="sr-only">Previous</span>--%>
-<%--                                                </a>--%>
+                                                <a
+                                                        class="page-link"
+                                                        href="${previousPage}"
+                                                        aria-label="Previous"
+                                                >
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
                                             </li>
                                             <c:forEach begin="1" end="${requestScope.totalPages}" var="page">
                                                 <c:url var="paging"
@@ -245,7 +245,7 @@
                                             </c:forEach>
                                             <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
                                                 <c:url var="nextPage"
-                                                       value="${requestScope.contextPath}/product/list">
+                                                       value="${requestScope.contextPath}/customer/list">
                                                     <c:param name="page"
                                                              value="${requestScope.currentPage + 1}"></c:param>
                                                     <c:param name="sortField"
@@ -253,10 +253,10 @@
                                                     <c:param name="isAscending"
                                                              value="${!requestScope.isAsc}"></c:param>
                                                 </c:url>
-<%--                                                <a class="page-link" href="${nextPage}" aria-label="Next">--%>
-<%--                                                    <span aria-hidden="true">&raquo;</span>--%>
-<%--                                                    <span class="sr-only">Next</span>--%>
-<%--                                                </a>--%>
+                                                <a class="page-link" href="${nextPage}" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
                                             </li>
                                         </ul>
                                     </nav>
