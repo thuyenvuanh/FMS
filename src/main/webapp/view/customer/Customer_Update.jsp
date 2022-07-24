@@ -16,17 +16,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Customer Update</title>
-    <link href="../css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="../css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <!-- FooTable -->
-    <link href="../css/plugins/footable/footable.core.css" rel="stylesheet" />
+    <link href="../css/plugins/footable/footable.core.css" rel="stylesheet"/>
     <!-- Sweet Alert -->
     <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
 
     <link href="../css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
-    <link href="../css/animate.css" rel="stylesheet" />
-    <link href="../css/style.css" rel="stylesheet" />
+    <link href="../css/animate.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
 
 </head>
 
@@ -124,23 +124,26 @@
 
             <div class="content clearfix">
                 <h1 id="form-h-0" tabindex="-1" class="title current">Account</h1>
-                <fieldset id="form-p-0" role="tabpanel" aria-labelledby="form-h-0" class="body current" aria-hidden="false">
+                <fieldset id="form-p-0" role="tabpanel" aria-labelledby="form-h-0" class="body current"
+                          aria-hidden="false">
                     <h2>Update Information</h2>
                     <div class="row">
 
                         <c:forEach var="update" items="${requestScope.info}">
                             <%--                                    class="btn btn-primary"--%>
-                            <c:url var="CustomerUpdate" value="${requestScope.contextPath}/customer/update" >
+                            <c:url var="CustomerUpdate" value="${requestScope.contextPath}/customer/update">
                             </c:url>
                             <form action="${CustomerUpdate}" id="formUpdateCus">
                                 <div class="col-lg-8">
                                     <div class="form-group">
                                         <label>Username</label>
-                                        <input name="name" value="${update.name}" class="form-control required" aria-required="true">
+                                        <input name="name" value="${update.name}" class="form-control required"
+                                               aria-required="true">
                                     </div>
                                     <div class="form-group">
                                         <label>Phone</label>
-                                        <input name="phone" value="${update.phone}" readonly class="form-control required" aria-required="true">
+                                        <input name="phone" value="${update.phone}" readonly
+                                               class="form-control required" aria-required="true">
                                     </div>
                                         <%--                                        <div class="form-group">--%>
                                         <%--                                            <label>Date of Birth</label>--%>
@@ -149,10 +152,12 @@
                                     <div class="form-group" id="update-Dob">
                                         <label>Date of Birth</label>
                                         <input
-                                                placeholder="${update.doB}"
+<%--                                                placeholder="${update.doB}"--%>
                                                 name="Dob" type="text"
-                                                class="form-control input-Dob" data-mask="00/00/0000" autocomplete="off" maxlength="10">
-                                        <span class="form-text">dd/mm/yyyy</span>
+                                                value="2003-01-01"
+                                                class="form-control input-Dob" data-mask="00/00/0000" autocomplete="off"
+                                                maxlength="10">
+                                        <span class="form-text">yyyy-MM-dd</span>
                                     </div>
 
                                     <div class="form-group">
@@ -166,19 +171,22 @@
                                         <c:when test="${update.gender == 0}">
                                             <div class="form-group">
                                                 <label>Gender</label>
-                                                <input placeholder="Male" name="gender" type="text" class="form-control required" aria-required="true">
+                                                <input placeholder="Male" name="gender" type="text"
+                                                       class="form-control required" aria-required="true">
                                             </div>
                                         </c:when>
                                         <c:when test="${update.gender == 1}">
                                             <div class="form-group">
                                                 <label>Gender</label>
-                                                <input placeholder="Female" name="gender" type="text" class="form-control required" aria-required="true">
+                                                <input placeholder="Female" name="gender" type="text"
+                                                       class="form-control required" aria-required="true">
                                             </div>
                                         </c:when>
                                         <c:when test="${update.gender == 2}">
                                             <div class="form-group">
                                                 <label>Gender</label>
-                                                <input placeholder="None" name="gender" type="text" class="form-control required" aria-required="true">
+                                                <input placeholder="None" name="gender" type="text"
+                                                       class="form-control required" aria-required="true">
                                             </div>
                                         </c:when>
                                     </c:choose>
@@ -250,6 +258,11 @@
 <!-- Page-Level Scripts -->
 <script>
     $(document).ready(function () {
+
+        <c:if test="${requestScope.InvalidDate != null}">
+            alert("Not old enough");
+        </c:if>
+
         $('#update-Dob .input-Dob').datepicker({
             keyboardNavigation: false,
             forceParse: false,
@@ -298,7 +311,7 @@
                 Dob: {
                     required: 'Please enter date'
                 },
-                address:{
+                address: {
                     required: 'Please enter address'
                 },
                 gender: {

@@ -205,15 +205,31 @@ public class CustomerController extends HttpServlet {
             gender != null && !gender.isEmpty()){
                 try {
                     Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-                    customer.setName(name);
-                    customer.setDoB(dob);
-                    customer.setAddress(address);
-                    customer.setGender(Sgender);
+                    String dateindex = ("2004-01-01");
+                    Date index = new SimpleDateFormat("yyyy-MM-dd").parse(dateindex);
+                    if(dob.before(index)){
+                        customer.setName(name);
+                        customer.setDoB(dob);
+                        customer.setAddress(address);
+                        customer.setGender(Sgender);
+                        customerService.updateCustomerInfo(customer);
+                        response.sendRedirect(request.getContextPath() + "/customer/list");
+                    }else {
+                        request.setAttribute("InvalidDate","Not old enough");
+                        customer = customerService.getCustomerByPhoneNum(phone);
+                        List<Customer> list = new ArrayList<>();
+                        if (customer != null) {
+                            list.add(customer);
+                        }
+                        request.setAttribute("info", list);
+                        request.getRequestDispatcher("/view/customer/Customer_Update.jsp")
+                                .forward(request, response);
+                    }
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
             }else {
-                request.setAttribute("msgEx","Blank is not accepted");
+//                request.setAttribute("msgEx","Blank is not accepted");
                 System.out.println("Blank error");
                 List<Customer> list = new ArrayList<>();
                 if (customer != null) {
@@ -223,9 +239,9 @@ public class CustomerController extends HttpServlet {
                 request.getRequestDispatcher("/view/customer/Customer_Update.jsp")
                         .forward(request,response);
             }
-            session.setAttribute("updateStatus","success");
-            customerService.updateCustomerInfo(customer);
-            response.sendRedirect(request.getContextPath() + "/customer/list");
+//            session.setAttribute("updateStatus","success");
+//            customerService.updateCustomerInfo(customer);
+//            response.sendRedirect(request.getContextPath() + "/customer/list");
         }
 }
 
