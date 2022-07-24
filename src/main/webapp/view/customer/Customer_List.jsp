@@ -170,28 +170,34 @@
                                     <input name="var" value="${list.phone}" type="hidden">
                                     <tr id="${list.phone}" style="display: none">
                                         <td colspan="4">
-                                            <div>DoB: ${list.doB}</div>
-                                            <div>Address: ${list.address}</div>
+                                            <c:choose>
+                                                <c:when test="${list.doB != null}">
+                                                    <div>DoB: ${list.doB}</div>
+                                                </c:when>
+                                                <c:when test="${list.doB == null}">
+                                                    <div>DoB: None</div>
+                                                </c:when>
+                                            </c:choose>
+                                            <c:choose>
+                                                <c:when test="${list.address != null}">
+                                                    <div>Address: ${list.address}</div>
+                                                </c:when>
+                                                <c:when test="${list.address == null}">
+                                                    <div>DoB: None</div>
+                                                </c:when>
+                                            </c:choose>
                                             <c:choose>
                                                 <c:when test="${list.gender == 0}">
-
                                                     <div>Gender: Male</div>
-
                                                 </c:when>
                                                 <c:when test="${list.gender == 1}">
-
                                                     <div>Gender: Female</div>
-
                                                 </c:when>
                                                 <c:when test="${list.gender == 2}">
-
                                                     <div>Gender: None</div>
-
                                                 </c:when>
                                             </c:choose>
                                         </td>
-
-
                                     </tr>
 
                                 </c:forEach>
@@ -206,7 +212,7 @@
                                         <ul class="paginations">
                                             <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
                                                 <c:url var="previousPage"
-                                                       value="${requestScope.contextPath}/product/list">
+                                                       value="${requestScope.contextPath}/customer/list">
                                                     <c:param name="page"
                                                              value="${requestScope.currentPage - 1}"></c:param>
                                                     <c:param name="sortField"
@@ -239,7 +245,7 @@
                                             </c:forEach>
                                             <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
                                                 <c:url var="nextPage"
-                                                       value="${requestScope.contextPath}/product/list">
+                                                       value="${requestScope.contextPath}/customer/list">
                                                     <c:param name="page"
                                                              value="${requestScope.currentPage + 1}"></c:param>
                                                     <c:param name="sortField"
