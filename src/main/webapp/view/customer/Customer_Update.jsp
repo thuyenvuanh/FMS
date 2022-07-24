@@ -167,29 +167,37 @@
                                                class="form-control required" aria-required="true">
                                     </div>
 
-                                    <c:choose>
-                                        <c:when test="${update.gender == 0}">
-                                            <div class="form-group">
-                                                <label>Gender</label>
-                                                <input placeholder="Male" name="gender" type="text"
-                                                       class="form-control required" aria-required="true">
-                                            </div>
-                                        </c:when>
-                                        <c:when test="${update.gender == 1}">
-                                            <div class="form-group">
-                                                <label>Gender</label>
-                                                <input placeholder="Female" name="gender" type="text"
-                                                       class="form-control required" aria-required="true">
-                                            </div>
-                                        </c:when>
-                                        <c:when test="${update.gender == 2}">
-                                            <div class="form-group">
-                                                <label>Gender</label>
-                                                <input placeholder="None" name="gender" type="text"
-                                                       class="form-control required" aria-required="true">
-                                            </div>
-                                        </c:when>
-                                    </c:choose>
+                                    <div class="form-group">
+                                        <label>Gender</label>
+                                        <select name="gender" class="form-control required" aria-required="true">
+                                            <option value="female">Female</option>
+                                            <option value="male">Male</option>
+                                            <option value="none">None</option>
+                                        </select>
+                                    </div>
+<%--                                    <c:choose>--%>
+<%--                                        <c:when test="${update.gender == 0}">--%>
+<%--                                            <div class="form-group">--%>
+<%--                                                <label>Gender</label>--%>
+<%--                                                <input placeholder="Male" name="gender" type="text"--%>
+<%--                                                       class="form-control required" aria-required="true">--%>
+<%--                                            </div>--%>
+<%--                                        </c:when>--%>
+<%--                                        <c:when test="${update.gender == 1}">--%>
+<%--                                            <div class="form-group">--%>
+<%--                                                <label>Gender</label>--%>
+<%--                                                <input placeholder="Female" name="gender" type="text"--%>
+<%--                                                       class="form-control required" aria-required="true">--%>
+<%--                                            </div>--%>
+<%--                                        </c:when>--%>
+<%--                                        <c:when test="${update.gender == 2}">--%>
+<%--                                            <div class="form-group">--%>
+<%--                                                <label>Gender</label>--%>
+<%--                                                <input placeholder="None" name="gender" type="text"--%>
+<%--                                                       class="form-control required" aria-required="true">--%>
+<%--                                            </div>--%>
+<%--                                        </c:when>--%>
+<%--                                    </c:choose>--%>
 
                                 </div>
                                     <%--                                <div class="col-lg-4">--%>
@@ -289,6 +297,7 @@
                     }
                 });
         });
+
         $("#formUpdateCus").validate({
             rules: {
                 name: {
