@@ -1,15 +1,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url var="contextPath" value="${requestScope.contextPath}"></c:url>
-<nav class="navbar-default navbar-static-side" role="navigation">
+<nav class="navbar-default navbar-static-side" role="navigation" >
     <div class="sidebar-collapse">
-        <ul class="nav metismenu" id="side-menu">
+        <ul class="nav metismenu" id="side-menu" >
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <img
-                            alt="image"
-                            class="rounded-circle"
-                            src="img/profile_small.html"
-                    />
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
             <span class="block m-t-xs font-bold"
             >${sessionScope.storeSession.name} <b class="caret"></b
@@ -61,18 +56,18 @@
 <!-- Body -->
 <%--Top nav--%>
 <div id="page-wrapper" class="gray-bg">
-    <div class="row border-bottom">
+    <div class="row border-bottom" >
         <nav
                 class="navbar navbar-static-top"
                 role="navigation"
-                style="margin-bottom: 0"
+                style="margin-bottom: 0px"
         >
             <div class="navbar-header">
                 <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"
                 ><i class="fa fa-bars"></i
                 ></a>
             </div>
-            <ul class="nav navbar-top-links navbar-right">
+            <ul class="nav navbar-top-links navbar-right" >
                 <li>
                     <a href="<c:url value="/account/logout"/>"> <i class="fa fa-sign-out"></i> Log out </a>
                 </li>

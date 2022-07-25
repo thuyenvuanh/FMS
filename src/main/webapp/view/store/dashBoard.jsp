@@ -37,14 +37,14 @@
     <!-- TMP -->
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-9">
-            <h2>Income</h2>
+            <h2>Store Dashboard</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <c:url var="storeDashBoardLink" value="${requestScope.contextPath}/dashboard/store"></c:url>
                     <a href="${storeDashBoardLink}">Home</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <strong>Income</strong>
+                    <strong>Store Dashboard</strong>
                 </li>
             </ol>
         </div>

@@ -52,7 +52,8 @@
             <h2>E-commerce product list</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
+                    <c:url var="homeLink" value="${requestScope.contextPath}/dashboard/store"></c:url>
+                    <a href="${homeLink}">Home</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a>E-commerce</a>
@@ -217,8 +218,10 @@
                                     <td>
                                         <img src="../${product.imagePath}" alt="${product.name}" style="width: 25%"/>
                                     </td>
-                                    <fmt:setLocale value="vi_VN"/>
-                                    <td><fmt:formatNumber value="${product.price}" type="currency"/></td>
+                                    <td>
+                                        <fmt:formatNumber value="${product.price}" var="price" pattern="###,###,### ₫"/>
+                                        ${price}
+                                    </td>
                                     <td>${product.qtyAvailable}</td>
                                     <c:if test="${product.qtyAvailable != 0}">
                                         <td>

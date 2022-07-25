@@ -165,8 +165,6 @@ public class ProductService implements IProductService {
         int storeID = store.getId();
         Category category = new Category();
         try {
-
-
             if (request.getParameter("id") != null) {
                 id = request.getParameter("id");
             }
@@ -221,7 +219,7 @@ public class ProductService implements IProductService {
     }
 
     private String saveUploadFile(HttpServletRequest request, HttpServletResponse response) {
-        String UPLOAD_DIR = "images/product";
+        String UPLOAD_DIR = "images" + File.separator + "product";
         Part part = null;
         try {
             int index = request.getServletContext().getRealPath("").indexOf("target");
