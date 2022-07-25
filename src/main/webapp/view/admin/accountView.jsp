@@ -24,34 +24,22 @@
         <link href="../css/style.css" rel="stylesheet"/>
         <!-- Sweet Alert -->
         <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-        <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-        <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
-
-        <!-- FooTable -->
-        <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
-
-        <link href="../../css/animate.css" rel="stylesheet"/>
-        <link href="../../css/style.css" rel="stylesheet"/>
     </head>
     <body>
 
         <div id="wrapper">
 
-            <jsp:include page="layoutAdmin.jsp"></jsp:include>
+            <jsp:include page="layoutAdmin.jsp"/>
 
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
                         <h2>Account view</h2>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="index.html">Home</a>
+                                <a href="<c:url value="/"/>">Home</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a>E-commerce</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a>Account list</a>
+                                <a href="<c:url value="/account/list"/> ">Account list</a>
                             </li>
                             <li class="breadcrumb-item active">
                                 <strong>Account view</strong>
@@ -73,7 +61,7 @@
                                         <div class="panel-body">
 
                                             <fieldset>
-                                            <c:set var="acc" value="${requestScope.account}"></c:set>
+                                            <c:set var="acc" value="${requestScope.account}"/>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">ID:</label>
                                                     <div class="col-sm-10 text-align">${acc.id}</div>
                                             </div>
@@ -96,10 +84,10 @@
                                         </fieldset>
                                         <div class="form-layout-footer text-center">
                                             <c:url var="updateLink" value="${requestScope.contextPath}/account/updatePage">
-                                                <c:param name="accountId" value="${acc.id}"></c:param>
+                                                <c:param name="accountId" value="${acc.id}"/>
                                             </c:url>
                                             <c:url var="deleteLink" value="${requestScope.contextPath}/account/delete">
-                                                <c:param name="accountId" value="${acc.id}"></c:param>
+                                                <c:param name="accountId" value="${acc.id}"/>
                                             </c:url>
                                             <a href="${deleteLink}">
                                                 <button class="btn btn-danger bd-0" <c:if test="${sessionScope.account.username == acc.username}">disabled</c:if>>Delete</button>
@@ -119,24 +107,8 @@
                 </div>
 
             </div>
-            <jsp:include page="footer.jsp"></jsp:include>
+            <jsp:include page="footer.jsp"/>
         </div>
-
-
-        <!-- Mainly scripts -->
-        <script src="../../js/jquery-3.1.1.min.js"></script>
-        <script src="../../js/popper.min.js"></script>
-        <script src="../../js/bootstrap.js"></script>
-        <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-        <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-        <!-- Custom and plugin javascript -->
-        <script src="../../js/inspinia.js"></script>
-        <script src="../../js/plugins/pace/pace.min.js"></script>
-
-        <!-- FooTable -->
-        <script src="../../js/plugins/footable/footable.all.min.js"></script>
-        <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
 
         <!-- Mainly scripts -->
         <script src="../js/jquery-3.1.1.min.js"></script>
@@ -158,16 +130,15 @@
 
         <!-- Page-Level Scripts -->
         <script>
-                                                $(document).ready(function () {
+            $(document).ready(function () {
 
-                                                    $('.footable').footable();
+                $('.footable').footable();
 
-                                                });
-
+            });
         </script>
 
         <!-- Alert -->
-        <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+        <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
         <!-- Alert -->
         <div class="sweet-overlay" tabindex="-1" style="opacity: -0.03; display: none;"></div>
@@ -216,9 +187,6 @@
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 <!-- Sweet Alert -->
 <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-<link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-<link href="../../css/bootstrap.min.css" rel="stylesheet"/>
-<link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
 <c:if test="${sessionScope.updateStatus != null && sessionScope.updateStatus eq 'fail'}">
     <script>

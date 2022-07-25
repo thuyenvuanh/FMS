@@ -172,9 +172,25 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         return count(sql);
     }
     public int countNotDeleted(){
-        String sql = "select * from Account\n" +
+        String sql = "select COUNT(ID) from Account\n" +
                 "where IsDeleted = 0";
         return count(sql);
+    }
+
+    public int countOnParameters(int isDelete, String username, String fullName, int roleId){
+        String sql = "";
+        if(roleId == 0){
+            sql = "SELECT COUNT(Account.ID)\n" +
+                    "FROM Account Join Role On Account.RoleID = Role.ID\n" +
+                    "WHERE Account.IsDeleted = ? AND Username LIKE ? AND FullName LIKE ?";
+            return count(sql, isDelete, "%" + username + "%", "%" + fullName + "%");
+        }
+        else {
+            sql = "SELECT COUNT(Account.ID)\n" +
+                    "FROM Account Join Role On Account.RoleID = Role.ID\n" +
+                    "WHERE Account.IsDeleted = ? AND Username LIKE ? AND FullName LIKE ? AND RoleID = ?\n";
+            return count(sql, isDelete, "%" + username + "%", "%" + fullName + "%", roleId);
+        }
     }
 
     @Override

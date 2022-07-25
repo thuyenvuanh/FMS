@@ -26,20 +26,6 @@
         <link href="../css/style.css" rel="stylesheet"/>
         <!-- Sweet Alert -->
         <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-        <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-        <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
-
-        <!-- FooTable -->
-        <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
-
-        <link href="../../css/animate.css" rel="stylesheet"/>
-        <link href="../../css/style.css" rel="stylesheet"/>
-
-        <!-- Select2 -->
-        <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
-        <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-        <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
         <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
         <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
         <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
@@ -47,20 +33,17 @@
     <body>
         <div id="wrapper">
 
-            <jsp:include page="layoutAdmin.jsp"></jsp:include>
+            <jsp:include page="layoutAdmin.jsp"/>
 
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
                         <h2>Account Update</h2>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="index.html">Home</a>
+                                <a href="<c:url value="/adminDashboard/index"/>">Home</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a>E-commerce</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a>Account list</a>
+                                <a href="<c:url value="/account/list"/> ">Account list</a>
                             </li>
                             <li class="breadcrumb-item active">
                                 <strong>Account update</strong>
@@ -80,10 +63,10 @@
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
                                         <div class="panel-body">
-                                            <c:url var="updateAccountLink" value="${requestScope.contextPath}/account/update"></c:url>
+                                            <c:url var="updateAccountLink" value="${requestScope.contextPath}/account/update"/>
                                             <form id="form_account_update" class="updateForm" action="${updateAccountLink}" autocomplete="off" method="POST">
                                             <fieldset>
-                                                <c:set var="acc" value="${requestScope.account}"></c:set>
+                                                <c:set var="acc" value="${requestScope.account}"/>
                                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Username:</label>
                                                         <div class="col-sm-10">
                                                             <input type="text" class="form-control" name="username" value="${acc.username}" placeholder="Username" readonly>
@@ -127,7 +110,7 @@
                     </div>
                 </div>
             </div>
-            <jsp:include page="footer.jsp"></jsp:include>
+            <jsp:include page="footer.jsp"/>
         </div>
 
 
@@ -173,20 +156,6 @@
             </div>
         </div>
 
-        <!-- Mainly scripts -->
-        <script src="../../js/jquery-3.1.1.min.js"></script>
-        <script src="../../js/popper.min.js"></script>
-        <script src="../../js/bootstrap.js"></script>
-        <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-        <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-        <!-- Custom and plugin javascript -->
-        <script src="../../js/inspinia.js"></script>
-        <script src="../../js/plugins/pace/pace.min.js"></script>
-
-        <!-- FooTable -->
-        <script src="../../js/plugins/footable/footable.all.min.js"></script>
-        <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
 
         <!-- Mainly scripts -->
         <script src="../js/jquery-3.1.1.min.js"></script>
@@ -207,9 +176,7 @@
         <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
         <!-- Jquery Validate -->
-        <script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
         <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-        <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
         <script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
         <%-- Select2 --%>
@@ -279,9 +246,6 @@
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 <!-- Sweet Alert -->
 <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-<link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-<link href="../../css/bootstrap.min.css" rel="stylesheet"/>
-<link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
 <c:if test="${sessionScope.updateStatus != null && sessionScope.updateStatus eq 'fail'}">
     <script>
