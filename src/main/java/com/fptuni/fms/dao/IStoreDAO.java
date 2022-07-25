@@ -52,4 +52,6 @@ public interface IStoreDAO extends GenericDAO<Store> {
 
 
     BigDecimal GetTotalValueByTime(Date date);
+
+    boolean existName(String name);
 }

@@ -127,10 +127,9 @@ public class AccountService implements IAccountService {
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
         request.setAttribute("isAsc", !isAsc);
 
-        int totalPages = accountDAO.count() / pageSize;
-        if (accountDAO.count() % pageSize != 0) {
-            totalPages++;
-        }
+        int totalAccounts = accountDAO.countNotDeleted();
+
+        int totalPages = (int) Math.ceil((double)totalAccounts / (double)pageSize);
         RoleDAO role = new RoleDAO();
         List<Role> listRole = role.getListRole();
         request.setAttribute("roleList", listRole);

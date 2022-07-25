@@ -117,7 +117,7 @@
                                             </fieldset>
                                             <div class="form-layout-footer text-center">
                                                 <button type="button" id="update_account_form" class="btn btn-primary bd-0 update_account_form">Submit</button>
-                                                <a href="<c:url value="/account/list" />"  type="button" class="btn btn-dark">Back to List</a>
+                                                <a href="<c:url value="/account/list" />" class="btn btn-dark">Back to List</a>
                                             </div>
                                         </form>
                                     </div>

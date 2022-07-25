@@ -135,7 +135,7 @@
                                         <button type="button" id="update_store_form"
                                                 class="btn btn-primary bd-0 update_store_form">Submit
                                         </button>
-                                        <a href="<c:url value="/store/list"/>" type="button" class="btn btn-dark">Cancel</a>
+                                        <a href="<c:url value="/store/list"/>" class="btn btn-dark">Cancel</a>
                                     </div>
                                 </form>
                             </div>

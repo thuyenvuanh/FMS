@@ -39,6 +39,14 @@ public class StoreService implements IStoreService {
         HttpSession session = request.getSession();
         session.removeAttribute("createStatus");
         String name = request.getParameter("storeName");
+
+        if (storeDAO.existName(name)){
+            request.setAttribute("storeName", name);
+            request.setAttribute("createStoreMessage", "Store with name " + name + " already existed");
+            request.setAttribute("createStatus", "fail");
+            return "/store/createPage";
+        }
+
         String storeManager = request.getParameter("storeManager");
         Store store = new Store();
         store.setName(name);
@@ -64,7 +72,7 @@ public class StoreService implements IStoreService {
     @Override
     public String getListStore(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pageIndex = 1;
-        int pageSize = 10;
+        int pageSize = 5;
         String sortField = "ID";
         boolean isAsc = true;
         if (request.getParameter("page") != null) {

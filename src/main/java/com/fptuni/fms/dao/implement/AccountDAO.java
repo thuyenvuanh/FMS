@@ -171,6 +171,11 @@ public class AccountDAO extends AbstractDAO<Account> implements IAccountDAO {
         String sql = "SELECT COUNT(ID) FROM dbo.Account";
         return count(sql);
     }
+    public int countNotDeleted(){
+        String sql = "select * from Account\n" +
+                "where IsDeleted = 0";
+        return count(sql);
+    }
 
     @Override
     public List<Account> getListStoreManager(){

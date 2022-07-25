@@ -71,6 +71,13 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
     }
 
     @Override
+    public boolean existName(String name) {
+        String sql = "SELECT Name FROM Store where Name = ?";
+        return !query(sql, new StoreMapper(), name).isEmpty();
+
+    }
+
+    @Override
     public List<Store> getListStore(Pageable pageable) {
         // Sort theo field xong moi paging
         // Neu chon sortField khac thi cac Product moi trang se thay doi

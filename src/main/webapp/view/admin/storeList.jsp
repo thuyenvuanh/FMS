@@ -247,7 +247,7 @@
                 $(document).ready(function () {
                     swal({
                         title: "Create Success!",
-                        text: "You clicked the button!",
+                        text: "Store created",
                         type: "success"
                     });
                 });

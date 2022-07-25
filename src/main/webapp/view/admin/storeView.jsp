@@ -119,7 +119,7 @@
                                                 <a href="${updateLink}">
                                                     <button class="btn btn-primary bd-0">Update</button>
                                                 </a>
-                                                <button onclick="history.back()" type="button" class="btn btn-secondary bd-0">Back to list</button>
+                                                <a href="<c:url value="/store/list"/>" class="btn btn-secondary bd-0">Back to list</a>
 
                                             </div>
                                         </div>

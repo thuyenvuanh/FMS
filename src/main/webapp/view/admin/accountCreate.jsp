@@ -112,7 +112,7 @@
                                             </fieldset>
                                             <div class="form-layout-footer text-center">
                                                 <button type="button" class="btn btn-primary bd-0 create_account_form" id="create_account_form">Submit</button>
-                                                <button onclick="history.back()" type="button" class="btn btn-dark">Cancel</button>
+                                                <a href="<c:url value="/account/list"/>" class="btn btn-dark">Cancel</a>
                                             </div>
                                         </form>
                                     </div>

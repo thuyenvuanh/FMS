@@ -85,7 +85,7 @@
                                             <form id="form_store_create" class="createForm" action="${pageContext.servletContext.contextPath}/store/create" autocomplete="off">
                                                 <fieldset>
                                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
-                                                        <div class="col-sm-10"><input name="storeName" type="text" class="form-control" placeholder="Store name"></div>
+                                                        <div class="col-sm-10"><input name="storeName" value="${requestScope.storeName}" type="text" class="form-control" placeholder="Store name"></div>
                                                     </div>
                                                     <div class="form-group row"><label  class="col-sm-2 col-form-label">Store Manager:</label>
                                                     <div class="col-sm-10">
@@ -100,7 +100,7 @@
                                                 </fieldset>
                                                 <div class="form-layout-footer text-center">
                                                     <button type="button" class="btn btn-primary bd-0 create_store_form" id="create_store_form">Submit</button>
-                                                    <button onclick="history.back()" type="button" class="btn btn-dark">Cancel</button>
+                                                    <a href="<c:url value="/store/list"/>" class="btn btn-dark">Cancel</a>
                                                 </div>
                                             </form>
                                         </div>
@@ -202,6 +202,14 @@
                     return arg !== value;
                 }, "Value must not equal arg.");
 
+                <c:if test="${requestScope.createStatus eq 'fail'}">
+                    swal({
+                        title: "Create Success!",
+                        text: "${requestScope.createStoreMessage}",
+                        type: "error"
+                    });
+                </c:if>
+
                 $("#form_store_create").validate({
                     rules: {
                         storeName: {
@@ -221,6 +229,7 @@
                     }
                 })
             });
+
         </script>
 
     <!-- Alert -->
