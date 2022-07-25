@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -38,16 +39,15 @@
     <jsp:include page="layoutStore.jsp"></jsp:include>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>Product edit</h2>
+            <h2>Product detail</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
+                    <c:url var="storeDashBoardLink" value="${requestScope.contextPath}/dashboard/store"></c:url>
+                    <a href="${storeDashBoardLink}">Home</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a>E-commerce</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a>Products list</a>
+                    <c:url var="productListLink" value="${requestScope.contextPath}/product/list"></c:url>
+                    <a href="${productListLink}">Product list</a>
                 </li>
                 <li class="breadcrumb-item active">
                     <strong>Product view</strong>
@@ -76,7 +76,10 @@
                                         <div class="col-sm-10 text-align">${productDetail.name}</div>
                                     </div>
                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Price:</label>
-                                        <div class="col-sm-10 text-align">${productDetail.price}</div>
+                                        <div class="col-sm-10 text-align">
+                                            <fmt:formatNumber var="price" value="${productDetail.price}" pattern="###,###,### ₫"></fmt:formatNumber>
+                                            ${price}
+                                        </div>
                                     </div>
                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Image:</label>
 
