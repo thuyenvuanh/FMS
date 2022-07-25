@@ -49,6 +49,7 @@ public class AccountService implements IAccountService {
                     store = getStore(account);
                     if (store != null) request.getSession().setAttribute("storeSession", store);
                     url = request.getContextPath() + "/dashboard/store";
+                    //response toi link cua store manager
                 }
             } else {
                 url = request.getContextPath();
