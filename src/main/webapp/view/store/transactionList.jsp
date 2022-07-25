@@ -68,9 +68,6 @@
                     <c:url var="homeLink" value="${requestScope.contextPath}/dashboard/store"></c:url>
                     <a href="${homeLink}">Home</a>
                 </li>
-                <li class="breadcrumb-item">
-                    <a>E-commerce</a>
-                </li>
                 <li class="breadcrumb-item active">
                     <strong>Orders</strong>
                 </li>

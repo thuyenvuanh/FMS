@@ -40,13 +40,12 @@
             <h2>OrderDetail</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
+                    <c:url var="homeLink" value="${requestScope.contextPath}/dashboard/store"></c:url>
+                    <a href="${homeLink}">Home</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a>E-commerce</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a>Orders</a>
+                    <c:url var="orderListLink" value="${requestScope.contextPath}/order/list"></c:url>
+                    <a href="${orderListLink}">Order list</a>
                 </li>
                 <li class="breadcrumb-item active">
                     <strong>OrderDetails</strong>
