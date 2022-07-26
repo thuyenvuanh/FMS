@@ -3,6 +3,8 @@
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <!-- Mirrored from webapplayers.com/inspinia_admin-v2.9.4/ecommerce_product_list.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jun 2022 04:37:12 GMT -->
@@ -26,6 +28,14 @@
     <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
+    <!-- Select2 -->
+    <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+    <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+    <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
+    <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+
     <!-- FooTable -->
     <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
 
@@ -36,12 +46,14 @@
 <body>
 <div id="wrapper">
     <jsp:include page="layoutStore.jsp"></jsp:include>
+
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>E-commerce product list</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
+                    <c:url var="homeLink" value="${requestScope.contextPath}/dashboard/store"></c:url>
+                    <a href="${homeLink}">Home</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a>E-commerce</a>
@@ -57,12 +69,18 @@
     <%--    Search--%>
     <div class="ibox-content m-b-sm border-bottom">
         <c:url var="searchLink" value="${requestScope.contextPath}/product/list"></c:url>
-        <form action="${searchLink}" autocomplete="off" method="post">
+        <form id="form_product_search" action="${searchLink}" autocomplete="off" method="post">
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
                         <label class="col-form-label" for="product_name">Category</label>
-                        <select name="categoryID" class="form-control">
+<%--                        <select name="categoryID" class="select_category form-control">--%>
+<%--                            <option value="0">All</option>--%>
+<%--                            <c:forEach var="category" items="${requestScope.categories}">--%>
+<%--                                <option value="${category.id}" ${requestScope.categoryID == category.id ? "selected":"" }>${category.name}</option>--%>
+<%--                            </c:forEach>--%>
+<%--                        </select>--%>
+                        <select name="categoryID" class="select_category form-control" data-select2-id="6" tabindex="-1" aria-hidden="true">
                             <option value="0">All</option>
                             <c:forEach var="category" items="${requestScope.categories}">
                                 <option value="${category.id}" ${requestScope.categoryID == category.id ? "selected":"" }>${category.name}</option>
@@ -80,22 +98,24 @@
                 <div class="col-md-4">
                     <div class="form-group" id="date_range_transaction">
                         <label class="col-form-label">Price</label>
-                        <div class="input-daterange input-group" id="datepicker">
-                            <input type="number" class="form-control" name="minPrice"
-                                   placeholder="Min" value="${requestScope.minPrice}">
+                        <div class="input-daterange input-group">
+                            <input type="text" class="form-control" data-mask="0000000000000" placeholder="Min"
+                                   name="minPrice" id="minPrice" maxlength="17" value="${requestScope.minPrice}">
                             <span class="input-group-addon">to</span>
-                            <input type="number" class="form-control" name="maxPrice"
-                                   placeholder="Max" value="${requestScope.maxPrice}">
+                            <input type="text" class="form-control" data-mask="0000000000000" placeholder="Max"
+                                   name="maxPrice" id="maxPrice" maxlength="17" value="${requestScope.maxPrice}">
                         </div>
                     </div>
+
                 </div>
 
                 <div class=" col-md-2">
                     <div class="form-group">
                         <label class="col-form-label" for="quantity">Quantity</label>
-                        <input type="number" id="quantity" name="quantity" placeholder="Quantity"
-                               value="${requestScope.quantity}"
-                               class="form-control">
+                        <input type="text" class="form-control" data-mask="0000000000000" placeholder="Quantity"
+                               autocomplete="off" maxlength="17" id="quantity" name="quantity"
+                               value="${requestScope.quantity}">
+
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -109,6 +129,7 @@
                 </div>
                 <div class="container-fluid">
                     <button class="btn btn-outline-success  float-right" type="submit">Search</button>
+                    <button type="reset" value="Reset" class="btn btn-outline-danger float-right" style="margin-right: 2%">Reset</button>
                 </div>
             </div>
 
@@ -129,7 +150,6 @@
     <%--    Create--%>
 
     <div class="wrapper wrapper-content animated fadeInRight ecommerce">
-
         <div class="row">
             <div class="col-lg-12">
                 <div class="ibox">
@@ -146,9 +166,9 @@
                                 <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
                                 <c:param name="productName" value="${requestScope.productName}"></c:param>
                             </c:url>
-                            <c:url var="sortFromLink" value="${requestScope.contextPath}/product/list"></c:url>
+                            <c:url var="sortFormLink" value="${requestScope.contextPath}/product/list"></c:url>
 
-                            <form action="${sortFromLink}" method="post" id="sortFrom" style="display: none">
+                            <form action="${sortFormLink}" method="post" id="sortForm" style="display: none">
                                 <input type="hidden" name="currentPage" value="${requestScope.currentPage}"/>
                                 <input type="hidden" name="isAscending" value="${requestScope.isAscending}">
                                 <input type="hidden" name="minPrice" value="${requestScope.minPrice}">
@@ -156,29 +176,27 @@
                                 <input type="hidden" name="quantity" value="${requestScope.quantity}">
                                 <input type="hidden" name="categoryID" value="${requestScope.categoryID}">
                                 <input type="hidden" name="productName" value="${requestScope.productName}">
-
-                                <%--                                <input type="hidden" id="sortFieldInput" name="sortField" value="${requestScope.sortField}">--%>
-
                                 <input type="hidden" id="sortFieldInput" name="sortField">
 
                                 <tr style="color: dodgerblue">
                                     <th data-toggle="true" data-sort-ignore="true">
                                         <%--                                    <a href="${sort}&sortField=ID">Product ID</a>--%>
-                                        <a onclick="document.getElementById('sortFieldInput').value = 'ID'; document.getElementById('sortFrom').submit();">Product ID</a>
+                                        <a onclick="document.getElementById('sortFieldInput').value = 'ID'; document.getElementById('sortForm').submit();">Product
+                                            ID</a>
                                     </th>
                                     <th data-hide="phone" data-sort-ignore="true">
                                         <%--                                    <a href="${sort}&sortField=Name">Product Name</a>--%>
-                                        <a onclick="document.getElementById('sortFieldInput').value = 'Name';document.getElementById('sortFrom').submit();">Product
+                                        <a onclick="document.getElementById('sortFieldInput').value = 'Name';document.getElementById('sortForm').submit();">Product
                                             Name</a>
                                     </th>
                                     <th data-hide="all" data-sort-ignore="true">Image</th>
                                     <th data-hide="phone" data-sort-ignore="true">
                                         <%--                                        <a href="${sort}&sortField=Price">Price</a>--%>
-                                        <a onclick="document.getElementById('sortFieldInput').value = 'Price';document.getElementById('sortFrom').submit();">Price</a>
+                                        <a onclick="document.getElementById('sortFieldInput').value = 'Price';document.getElementById('sortForm').submit();">Price</a>
                                     </th>
                                     <th data-hide="phone,tablet" data-sort-ignore="true">
                                         <%--                                        <a href="${sort}&sortField=QtyAvailable">Quantity</a>--%>
-                                        <a onclick="document.getElementById('sortFieldInput').value = 'QtyAvailable';document.getElementById('sortFrom').submit();">Quantity</a>
+                                        <a onclick="document.getElementById('sortFieldInput').value = 'QtyAvailable';document.getElementById('sortForm').submit();">Quantity</a>
                                     </th>
                                     <th data-hide="phone" data-sort-ignore="true">Status</th>
                                     <th class="text-right" data-sort-ignore="true">
@@ -198,9 +216,12 @@
                                     </td>
                                     <td>${product.name}</td>
                                     <td>
-                                        <img src="${product.imagePath}" alt="${product.name}" style="width: 35%"/>
+                                        <img src="../${product.imagePath}" alt="${product.name}" style="width: 25%"/>
                                     </td>
-                                    <td>${product.price}</td>
+                                    <td>
+                                        <fmt:formatNumber value="${product.price}" var="price" pattern="###,###,### ₫"/>
+                                        ${price}
+                                    </td>
                                     <td>${product.qtyAvailable}</td>
                                     <c:if test="${product.qtyAvailable != 0}">
                                         <td>
@@ -252,14 +273,19 @@
                                             <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
                                                 <c:url var="previousPage"
                                                        value="${requestScope.contextPath}/product/list">
-                                                    <c:param name="sortField" value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="currentPage" value="${requestScope.currentPage - 1}"></c:param>
-                                                    <c:param name="isAscending" value="${!requestScope.isAscending}"></c:param>
+                                                    <c:param name="sortField"
+                                                             value="${requestScope.sortField}"></c:param>
+                                                    <c:param name="currentPage"
+                                                             value="${requestScope.currentPage - 1}"></c:param>
+                                                    <c:param name="isAscending"
+                                                             value="${!requestScope.isAscending}"></c:param>
                                                     <c:param name="minPrice" value="${requestScope.minPrice}"></c:param>
                                                     <c:param name="maxPrice" value="${requestScope.maxPrice}"></c:param>
                                                     <c:param name="quantity" value="${requestScope.quantity}"></c:param>
-                                                    <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
-                                                    <c:param name="productName" value="${requestScope.productName}"></c:param>
+                                                    <c:param name="categoryID"
+                                                             value="${requestScope.categoryID}"></c:param>
+                                                    <c:param name="productName"
+                                                             value="${requestScope.productName}"></c:param>
                                                 </c:url>
                                                 <c:url var="previousPageLink"
                                                        value="${requestScope.contextPath}/product/list"></c:url>
@@ -284,11 +310,6 @@
 
                                                 </form>
 
-                                                <%--    <a--%>
-                                                <%--    class="page-link"--%>
-                                                <%--    href="${previousPage}"--%>
-                                                <%--    aria-label="Previous"--%>
-                                                <%--    >--%>
                                                 <a class="page-link" aria-label="Previous"
                                                    onclick="document.getElementById('previousPage').value=${requestScope.currentPage - 1}; document.getElementById('previousPagingForm').submit();">
                                                     <span aria-hidden="true">&laquo;</span>
@@ -298,20 +319,23 @@
                                             <c:forEach begin="1" end="${requestScope.totalPages}" var="page">
                                                 <c:url var="paging"
                                                        value="${requestScope.contextPath}/product/list">
-                                                    <c:param name="sortField" value="${requestScope.sortField}"></c:param>
+                                                    <c:param name="sortField"
+                                                             value="${requestScope.sortField}"></c:param>
                                                     <c:param name="currentPage" value="${page}"></c:param>
-                                                    <c:param name="isAscending" value="${!requestScope.isAscending}"></c:param>
+                                                    <c:param name="isAscending"
+                                                             value="${!requestScope.isAscending}"></c:param>
                                                     <c:param name="minPrice" value="${requestScope.minPrice}"></c:param>
                                                     <c:param name="maxPrice" value="${requestScope.maxPrice}"></c:param>
                                                     <c:param name="quantity" value="${requestScope.quantity}"></c:param>
-                                                    <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
-                                                    <c:param name="productName" value="${requestScope.productName}"></c:param>
+                                                    <c:param name="categoryID"
+                                                             value="${requestScope.categoryID}"></c:param>
+                                                    <c:param name="productName"
+                                                             value="${requestScope.productName}"></c:param>
                                                 </c:url>
                                                 <c:url var="pagingLink"
                                                        value="${requestScope.contextPath}/product/list"></c:url>
 
                                                 <form action="${pagingLink}" method="post" id="pagingForm">
-                                                        <%--                                                    <input type="hidden" name="currentPage" value="${page}"/>--%>
                                                     <input type="hidden" name="currentPage" id="currentPage"/>
                                                     <input type="hidden" name="isAscending"
                                                            value="${!requestScope.isAscending}">
@@ -330,30 +354,32 @@
 
                                                 </form>
                                                 <li class="page-item ${requestScope.currentPage == page ?"active":""}">
-                                                        <%--                                                        <a class="page-link "--%>
-                                                        <%--                                                           href="${paging}">${page}</a>--%>
                                                     <a class="page-link"
                                                        onclick="document.getElementById('currentPage').value=${page}; document.getElementById('pagingForm').submit();">${page}</a>
                                                 </li>
 
 
                                             </c:forEach>
-                                            <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}" style="display: none">
-                                                <c:url var="nextPage"
-                                                       value="${requestScope.contextPath}/product/list">
-                                                    <c:param name="sortField" value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="currentPage" value="${requestScope.currentPage + 1}"></c:param>
-                                                    <c:param name="isAscending" value="${!requestScope.isAscending}"></c:param>
-                                                    <c:param name="minPrice" value="${requestScope.minPrice}"></c:param>
-                                                    <c:param name="maxPrice" value="${requestScope.maxPrice}"></c:param>
-                                                    <c:param name="quantity" value="${requestScope.quantity}"></c:param>
-                                                    <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
-                                                    <c:param name="productName" value="${requestScope.productName}"></c:param>
-                                                </c:url>
+                                            <c:url var="nextPage"
+                                                   value="${requestScope.contextPath}/product/list">
+                                                <c:param name="sortField" value="${requestScope.sortField}"></c:param>
+                                                <c:param name="currentPage"
+                                                         value="${requestScope.currentPage + 1}"></c:param>
+                                                <c:param name="isAscending"
+                                                         value="${!requestScope.isAscending}"></c:param>
+                                                <c:param name="minPrice" value="${requestScope.minPrice}"></c:param>
+                                                <c:param name="maxPrice" value="${requestScope.maxPrice}"></c:param>
+                                                <c:param name="quantity" value="${requestScope.quantity}"></c:param>
+                                                <c:param name="categoryID" value="${requestScope.categoryID}"></c:param>
+                                                <c:param name="productName"
+                                                         value="${requestScope.productName}"></c:param>
+                                            </c:url>
 
-                                                <c:url var="nextPageLink" value="${requestScope.contextPath}/product/list"></c:url>
+                                            <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
+                                                <c:url var="nextPageLink"
+                                                       value="${requestScope.contextPath}/product/list"></c:url>
                                                 <form action="${nextPageLink}" method="post"
-                                                      id="nextPagingForm">
+                                                      id="nextPagingForm" style="display: none">
                                                     <input type="hidden" name="currentPage" id="nextPage"/>
                                                     <input type="hidden" name="isAscending"
                                                            value="${!requestScope.isAscending}">
@@ -371,10 +397,10 @@
                                                            value="${requestScope.sortField}">
 
                                                 </form>
-<%--                                                <a class="page-link" href="${nextPage}" aria-label="Next">--%>
-<%--                                                    <span aria-hidden="true">&raquo;</span>--%>
-<%--                                                    <span class="sr-only">Next</span>--%>
-<%--                                                </a>--%>
+                                                <%--                                                <a class="page-link" href="${nextPage}" aria-label="Next">--%>
+                                                <%--                                                    <span aria-hidden="true">&raquo;</span>--%>
+                                                <%--                                                    <span class="sr-only">Next</span>--%>
+                                                <%--                                                </a>--%>
                                                 <a class="page-link" aria-label="Next"
                                                    onclick="document.getElementById('nextPage').value=${requestScope.currentPage + 1}; document.getElementById('nextPagingForm').submit();">
                                                     <span aria-hidden="true">&raquo;</span>
@@ -409,6 +435,8 @@
 <!-- FooTable -->
 <script src="../../js/plugins/footable/footable.all.min.js"></script>
 <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="../js/plugins/footable/footable.all.min.js"></script>
+<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <!-- Mainly scripts -->
 <script src="../js/jquery-3.1.1.min.js"></script>
@@ -422,11 +450,24 @@
 <script src="../js/plugins/pace/pace.min.js"></script>
 
 <!-- FooTable -->
+<script src="../../js/plugins/footable/footable.all.min.js"></script>
 <script src="../js/plugins/footable/footable.all.min.js"></script>
+
+<!-- Input Mask-->
+<script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
 
 <!-- Page-Level Scripts -->
 <!-- Sweet alert -->
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<%-- Select2 --%>
+<script src="../js/plugins/select2/select2.full.min.js"></script>
+
+<!-- Jquery Validate -->
+<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
 <%--if controller return create successful status--%>
 <c:if test="${sessionScope.createStatus != null}">
@@ -491,7 +532,52 @@
 <script>
     $(document).ready(function () {
         $(".footable").footable();
+
+        $(".select_category").select2({
+            theme: 'bootstrap4',
+        });
+        // $.validator.addMethod('greaterThan', function (value, element, param) {
+        //     return this.optional(element) || parseInt(value) >= parseInt($(param).val());
+        // }, 'Invalid value');
+
+<%--        let selectInput = document.querySelector("#minPrice");--%>
+
+<%--        selectInput.addEventListener("keydown", function(e){--%>
+<%--            const key = e.key;--%>
+<%--            if(key === "Backspace"){--%>
+<%--                <%--%>
+<%--//                    request.removeAttribute("minPrice");--%>
+<%--                    request.setAttribute("minPrice", 0);--%>
+<%--                %>--%>
+<%--                selectInput.value = 0;--%>
+
+<%--                console.log(selectInput.value);--%>
+<%--            }--%>
+<%--        })--%>
+
+
+<%--        // if($("#minPrice").val() != "" && $("#maxPrice").val() != ""){--%>
+<%--            $("#form_product_search").validate({--%>
+
+<%--                rules: {--%>
+<%--                    maxPrice: {--%>
+<%--                        greaterThan: '#minPrice',--%>
+<%--                        number: true,--%>
+<%--                        maxlength: 9--%>
+<%--                    },--%>
+<%--                },--%>
+<%--                messages: {--%>
+<%--                    maxPrice: {--%>
+<%--                        greaterThan: 'Max price must be greater than min price',--%>
+<%--                        maxlength: 'Invalid input cause over amount format'--%>
+<%--                    }--%>
+<%--                }--%>
+
+<%--            })--%>
+        // }
+
     });
+
 </script>
 
 <%--<!-- Alert -->--%>
@@ -540,5 +626,3 @@
 </body>
 
 </html>
-
-

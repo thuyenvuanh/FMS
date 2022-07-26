@@ -7,12 +7,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface ICustomerService {
-    List<Customer> getList (HttpServletRequest request , HttpServletResponse response);
+    List<Customer> getList(HttpServletRequest request, HttpServletResponse response);
 
-    Customer getCustomerByPhoneNum (HttpServletRequest request , HttpServletResponse response);
+    Customer getCustomerByPhoneNum(String PhoneNum);
 
-    Integer addnewCustomer (HttpServletRequest request , HttpServletResponse response);
-    
-    Integer CountCustomer ();
+    Integer addnewCustomer(HttpServletRequest request, HttpServletResponse response);
 
+    Integer CountCustomer();
+    Integer CountCustomerNotDeleted();
+
+    Integer DeleteCustomer(String phoneNum);
+
+    Customer getDetail(String phoneNum);
+
+    boolean updateCustomerInfo(Customer customer);
+
+    Customer getCustomerByOrderID(HttpServletRequest request, HttpServletResponse response);
+
+    Customer getCustomer(int customerID);
+    Customer getCustomerByWalletID(int walletID);
 }

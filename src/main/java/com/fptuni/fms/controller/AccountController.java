@@ -12,14 +12,11 @@ public class AccountController extends HttpServlet {
 
     private final AccountService accountService = new AccountService();
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getPathInfo();
         String url = null;
         switch (action) {
-            case "/index":
-                url = request.getContextPath();
-                response.sendRedirect(url);
-                break;
             case "/login":
                 url = accountService.login(request, response);
                 response.sendRedirect(url);
@@ -56,18 +53,22 @@ public class AccountController extends HttpServlet {
                 url = accountService.delete(request, response);
                 request.getRequestDispatcher(url).forward(request, response);
                 break;
+            case "/search":
+                url = accountService.search(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
+                break;
+            default:
+                response.sendError(404, "Not Found");
         }
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 }

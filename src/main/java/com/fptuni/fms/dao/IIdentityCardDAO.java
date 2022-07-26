@@ -4,6 +4,7 @@
  */
 package com.fptuni.fms.dao;
 
+import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.model.IdentityCard;
 import com.fptuni.fms.paging.Pageable;
 
@@ -21,4 +22,6 @@ public interface IIdentityCardDAO extends GenericDAO<IdentityCard> {
     IdentityCard get(int id);
 
     int getTotalItem();
+
+    Integer createIdentityCard (Customer customer);
 }

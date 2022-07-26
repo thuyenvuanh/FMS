@@ -17,5 +17,5 @@ public interface IRoleDAO extends GenericDAO<Role> {
 
     void updateRole(int id, String name);
 
-    public List<Role> getListRole();
+    List<Role> getListRole();
 }

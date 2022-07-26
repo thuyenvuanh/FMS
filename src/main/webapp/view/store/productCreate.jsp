@@ -71,7 +71,7 @@
 
                                 <c:url var="createLink" value="${requestScope.contextPath}/product/create">
                                 </c:url>
-                                <form class="createForm" action="${createLink}" autocomplete="off">
+                                <form class="createForm" action="${createLink}" autocomplete="off" enctype="multipart/form-data" method="post">
                                     <fieldset>
                                         <div class="form-group row">
                                             <label class="col-sm-1 col-form-label">Name:</label>
@@ -81,19 +81,15 @@
                                                         class="form-control"
                                                         placeholder="Product name"
                                                         name="name"
-                                                        value="product test"
-                                                />
+                                                        autocomplete="off"/>
 
                                             </div>
-                                            <%--                                        </div>--%>
-                                            <%--                                        <div class="form-group row">--%>
+
                                             <label class="col-sm-1 col-form-label">Price:</label>
                                             <div class="col-sm-3">
                                                 <input
-                                                        type="number"
-                                                        class="form-control"
-                                                        placeholder="VND"
-                                                        name="price"
+                                                        type="text" class="form-control" data-mask="0000000000000" placeholder="₫"
+                                                        autocomplete="off" maxlength="17" id="price" name="price"
                                                         value="1"
                                                 />
                                             </div>
@@ -103,20 +99,8 @@
                                             <label class="col-sm-1 col-form-label"
                                             >Image:</label
                                             >
-                                            <div class="col-sm-6">
-<%--                                                <input--%>
-<%--                                                        type="text"--%>
-<%--                                                        class="form-control"--%>
-<%--                                                        placeholder="url"--%>
-<%--                                                        name="imagePath"--%>
-<%--                                                />--%>
-                                            </div>
+
                                             <div class="input-group col-sm-3">
-                                                <%--                                                <div class="custom-file">--%>
-                                                <%--                                                    <input id="inputGroupFile01" type="file" class="custom-file-input">--%>
-                                                <%--                                                    <label class="custom-file-label" for="inputGroupFile01">Choose--%>
-                                                <%--                                                        file</label>--%>
-                                                <%--                                                </div>--%>
                                                 <div class="mb-3">
                                                     <input class="form-control" type="file" id="formFileMultiple"
                                                            name="imagePath" multiple>
@@ -126,7 +110,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-1 col-form-label" for="category">Category</label>
                                             <div class="col-sm-4">
-                                                <select name="categoryID" id="category" class="form-control">
+                                                <select name="categoryID" id="category" class="select_category form-control">
                                                     <c:forEach var="category" items="${requestScope.categories}">
                                                         <option value="${category.id}" ${category.id==1?"selected":""} >
                                                                 ${category.name} (${category.shortName})
@@ -139,9 +123,8 @@
                                             >
                                             <div class="col-sm-3">
                                                 <input
-                                                        type="number"
-                                                        class="form-control"
-                                                        name="quantity"
+                                                        type="number" class="form-control" data-mask="0000000000000" placeholder="Quantity"
+                                                        autocomplete="off" maxlength="17" id="quantity" name="quantity"
                                                         value="1"
                                                 />
                                             </div>
@@ -151,8 +134,7 @@
                                     <div class="form-layout-footer text-center">
                                         <button type="button"
                                                 class="btn btn-primary bd-0"
-                                                id="create_product_form"
-                                        >
+                                                id="create_product_form">
                                             Submit Form
                                         </button>
                                         <%--                                        <a href="productList.jsp">--%>

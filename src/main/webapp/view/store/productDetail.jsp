@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -38,16 +39,15 @@
     <jsp:include page="layoutStore.jsp"></jsp:include>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>Product edit</h2>
+            <h2>Product detail</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
+                    <c:url var="storeDashBoardLink" value="${requestScope.contextPath}/dashboard/store"></c:url>
+                    <a href="${storeDashBoardLink}">Home</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a>E-commerce</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a>Products list</a>
+                    <c:url var="productListLink" value="${requestScope.contextPath}/product/list"></c:url>
+                    <a href="${productListLink}">Product list</a>
                 </li>
                 <li class="breadcrumb-item active">
                     <strong>Product view</strong>
@@ -76,30 +76,33 @@
                                         <div class="col-sm-10 text-align">${productDetail.name}</div>
                                     </div>
                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Price:</label>
-                                        <div class="col-sm-10 text-align">${productDetail.price}</div>
+                                        <div class="col-sm-10 text-align">
+                                            <fmt:formatNumber var="price" value="${productDetail.price}" pattern="###,###,### ₫"></fmt:formatNumber>
+                                            ${price}
+                                        </div>
                                     </div>
                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Image:</label>
 
                                         <div class="col-sm-10 text-align">
-                                            <img src="${productDetail.imagePath}" alt="${productDetail.name}"
-                                                 style="width: 35%"/>
+                                            <img src="../${productDetail.imagePath}" alt="${productDetail.name}"
+                                                 style="width: 25%"/>
                                         </div>
                                     </div>
                                     <div class="form-group row"><label class="col-sm-2 col-form-label">Category</label>
                                         <div class="col-sm-10">
                                             <select name="status" class="form-control" disabled>
-                                                <option value="${requestScope.category.id}">${requestScope.category.name}</option>
+                                                <c:forEach var="category" items="${requestScope.categories}">
+                                                    <option value="${category.id}" ${category.id == productDetail.cateID.id ? "selected" : ""}>${category.name}</option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Avaialable
-                                        quantity:</label>
+                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Avaialable quantity:</label>
                                         <div class="col-sm-10 text-align">${productDetail.qtyAvailable}</div>
                                     </div>
                                 </fieldset>
                                 <div class="form-layout-footer text-center">
-                                    <c:url var="updateProductLink"
-                                           value="${requestScope.contextPath}/product/updatePage">
+                                    <c:url var="updateProductLink" value="${requestScope.contextPath}/product/updatePage">
                                         <c:param name="productID" value="${productDetail.id}"></c:param>
                                     </c:url>
                                     <c:url var="deleteProductLink" value="${requestScope.contextPath}/product/delete">
@@ -111,10 +114,11 @@
                                     <a href="${deleteProductLink}">
                                         <button class="btn btn-danger bd-0">Delete</button>
                                     </a>
-                                    <a href="ecommerce_product_list.html">
-                                        <button class="btn btn-secondary bd-0">Back to list</button>
-                                    </a>
-
+<%--                                    <a href="ecommerce_product_list.html">--%>
+<%--                                        <button class="btn btn-secondary bd-0">Back to list</button>--%>
+<%--                                    </a>--%>
+                                    <button onclick="history.back()" type="button" class="btn btn-dark">Back to list
+                                    </button>
                                 </div>
                             </div>
                         </div>

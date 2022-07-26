@@ -35,6 +35,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Role.findByName", query = "SELECT r FROM Role r WHERE r.name = :name")})
 public class Role implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "IsDeleted")
+    private boolean isDeleted;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -106,6 +111,14 @@ public class Role implements Serializable {
     @Override
     public String toString() {
         return "com.fptuni.fms.model.Role[ id=" + id + " ]";
+    }
+
+    public boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
 }

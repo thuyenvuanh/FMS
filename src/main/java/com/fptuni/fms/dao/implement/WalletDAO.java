@@ -4,6 +4,7 @@
  */
 package com.fptuni.fms.dao.implement;
 
+import com.fptuni.fms.model.Customer;
 import com.fptuni.fms.model.Wallet;
 import java.util.List;
 import com.fptuni.fms.dao.IWalletDAO;
@@ -40,6 +41,13 @@ public class WalletDAO extends AbstractDAO<Wallet> implements IWalletDAO {
         String sql = "SELECT * FROM Wallet where CustomerID = ?";
         List<Wallet> wallets = query(sql, mapper, cusID);
         return wallets.isEmpty() ? null : wallets.get(0);
+    }
+
+    @Override
+    public Integer createWallet(Customer customer) {
+        String sql = "INSERT INTO [dbo].[Wallet] (CustomerID, IsDeleted)\n" +
+                "VALUES (?,0)";
+        return insert(sql, customer.getId());
     }
 
 

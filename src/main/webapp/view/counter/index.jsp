@@ -22,9 +22,12 @@
 
     <link href="../../css/animate.css" rel="stylesheet" />
     <link href="../../css/style.css" rel="stylesheet" />
-<%--    --%>
+
+    <%--    --%>
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
+<%--    <link rel="stylesheet"--%>
+<%--          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">--%>
 
     <!-- FooTable -->
     <link href="../css/plugins/footable/footable.core.css" rel="stylesheet" />
@@ -67,17 +70,16 @@
                             <div class="panel-body">
                                 <c:url var="checklink" value="${requestScope.contextPath}/counter/check">
                                 </c:url>
-                                <form action="${checklink}" method="POST">
+                                <form id="form_phonenumber" action="${checklink}" method="POST">
 
                                     <fieldset>
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Phone</label>
                                             <div class="col-sm-10">
                                                 <input type="text" name="phoneNumber"
-                                                       class="form-control" data-mask="000 000 0000"
+                                                       class="form-control" data-mask="000000000000"
                                                        placeholder=""
                                                        autocomplete="off" maxlength="14" required />
-                                                <span class="form-text">000 000 0000</span>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -127,10 +129,32 @@
 <!-- FooTable -->
 <script src="../js/plugins/footable/footable.all.min.js"></script>
 
+<!-- Jquery Validate -->
+<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/plugins/validate/jquery.validate.min.js"></script>
+
 <!-- Page-Level Scripts -->
 <script>
     $(document).ready(function () {
         $(".footable").footable();
+        $("#form_phonenumber").validate({
+            rules: {
+                phoneNumber: {
+                    required: true,
+                    minlength: 9,
+                    maxLength: 12
+                }
+            },
+            messages: {
+                phoneNumber: {
+                    required: 'Please enter phone number',
+                    minlength: 'Phone number must be greater than 9',
+                    maxLength: 'Phone number must be lower than 12'
+                }
+            }
+        })
     });
 </script>
 <script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>

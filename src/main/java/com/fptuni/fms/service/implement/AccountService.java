@@ -2,6 +2,7 @@ package com.fptuni.fms.service.implement;
 
 import com.fptuni.fms.dao.implement.AccountDAO;
 import com.fptuni.fms.dao.implement.RoleDAO;
+import com.fptuni.fms.dao.implement.StoreAccountDAO;
 import com.fptuni.fms.dao.implement.StoreDAO;
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.model.Role;
@@ -27,52 +28,44 @@ public class AccountService implements IAccountService {
         request.getSession().removeAttribute("message");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        System.out.println(username + " " + password);
         String url = null;
         try {
             Account account = accountDAO.checkLogin(username, password);
-            System.out.println(account == null ? "Account not found" : "Account found");
             if (account != null) {
-                //kiem tra role va dieu huong vao man hinh
-                account.setRole(new RoleDAO().getRole(account.getRole().getId()));
+                account.setRoleID(new RoleDAO().getRole(account.getRoleID().getId()));
                 request.getSession().setAttribute("account", account);
-                System.out.println("Account role: "+account.getRole().getName());
-                Store store = new StoreDAO().getStoreByAccount(account);
-                if (store != null) {
-                    request.getSession().setAttribute("store", store);
-                    System.out.println("Store Name: " + store.getName());
-                }
-                switch (account.getRole().getName()) {
-                    case "Admin":
-                        //response toi link cua admin
-                        url = request.getContextPath() + "/account/list";
-                        break;
-                    case "Cashier":
-                        //response toi link cua cashier
-                        url = request.getContextPath() + "/order/index";
-                        break;
-                    case "Counter":
-                        //respone toi link cua counter
-                        url = request.getContextPath() + "/counter/index";
-                        break;
-                    case "Store Manager":
-                        url = request.getContextPath() + "/product/list";
-                        //response toi link cua store manager
-                        break;
-                    default:
-                        //chuyen huong den trang error
-                        break;
+                Store store = null;
+                //chuyen huong den trang error
+                if ("Admin".equals(account.getRoleID().getName())) {
+                    //response toi link cua admin
+                    url = request.getContextPath() + "/adminDashboard/index";
+                } else if ("Cashier".equals(account.getRoleID().getName())) {
+                    store = getStore(account);
+                    if (store != null) request.getSession().setAttribute("storeSession", store);
+                    url = request.getContextPath() + "/order/index";
+                } else if ("Counter".equals(account.getRoleID().getName())) {//respone toi link cua counter
+                    url = request.getContextPath() + "/counter/index";
+                } else if ("Store Manager".equals(account.getRoleID().getName())) {
+                    store = getStore(account);
+                    if (store != null) request.getSession().setAttribute("storeSession", store);
+                    url = request.getContextPath() + "/dashboard/store";
+                    //response toi link cua store manager
                 }
             } else {
                 url = request.getContextPath();
-                //tra ve man hinh dang nhap va hien thong bao loi
+                request.getSession().setAttribute("username", username);
                 request.getSession().setAttribute("message", "Incorrect email or password");
             }
         } catch (Exception e) {
-            // fail login
-            //chuyen huong den trang error
         }
         return url;
+    }
+
+    private Store getStore(Account account) {
+        //response toi link cua cashier
+        StoreAccountDAO storeAccountDAO = new StoreAccountDAO();
+        int storeId = storeAccountDAO.getStoreIDByAccountID(account.getId());
+        return new StoreDAO().getStoreById(storeId);
     }
 
     @Override
@@ -92,13 +85,13 @@ public class AccountService implements IAccountService {
         String cfPassword = request.getParameter("cfPassword");
         String roleId = request.getParameter("roleId");
         if (!password.equals(cfPassword)) {
-            session.setAttribute("createStatus", "fail");
+            session.setAttribute("createStatus", "Confirm password not same as password above");
             return request.getContextPath() + "/account/create";
         }
         Integer check = accountDAO.Create(userName, password, fullName, Integer.parseInt(roleId));
         if (check == null) {
             session.setAttribute("createStatus", "fail");
-            return request.getContextPath() + "/account/create";
+            return "/account/createPage";
         }
         session.setAttribute("createStatus", "success");
         return "/account/list";
@@ -108,14 +101,14 @@ public class AccountService implements IAccountService {
     public String getRole(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RoleDAO role = new RoleDAO();
         List<Role> listRole = role.getListRole();
-        request.setAttribute("ListRole", listRole);
+        request.setAttribute("listRole", listRole);
         return "/view/admin/accountCreate.jsp";
     }
 
     @Override
     public String getListAccount(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pageIndex = 1;
-        int pageSize = 10;
+        int pageSize = 5;
         String sortField = "ID";
         boolean isAsc = true;
         if (request.getParameter("page") != null) {
@@ -135,13 +128,53 @@ public class AccountService implements IAccountService {
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
         request.setAttribute("isAsc", !isAsc);
 
-        int totalPages = accountDAO.count() / pageSize;
-        if (accountDAO.count() % pageSize != 0) {
-            totalPages++;
-        }
+        int totalAccounts = accountDAO.countNotDeleted();
+
+        int totalPages = (int) Math.ceil((double)totalAccounts / (double)pageSize);
         RoleDAO role = new RoleDAO();
         List<Role> listRole = role.getListRole();
-        request.setAttribute("roleList", role);
+        request.setAttribute("roleList", listRole);
+        request.setAttribute("accountList", listAcc);
+        request.setAttribute("totalPages", totalPages);
+        return "/view/admin/accountList.jsp";
+    }
+
+    @Override
+    public String search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int pageIndex = 1;
+        int pageSize = 5;
+        String sortField = "ID";
+        boolean isAsc = true;
+        if (request.getParameter("page") != null) {
+            pageIndex = Integer.parseInt(request.getParameter("page"));
+        }
+        if (request.getParameter("sortField") != null) {
+            sortField = request.getParameter("sortField");
+        }
+        if (request.getParameter("isAscending") != null) {
+            isAsc = Boolean.parseBoolean(request.getParameter("isAscending"));
+        }
+        Sorter sorter = new Sorter(sortField, isAsc);
+        Pageable pageable = new PageRequest(pageIndex, pageSize, sorter);
+        int isDelete = Integer.parseInt(request.getParameter("status"));
+        String username = request.getParameter("username");
+        String fullName = request.getParameter("fullName");
+        int roleId = Integer.parseInt(request.getParameter("roleId"));
+        List<Account> listAcc = accountDAO.search(pageable, isDelete, username, fullName, roleId);
+        request.setAttribute("currentPage", pageIndex);
+        request.setAttribute("sortField", sortField);
+        // Tu dong dao nguoc khi nhan nhieu lan vao sortField
+        request.setAttribute("isAsc", !isAsc);
+
+        int totalPages = (int) Math.ceil((double) accountDAO.countOnParameters(isDelete, username, fullName, roleId)/(double) pageSize);
+        request.setAttribute("status", isDelete);
+        request.setAttribute("username", username);
+        request.setAttribute("fullName", fullName);
+        request.setAttribute("roleId", roleId);
+
+        RoleDAO role = new RoleDAO();
+        List<Role> listRole = role.getListRole();
+        request.setAttribute("roleList", listRole);
         request.setAttribute("accountList", listAcc);
         request.setAttribute("totalPages", totalPages);
         return "/view/admin/accountList.jsp";
@@ -156,7 +189,6 @@ public class AccountService implements IAccountService {
             return "/account/list";
         }
         Account acc = accountDAO.getAccount(Integer.parseInt(accountID));
-        request.setAttribute("roleList", listRole);
         request.setAttribute("account", acc);
         return "/view/admin/accountView.jsp";
     }
@@ -188,10 +220,21 @@ public class AccountService implements IAccountService {
             session.setAttribute("updateStatus", "fail");
             return request.getContextPath() + "/account/create";
         }
+
+        //check does the account link to a store or not
+        Account account = accountDAO.isAccountLinkToStore(userName);
+        if (account != null){
+            if (account.getRoleID().getId() != Integer.parseInt(roleId)){
+                session.setAttribute("updateStatus", "fail");
+                session.setAttribute("message", "This account has link to a store. Remove constraint to update role or keep role as default");
+                return "/account/updatePage?accountId=" + account.getId();
+            }
+        }
+
         boolean check = accountDAO.Update(userName, password, fullName, Integer.parseInt(roleId));
         if (check == false) {
             session.setAttribute("updateStatus", "fail");
-            return request.getContextPath() + "/account/create";
+            return "/account/updatePage?accountId=" + account.getId();
         }
         session.setAttribute("updateStatus", "success");
         return "/account/list";
@@ -201,11 +244,20 @@ public class AccountService implements IAccountService {
     public String delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.removeAttribute("deleteStatus");
-        String username = request.getParameter("username");
-        if (username == null || username.isEmpty()) {
+        String accountId = request.getParameter("accountId");
+        if (accountId == null || accountId.isEmpty()) {
             session.setAttribute("deleteStatus", "fail");
         }
-        if (!accountDAO.Delete(username)) {
+
+        Account account = accountDAO.getAccount(Integer.parseInt(accountId));
+        if (account == null){
+            return "/account/list";
+        }
+        if (account.getId() == ((Account) request.getSession().getAttribute("account")).getId()){
+            return "/account/list";
+        }
+
+        if (!accountDAO.Delete(accountId)) {
             session.setAttribute("deleteStatus", "fail");
         }
         return "/account/list";

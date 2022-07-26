@@ -4,9 +4,12 @@
  */
 package com.fptuni.fms.dao;
 
+import com.fptuni.fms.model.Store;
 import com.fptuni.fms.model.TransactionShared;
+import com.fptuni.fms.paging.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -20,5 +23,9 @@ public interface ITransactionShared extends GenericDAO<TransactionShared>{
     
     List<TransactionShared> getHistoryOf(int WalletID, Boolean... isAscending);
 
+    TransactionShared getLatestTransaction();
+
     int insertTransaction(TransactionShared transactionShared);
+    List<TransactionShared> getTransactionSharedByStore(Store store, Map<String, String> searcher, Pageable pageable);
+    List<TransactionShared> searchTransactionShare(Store store, Map<String, String> searcher);
 }

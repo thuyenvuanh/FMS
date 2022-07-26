@@ -7,13 +7,17 @@ package com.fptuni.fms.dao.implement;
  * */
 
 import com.fptuni.fms.dao.IProductDAO;
+import com.fptuni.fms.mapper.OrderDetailMapper;
 import com.fptuni.fms.model.Category;
 import com.fptuni.fms.model.Product;
 import com.fptuni.fms.model.Store;
 import com.fptuni.fms.paging.Pageable;
 import com.fptuni.mapper.ProductMapper;
 
+import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +40,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
         String sql = "SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID \n" +
                 "FROM Product WHERE IsDeleted = 0 \n";
         if (searcher.getOrDefault("storeID", null) != null) sql += " AND StoreID = " + searcher.get("storeID");
-        if (searcher.getOrDefault("categoryID", null) != null && !searcher.get("categoryID").equals("0")&& !searcher.get("categoryID").isEmpty())
+        if (searcher.getOrDefault("categoryID", null) != null && !searcher.get("categoryID").equals("0") && !searcher.get("categoryID").isEmpty())
             sql += " AND CateID = " + searcher.get("categoryID");
         if (searcher.getOrDefault("productName", null) != null && !searcher.get("productName").isEmpty())
             sql += " AND Name LIKE  '%" + searcher.get("productName") + "%'";
@@ -53,13 +57,15 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
                 sql += " AND QtyAvailable > 0 ";
             }
         }
-        if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
-            String orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
-            sql += " ORDER BY " + pageable.getSorter().getSortField() + "  " + orderBy;
-        }
-        if (pageable.getOffset() != null && pageable.getLimit() != null) {
-            sql += " OFFSET " + pageable.getOffset() + " ROWS\n" +
-                    " FETCH NEXT " + pageable.getLimit() + " ROWS ONLY  \n";
+        if (pageable != null) {
+            if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
+                String orderBy = pageable.getSorter().isAscending() ? "ASC" : "DESC";
+                sql += " ORDER BY " + pageable.getSorter().getSortField() + "  " + orderBy;
+            }
+            if (pageable.getOffset() != null && pageable.getLimit() != null) {
+                sql += " OFFSET " + pageable.getOffset() + " ROWS\n" +
+                        " FETCH NEXT " + pageable.getLimit() + " ROWS ONLY  \n";
+            }
         }
         List<Product> products = query(sql, new ProductMapper());
         return products;
@@ -118,7 +124,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
         String sql = "SELECT COUNT(ID) \n" +
                 "FROM Product WHERE IsDeleted = 0 \n";
         if (searcher.getOrDefault("storeID", null) != null) sql += " AND StoreID = " + searcher.get("storeID");
-        if (searcher.getOrDefault("categoryID", null) != null && !searcher.get("categoryID").equals("0")&& !searcher.get("categoryID").isEmpty())
+        if (searcher.getOrDefault("categoryID", null) != null && !searcher.get("categoryID").equals("0") && !searcher.get("categoryID").isEmpty())
             sql += " AND CateID = " + searcher.get("categoryID");
         if (searcher.getOrDefault("productName", null) != null && !searcher.get("productName").isEmpty())
             sql += " AND Name LIKE  '%" + searcher.get("productName") + "%'";
@@ -145,10 +151,49 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
                 "WHERE StoreID = ? AND IsDeleted = 0";
         return (ArrayList<Product>) query(sql, new ProductMapper(), store.getId());
     }
+
     public ArrayList<Product> getProductsByStoreAndCategory(Store store, Category category) {
         String sql = "SELECT ID, Name, ImagePath, Price, QtyAvailable, CateID, StoreID " +
                 " FROM  Product" +
                 " WHERE StoreID = ? AND CateID = ? AND IsDeleted = 0";
         return (ArrayList<Product>) query(sql, new ProductMapper(), store.getId(), category.getId());
+    }
+
+    @Override
+    public List<Product> getProductByOrderID(int orderID, Store store) {
+        String sql = "SELECT o.ID, od.ProID, p.Name, p.Price, od.Quantity, od.Amount FROM OrderDetail od\n" +
+                " JOIN Orders o ON o.ID = od.OrderID AND o.ID = ? AND StoreID = ? " +
+                " AND od.IsDeleted = 0 AND o.IsDeleted = 0\n" +
+                " JOIN Product p on p.ID = od.ProID AND p.IsDeleted = 0";
+        return query(sql, new OrderDetailMapper(), orderID, store.getId());
+    }
+
+    @Override
+    public List<Product> getTop5ProductsOrderByAmount(Store store, Date start, Date end) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String startdate = sdf.format(start);
+        String enddate = sdf.format(end);
+        String sql = "SELECT p.ID, p.Name, p.CateID FROM (\n" +
+                "SELECT TOP 5 o.ID, od.ProID, od.Amount FROM Orders o\n" +
+                "JOIN OrderDetail od ON o.ID = od.OrderID AND o.StoreID = ?\n" +
+                "AND CONVERT(date, o.CreatedDate, 103) between CONVERT(date, ?, 103) AND CONVERT(date, ?, 103) \n" +
+                "AND o.IsDeleted = 0\n" +
+                "ORDER BY od.Amount DESC\n" +
+                ") AS SUB\n" +
+                "JOIN Product p ON p.ID = SUB.ProID AND p.StoreID = ? ";
+        return query(sql, new ProductMapper(), store.getId(), startdate, enddate, store.getId());
+    }
+
+    @Override
+    public List<Product> getProductsByCategory(int categoryID, Store store) {
+        List<Integer> params = new ArrayList<>();
+        params.add(categoryID);
+        String sql = "SELECT p.ID, p.Name,p.Price, p.ImagePath, p.QtyAvailable, p.CateID, p.StoreID FROM Product p\n" +
+                "JOIN Category c ON c.ID = p.CateID AND c.IsDeleted = 0 AND p.IsDeleted = 0 AND c.ID  = ? ";
+        if (store != null) {
+            sql += " AND p.StoreID = ?";
+            params.add(store.getId());
+        }
+        return query(sql, new ProductMapper(), params.toArray());
     }
 }
