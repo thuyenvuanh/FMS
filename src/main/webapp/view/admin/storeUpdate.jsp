@@ -26,20 +26,6 @@
     <link href="../css/style.css" rel="stylesheet"/>
     <!-- Sweet Alert -->
     <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-    <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
-
-    <!-- FooTable -->
-    <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
-
-    <link href="../../css/animate.css" rel="stylesheet"/>
-    <link href="../../css/style.css" rel="stylesheet"/>
-
-    <!-- Select2 -->
-    <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
-    <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-    <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
     <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
     <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
     <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
@@ -53,13 +39,10 @@
             <h2>Store update</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="#">Home</a>
+                    <a href="<c:url value="/adminDashboard/index"/>">Home</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a>E-commerce</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a>Store list</a>
+                    <a href="<c:url value="/store/list"/> ">Store list</a>
                 </li>
                 <li class="breadcrumb-item active">
                     <strong>Store update</strong>
@@ -82,6 +65,9 @@
                                 <form id="form_store_update" class="updateForm"
                                       action="<c:url value="/store/update"/>"
                                       autocomplete="off">
+                                    <input type="hidden" name="old_storeName" value="${requestScope.store.name}" readonly>
+                                    <input type="hidden" name="old_manager" value="${requestScope.manager.id eq null ? -1 : requestScope.manager.id}" readonly>
+                                    <input type="hidden" name="old_cashier" value="${requestScope.cashier.id eq null ? -1 : requestScope.cashier.id}" readonly>
                                     <fieldset>
                                         <c:set var="store" value="${requestScope.store}"/>
                                         <%--                                                <div class="form-group row"><label class="col-sm-2 col-form-label">ID:</label>--%>
@@ -102,32 +88,28 @@
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Store Manager:</label>
                                             <div class="col-sm-10">
-                                                <c:if test="${manager == null}">
-                                                    <select id="select_manager" name="manager_id" class="form-control">
-                                                        <c:forEach var="acc" items="${requestScope.avManager}">
-                                                                <option value="${acc.id}" >${acc.fullName}</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </c:if>
-                                                <c:if test="${manager != null}">
-                                                    <input type="text" name="manager_id" class="form-control" value="${requestScope.manager.fullName}" disabled>
-                                                </c:if>
+                                                <select id="select_manager" name="manager_id" class="form-control">
+                                                    <c:if test="${manager != null}">
+                                                        <option value="${manager.id}" selected>${manager.fullName}</option>
+                                                    </c:if>
+                                                    <c:forEach var="acc" items="${requestScope.avManager}">
+                                                        <option value="${acc.id}" >${acc.fullName}</option>
+                                                    </c:forEach>
+                                                </select>
                                             </div>
                                         </div>
                                         <!-- Cashier input-->
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Cashier: </label>
                                             <div class="col-sm-10">
-                                                <c:if test="${cashier == null}">
-                                                    <select id="select_cashier" name="cashier_id" class="form-control">
-                                                        <c:forEach var="acc" items="${requestScope.avCashier}">
-                                                                <option value="${acc.id}" >${acc.fullName}</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </c:if>
-                                                <c:if test="${cashier != null}">
-                                                    <input type="text" name="cashier_id" class="form-control" value="${requestScope.cashier.fullName}" disabled>
-                                                </c:if>
+                                                <select id="select_cashier" name="cashier_id" class="form-control">
+                                                    <c:if test="${cashier != null}">
+                                                        <option value="${cashier.id}" selected>${cashier.fullName}</option>
+                                                    </c:if>
+                                                    <c:forEach var="acc" items="${requestScope.avCashier}">
+                                                            <option value="${acc.id}" >${acc.fullName}</option>
+                                                    </c:forEach>
+                                                </select>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -135,7 +117,7 @@
                                         <button type="button" id="update_store_form"
                                                 class="btn btn-primary bd-0 update_store_form">Submit
                                         </button>
-                                        <a href="<c:url value="/store/list"/>" type="button" class="btn btn-dark">Cancel</a>
+                                        <a href="<c:url value="/store/list"/>" class="btn btn-dark">Cancel</a>
                                     </div>
                                 </form>
                             </div>
@@ -146,25 +128,9 @@
         </div>
 
     </div>
-    <jsp:include page="footer.jsp"></jsp:include>
+    <jsp:include page="footer.jsp"/>
 </div>
 </div>
-
-<%--Script--%>
-<!-- Mainly scripts -->
-<script src="../../js/jquery-3.1.1.min.js"></script>
-<script src="../../js/popper.min.js"></script>
-<script src="../../js/bootstrap.js"></script>
-<script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-<!-- Custom and plugin javascript -->
-<script src="../../js/inspinia.js"></script>
-<script src="../../js/plugins/pace/pace.min.js"></script>
-
-<!-- FooTable -->
-<script src="../../js/plugins/footable/footable.all.min.js"></script>
-<script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <!-- Mainly scripts -->
 <script src="../js/jquery-3.1.1.min.js"></script>
@@ -185,9 +151,7 @@
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <!-- Jquery Validate -->
-<script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="../../js/plugins/validate/jquery.validate.min.js"></script>
 <script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
 <!-- Page-Level Scripts -->
@@ -199,7 +163,7 @@
 </script>
 
 <!-- Sweet alert -->
-<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
 <%-- Select2 --%>
 <script src="../js/plugins/select2/select2.full.min.js"></script>
 <script>

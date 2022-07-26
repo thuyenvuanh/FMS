@@ -24,15 +24,6 @@
         <link href="../css/style.css" rel="stylesheet"/>
         <!-- Sweet Alert -->
         <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-        <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-        <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
-
-        <!-- FooTable -->
-        <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
-
-        <link href="../../css/animate.css" rel="stylesheet"/>
-        <link href="../../css/style.css" rel="stylesheet"/>
     </head>
     <body>
 
@@ -42,13 +33,10 @@
 
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
-                        <h2>E-commerce store list</h2>
+                        <h2>Store list</h2>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="index.html">Home</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a>E-commerce</a>
+                                <a href="<c:url value="/adminDashboard/index"/>">Home</a>
                             </li>
                             <li class="breadcrumb-item active">
                                 <strong>Store list</strong>
@@ -80,8 +68,8 @@
                                 <div class="form-group">
                                     <label class="col-form-label" for="status">Status</label>
                                     <select name="status" id="status" class="form-control">
-                                            <option value="0" ${status == 0 ? "selected" : ""}>Enabled</option>
-                                            <option value="1" ${status == 1 ? "selected" : ""}>Disabled</option>
+                                        <option value="0" ${status == 0 ? "selected" : ""}>Enabled</option>
+                                        <option value="1" ${status == 1 ? "selected" : ""}>Disabled</option>
                                     </select>
                                 </div>
                             </div>
@@ -95,10 +83,10 @@
                 <nav class="navbar navbar-light bg-light">
                     <div class="container-fluid">
                         <a href="${pageContext.servletContext.contextPath}/store/createPage" class="">
-                        <button class="btn btn-outline-primary" type="submit">Create</button>
-                    </a>
-                </div>
-            </nav>
+                            <button class="btn btn-outline-primary" type="submit">Create</button>
+                        </a>
+                    </div>
+                </nav>
             <div class="wrapper wrapper-content animated fadeInRight ecommerce">
                 <div class="row">
                     <div class="col-lg-12">
@@ -108,8 +96,8 @@
                                 <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
                                     <thead>
                                         <c:url var="sort" value="${requestScope.contextPath}/store/list">
-                                            <c:param name="page" value="${requestScope.currentPage}"></c:param>
-                                            <c:param name="isAscending" value="${requestScope.isAsc}"></c:param>
+                                            <c:param name="page" value="${requestScope.currentPage}"/>
+                                            <c:param name="isAscending" value="${requestScope.isAsc}"/>
                                         </c:url>
                                         <tr>
                                             <th data-toggle="true" data-sort-ignore="true">
@@ -145,10 +133,10 @@
                                                     <form>
                                                         <input  type="hidden" name="storeId" value="${key.id}"/>
                                                             <c:url var="viewLink" value="/store/view">
-                                                                <c:param name="storeId" value="${key.id}"></c:param>
+                                                                <c:param name="storeId" value="${key.id}"/>
                                                             </c:url>
                                                             <c:url var="updateLink" value="/store/updatePage">
-                                                                <c:param name="storeId" value="${key.id}"></c:param>
+                                                                <c:param name="storeId" value="${key.id}"/>
                                                             </c:url>
                                                             <button class="btn-white btn btn-xs" formmethod="post" formaction="${viewLink}">View</button>
                                                             <button class="btn-white btn btn-xs" formmethod="post" formaction="${updateLink}">Edit</button>
@@ -163,32 +151,84 @@
                                                 <nav aria-label="Page navigation example">
                                                     <ul class="paginations">
                                                         <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
-                                                            <c:url var="previousPage" value="${requestScope.contextPath}/store/list">
-                                                                <c:param name="page" value="${requestScope.currentPage - 1}"></c:param>
-                                                                <c:param name="sortField" value="${requestScope.sortField}"></c:param>
-                                                                <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
-                                                            </c:url>
+                                    <c:choose>
+                                        <c:when test="${
+                                            (requestScope.name != null && requestScope.name ne '')
+                                        ||  (requestScope.storeManager != null && requestScope.storeManager ne '')
+                                        }">
+                                            <c:url var="previousPage" value="${requestScope.contextPath}/store/search">
+                                                <c:param name="page" value="${requestScope.currentPage - 1}"/>
+                                                <c:param name="sortField" value="${requestScope.sortField}"/>
+                                                <c:param name="isAscending" value="${!requestScope.isAsc}"/>
+                                                <c:param name="name" value="${requestScope.name}"/>
+                                                <c:param name="storeManager" value="${requestScope.storeManager}"/>
+                                                <c:param name="status" value="${requestScope.status}"/>
+                                            </c:url>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:url var="previousPage" value="${requestScope.contextPath}/store/list">
+                                                <c:param name="page" value="${requestScope.currentPage - 1}"/>
+                                                <c:param name="sortField" value="${requestScope.sortField}"/>
+                                                <c:param name="isAscending" value="${!requestScope.isAsc}"/>
+                                            </c:url>
+                                        </c:otherwise>
+                                    </c:choose>
+
                                                             <a class="page-link " href="${previousPage}" aria-label="Previous" >
                                                                 <span aria-hidden="true">&laquo;</span>
                                                                 <span class="sr-only">Previous</span>
                                                             </a>
                                                         </li>
                                                         <c:forEach begin="1" end="${requestScope.totalPages}" var="page">
-                                                            <c:url var="paging" value="${requestScope.contextPath}/store/list">
-                                                                <c:param name="page" value="${page}"></c:param>
-                                                                <c:param name="sortField" value="${requestScope.sortField}"></c:param>
-                                                                <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
-                                                            </c:url>
+                                    <c:choose>
+                                        <c:when test="${
+                                            (requestScope.name != null && requestScope.name ne '')
+                                        ||  (requestScope.storeManager != null && requestScope.storeManager ne '')
+                                        }">
+                                            <c:url var="paging" value="${requestScope.contextPath}/store/search">
+                                                <c:param name="page" value="${page}"/>
+                                                <c:param name="sortField" value="${requestScope.sortField}"/>
+                                                <c:param name="isAscending" value="${!requestScope.isAsc}"/>
+                                                <c:param name="name" value="${requestScope.name}"/>
+                                                <c:param name="storeManager" value="${requestScope.storeManager}"/>
+                                                <c:param name="status" value="${requestScope.status}"/>
+                                            </c:url>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:url var="paging" value="${requestScope.contextPath}/store/list">
+                                                <c:param name="page" value="${page}"/>
+                                                <c:param name="sortField" value="${requestScope.sortField}"/>
+                                                <c:param name="isAscending" value="${!requestScope.isAsc}"/>
+                                            </c:url>
+                                        </c:otherwise>
+                                    </c:choose>
                                                             <li class="page-item ${requestScope.currentPage == page ?"active":""}">
                                                                 <a class="page-link " href="${paging}">${page}</a>
                                                             </li>
                                                         </c:forEach>
                                                         <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
-                                                            <c:url var="nextPage" value="${requestScope.contextPath}/store/list">
-                                                                <c:param name="page" value="${requestScope.currentPage + 1}"></c:param>
-                                                                <c:param name="sortField" value="${requestScope.sortField}"></c:param>
-                                                                <c:param name="isAscending" value="${!requestScope.isAsc}"></c:param>
-                                                            </c:url>
+                                    <c:choose>
+                                        <c:when test="${
+                                            (requestScope.name != null && requestScope.name ne '')
+                                        ||  (requestScope.storeManager != null && requestScope.storeManager ne '')
+                                        }">
+                                            <c:url var="nextPage" value="${requestScope.contextPath}/store/search">
+                                                <c:param name="page" value="${requestScope.currentPage + 1}"/>
+                                                <c:param name="sortField" value="${requestScope.sortField}"/>
+                                                <c:param name="isAscending" value="${!requestScope.isAsc}"/>
+                                                <c:param name="name" value="${requestScope.name}"/>
+                                                <c:param name="storeManager" value="${requestScope.storeManager}"/>
+                                                <c:param name="status" value="${requestScope.status}"/>
+                                            </c:url>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:url var="nextPage" value="${requestScope.contextPath}/store/list">
+                                                <c:param name="page" value="${requestScope.currentPage + 1}"/>
+                                                <c:param name="sortField" value="${requestScope.sortField}"/>
+                                                <c:param name="isAscending" value="${!requestScope.isAsc}"/>
+                                            </c:url>
+                                        </c:otherwise>
+                                    </c:choose>
                                                             <a class="page-link" href="${nextPage}" aria-label="Next">
                                                                 <span aria-hidden="true">&raquo;</span>
                                                                 <span class="sr-only">Next</span>
@@ -206,23 +246,8 @@
                     </div>
                 </div>
             </div>
-            <jsp:include page="footer.jsp"></jsp:include>
+            <jsp:include page="footer.jsp"/>
         </div>
-        <!-- Mainly scripts -->
-        <script src="../../js/jquery-3.1.1.min.js"></script>
-        <script src="../../js/popper.min.js"></script>
-        <script src="../../js/bootstrap.js"></script>
-        <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-        <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-        <!-- Custom and plugin javascript -->
-        <script src="../../js/inspinia.js"></script>
-        <script src="../../js/plugins/pace/pace.min.js"></script>
-
-        <!-- FooTable -->
-        <script src="../../js/plugins/footable/footable.all.min.js"></script>
-        <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
-
         <!-- Mainly scripts -->
         <script src="../js/jquery-3.1.1.min.js"></script>
         <script src="../js/popper.min.js"></script>
@@ -247,7 +272,7 @@
                 $(document).ready(function () {
                     swal({
                         title: "Create Success!",
-                        text: "You clicked the button!",
+                        text: "Store created",
                         type: "success"
                     });
                 });

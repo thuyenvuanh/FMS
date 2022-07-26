@@ -12,9 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-
       <module name="FMS" options="-bootclasspath C:/Users/thuyn/.jdks/openjdk-18.0.1.1/lib/rt.jar;C:/Users/thuyn/.jdks/openjdk-18.0.1.1/lib/jce.jar;C:/Users/thuyn/.jdks/openjdk-18.0.1.1/../lib/tools.jar" />
-
     </option>
   </component>
 </project>
