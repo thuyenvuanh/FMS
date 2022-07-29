@@ -139,7 +139,7 @@ public class CustomerController extends HttpServlet {
                     wallet = walletService.getWallet(cus.getId());
                     if(wallet != null){
                         walletList.add(wallet);
-                            transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
+                        transactionShared = transactionService.getLatestTransactionSharedByWalletID(wallet.getId());
                         BigDecimal b = (transactionShared == null)
                                 ? BigDecimal.ZERO
                                 : transactionService.getCustomerBalance(transactionShared);
@@ -202,7 +202,7 @@ public class CustomerController extends HttpServlet {
                 Sgender = 2;
             }
             if(date != null && !date.isEmpty() && address != null && !address.isEmpty() &&
-            gender != null && !gender.isEmpty()){
+                    gender != null && !gender.isEmpty()){
                 try {
                     Date dob = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                     String dateindex = ("2004-01-01");
@@ -230,7 +230,7 @@ public class CustomerController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
             }else {
-                request.setAttribute("msgEx","Blank is not accepted");
+//                request.setAttribute("msgEx","Blank is not accepted");
                 System.out.println("Blank error");
                 List<Customer> list = new ArrayList<>();
                 if (customer != null) {
@@ -243,7 +243,7 @@ public class CustomerController extends HttpServlet {
 //            customerService.updateCustomerInfo(customer);
 //            response.sendRedirect(request.getContextPath() + "/customer/list");
         }
-}
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
