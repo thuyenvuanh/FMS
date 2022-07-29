@@ -170,6 +170,7 @@
                                     <input name="var" value="${list.phone}" type="hidden">
                                     <tr id="${list.phone}" style="display: none">
                                         <td colspan="4">
+                                            <div>Customer Id: ${list.id}</div>
                                             <c:choose>
                                                 <c:when test="${list.doB != null}">
                                                     <div>DoB: ${list.doB}</div>
