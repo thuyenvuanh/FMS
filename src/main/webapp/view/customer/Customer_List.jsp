@@ -184,7 +184,7 @@
                                                     <div>Address: ${list.address}</div>
                                                 </c:when>
                                                 <c:when test="${list.address == null}">
-                                                    <div>DoB: None</div>
+                                                    <div>Address: None</div>
                                                 </c:when>
                                             </c:choose>
                                             <c:choose>
