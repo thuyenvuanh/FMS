@@ -97,6 +97,11 @@
                                     Search
                                 </button>
                             </div>
+                            <c:if test="${requestScope.totalPages == 0}">
+                                <span class="text-warning">
+                                    NO CUSTOMER FOUND
+                                </span>
+                            </c:if>
                         </div>
                     </div>
                     <%--                        <div class="col-lg-2 container-fluid pt-5">--%>
