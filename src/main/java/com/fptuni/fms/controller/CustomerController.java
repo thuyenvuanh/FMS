@@ -114,6 +114,8 @@ public class CustomerController extends HttpServlet {
 //                    request.setAttribute("CNF1","Can not found");
 //                    response.sendRedirect(request.getContextPath() + "/customer/list");
                     int totalPages = 0;
+                    int NoF = 0;
+                    request.setAttribute("NoF",NoF);
                     request.setAttribute("totalPages", totalPages);
                     request.getRequestDispatcher("/view/customer/Customer_List.jsp")
                             .forward(request, response);
@@ -121,6 +123,8 @@ public class CustomerController extends HttpServlet {
                 }
             } else {
                 int totalPages = 0;
+                int NoF = 0;
+                request.setAttribute("NoF",NoF);
                 request.setAttribute("totalPages", totalPages);
                 request.getRequestDispatcher("/view/customer/Customer_List.jsp")
                         .forward(request, response);

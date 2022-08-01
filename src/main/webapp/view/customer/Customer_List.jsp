@@ -97,7 +97,7 @@
                                     Search
                                 </button>
                             </div>
-                            <c:if test="${requestScope.totalPages == 0}">
+                            <c:if test="${requestScope.totalPages == 0 && requestScope.NoF == 0}">
                                 <span class="text-warning">
                                     NO CUSTOMER FOUND
                                 </span>
