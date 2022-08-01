@@ -84,7 +84,8 @@
                                             <div class="form-group row"><label class="col-sm-2 col-form-label">Phone
                                                 number:</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" data-mask="000000000000"
+                                                    <input type="text" readonly
+                                                           class="form-control" data-mask="000000000000"
                                                            placeholder="" autocomplete="off" maxlength="14"
                                                            name="Cusphone" value="${cusCreate}">
 
