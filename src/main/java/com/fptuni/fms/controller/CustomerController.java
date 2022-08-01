@@ -106,13 +106,18 @@ public class CustomerController extends HttpServlet {
                     }
                     request.setAttribute("amountlist", getAmount);
                     request.setAttribute("customerList", customer);
-                    int totalPages = 1;
+                    int totalPages = 0;
                     request.setAttribute("totalPages", totalPages);
                     request.getRequestDispatcher("/view/customer/Customer_List.jsp")
                             .forward(request, response);
                 }else {
-                    request.setAttribute("CNF1","Can not found");
-                    response.sendRedirect(request.getContextPath() + "/customer/list");
+//                    request.setAttribute("CNF1","Can not found");
+//                    response.sendRedirect(request.getContextPath() + "/customer/list");
+                    int totalPages = 0;
+                    request.setAttribute("totalPages", totalPages);
+                    request.getRequestDispatcher("/view/customer/Customer_List.jsp")
+                            .forward(request, response);
+//                    response.sendRedirect(request.getContextPath()+"/customer/search");
                 }
             } else {
                 request.setAttribute("CNF2","Can not found");
