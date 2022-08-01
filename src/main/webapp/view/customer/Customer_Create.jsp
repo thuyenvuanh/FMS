@@ -158,6 +158,9 @@
 <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
 <script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
+<%-- Jquery Mask --%>
+<script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
+
 <!-- Page-Level Scripts -->
 <script>
     $(document).ready(function () {

@@ -13,7 +13,7 @@
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <img alt="image" class="rounded-circle" src="img/profile_small.html" />
+                    <img alt="image" class="rounded-circle" height="50px;" src="<c:url value="/images/Background.png"/> " />
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="block m-t-xs font-bold">Counter<b class="caret"></b></span>
                     </a>
