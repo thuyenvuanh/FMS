@@ -66,18 +66,7 @@
                    value="${requestScope.contextPath}/customer/search"></c:url>
             <form action="${searchfield}">
                 <div class="row">
-                    <%--                        <div class="col-lg-2">--%>
-                    <%--                            <div class="form-group">--%>
-                    <%--                                <label class="col-form-label" for="status"--%>
-                    <%--                                >Order status</label--%>
-                    <%--                                >--%>
-                    <%--                                <select name="status" id="status" class="form-control">--%>
-                    <%--                                    <option value="" selected="">None</option>--%>
-                    <%--                                    <option value="1">Active</option>--%>
-                    <%--                                    <option value="0">Inactive</option>--%>
-                    <%--                                </select>--%>
-                    <%--                            </div>--%>
-                    <%--                        </div>--%>
+
                     <div class="col-xl-5 col-lg-9 col-md-12 text-left">
                         <div class="form-group">
                             <%--                                for="status"--%>
@@ -97,21 +86,14 @@
                                     Search
                                 </button>
                             </div>
-                            <c:if test="${requestScope.totalPages == 0 && requestScope.NoF == 0}">
+                            <c:if test="${sessionScope.NotF == 0}">
                                 <span class="text-warning">
                                     NO CUSTOMER FOUND
                                 </span>
                             </c:if>
                         </div>
                     </div>
-                    <%--                        <div class="col-lg-2 container-fluid pt-5">--%>
-                    <%--                            <button name="action"--%>
-                    <%--                                    class="btn btn-outline-success float-right"--%>
-                    <%--                                    type="submit"--%>
-                    <%--                            >--%>
-                    <%--                                Search--%>
-                    <%--                            </button>--%>
-                    <%--                        </div>--%>
+
                 </div>
             </form>
 
@@ -269,7 +251,9 @@
                                         </nav>
                                     </td>
                                 </c:if>
-
+                                <%
+                                    session.removeAttribute("NotF");
+                                %>
 
                             </tr>
                             </tfoot>
