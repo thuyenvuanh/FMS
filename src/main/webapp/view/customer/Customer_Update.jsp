@@ -33,73 +33,6 @@
 <body>
 <div id="wrapper">
     <jsp:include page="../counter/layoutCounter.jsp"></jsp:include>
-    <%--    <nav class="navbar-default navbar-static-side" role="navigation">--%>
-    <%--        <div class="sidebar-collapse">--%>
-    <%--            <ul class="nav metismenu" id="side-menu">--%>
-    <%--                <li class="nav-header">--%>
-    <%--                    <div class="dropdown profile-element">--%>
-    <%--                        <img--%>
-    <%--                                alt="image"--%>
-    <%--                                class="rounded-circle"--%>
-    <%--                                src="img/profile_small.html"--%>
-    <%--                        />--%>
-    <%--                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">--%>
-    <%--                  <span class="block m-t-xs font-bold"--%>
-    <%--                  >Counter<b class="caret"></b--%>
-    <%--                  ></span>--%>
-    <%--                        </a>--%>
-    <%--                        <ul class="dropdown-menu animated fadeInRight m-t-xs">--%>
-    <%--                            <li>--%>
-    <%--                                <a class="dropdown-item" href="profile.html"--%>
-    <%--                                >Store profile</a--%>
-    <%--                                >--%>
-    <%--                            </li>--%>
-    <%--                            <li class="dropdown-divider"></li>--%>
-    <%--                            <li><a class="dropdown-item" href="login.html">Logout</a></li>--%>
-    <%--                        </ul>--%>
-    <%--                    </div>--%>
-    <%--                    <div class="logo-element">FMS</div>--%>
-    <%--                </li>--%>
-
-    <%--                <li class="active">--%>
-    <%--                    <a href="/FMS/counter/index">--%>
-    <%--                        <i class="fa fa-id-card"></i>--%>
-    <%--                        <span class="nav-label">Counter</span></a--%>
-    <%--                    >--%>
-    <%--                </li>--%>
-    <%--                <li class="active">--%>
-    <%--                    <a href="/FMS/customer/list">--%>
-    <%--                        <i class="fa fa-user-o"></i>--%>
-    <%--                        <span class="nav-label">Customer</span></a--%>
-    <%--                    >--%>
-    <%--                </li>--%>
-    <%--            </ul>--%>
-    <%--        </div>--%>
-    <%--    </nav>--%>
-    <%--    <!-- Body -->--%>
-    <%--    <div id="page-wrapper" class="gray-bg">--%>
-    <%--        <div class="row border-bottom">--%>
-    <%--            <nav--%>
-    <%--                    class="navbar navbar-static-top"--%>
-    <%--                    role="navigation"--%>
-    <%--                    style="margin-bottom: 0"--%>
-    <%--            >--%>
-    <%--                <div class="navbar-header">--%>
-    <%--                    <a--%>
-    <%--                            class="navbar-minimalize minimalize-styl-2 btn btn-primary"--%>
-    <%--                            href="#"--%>
-    <%--                    ><i class="fa fa-bars"></i--%>
-    <%--                    ></a>--%>
-    <%--                </div>--%>
-    <%--                <ul class="nav navbar-top-links navbar-right">--%>
-    <%--                    <li>--%>
-    <%--                        <a href="login.html">--%>
-    <%--                            <i class="fa fa-sign-out"></i> Log out--%>
-    <%--                        </a>--%>
-    <%--                    </li>--%>
-    <%--                </ul>--%>
-    <%--            </nav>--%>
-    <%--        </div>--%>
 
     <!-- TMP -->
     <div class="row wrapper border-bottom white-bg page-heading">
@@ -137,7 +70,8 @@
                                 <div class="col-lg-8">
                                     <div class="form-group">
                                         <label>Username</label>
-                                        <input name="name" value="${update.name}" class="form-control required"
+                                        <input name="name" type="text"
+                                               value="${update.name}" class="form-control required"
                                                aria-required="true">
                                     </div>
                                     <div class="form-group">
@@ -145,14 +79,9 @@
                                         <input name="phone" value="${update.phone}" readonly
                                                class="form-control required" aria-required="true">
                                     </div>
-                                        <%--                                        <div class="form-group">--%>
-                                        <%--                                            <label>Date of Birth</label>--%>
-                                        <%--                                            <input placeholder="${update.doB}" name="DoB" type="text" class="form-control required" aria-required="true">--%>
-                                        <%--                                        </div>--%>
                                     <div class="form-group" id="update-Dob">
                                         <label>Date of Birth</label>
                                         <input
-                                            <%--                                                placeholder="${update.doB}"--%>
                                                 name="Dob" type="text"
                                                 readonly
                                                 id="input-Dob"
@@ -183,38 +112,10 @@
                                             <option value="none">None</option>
                                         </select>
                                     </div>
-<%--                                    <c:choose>--%>
-<%--                                        <c:when test="${update.gender == 0}">--%>
-<%--                                            <div class="form-group">--%>
-<%--                                                <label>Gender</label>--%>
-<%--                                                <input placeholder="Male" name="gender" type="text"--%>
-<%--                                                       class="form-control required" aria-required="true">--%>
-<%--                                            </div>--%>
-<%--                                        </c:when>--%>
-<%--                                        <c:when test="${update.gender == 1}">--%>
-<%--                                            <div class="form-group">--%>
-<%--                                                <label>Gender</label>--%>
-<%--                                                <input placeholder="Female" name="gender" type="text"--%>
-<%--                                                       class="form-control required" aria-required="true">--%>
-<%--                                            </div>--%>
-<%--                                        </c:when>--%>
-<%--                                        <c:when test="${update.gender == 2}">--%>
-<%--                                            <div class="form-group">--%>
-<%--                                                <label>Gender</label>--%>
-<%--                                                <input placeholder="None" name="gender" type="text"--%>
-<%--                                                       class="form-control required" aria-required="true">--%>
-<%--                                            </div>--%>
-<%--                                        </c:when>--%>
-<%--                                    </c:choose>--%>
+
 
                                 </div>
-                                    <%--                                <div class="col-lg-4">--%>
-                                    <%--                                    <div class="text-center">--%>
-                                    <%--                                        <div style="margin-top: 20px">--%>
-                                    <%--                                            <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>--%>
-                                    <%--                                        </div>--%>
-                                    <%--                                    </div>--%>
-                                    <%--                                </div>--%>
+
                                 <div class="w-100 p-3">
                                         <%--                                    <a href="#next" class="btn btn-primary" role="menuitem">Apply</a>--%>
                                     <a class="btn btn-warning"
@@ -275,9 +176,6 @@
 <script>
     $(document).ready(function () {
 
-<%--        <c:if test="${requestScope.InvalidDate != null}">--%>
-<%--            alert("Invalid date or not old enough");--%>
-<%--        </c:if>--%>
         $('#input-Dob').change(function(){
             $('#alertDate').hide();
         });

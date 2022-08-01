@@ -86,9 +86,10 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
     @Override
     public boolean updateCustomerInfo(Customer customer) {
         String sql = " UPDATE [dbo].[Customer]\n" +
-                " SET Address = ?, Gender = ?, DoB = ?\n" +
+                " SET Name = ?, Address = ?, Gender = ?, DoB = ?\n" +
                 " WHERE Phone = ? ";
         return update(sql,
+                customer.getName(),
                 customer.getAddress(),
                 customer.getGender(),
                 customer.getDoB(),

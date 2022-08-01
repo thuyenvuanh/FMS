@@ -78,6 +78,7 @@
                                     </select>
                                 </div>
                                 <input name="searchItem"
+                                       id="SearchInput"
                                        type="text" class="form-control"/>
                                 <button name="action"
                                         class="btn btn-outline-success float-right"
@@ -87,7 +88,7 @@
                                 </button>
                             </div>
                             <c:if test="${sessionScope.NotF == 0}">
-                                <span class="text-warning">
+                                <span class="text-warning" id="SearchMsg">
                                     NO CUSTOMER FOUND
                                 </span>
                             </c:if>
