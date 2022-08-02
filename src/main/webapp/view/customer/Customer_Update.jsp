@@ -82,11 +82,17 @@
                                     <div class="form-group" id="update-Dob">
                                         <label>Date of Birth</label>
                                         <input
-                                                placeholder="${update.doB}"
                                                 name="Dob" type="text"
                                                 readonly
                                                 id="input-Dob"
-<%--                                                value="2003-01-01"--%>
+                                        <c:choose>
+                                        <c:when test="${update.doB == null}">
+                                                value="2003-01-01"
+                                        </c:when>
+                                        <c:when test="${update.doB != null}">
+                                                value="${update.doB}"
+                                        </c:when>
+                                        </c:choose>
                                                 class="form-control input-Dob" data-mask="00/00/0000" autocomplete="off"
                                                 maxlength="10">
                                         <c:if test="${requestScope.InvalidDate != null}">
@@ -177,7 +183,7 @@
 <script>
     $(document).ready(function () {
 
-        $('#input-Dob').change(function(){
+        $('#input-Dob').change(function () {
             $('#alertDate').hide();
         });
 
