@@ -15,6 +15,7 @@
 
 <head>
     <meta charset="UTF-8"/>
+    <link rel="icon" href="<c:url value="/images/Background.png"/>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -53,7 +54,7 @@
             }
         }
     </style>
-    <title>Cashier Desktop</title>
+    <title>${sessionScope.storeSession.name}</title>
 </head>
 
 <body class="container-fluid" style="padding: 0; margin: 0;">
@@ -76,11 +77,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<c:url value="/order/index"/>">Home</a>
+                    <a class="nav-link active" aria-current="page" href="<c:url value="/order/index"/>">${storeSession.name}</a>
                 </li>
             </ul>
             <form class="d-flex">
-                <a href="#" class="navbar-brand">${sessionScope.account.username}</a>
+                <a href="#" class="navbar-brand">${sessionScope.account.fullName}</a>
                 <button class="btn btn-outline-success" type="submit" formaction="<c:url value="/account/logout"/>"
                         name="Signout">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -93,7 +94,7 @@
     <div class="row h-100" style="margin: 0;">
         <!-- Order list, take-away-btn, checkout-btn -->
         <div class="col-4 h-100 px-0">
-            <div style="height: 65%; width: 100%;" class="row overflow-auto px-0 mx-0">
+            <div style="height: 80%; width: 100%;" class="row overflow-auto px-0 mx-0">
                 <div class="px-0" style="width: 100%;">
                     <table class="table table-striped my-0" style="width: 100%;">
                         <colgroup>
@@ -125,17 +126,13 @@
                 </div>
             </div>
             <hr style="margin: -1px 12px;">
-            <div style="height: 35%; margin-right: 12px ;margin-left: 12px;"
+            <div style="height: 20%; margin-right: 12px ;margin-left: 12px;"
                  class="row d-flex align-items-end justify-content-center">
-                <table class="h-75" style="margin: 0 16px">
+                <table class="h-100" style="margin: 0 16px">
                     <tr>
                         <th class="col ps-3">SubTotal</th>
                         <td class="col pe-3 text-end fs-3"><fmt:formatNumber minIntegerDigits="1" value="${order.total}"
                                                                              type="currency"/></td>
-                    </tr>
-                    <tr>
-                        <th class="col ps-3">Tax</th>
-                        <td class="col pe-3 text-end fs-3"><fmt:formatNumber value="0" type="currency"/></td>
                     </tr>
                     <tr>
                         <th class="col ps-3">Total</th>
