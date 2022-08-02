@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="FMS" options="-bootclasspath &quot;$PROJECT_DIR$/../../../Download/Java/JDK/jdk1.8.0_111/jre/lib/rt.jar;$PROJECT_DIR$/../../../Download/Java/JDK/jdk1.8.0_111/jre/lib/jce.jar;$PROJECT_DIR$/../../../Download/Java/JDK/jdk1.8.0_111/jre/../lib/tools.jar&quot;" />
+      <module name="FMS" options="-bootclasspath &quot;$PROJECT_DIR$/../../../../Store/JDK 1.8/jre/lib/rt.jar;$PROJECT_DIR$/../../../../Store/JDK 1.8/jre/lib/jce.jar;$PROJECT_DIR$/../../../../Store/JDK 1.8/jre/../lib/tools.jar&quot;" />
     </option>
   </component>
 </project>
