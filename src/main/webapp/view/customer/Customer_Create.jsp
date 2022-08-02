@@ -172,7 +172,7 @@
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, update it!",
+                    confirmButtonText: "Yes, Create it!",
                     cancelButtonText: "No, cancel!",
                     closeOnConfirm: false,
                     closeOnCancel: false
