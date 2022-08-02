@@ -82,7 +82,7 @@ public class OrderDAO extends AbstractDAO<Orders> implements IOrderDAO {
 
     @Override
     public Orders getOrderById(int id) {
-        String sql = "SELECT o.ID, o.Total, o.CreatedDate, s.ID AS storeID\n"
+        String sql = "SELECT o.ID, o.Total, o.CreatedDate, s.ID AS StoreID\n"
                 + "FROM Orders o\n"
                 + "JOIN Store s ON o.StoreID = s.ID\n"
                 + "WHERE o.ID = ?";
