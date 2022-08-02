@@ -116,7 +116,10 @@
                                     <button id="buttonAddMoney" class="btn btn-success dim btn-large-dim w-100 p-3 " type="submit"><i
                                             class="fa fa-money"></i></button>
                                 </div>
-
+                                <div class="col-sm-12">
+                                    <button id="buttonDepositMoney" class="btn btn-warning dim btn-large-dim w-100 p-3 " type="button"><i
+                                            class="fa-solid fa-hand-holding-dollar"></i></button>
+                                </div>
                             </div>
                         </form>
 <%--                        <form>--%>
@@ -185,28 +188,61 @@
 <script>
     $(document).ready(function () {
         $(".footable").footable();
+
         $('#buttonAddMoney').click(function(){
+            $('#form_create_transaction').validate({
+                rules: {
+                    amount: {
+                        required: true,
+                        min: 1000
+                    }
+
+                },
+                messages: {
+                    amount: {
+                        required: 'Please enter amount',
+                        min: 'Amount must be greater than 1000'
+                    }
+                }
+            });
             <c:url var="addMoneyLink" value="${requestScope.contextPath}/counter/addMoney"></c:url>
             $('#form_create_transaction').attr('action', '${addMoneyLink}');
+
         });
-        $('#buttonDepositMoney').click(function(){
-            <c:url var="withdrawLink" value="${requestScope.contextPath}/counter/withDraw"></c:url>
-            $('#form_create_transaction').attr('action', '${withdrawLink}');
+        // $('#buttonDepositMoney').click(function(){
+        //
+        // });
+        $("#buttonDepositMoney").click(function () {
+            var amount = ${requestScope.BALANCE};
+            if(amount == 0){
+                swal({
+                    title: "Withdraw Money Fail!",
+                    text: "Customer do not have amount to withdraw",
+                    type: "warning"
+                });
+            }
+            else {
+                swal({
+                    title: "Are you sure to withdraw?",
+                    type: "info",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes!",
+                    closeOnConfirm: false,
+                });
+                $(".confirm").click(function () {
+                    <c:url var="withdrawLink" value="${requestScope.contextPath}/counter/withDraw"></c:url>
+                    $('#form_create_transaction').attr('action', '${withdrawLink}');
+                    $("#form_create_transaction").submit();
+                });
+            }
+
+
         });
-        <%--$("#buttonAddMoney").click(function () {--%>
-        <%--    swal({--%>
-        <%--        title: "Are you sure to create?",--%>
-        <%--        type: "info",--%>
-        <%--        showCancelButton: true,--%>
-        <%--        confirmButtonColor: "#DD6B55",--%>
-        <%--        confirmButtonText: "Yes, create it!",--%>
-        <%--        closeOnConfirm: false,--%>
-        <%--    });--%>
-        <%--});--%>
-        <%--$(".confirm").click(function () {--%>
-        <%--    &lt;%&ndash;window.location = "${createLink}";&ndash;%&gt;--%>
-        <%--    $(".createForm").submit();--%>
-        <%--});--%>
+
+
+
+        //add money status
         <c:if test="${sessionScope.addStatus != null}">
         swal({
             title: "Add Money Success!",
@@ -231,32 +267,20 @@
         %>
         </c:if>
 
-<%--        <c:if test="${sessionScope.withdrawStatus != null}">--%>
-<%--        swal({--%>
-<%--            title: "Add Money Success!",--%>
-<%--            text: "You clicked the button!",--%>
-<%--            type: "success"--%>
-<%--        });--%>
-<%--        <%--%>
-<%--        session.removeAttribute("withdrawStatus");--%>
-<%--        %>--%>
-<%--        </c:if>--%>
+        //withdraw status
+        <c:if test="${sessionScope.withDrawStatus != null}">
+        swal({
+            title: "Withdraw Money Success!",
+            text: "Withdraw success",
+            type: "success"
+        });
+        <%
+        session.removeAttribute("withDrawStatus");
+        %>
+        </c:if>
 
-        $('#form_create_transaction').validate({
-            rules: {
-                amount: {
-                    required: true,
-                    min: 1000
-                }
 
-            },
-            messages: {
-                amount: {
-                    required: 'Please enter amount',
-                    min: 'Amount must be greater than 1000'
-                }
-            }
-        })
+
     });
 </script>
 <script src="../../js/plugins/jqueryMask/jquery.mask.min.js"></script>

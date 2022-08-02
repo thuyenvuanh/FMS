@@ -109,6 +109,16 @@ public class MoneyTransaction implements Serializable {
         this.customerID = customerID;
     }
 
+    public MoneyTransaction(int walletID, boolean state, Date createdDate,
+                            Counter counterID, Customer customerID) {
+
+        this.walletID = walletID;
+        this.state = state;
+        this.createdDate = createdDate;
+        this.counterID = counterID;
+        this.customerID = customerID;
+    }
+
     public MoneyTransaction(Integer id, int walletID, String method, BigDecimal amount, boolean state, Date createdDate, List<TransactionShared> transactionSharedList, Counter counterID, Customer customerID) {
         this.id = id;
         this.walletID = walletID;
