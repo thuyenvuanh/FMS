@@ -127,7 +127,7 @@ public class ProductService implements IProductService {
             // get category info by id
             category = categoryService.getCategory(cateID);
             // count the number of exist foods which have the same category
-            List<Product> products = productDAO.getProductsByCategory(cateID, null);
+            List<Product> products = productDAO.getProductsByCategory(cateID, store);
             int subID = products.size() + 1;
             // concat short name and the next Id
             id = category.getShortName() + subID;
