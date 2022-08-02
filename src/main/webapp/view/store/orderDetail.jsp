@@ -77,8 +77,6 @@
                             <span><strong>Customer: </strong>${customerDetail.name}</span>
                             <address>
                                 ${customerDetail.address}<br>
-<%--                                112 Street Avenu, 1080<br>--%>
-<%--                                Miami, CT 445611<br>--%>
                                 <abbr title="Phone">P:</abbr> ${customerDetail.phone}
                             </address>
 
@@ -114,8 +112,16 @@
                                         </div>
                                     </td>
                                     <td>${orderDetail.quantity}</td>
-                                    <td>${orderDetail.price} VND</td>
-                                    <td>${orderDetail.amount} VND</td>
+                                    <td>
+                                        <fmt:formatNumber value="${orderDetail.price}" var="price"
+                                                           pattern="###,###,### ₫"></fmt:formatNumber>
+                                                ${price}
+                                    </td>
+                                    <td>
+                                        <fmt:formatNumber value="${orderDetail.amount}" var="amount"
+                                                          pattern="###,###,### ₫"></fmt:formatNumber> VND
+                                        ${amount}
+                                    </td>
                                 </tr>
                             </c:forEach>
                             </tbody>
