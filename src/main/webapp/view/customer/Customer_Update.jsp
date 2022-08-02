@@ -82,10 +82,11 @@
                                     <div class="form-group" id="update-Dob">
                                         <label>Date of Birth</label>
                                         <input
+                                                placeholder="${update.doB}"
                                                 name="Dob" type="text"
                                                 readonly
                                                 id="input-Dob"
-                                                value="2003-01-01"
+<%--                                                value="2003-01-01"--%>
                                                 class="form-control input-Dob" data-mask="00/00/0000" autocomplete="off"
                                                 maxlength="10">
                                         <c:if test="${requestScope.InvalidDate != null}">
