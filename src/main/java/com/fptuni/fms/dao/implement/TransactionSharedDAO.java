@@ -54,7 +54,7 @@ public class TransactionSharedDAO extends AbstractDAO<TransactionShared> impleme
     @Override
     public TransactionShared getLatestTransaction() {
         String sql = "select top(1) * from TransactionShared\n"
-                + "order by TransactionShared.CreatedDate DESC, TransactionShared.ID DESC";
+                + "order by TransactionShared.ID DESC";
         List<TransactionShared> list = query(sql, mapper);
         return list.isEmpty() ? null : list.get(0);
     }
