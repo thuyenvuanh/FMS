@@ -189,7 +189,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
         List<Integer> params = new ArrayList<>();
         params.add(categoryID);
         String sql = "SELECT p.ID, p.Name,p.Price, p.ImagePath, p.QtyAvailable, p.CateID, p.StoreID FROM Product p\n" +
-                "JOIN Category c ON c.ID = p.CateID AND c.IsDeleted = 0 AND p.IsDeleted = 0 AND c.ID  = ? ";
+                "JOIN Category c ON c.ID = p.CateID AND c.IsDeleted = 0 AND c.ID  = ? ";
         if (store != null) {
             sql += " AND p.StoreID = ?";
             params.add(store.getId());

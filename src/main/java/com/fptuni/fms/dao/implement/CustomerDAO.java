@@ -91,12 +91,11 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
 
     @Override
     public Customer getCustomerByOrderID(int id) {
-        String sql = "SELECT c.ID, Name, c.DoB, Address, Gender, Phone FROM Customer c\n" +
-                "JOIN MoneyTransaction mt ON mt.CustomerID = c.ID AND c.IsDeleted = 0 AND mt.IsDeleted = 0\n" +
-                "JOIN TransactionShared ts ON ts.MoneyTransactionID = mt.ID AND ts.IsDeleted = 0\n" +
+        String sql = "SELECT c.ID, c.Name, c.DoB, c.Address, c.Gender, c.Phone, w.ID, ts.ID, p.OrderID FROM Customer c\n" +
+                "JOIN Wallet w ON w.CustomerID = c.ID AND w.IsDeleted = 0 AND c.IsDeleted = 0\n" +
+                "JOIN TransactionShared ts ON ts.WalletID = w.ID AND ts.Status = 1\n" +
                 "JOIN Payment p ON p.ID = ts.PaymentID AND p.IsDeleted = 0\n" +
-                "JOIN Orders o ON o.ID = p.OrderID AND o.IsDeleted = 0\n" +
-                "WHERE o.ID = ?";
+                "AND p.OrderID = ?";
         List<Customer> result = query(sql, new CustomerMapper(), id);
         return result == null ? null : result.get(0);
     }

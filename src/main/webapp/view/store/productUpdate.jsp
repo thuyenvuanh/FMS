@@ -99,7 +99,7 @@
                                                 <%--                                                <fmt:setLocale value="vi_VN"/>--%>
                                                 <fmt:formatNumber var="price" value="${productDetail.price}"
                                                                   pattern="###,###,### ₫"></fmt:formatNumber>
-                                                <input type="text" class="form-control valid"
+                                                <input type="text" class="form-control valid price-input"
                                                        placeholder="VND"
                                                        autocomplete="off" maxlength="13" id="price" name="price"
                                                        value=${price},
@@ -293,11 +293,18 @@
             });
         });
         $(".confirm").click(function () {
+            $(".price-input").val(function(index, currentValue){
+                var value = currentValue.split(',').join('');
+                return value;
+            });
             $(".updateForm").submit();
         });
 
         $.validator.addMethod('positiveNumber',
             function (value) {
+            console.log('before split: ' + value);
+                value = value.split(",").join("");
+                console.log('after split: ' + value);
                 return Number(value) > 0;
             }, 'Enter a positive number.');
 

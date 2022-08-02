@@ -63,7 +63,7 @@
                         <div class="col-sm-6">
                             <h5>Store:</h5>
                             <address>
-                                <strong>${sessionScope.store.name}</strong><br>
+                                <strong>${sessionScope.storeSession.name}</strong><br>
                                 106 Jorg Avenu, 600/10<br>
                                 Chicago, VT 32456<br>
                                 <abbr title="Phone">P:</abbr> (123) 601-4590
@@ -82,7 +82,7 @@
 
                             <p>
                                 <fmt:formatDate value="${requestScope.order.createdDateTime}" var="formattedDate"
-                                                type="date" pattern="dd/MM/yyyy hh:mm:ss"></fmt:formatDate>
+                                                type="date" pattern="dd/MM/yyyy HH:mm:ss"></fmt:formatDate>
                                 <span><strong>Invoice Date:</strong> ${formattedDate}</span><br>
                             </p>
                         </div>
@@ -141,8 +141,7 @@
                     </table>
 
                     <div class="well m-t"><strong>Comments</strong>
-                        It is a long established fact that a reader will be distracted by the readable content of a page
-                        when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less
+                        No tax included
                     </div>
                 </div>
             </div>
