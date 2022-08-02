@@ -106,19 +106,25 @@ public class CustomerController extends HttpServlet {
                     }
                     request.setAttribute("amountlist", getAmount);
                     request.setAttribute("customerList", customer);
-                    int totalPages = 1;
+                    int totalPages = 0;
                     request.setAttribute("totalPages", totalPages);
                     request.getRequestDispatcher("/view/customer/Customer_List.jsp")
                             .forward(request, response);
                 }else {
-                    request.setAttribute("CNF1","Can not found");
-                    response.sendRedirect(request.getContextPath() + "/customer/list");
+//                    int totalPages = 0;
+//                    int NoF = 0;
+//                    request.setAttribute("NoF",NoF);
+//                    request.setAttribute("totalPages", totalPages);
+//                    request.getRequestDispatcher("/view/customer/Customer_List.jsp")
+//                            .forward(request, response);
+                    session.setAttribute("NotF",0);
+                    response.sendRedirect(request.getContextPath()
+                            +"/customer/list");
                 }
             } else {
-                request.setAttribute("CNF2","Can not found");
-                request.setAttribute("customerList", customer);
-                request.getRequestDispatcher("/view/customer/Customer_List.jsp")
-                        .forward(request, response);
+                session.setAttribute("NotF",0);
+                response.sendRedirect(request.getContextPath()
+                        +"/customer/list");
             }
 
         } else if (path.equals("/list")) {
@@ -231,7 +237,7 @@ public class CustomerController extends HttpServlet {
                 }
             }else {
 //                request.setAttribute("msgEx","Blank is not accepted");
-                System.out.println("Blank error");
+//                System.out.println("Blank error");
                 List<Customer> list = new ArrayList<>();
                 if (customer != null) {
                     list.add(customer);
