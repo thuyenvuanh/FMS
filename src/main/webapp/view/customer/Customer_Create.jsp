@@ -41,16 +41,13 @@
         <!-- TMP -->
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>Product edit</h2>
+                <h2>Create</h2>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a>E-commerce</a>
+                        Counter
                     </li>
                     <li class="breadcrumb-item active">
-                        <strong>Product edit</strong>
+                        <strong>Create</strong>
                     </li>
                 </ol>
             </div>
@@ -84,7 +81,9 @@
                                             <div class="form-group row"><label class="col-sm-2 col-form-label">Phone
                                                 number:</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" data-mask="000000000000"
+                                                    <input type="text" 
+                                                           readonly
+                                                           class="form-control" data-mask="000000000000"
                                                            placeholder="" autocomplete="off" maxlength="14"
                                                            name="Cusphone" value="${cusCreate}">
 
