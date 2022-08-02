@@ -42,4 +42,11 @@ public class StoreAccountDAO extends AbstractDAO<StoreAccount> implements IStore
         return !query(sql, storeAccountMapper, account.getId(), store.getId()).isEmpty();
     }
 
+    public boolean update(Account newAccount, Account oldAccount, Store store){
+        String sql = "update StoreAccount\n" +
+                "set AccountID = ?\n" +
+                "where AccountID = ? and StoreID = ?";
+        return update(sql, newAccount.getId(), oldAccount.getId(), store.getId());
+    }
+
 }

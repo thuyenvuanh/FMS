@@ -158,6 +158,9 @@
 <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
 <script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
+<%-- Jquery Mask --%>
+<script src="../js/plugins/jqueryMask/jquery.mask.min.js"></script>
+
 <!-- Page-Level Scripts -->
 <script>
     $(document).ready(function () {
@@ -192,7 +195,7 @@
                 Cusphone: {
                     required: true,
                     minlength: 9,
-                    maxLength: 12
+                    maxlength: 12
                 }
             },
             messages: {
@@ -202,7 +205,7 @@
                 Cusphone: {
                     required: 'Please enter customer phone',
                     minlength: 'Phone number must be greater than 9',
-                    maxLength: 'Phone number must be lower than 12'
+                    maxlength: 'Phone number must be lower than 12'
                 }
             }
         })

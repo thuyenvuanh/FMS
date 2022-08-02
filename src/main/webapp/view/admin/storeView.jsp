@@ -24,32 +24,20 @@
         <link href="../css/style.css" rel="stylesheet"/>
         <!-- Sweet Alert -->
         <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-        <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-        <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
-
-        <!-- FooTable -->
-        <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
-
-        <link href="../../css/animate.css" rel="stylesheet"/>
-        <link href="../../css/style.css" rel="stylesheet"/>
     </head>
     <body>
         <div id="wrapper">
-            <jsp:include page="layoutAdmin.jsp"></jsp:include>
+            <jsp:include page="layoutAdmin.jsp"/>
 
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
                         <h2>Store view</h2>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="index.html">Home</a>
+                                <a href="<c:url value="/"/>">Home</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a>E-commerce</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a>Store list</a>
+                                <a href="<c:url value="/store/list"/>">Store list</a>
                             </li>
                             <li class="breadcrumb-item active">
                                 <strong>Store view</strong>
@@ -69,7 +57,7 @@
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
                                         <div class="panel-body">
-                                            <c:set var="store" value="${requestScope.store}"></c:set>
+                                            <c:set var="store" value="${requestScope.store}" target="com.fptuni.fms.model.Store"/>
                                             <fieldset>
                                                 <div class="form-group row"><label class="col-sm-2 col-form-label">ID:</label>
                                                     <div class="col-sm-10 text-align">${store.id}</div>
@@ -95,12 +83,13 @@
                                                         </c:forEach>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row"><label class="col-sm-2 col-form-label">Status:</label>
-                                                    <div class="col-sm-10 text-align">
-                                                        <c:if test="${store.isDeleted == false}">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Status:</label>
+                                                    <div class="col-sm-10 align-self-center">
+                                                        <c:if test="${store.isDeleted eq false}">
                                                             <span class="label label-primary">Enable</span>
                                                         </c:if>
-                                                        <c:if test="${store.isDeleted == true}">
+                                                        <c:if test="${store.isDeleted eq true}">
                                                             <span class="label label-danger">Disable</span>
                                                         </c:if>
                                                     </div>
@@ -108,10 +97,10 @@
                                             </fieldset>
                                             <div class="form-layout-footer text-center">
                                                 <c:url var="updateLink" value="${requestScope.contextPath}/store/updatePage">
-                                                    <c:param name="storeId" value="${store.id}"></c:param>
+                                                    <c:param name="storeId" value="${store.id}"/>
                                                 </c:url>
                                                 <c:url var="deleteLink" value="${requestScope.contextPath}/store/delete">
-                                                    <c:param name="storeId" value="${store.id}"></c:param>
+                                                    <c:param name="storeId" value="${store.id}"/>
                                                 </c:url>
                                                 <a href="${deleteLink}">
                                                     <button class="btn btn-danger bd-0">Delete</button>
@@ -119,7 +108,7 @@
                                                 <a href="${updateLink}">
                                                     <button class="btn btn-primary bd-0">Update</button>
                                                 </a>
-                                                <button onclick="history.back()" type="button" class="btn btn-secondary bd-0">Back to list</button>
+                                                <a href="<c:url value="/store/list"/>" class="btn btn-secondary bd-0">Back to list</a>
 
                                             </div>
                                         </div>
@@ -132,25 +121,9 @@
 
             </div>
 
-            <jsp:include page="footer.jsp"></jsp:include>
+            <jsp:include page="footer.jsp"/>
         </div>
     </div>
-
-
-    <!-- Mainly scripts -->
-    <script src="../../js/jquery-3.1.1.min.js"></script>
-    <script src="../../js/popper.min.js"></script>
-    <script src="../../js/bootstrap.js"></script>
-    <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-    <!-- Custom and plugin javascript -->
-    <script src="../../js/inspinia.js"></script>
-    <script src="../../js/plugins/pace/pace.min.js"></script>
-
-    <!-- FooTable -->
-    <script src="../../js/plugins/footable/footable.all.min.js"></script>
-    <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
 
     <!-- Mainly scripts -->
     <script src="../js/jquery-3.1.1.min.js"></script>

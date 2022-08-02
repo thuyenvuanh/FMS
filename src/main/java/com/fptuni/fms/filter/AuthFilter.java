@@ -2,16 +2,11 @@ package com.fptuni.fms.filter;
 
 import com.fptuni.fms.model.Account;
 import com.fptuni.fms.utils.JsonUtils;
-import org.json.simple.parser.ParseException;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
 
 public class AuthFilter implements Filter {
     public void destroy() {
@@ -32,30 +27,7 @@ public class AuthFilter implements Filter {
         System.out.println("Action Path: " + req.getPathInfo());
         //get account from [session], [cookie]
         Account account = (Account) req.getSession().getAttribute("account");
-        account = (account == null) ? getFromCookie(request) : account;
-
-//        try {
-//            if(JsonUtils.getInstance().havePermission(req.getServletPath(),
-//                    req.getPathInfo(), account == null ? "all" : account.getRoleID().getName())){
-//                System.out.println("Pass");
-//                chain.doFilter(request, response);
-//            } else {
-//                req.getSession().setAttribute("message", "Sign in to continue");
-//                System.out.println("required and have to sign in");
-//                ((HttpServletResponse) response).sendRedirect(req.getContextPath());
-//            }
-//        }catch (Exception e){
-//            System.out.println(e.getMessage());
-//            switch (e.getMessage()){
-//                case "controller not found":
-//                    chain.doFilter(request, response);
-//                    return;
-//                case "action not found":
-//                case "Resource file not found":
-//                    ((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/view/404.jsp");
-//                    return;
-//            }
-//        }
+        account = (account == null) ? getFromCookie() : account;
 
         boolean isRequired = false;
         try {
@@ -79,7 +51,7 @@ public class AuthFilter implements Filter {
                     ((HttpServletResponse) response).sendRedirect(req.getContextPath() + indexPage);
                 }
             } else {
-                System.out.println("not required and not mainpage");
+                System.out.println("not required and not main page");
                 chain.doFilter(request, response);
             }
         } else {
@@ -99,13 +71,14 @@ public class AuthFilter implements Filter {
                     }
                 } catch (Exception e) {
                     System.out.println("Error on filtering: " + e.getMessage());
+                    req.getSession().setAttribute("msg404", e.getMessage());
                     ((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/view/404.jsp");
                 }
             }
         }
     }
 
-    private Account getFromCookie(ServletRequest request) {
+    private Account getFromCookie() {
         return null;
     }
 }

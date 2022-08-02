@@ -18,38 +18,23 @@
     <link href="../css/style.css" rel="stylesheet"/>
     <!-- Sweet Alert -->
     <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-    <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-    <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
-    <!-- Select2 -->
-    <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
-    <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-    <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
     <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
     <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
     <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
 
-    <!-- FooTable -->
-    <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
-
-    <link href="../../css/animate.css" rel="stylesheet"/>
-    <link href="../../css/style.css" rel="stylesheet"/>
 </head>
 <body>
 
 <div id="wrapper">
-    <jsp:include page="layoutAdmin.jsp"></jsp:include>
+    <jsp:include page="layoutAdmin.jsp"/>
 
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>E-commerce account list</h2>
+            <h2>Account list</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a>E-commerce</a>
+                    <a href="<c:url value="/adminDashboard/index"/>">Home</a>
                 </li>
                 <li class="breadcrumb-item active">
                     <strong>Account list</strong>
@@ -150,25 +135,18 @@
                                     <td>${acc.username}</td>
                                     <td>${acc.fullName}</td>
                                     <td>${acc.roleID.name}</td>
-                                    <c:if test="${acc.isDeleted ==false}">
-                                        <td>
-                                            <span class="label label-primary">Enable</span>
-                                        </td>
-                                    </c:if>
-                                    <c:if test="${acc.isDeleted == true} ">
-                                        <td>
-                                            <span class="label label-danger">Disable</span>
-                                        </td>
-                                    </c:if>
+                                    <td class="pt-3">
+                                        <span class="label label-primary">${acc.isDeleted == false ? "Enabled" : "Disabled"}</span>
+                                    </td>
                                     <td class="text-right">
                                         <form class="">
                                             <input type="hidden" name="accountId" value="${acc.id}"/>
                                             <div class="btn-group">
                                                 <c:url var="viewLink" value="/account/view">
-                                                    <c:param name="accountId" value="${acc.id}"></c:param>
+                                                    <c:param name="accountId" value="${acc.id}"/>
                                                 </c:url>
                                                 <c:url var="updateLink" value="/account/updatePage">
-                                                    <c:param name="accountId" value="${acc.id}"></c:param>
+                                                    <c:param name="accountId" value="${acc.id}"/>
                                                 </c:url>
                                                 <button class="btn-white btn btn-xs" formmethod="post"
                                                         formaction="${viewLink}">
@@ -193,41 +171,109 @@
                                     <nav aria-label="Page navigation example">
                                         <ul class="paginations">
                                             <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
-                                                <c:url var="previousPage"
-                                                       value="${requestScope.contextPath}/account/list">
-                                                    <c:param name="page"
-                                                             value="${requestScope.currentPage - 1}"></c:param>
-                                                    <c:param name="sortField"
-                                                             value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending"
-                                                             value="${!requestScope.isAsc}"></c:param>
-                                                </c:url>
+                    <c:choose>
+                        <c:when test="${
+                        (requestScope.username != null && requestScope.username ne '')
+                        || (requestScope.fullName != null && requestScope.fullName ne '')
+                        || requestScope.roleId ne 0}">
+                            <c:url var="previousPage"
+                                   value="${requestScope.contextPath}/account/search">
+                                <c:param name="page"
+                                         value="${requestScope.currentPage - 1}"/>
+                                <c:param name="sortField"
+                                         value="${requestScope.sortField}"/>
+                                <c:param name="isAscending"
+                                         value="${!requestScope.isAsc}"/>
+                                <c:param name="username"
+                                         value="${requestScope.username}"/>
+                                <c:param name="fullName"
+                                         value="${requestScope.fullName}"/>
+                                <c:param name="status"
+                                         value="${requestScope.status}"/>
+                                <c:param name="roleId"
+                                         value="${requestScope.roleId}"/>
+                            </c:url>
+                        </c:when>
+                        <c:otherwise>
+                            <c:url var="previousPage"
+                                            value="${requestScope.contextPath}/account/list">
+                                <c:param name="page"
+                                         value="${requestScope.currentPage - 1}"/>
+                                <c:param name="sortField"
+                                         value="${requestScope.sortField}"/>
+                                <c:param name="isAscending"
+                                     value="${!requestScope.isAsc}"/>
+                            </c:url>
+                        </c:otherwise>
+                    </c:choose>
                                                 <a class="page-link " href="${previousPage}" aria-label="Previous">
                                                     <span aria-hidden="true">&laquo;</span>
                                                     <span class="sr-only">Previous</span>
                                                 </a>
                                             </li>
                                             <c:forEach begin="1" end="${requestScope.totalPages}" var="page">
-                                                <c:url var="paging" value="${requestScope.contextPath}/account/list">
-                                                    <c:param name="page" value="${page}"></c:param>
-                                                    <c:param name="sortField"
-                                                             value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending"
-                                                             value="${!requestScope.isAsc}"></c:param>
-                                                </c:url>
+                    <c:choose>
+                        <c:when test="${
+                        (requestScope.username != null && requestScope.username ne '')
+                        || (requestScope.fullName != null && requestScope.fullName ne '')
+                        || (requestScope.roleId != null && requestScope.roleId ne 0)}">
+                            <c:url var="paging" value="${requestScope.contextPath}/account/search">
+                                <c:param name="page" value="${page}"/>
+                                <c:param name="sortField" value="${requestScope.sortField}"/>
+                                <c:param name="isAscending" value="${!requestScope.isAsc}"/>
+                                <c:param name="username" value="${requestScope.username}"/>
+                                <c:param name="fullName" value="${requestScope.fullName}"/>
+                                <c:param name="status" value="${requestScope.status}"/>
+                                <c:param name="roleId" value="${requestScope.roleId}"/>
+                            </c:url>
+                        </c:when>
+                        <c:otherwise>
+                            <c:url var="paging" value="${requestScope.contextPath}/account/list">
+                                <c:param name="page" value="${page}"/>
+                                <c:param name="sortField" value="${requestScope.sortField}"/>
+                                <c:param name="isAscending" value="${!requestScope.isAsc}"/>
+                            </c:url>
+                        </c:otherwise>
+                    </c:choose>
                                                 <li class="page-item ${requestScope.currentPage == page ?"active":""}">
                                                     <a class="page-link " href="${paging}">${page}</a>
                                                 </li>
                                             </c:forEach>
                                             <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
-                                                <c:url var="nextPage" value="${requestScope.contextPath}/account/list">
-                                                    <c:param name="page"
-                                                             value="${requestScope.currentPage + 1}"></c:param>
-                                                    <c:param name="sortField"
-                                                             value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending"
-                                                             value="${!requestScope.isAsc}"></c:param>
-                                                </c:url>
+                    <c:choose>
+                        <c:when test="${
+                        (requestScope.username != null && requestScope.username ne '')
+                        || (requestScope.fullName != null && requestScope.fullName ne '')
+                        || requestScope.roleId ne 0}">
+                            <c:url var="nextPage" value="${requestScope.contextPath}/account/search">
+                            <c:param name="page"
+                                     value="${requestScope.currentPage + 1}"/>
+                            <c:param name="sortField"
+                                     value="${requestScope.sortField}"/>
+                            <c:param name="isAscending"
+                                     value="${!requestScope.isAsc}"/>
+                            <c:param name="username"
+                                     value="${requestScope.username}"/>
+                            <c:param name="fullName"
+                                     value="${requestScope.fullName}"/>
+                            <c:param name="status"
+                                     value="${requestScope.status}"/>
+                            <c:param name="roleId"
+                                     value="${requestScope.roleId}"/>
+                        </c:url>
+                        </c:when>
+                        <c:otherwise>
+                            <c:url var="nextPage" value="${requestScope.contextPath}/account/list">
+                                <c:param name="page"
+                                         value="${requestScope.currentPage + 1}"/>
+                                <c:param name="sortField"
+                                         value="${requestScope.sortField}"/>
+                                <c:param name="isAscending"
+                                         value="${!requestScope.isAsc}"/>
+                            </c:url>
+                        </c:otherwise>
+                    </c:choose>
+
                                                 <a class="page-link" href="${nextPage}" aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
                                                     <span class="sr-only">Next</span>
@@ -244,23 +290,9 @@
             </div>
         </div>
     </div>
-    <jsp:include page="footer.jsp"></jsp:include>
+    <jsp:include page="footer.jsp"/>
 </div>
 
-<!-- Mainly scripts -->
-<script src="../../js/jquery-3.1.1.min.js"></script>
-<script src="../../js/popper.min.js"></script>
-<script src="../../js/bootstrap.js"></script>
-<script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-<!-- Custom and plugin javascript -->
-<script src="../../js/inspinia.js"></script>
-<script src="../../js/plugins/pace/pace.min.js"></script>
-
-<!-- FooTable -->
-<script src="../../js/plugins/footable/footable.all.min.js"></script>
-<script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <!-- Mainly scripts -->
 <script src="../js/jquery-3.1.1.min.js"></script>

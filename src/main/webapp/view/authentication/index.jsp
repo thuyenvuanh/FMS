@@ -144,21 +144,21 @@
                            name="password" required>
                 </div>
                 <!-- 2 column grid layout -->
-                <div class="row mb-3">
-                    <div class="d-flex justify-content-center">
-                        <!-- Checkbox -->
-                        <div class="form-check mb-3 mb-md-0 was-validated">
-                            <input class="form-check-input" type="checkbox" id="loginCheck" name="remember"/>
-                            <label for="loginCheck" class="form-check-label">Remember me</label>
-                        </div>
-                    </div>
-                </div>
+<%--                <div class="row mb-3">--%>
+<%--                    <div class="d-flex justify-content-center">--%>
+<%--                        <!-- Checkbox -->--%>
+<%--                        <div class="form-check mb-3 mb-md-0 was-validated">--%>
+<%--                            <input class="form-check-input" type="checkbox" id="loginCheck" name="remember"/>--%>
+<%--                            <label for="loginCheck" class="form-check-label">Remember me</label>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
                 <!-- Submit button -->
-                <div class="row px-2">
+                <div class="row px-2 py-5">
                     <button type="submit" class="btn mx-auto shadow" formaction="<c:url
         value="/account/login"/>" style="background-color: #4fc284; color: #ffffff; width: 98%">Sign in
                     </button>
-                    <span class="text-danger">${sessionScope.message}</span>
+                    <span class="text-danger mt-3">${sessionScope.message}</span>
                 </div>
             </form>
         </div>

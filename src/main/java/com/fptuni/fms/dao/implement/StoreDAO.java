@@ -71,6 +71,13 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
     }
 
     @Override
+    public boolean existName(String name) {
+        String sql = "SELECT Name FROM Store where Name = ?";
+        return !query(sql, new StoreMapper(), name).isEmpty();
+
+    }
+
+    @Override
     public List<Store> getListStore(Pageable pageable) {
         // Sort theo field xong moi paging
         // Neu chon sortField khac thi cac Product moi trang se thay doi
@@ -103,7 +110,7 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
         // Vi du: sortField = ID ==> list ID ASC ==> paging
         String sql = "SELECT * FROM (select s.ID, s.Name, a.FullName , s.IsDeleted\n" +
                 "FROM Store S LEFT OUTER JOIN StoreAccount SA on S.ID = SA.StoreID left join Account A on SA.AccountID = A.ID\n" +
-                "WHERE (s.IsDeleted = ?)\n";
+                "WHERE (s.IsDeleted = ? and a.RoleID = 4)\n";
         boolean hasName = false, hasStoreManager = false;
         if (storeManager != null && !storeManager.isEmpty()) {
             hasStoreManager = true;
@@ -144,6 +151,37 @@ public class StoreDAO extends AbstractDAO<Store> implements IStoreDAO {
     public int count() {
         String sql = "SELECT COUNT(ID) FROM dbo.Store";
         return count(sql);
+    }
+
+    public int countNotDeleted() {
+        String sql = "SELECT COUNT(ID) FROM Store Where IsDeleted = 0";
+        return count(sql);
+
+    }
+
+    public int countOnParameters(int isDelete, String name, String storeManager){
+        String sql = "SELECT Count(StoreID) FROM (select s.ID as StoreID, s.Name, a.FullName , s.IsDeleted\n" +
+                "FROM Store S LEFT OUTER JOIN StoreAccount SA on S.ID = SA.StoreID left join Account A on SA.AccountID = A.ID\n" +
+                "WHERE (s.IsDeleted = ?)\n";
+        boolean hasName = false, hasStoreManager = false;
+        if (storeManager != null && !storeManager.isEmpty()) {
+            hasStoreManager = true;
+            sql += "    and (a.IsDeleted = 0 and a.FullName like ? ) \n";
+        }
+        if (name != null && !name.isEmpty()) {
+            hasName = true;
+            sql += "    and (s.IsDeleted = 0 AND s.Name LIKE ? ) \n";
+        }
+        sql += "and a.RoleID = 4 ) as A";
+        if (!hasName && !hasStoreManager) {
+            return count(sql, isDelete);
+        } else if (!hasName && hasStoreManager) {
+            return count(sql, isDelete, "%" + storeManager + "%");
+        } else if (hasName && !hasStoreManager) {
+            return count(sql, isDelete, "%" + name + "%");
+        } else {
+            return count(sql, isDelete, "%" + storeManager + "%", "%" + name + "%");
+        }
     }
 
     @Override

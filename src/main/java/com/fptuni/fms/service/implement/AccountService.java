@@ -128,10 +128,9 @@ public class AccountService implements IAccountService {
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
         request.setAttribute("isAsc", !isAsc);
 
-        int totalPages = accountDAO.count() / pageSize;
-        if (accountDAO.count() % pageSize != 0) {
-            totalPages++;
-        }
+        int totalAccounts = accountDAO.countNotDeleted();
+
+        int totalPages = (int) Math.ceil((double)totalAccounts / (double)pageSize);
         RoleDAO role = new RoleDAO();
         List<Role> listRole = role.getListRole();
         request.setAttribute("roleList", listRole);
@@ -143,7 +142,7 @@ public class AccountService implements IAccountService {
     @Override
     public String search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pageIndex = 1;
-        int pageSize = 6;
+        int pageSize = 5;
         String sortField = "ID";
         boolean isAsc = true;
         if (request.getParameter("page") != null) {
@@ -167,10 +166,7 @@ public class AccountService implements IAccountService {
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
         request.setAttribute("isAsc", !isAsc);
 
-        int totalPages = accountDAO.count() / pageSize;
-        if (accountDAO.count() % pageSize != 0) {
-            totalPages++;
-        }
+        int totalPages = (int) Math.ceil((double) accountDAO.countOnParameters(isDelete, username, fullName, roleId)/(double) pageSize);
         request.setAttribute("status", isDelete);
         request.setAttribute("username", username);
         request.setAttribute("fullName", fullName);

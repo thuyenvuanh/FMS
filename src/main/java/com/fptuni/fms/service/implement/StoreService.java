@@ -39,13 +39,27 @@ public class StoreService implements IStoreService {
         HttpSession session = request.getSession();
         session.removeAttribute("createStatus");
         String name = request.getParameter("storeName");
+
+        if (storeDAO.existName(name)){
+            request.setAttribute("storeName", name);
+            request.setAttribute("createStoreMessage", "Store with name " + name + " already existed");
+            request.setAttribute("createStatus", "fail");
+            return "/store/createPage";
+        }
+
         String storeManager = request.getParameter("storeManager");
+        String cashier = request.getParameter("cashier");
         Store store = new Store();
         store.setName(name);
 //        store.setAccountID(accountDAO.getAccount(Integer.parseInt(storeManager)));
         Integer check = storeDAO.insertStore(store);
         store.setId(check);
-        storeAccountDAO.insert(new Account(Integer.parseInt(storeManager)), store);
+        if (!storeManager.equals("-1")){
+            storeAccountDAO.insert(new Account(Integer.parseInt(storeManager)), store);
+        }
+        if (!cashier.equals("-1")){
+            storeAccountDAO.insert(new Account(Integer.parseInt(cashier)), store);
+        }
         if (check == null) {
             session.setAttribute("createStatus", "fail");
             return "/store/createPage";
@@ -64,7 +78,7 @@ public class StoreService implements IStoreService {
     @Override
     public String getListStore(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pageIndex = 1;
-        int pageSize = 10;
+        int pageSize = 5;
         String sortField = "ID";
         boolean isAsc = true;
         if (request.getParameter("page") != null) {
@@ -97,10 +111,7 @@ public class StoreService implements IStoreService {
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
         request.setAttribute("isAsc", !isAsc);
 
-        int totalPages = storeDAO.count() / pageSize;
-        if (storeDAO.count() % pageSize != 0) {
-            totalPages++;
-        }
+        int totalPages = (int) Math.ceil((double)storeDAO.countNotDeleted() / (double)pageSize);
         request.setAttribute("storeList", listStore);
         request.setAttribute("map", accountsMap);
         request.setAttribute("totalPages", totalPages);
@@ -172,19 +183,40 @@ public class StoreService implements IStoreService {
         store.setName(request.getParameter("name"));
         String manager_id = request.getParameter("manager_id");
         String cashier_id = request.getParameter("cashier_id");
+        String oldStoreName = request.getParameter("old_storeName");
+        String oldManager = request.getParameter("old_manager");
+        String oldCashier = request.getParameter("old_cashier");
 
-        boolean isSuccess = storeDAO.updateStore(store.getId(), store.getName());
-        if (manager_id != null && !manager_id.isEmpty()){
-            Account manager = accountDAO.getAccount(Integer.parseInt(manager_id));
-            isSuccess = storeAccountDAO.insert(manager, store) > 0;
+        boolean isSuccess = false;
+        boolean notChange = true;
+        if (!oldStoreName.equals(store.getName())){
+            isSuccess = storeDAO.updateStore(store.getId(), store.getName());
+            notChange = false;
         }
 
-        if (cashier_id != null && !cashier_id.isEmpty()){
-            Account cashier = accountDAO.getAccount(Integer.parseInt(request.getParameter("cashier_id")));
-            isSuccess = storeAccountDAO.insert(cashier, store) > 0;
+        if (!manager_id.equals(oldManager)){
+            if (oldManager.equals("-1")) {
+                isSuccess = storeAccountDAO.insert(new Account(Integer.parseInt(manager_id)), store) == 1;
+            } else {
+                isSuccess = storeAccountDAO.update(new Account(Integer.parseInt(manager_id)),
+                                                    new Account(Integer.parseInt(oldManager)),
+                                                    store);
+            }
+            notChange = false;
         }
 
-        if (isSuccess == false) {
+        if (!cashier_id.equals(oldCashier)){
+            if (oldCashier.equals("-1")){
+                isSuccess = storeAccountDAO.insert(new Account(Integer.parseInt(cashier_id)), store) == 1;
+            } else {
+                isSuccess = storeAccountDAO.update(new Account(Integer.parseInt(cashier_id)),
+                        new Account(Integer.parseInt(oldCashier)),
+                        store);
+            }
+            notChange = false;
+        }
+
+        if (!isSuccess && !notChange) {
             session.setAttribute("updateStatus", "fail");
             return "/store/list";
         }
@@ -211,7 +243,7 @@ public class StoreService implements IStoreService {
     @Override
     public String search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pageIndex = 1;
-        int pageSize = 10;
+        int pageSize = 5;
         String sortField = "ID";
         boolean isAsc = true;
         if (request.getParameter("page") != null) {
@@ -244,10 +276,7 @@ public class StoreService implements IStoreService {
         // Tu dong dao nguoc khi nhan nhieu lan vao sortField
         request.setAttribute("isAsc", !isAsc);
 
-        int totalPages = storeDAO.count() / pageSize;
-        if (storeDAO.count() % pageSize != 0) {
-            totalPages++;
-        }
+        int totalPages = (int) Math.ceil((double)storeDAO.countOnParameters(isDelete, name, storeManager) / (double)pageSize);
         request.setAttribute("status", isDelete);
         request.setAttribute("name", name);
         request.setAttribute("storeManager", storeManager);

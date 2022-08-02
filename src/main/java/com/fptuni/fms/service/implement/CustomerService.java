@@ -76,6 +76,11 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
+    public Integer CountCustomerNotDeleted() {
+        return customerDAO.countCustomerNotDeleted();
+    }
+
+    @Override
 
     public Integer DeleteCustomer(String phoneNum) {
         ICustomerDAO customerDAO = new CustomerDAO();

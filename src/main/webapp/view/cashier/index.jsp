@@ -15,6 +15,7 @@
 
 <head>
     <meta charset="UTF-8"/>
+    <link rel="icon" href="<c:url value="/images/Background.png"/>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -33,7 +34,7 @@
             }
         }
     </style>
-    <title>Cashier Desktop</title>
+    <title>${sessionScope.storeSession.name}</title>
 </head>
 
 <body class="container-fluid" style="padding: 0; margin: 0;">
@@ -56,11 +57,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<c:url value="/order/index"/>">Home</a>
+                    <a class="nav-link active" aria-current="page" href="<c:url value="/order/index"/>">${sessionScope.storeSession.name}</a>
                 </li>
             </ul>
             <form class="d-flex">
-                <a href="#" class="navbar-brand">${sessionScope.account.username}</a>
+                <a href="#" class="navbar-brand">${sessionScope.account.fullName}</a>
                 <button class="btn btn-outline-success" type="submit" formaction="<c:url value="/account/logout"/>"
                         name="Signout">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -73,20 +74,20 @@
     <div class="row h-100" style="margin: 0;">
         <!-- Order list, take-away-btn, checkout-btn -->
         <div class="col-4 h-100 px-0">
-            <div style="height: 65%; width: 100%;" class="row overflow-auto px-0 mx-0">
+            <div style="height: 70%; width: 100%;" class="row overflow-auto px-0 mx-0">
                 <div class="px-0" style="width: 100%;">
                     <table class="table table-striped my-0" style="width: 100%;">
                         <colgroup>
-                            <col span="1" style="width: 10%;">
                             <col span="1" style="width: 40%;">
+                            <col span="1" style="width: 10%;">
                             <col span="1" style="width: 20%;">
                             <col span="1" style="width: 30%;">
                         </colgroup>
 
                         <thead>
                         <tr>
-                            <th scope="col" class="text-end">Qty</th>
                             <th scope="col">Name</th>
+                            <th scope="col" class="text-end">Qty</th>
                             <th scope="col" class="text-end">Price</th>
                             <th scope="col" class="text-center"></th>
                         </tr>
@@ -95,8 +96,8 @@
                         <jsp:useBean id="order" scope="session" type="com.fptuni.fms.model.Orders"/>
                         <c:forEach var="orderDetail" items="${order.orderDetailList}" varStatus="loop">
                             <tr class="align-middle">
-                                <th scope="row" class="text-end">${orderDetail.quantity}</th>
                                 <td>${orderDetail.product.name}</td>
+                                <td class="text-end">${orderDetail.quantity}</td>
                                 <td class="text-end"><fmt:formatNumber value="${orderDetail.amount}"
                                                                        type="currency"/></td>
                                 <td class="text-center">
@@ -120,17 +121,13 @@
                 </div>
             </div>
             <hr style="margin: -1px 12px;">
-            <div style="height: 35%; margin-right: 12px ;margin-left: 12px;"
+            <div style="height: 30%; margin-right: 12px ;margin-left: 12px;"
                  class="row d-flex align-items-end justify-content-center">
-                <table class="h-75" style="margin: 0 16px">
+                <table style="margin: 0 16px; height: 60%;">
                     <tr>
                         <th class="col ps-3">SubTotal</th>
                         <td class="col pe-3 text-end fs-3"><fmt:formatNumber minIntegerDigits="1" value="${order.total}"
                                                                              type="currency"/></td>
-                    </tr>
-                    <tr>
-                        <th class="col ps-3">Tax</th>
-                        <td class="col pe-3 text-end fs-3"><fmt:formatNumber value="0" type="currency"/></td>
                     </tr>
                     <tr>
                         <th class="col ps-3">Total</th>
@@ -138,7 +135,7 @@
                                                                                      type="currency"/></td>
                     </tr>
                 </table>
-                <form class="row pb-3 h-25 w-100">
+                <form class="row pb-3 w-100" style="height: 40%;">
                     <div class="row d-flex justify-content-between align-items-stretch"
                          style="height: 100%; margin-right: 0;margin-left: 0; padding: 0;">
                         <div class="col flex-grow-1 d-flex justify-content-start align-items-stretch"
@@ -175,7 +172,7 @@
                                class="col-md-4 col-xxl-3 d-flex align-items-center h-25 py-2" style="
                             position: relative;">
                                 <img style="object-fit: cover; object-position: 20% 20%; height: 100%;width: 100%; max-height: 160px;"
-                                     class="rounded-2"
+                                     class="rounded-2 bg-gradient"
                                      src="<c:choose>
                                         <c:when test="${product.imagePath ne 'IMG'}">${product.imagePath}</c:when>
                                         <c:otherwise>https://bnz05pap002files.storage.live.com/y4mEGyM8o8ZkmmGY0ngagBv0PyYukn1SbdkfnaaXJa3VXZSLL_FOlnxKTDjwdI42kkW6WbrEkxxTzsO00XrT4Zbq1_4U1B2g8lrpwJ47XrbcBSiLT6NAhvWaZFMmwfLnB9rPUrYRmGAEMAoF6sJ_Q-ZIyxI2BJGDSjh7eO_ez_n1I5eTId0lh6sj0V19nR5iukTbRQ6C-uh4G7pjMz_FcRqWw/Untitled%20design.png?psid=1&width=464&height=464&cropMode=center</c:otherwise>

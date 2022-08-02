@@ -13,10 +13,9 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
 
     @Override
     public List<Customer> getAllCustomer(Pageable pageable) {
-//        String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
-//                "from [dbo].[Customer]\n";
         String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
-                "from [dbo].[Customer]\n";
+                "from [dbo].[Customer]\n" +
+                "where IsDeleted = 0";
         String order;
         if (pageable.getSorter() != null && !pageable.getSorter().getSortField().isEmpty()) {
             order = pageable.getSorter().isAscending() ? "ASC" : "DESC";
@@ -42,7 +41,7 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
     public Customer getByPhoneNum(String phoneNum) {
         String sql = "select ID, Name , Phone , IsDeleted, DoB, Address, Gender\n" +
                 "from [dbo].[Customer]\n" +
-                "where Phone = ?";
+                "where Phone = ? and IsDeleted = 0";
         List<Customer> cus = query(sql, new CustomerMapper(), phoneNum);
         return cus.isEmpty() ? null : cus.get(0);
     }
@@ -56,6 +55,14 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
     public Integer count() {
         String sql = "select count(c.ID)\n" +
                 "from [dbo].[Customer] c";
+        return count(sql);
+    }
+
+    @Override
+    public Integer countCustomerNotDeleted() {
+        String sql = "select count(c.ID)\n" +
+                "from [dbo].[Customer] c\n" +
+                "where c.IsDeleted = 0";
         return count(sql);
     }
 
@@ -79,17 +86,16 @@ public class CustomerDAO extends AbstractDAO<Customer> implements ICustomerDAO {
     @Override
     public boolean updateCustomerInfo(Customer customer) {
         String sql = " UPDATE [dbo].[Customer]\n" +
-                " SET Address = ?, Gender = ?, DoB = ?\n" +
+                " SET Name = ?, Address = ?, Gender = ?, DoB = ?\n" +
                 " WHERE Phone = ? ";
         return update(sql,
+                customer.getName(),
                 customer.getAddress(),
                 customer.getGender(),
                 customer.getDoB(),
                 customer.getPhone());
     }
 
-
-    @Override
     public Customer getCustomerByOrderID(int id) {
         String sql = "SELECT c.ID, c.Name, c.DoB, c.Address, c.Gender, c.Phone, w.ID, ts.ID, p.OrderID FROM Customer c\n" +
                 "JOIN Wallet w ON w.CustomerID = c.ID AND w.IsDeleted = 0 AND c.IsDeleted = 0\n" +

@@ -26,21 +26,6 @@
         <link href="../css/style.css" rel="stylesheet"/>
         <!-- Sweet Alert -->
         <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-        <link href="../../css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
-
-        <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet"/>
-
-        <!-- FooTable -->
-        <link href="../../css/plugins/footable/footable.core.css" rel="stylesheet"/>
-
-        <link href="../../css/animate.css" rel="stylesheet"/>
-        <link href="../../css/style.css" rel="stylesheet"/>
-
-        <!-- Select2 -->
-        <link href="../../css/plugins/select2/select2.min.css" rel="stylesheet">
-        <link href="../../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-        <link href="../../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
         <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
         <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
         <link href="../css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
@@ -49,20 +34,17 @@
 
         <div id="wrapper">
 
-            <jsp:include page="layoutAdmin.jsp"></jsp:include>
+            <jsp:include page="layoutAdmin.jsp"/>
 
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
                         <h2>Store Create</h2>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="index.html">Home</a>
+                                <a href="<c:url value="/adminDashboard/index"/>">Home</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a>E-commerce</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a>Store list</a>
+                                <a href="<c:url value="/store/list"/>">Store list</a>
                             </li>
                             <li class="breadcrumb-item active">
                                 <strong>Store create</strong>
@@ -84,23 +66,41 @@
                                         <div class="panel-body">
                                             <form id="form_store_create" class="createForm" action="${pageContext.servletContext.contextPath}/store/create" autocomplete="off">
                                                 <fieldset>
-                                                    <div class="form-group row"><label class="col-sm-2 col-form-label">Name:</label>
-                                                        <div class="col-sm-10"><input name="storeName" type="text" class="form-control" placeholder="Store name"></div>
+                                                    <div class="form-group row">
+                                                        <label for="storeName" class="col-sm-2 col-form-label">Name:</label>
+                                                        <div class="col-sm-5">
+                                                            <input id="storeName" name="storeName" value="${requestScope.storeName}" type="text" class="form-control" placeholder="Store name">
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group row"><label  class="col-sm-2 col-form-label">Store Manager:</label>
-                                                    <div class="col-sm-10">
-                                                        <select class="form-control m-b" id="select_storemanager" name="storeManager">
-                                                            <option value="0">None</option>
-                                                            <c:forEach var="acc" items="${requestScope.avManager}">
-                                                                <option value="${acc.id}">${acc.username}</option>
-                                                            </c:forEach>
-                                                        </select>
+                                                    <div class="form-group row">
+                                                        <label for="select_storemanager" class="col-sm-2 col-form-label">Store Manager:</label>
+                                                        <div class="col-sm-5">
+                                                            <select class="form-control w-100" id="select_storemanager" name="storeManager">
+                                                                <option value="-1">None</option>
+                                                                <c:forEach var="acc" items="${requestScope.avManager}">
+                                                                    <option value="${acc.id}">${acc.fullName}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                        </div>
                                                     </div>
+                                                    <div class="form-group row">
+                                                        <label for="select_cashier" class="col-sm-2 col-form-label">Cashier:</label>
+                                                        <div class="col-sm-5">
+                                                            <select class="form-control w-100" id="select_cashier" name="cashier">
+                                                                <option value="-1">None</option>
+                                                                <c:forEach var="acc" items="${requestScope.avCashier}">
+                                                                    <option value="${acc.id}">${acc.fullName}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </fieldset>
-                                                <div class="form-layout-footer text-center">
-                                                    <button type="button" class="btn btn-primary bd-0 create_store_form" id="create_store_form">Submit</button>
-                                                    <button onclick="history.back()" type="button" class="btn btn-dark">Cancel</button>
+                                                <div class="form-layout-footer row">
+                                                    <div class="col-sm-2"></div>
+                                                    <div class="col-sm-5">
+                                                        <button type="button" class="btn btn-primary bd-0 create_store_form" id="create_store_form">Submit</button>
+                                                        <a href="<c:url value="/store/list"/>" class="btn btn-dark">Cancel</a>
+                                                    </div>
                                                 </div>
                                             </form>
                                         </div>
@@ -110,26 +110,9 @@
                         </div>
                     </div>
                 </div>
-            <jsp:include page="footer.jsp"></jsp:include>
+            <jsp:include page="footer.jsp"/>
         </div>
 
-    <%--Script--%>
-    <script src="../../js/jquery-3.1.1.min.js"></script>
-    <script src="../../js/popper.min.js"></script>
-    <script src="../../js/bootstrap.js"></script>
-    <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-    <!-- Custom and plugin javascript -->
-    <script src="../../js/inspinia.js"></script>
-    <script src="../../js/plugins/pace/pace.min.js"></script>
-
-    <!-- FooTable -->
-    <script src="../../js/plugins/footable/footable.all.min.js"></script>
-
-    <!-- CodeMirror -->
-    <script src="../../js/plugins/codemirror/codemirror.js"></script>
-    <script src="../../js/plugins/codemirror/mode/xml/xml.js"></script>
     <!-- CodeMirror -->
     <script src="../js/plugins/codemirror/codemirror.js"></script>
     <script src="../js/plugins/codemirror/mode/xml/xml.js"></script>
@@ -149,12 +132,9 @@
     <script src="../js/plugins/footable/footable.all.min.js"></script>
     <!-- Page-Level Scripts -->
     <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
-    <script src="../../js/plugins/sweetalert/sweetalert.min.js"></script>
 
      <!-- Jquery Validate -->
-    <script src="../../js/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script src="../js/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="../../js/plugins/validate/jquery.validate.min.js"></script>
     <script src="../js/plugins/validate/jquery.validate.min.js"></script>
 
         <script>
@@ -165,7 +145,9 @@
                 $("#select_storemanager").select2({
                     theme: 'bootstrap4',
                 });
-
+                $("#select_cashier").select2({
+                    theme: 'bootstrap4',
+                });
             });
 
     </script>
@@ -202,29 +184,32 @@
                     return arg !== value;
                 }, "Value must not equal arg.");
 
+                <c:if test="${requestScope.createStatus eq 'fail'}">
+                    swal({
+                        title: "Create Failed!",
+                        text: "${requestScope.createStoreMessage}",
+                        type: "error"
+                    });
+                </c:if>
+
                 $("#form_store_create").validate({
                     rules: {
                         storeName: {
                             required: true
                         },
-                        storeManager: {
-                            valueNotEquals: "0"
-                        }
                     },
                     messages: {
                         storeName: {
                             required: "Please enter Store Name"
                         },
-                        storeManager: {
-                            valueNotEquals: "Please choose Store Manager"
-                        }
                     }
                 })
             });
+
         </script>
 
     <!-- Alert -->
-    <div class="sweet-overlay" tabindex="-1" style="opacity: -0.03; display: none;"></div>
+    <div class="sweet-overlay" tabindex="-1" style="opacity: 0.03; display: none;"></div>
     <div class="sweet-alert hideSweetAlert" data-custom-class="" data-has-cancel-button="false"
          data-has-confirm-button="true" data-allow-outside-click="false" data-has-done-function="false"
          data-animation="pop" data-timer="null" style="display: none; margin-top: -171px; opacity: 0;">
@@ -261,7 +246,7 @@
             <button class="cancel" tabindex="2" style="display: none; box-shadow: none;">Cancel</button>
 
             <button class="confirm" tabindex="1"
-                    style="display: inline-block; background-color: rgb(174, 222, 244); box-shadow: rgba(174, 222, 244, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;">a</button>
+                    style="display: inline-block; background-color: rgb(174, 222, 244); box-shadow: rgba(174, 222, 244, 0.8) 0 0 2px, rgba(0, 0, 0, 0.05) 0 0 0 1px inset;">a</button>
         </div>
     </div>
 </body>

@@ -33,10 +33,11 @@
     <h3 class="font-bold">Page Not Found</h3>
 
     <div class="error-desc">
-        ${errorMessage}
-        <% session.removeAttribute("errorMessage"); %>
+        ${msg404}
+        <% session.removeAttribute("msg404"); %>
         <br>
         <a type="submit" href="<c:url value="/"/>" class="btn btn-primary mt-5">Back</a>
+        <a type="submit" href="<c:url value="/account/logout"/>" class="btn btn-primary mt-5">Clear Session</a>
     </div>
 </div>
 

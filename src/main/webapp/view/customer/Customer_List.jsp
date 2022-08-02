@@ -18,8 +18,6 @@
     <title>Customer List</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../font-awesome/css/font-awesome.css" rel="stylesheet"/>
-    <%--    Jquery--%>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- FooTable -->
     <link href="../css/plugins/footable/footable.core.css" rel="stylesheet"/>
@@ -66,18 +64,7 @@
                    value="${requestScope.contextPath}/customer/search"></c:url>
             <form action="${searchfield}">
                 <div class="row">
-                    <%--                        <div class="col-lg-2">--%>
-                    <%--                            <div class="form-group">--%>
-                    <%--                                <label class="col-form-label" for="status"--%>
-                    <%--                                >Order status</label--%>
-                    <%--                                >--%>
-                    <%--                                <select name="status" id="status" class="form-control">--%>
-                    <%--                                    <option value="" selected="">None</option>--%>
-                    <%--                                    <option value="1">Active</option>--%>
-                    <%--                                    <option value="0">Inactive</option>--%>
-                    <%--                                </select>--%>
-                    <%--                            </div>--%>
-                    <%--                        </div>--%>
+
                     <div class="col-xl-5 col-lg-9 col-md-12 text-left">
                         <div class="form-group">
                             <%--                                for="status"--%>
@@ -89,6 +76,7 @@
                                     </select>
                                 </div>
                                 <input name="searchItem"
+                                       id="SearchInput"
                                        type="text" class="form-control"/>
                                 <button name="action"
                                         class="btn btn-outline-success float-right"
@@ -97,16 +85,14 @@
                                     Search
                                 </button>
                             </div>
+                            <c:if test="${sessionScope.NotF == 0}">
+                                <span class="text-warning" id="SearchMsg">
+                                    NO CUSTOMER FOUND
+                                </span>
+                            </c:if>
                         </div>
                     </div>
-                    <%--                        <div class="col-lg-2 container-fluid pt-5">--%>
-                    <%--                            <button name="action"--%>
-                    <%--                                    class="btn btn-outline-success float-right"--%>
-                    <%--                                    type="submit"--%>
-                    <%--                            >--%>
-                    <%--                                Search--%>
-                    <%--                            </button>--%>
-                    <%--                        </div>--%>
+
                 </div>
             </form>
 
@@ -147,7 +133,7 @@
                                         <td class="text-left">${list.phone}</td>
 
                                         <td class="text-right"><fmt:formatNumber
-                                                value="${amount.get(list) != null ? amount.get(list) : 0}" pattern="###,###,### ₫" /></td>
+                                                value="${amount.get(list)}" pattern="###,###,### ₫"/></td>
 
                                         <td class="text-right">
                                             <c:url var="delete" value="${requestScope.contextPath}/customer/remove"></c:url>
@@ -170,28 +156,35 @@
                                     <input name="var" value="${list.phone}" type="hidden">
                                     <tr id="${list.phone}" style="display: none">
                                         <td colspan="4">
-                                            <div>DoB: ${list.doB}</div>
-                                            <div>Address: ${list.address}</div>
+                                            <div>Customer Id: ${list.id}</div>
+                                            <c:choose>
+                                                <c:when test="${list.doB != null}">
+                                                    <div>DoB: ${list.doB}</div>
+                                                </c:when>
+                                                <c:when test="${list.doB == null}">
+                                                    <div>DoB: None</div>
+                                                </c:when>
+                                            </c:choose>
+                                            <c:choose>
+                                                <c:when test="${list.address != null}">
+                                                    <div>Address: ${list.address}</div>
+                                                </c:when>
+                                                <c:when test="${list.address == null}">
+                                                    <div>DoB: None</div>
+                                                </c:when>
+                                            </c:choose>
                                             <c:choose>
                                                 <c:when test="${list.gender == 0}">
-
                                                     <div>Gender: Male</div>
-
                                                 </c:when>
                                                 <c:when test="${list.gender == 1}">
-
                                                     <div>Gender: Female</div>
-
                                                 </c:when>
                                                 <c:when test="${list.gender == 2}">
-
                                                     <div>Gender: None</div>
-
                                                 </c:when>
                                             </c:choose>
                                         </td>
-
-
                                     </tr>
 
                                 </c:forEach>
@@ -201,61 +194,65 @@
                             <tfoot>
                             <tr>
 
-                                <td colspan="6">
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="paginations">
-                                            <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
-                                                <c:url var="previousPage"
-                                                       value="${requestScope.contextPath}/product/list">
-                                                    <c:param name="page"
-                                                             value="${requestScope.currentPage - 1}"></c:param>
-                                                    <c:param name="sortField"
-                                                             value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending"
-                                                             value="${!requestScope.isAsc}"></c:param>
-                                                </c:url>
-                                                <a
-                                                        class="page-link"
-                                                        href="${previousPage}"
-                                                        aria-label="Previous"
-                                                >
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a>
-                                            </li>
-                                            <c:forEach begin="1" end="${requestScope.totalPages}" var="page">
-                                                <c:url var="paging"
-                                                       value="${requestScope.contextPath}/customer/list">
-                                                    <c:param name="page" value="${page}"></c:param>
-                                                    <c:param name="sortField"
-                                                             value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending"
-                                                             value="${!requestScope.isAsc}"></c:param>
-                                                </c:url>
-                                                <li class="page-item ${requestScope.currentPage == page ?"active":""}">
-                                                    <a class="page-link "
-                                                       href="${paging}">${page}</a>
+                                <c:if test="${requestScope.totalPages != 0}">
+                                    <td colspan="6">
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="paginations">
+                                                <li class="page-item ${requestScope.currentPage == 1?"disabled":""}">
+                                                    <c:url var="previousPage"
+                                                           value="${requestScope.contextPath}/customer/list">
+                                                        <c:param name="page"
+                                                                 value="${requestScope.currentPage - 1}"></c:param>
+                                                        <c:param name="sortField"
+                                                                 value="${requestScope.sortField}"></c:param>
+                                                        <c:param name="isAscending"
+                                                                 value="${!requestScope.isAsc}"></c:param>
+                                                    </c:url>
+                                                    <a
+                                                            class="page-link"
+                                                            href="${previousPage}"
+                                                            aria-label="Previous"
+                                                    >
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
                                                 </li>
-                                            </c:forEach>
-                                            <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
-                                                <c:url var="nextPage"
-                                                       value="${requestScope.contextPath}/product/list">
-                                                    <c:param name="page"
-                                                             value="${requestScope.currentPage + 1}"></c:param>
-                                                    <c:param name="sortField"
-                                                             value="${requestScope.sortField}"></c:param>
-                                                    <c:param name="isAscending"
-                                                             value="${!requestScope.isAsc}"></c:param>
-                                                </c:url>
-                                                <a class="page-link" href="${nextPage}" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </td>
-
+                                                <c:forEach begin="1" end="${requestScope.totalPages}" var="page">
+                                                    <c:url var="paging"
+                                                           value="${requestScope.contextPath}/customer/list">
+                                                        <c:param name="page" value="${page}"></c:param>
+                                                        <c:param name="sortField"
+                                                                 value="${requestScope.sortField}"></c:param>
+                                                        <c:param name="isAscending"
+                                                                 value="${!requestScope.isAsc}"></c:param>
+                                                    </c:url>
+                                                    <li class="page-item ${requestScope.currentPage == page ?"active":""}">
+                                                        <a class="page-link "
+                                                           href="${paging}">${page}</a>
+                                                    </li>
+                                                </c:forEach>
+                                                <li class="page-item ${requestScope.currentPage == requestScope.totalPages?"disabled":""}">
+                                                    <c:url var="nextPage"
+                                                           value="${requestScope.contextPath}/customer/list">
+                                                        <c:param name="page"
+                                                                 value="${requestScope.currentPage + 1}"></c:param>
+                                                        <c:param name="sortField"
+                                                                 value="${requestScope.sortField}"></c:param>
+                                                        <c:param name="isAscending"
+                                                                 value="${!requestScope.isAsc}"></c:param>
+                                                    </c:url>
+                                                    <a class="page-link" href="${nextPage}" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </td>
+                                </c:if>
+                                <%
+                                    session.removeAttribute("NotF");
+                                %>
 
                             </tr>
                             </tfoot>
@@ -277,19 +274,15 @@
 <!-- Body -->
 
 </div>
-<script src="js/jquery-3.1.1.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="../js/plugins/validate/jquery.validate.min.js"></script>
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 <!-- Custom and plugin javascript -->
-<script src="js/inspinia.js"></script>
-<script src="js/plugins/pace/pace.min.js"></script>
-
-<!-- FooTable -->
-<script src="js/plugins/footable/footable.all.min.js"></script>
+<script src="../js/inspinia.js"></script>
+<script src="../js/plugins/pace/pace.min.js"></script>
 
 <!-- Sweet alert -->
 <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
