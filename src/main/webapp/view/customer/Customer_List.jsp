@@ -43,16 +43,13 @@
     <!-- TMP -->
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>E-commerce orders</h2>
+            <h2>Customer</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="index.html">Home</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="">FMS</a>
+                    Customer
                 </li>
                 <li class="breadcrumb-item active">
-                    <strong>Orders</strong>
+                    <strong>List</strong>
                 </li>
             </ol>
         </div>
