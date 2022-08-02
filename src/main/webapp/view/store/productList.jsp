@@ -485,7 +485,12 @@
     %>
 </c:if>
 
+
 <c:if test="${sessionScope.updateStatus != null}">
+    <c:remove var="updateStatus" scope="session"></c:remove>
+    <%
+        session.removeAttribute("updateStatus");
+    %>
     <script>
         $(document).ready(function () {
             swal({
@@ -494,11 +499,13 @@
                 type: "success"
             });
         });
+        $(document).ready(function (){
+            sessionStorage.removeItem('updateStatus');
+        });
     </script>
-    <%
-        session.removeAttribute("updateStatus");
-    %>
+
 </c:if>
+
 <script>
     <c:forEach var="product" items="${requestScope.productList}" varStatus="loop">
     $(document).ready(function () {

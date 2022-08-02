@@ -6,8 +6,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- *
- *
  * @param <T>
  */
 public interface GenericDAO<T> {

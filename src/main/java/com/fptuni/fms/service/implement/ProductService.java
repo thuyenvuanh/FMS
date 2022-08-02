@@ -156,6 +156,7 @@ public class ProductService implements IProductService {
         HttpSession session = request.getSession();
         Store store = (Store) session.getAttribute("storeSession");
         String id = "";
+        String newId = "";
         String name = "";
         String imgPath = "";
         BigDecimal price = BigDecimal.valueOf(0.0);
@@ -181,7 +182,7 @@ public class ProductService implements IProductService {
                 // get category info by id
                 category = categoryService.getCategory(cateID);
                 List<Category> categories = categoryService.getCategories();
-                // if change category: short cate name in id != choosen cate then create new proid
+                // if change category: short cate name in id != choosen cate
                 // else not change pro id
                 if (!id.contains(category.getShortName())) {
                     int subID = 1;
@@ -192,8 +193,11 @@ public class ProductService implements IProductService {
                             break;
                         }
                     }
-                    // concat short name and the next ID
-                    id = category.getShortName() + (subID + 1);
+                    // concat short name and the next ID as newID
+                    newId = category.getShortName() + (subID + 1);
+                } else {
+                    // id doesn't change
+                    newId = id;
                 }
             }
             if (request.getParameter("quantity") != null) {
@@ -210,7 +214,7 @@ public class ProductService implements IProductService {
 //                    return false;
 //                }
 //            }
-            return productDAO.updateProduct(product);
+            return productDAO.updateProduct(product, newId);
         } catch (Exception exception) {
             exception.printStackTrace();
             System.out.println(exception.getMessage());

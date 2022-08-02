@@ -23,7 +23,7 @@ public interface IProductDAO extends GenericDAO<Product> {
 
     Integer insertProduct(Product product);
 
-    boolean updateProduct(Product product);
+    boolean updateProduct(Product product, String newProductID);
 
     boolean deleteProduct(String id);
 
@@ -40,5 +40,4 @@ public interface IProductDAO extends GenericDAO<Product> {
     List<Product> getTop5ProductsOrderByAmount(Store store, Date start, Date end);
 
     List<Product> getProductsByCategory(int categoryID, Store store);
-
 }

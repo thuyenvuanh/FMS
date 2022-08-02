@@ -85,7 +85,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
     }
 
     @Override
-    public boolean updateProduct(Product product) {
+    public boolean updateProduct(Product product, String newProductID) {
         String sql = "UPDATE Product\n" +
                 " SET ID = ?,\n" +
                 " Name = ?,\n" +
@@ -95,7 +95,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
                 " CateID = ?,\n" +
                 " StoreID = ?\n" +
                 " WHERE ID = ?";
-        return update(sql, product.getId(),
+        return update(sql, newProductID,
                 product.getName(),
                 product.getPrice(),
                 product.getImagePath(),
@@ -190,10 +190,11 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
         params.add(categoryID);
         String sql = "SELECT p.ID, p.Name,p.Price, p.ImagePath, p.QtyAvailable, p.CateID, p.StoreID FROM Product p\n" +
                 "JOIN Category c ON c.ID = p.CateID AND c.IsDeleted = 0 AND c.ID  = ? ";
-        if (store != null) {
-            sql += " AND p.StoreID = ?";
-            params.add(store.getId());
-        }
+//        if (store != null) {
+//            sql += " AND p.StoreID = ?";
+//            params.add(store.getId());
+//        }
         return query(sql, new ProductMapper(), params.toArray());
     }
+
 }

@@ -40,7 +40,6 @@ public class ProductController extends HttpServlet {
         if (path.equals("/list")) {
             int pageSize = 5;
             List<Product> products = productService.getProducts(request, response);
-
 //            Collections.sort(products, new Comparator<Product>() {
 //                public int compare(Product o1, Product o2) {
 //                    return extractInt(o1.getId()) - extractInt(o2.getId());
@@ -82,11 +81,11 @@ public class ProductController extends HttpServlet {
             request.setAttribute("product", product);
             request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);
         } else if (path.equals("/update")) {
+            session.removeAttribute("updateStatus");
             if (productService.updateProduct(request, response)) {
                 session.setAttribute("updateStatus", "success");
                 response.sendRedirect(request.getContextPath() + "/product/list");
             } else {
-                // List<Category> categories = categoryService.getCategories();
                 request.setAttribute("categories", categories);
                 session.setAttribute("updateStatus", "fail");
                 request.getRequestDispatcher("/view/store/productUpdate.jsp").forward(request, response);

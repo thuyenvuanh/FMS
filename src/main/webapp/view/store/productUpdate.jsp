@@ -148,12 +148,7 @@
                                         >
                                             Submit
                                         </button>
-                                        <%--                                        <a href="${requestScope.contextPath}/view/store/productList.jsp">--%>
-                                        <%--                                            <button class="btn btn-secondary bd-0 btn-cancel">--%>
-                                        <%--                                                Cancel--%>
-                                        <%--                                            </button>--%>
-                                        <%--                                        </a>--%>
-                                        <button onclick="history.back()" type="button" class="btn btn-dark">Cancel
+                                        <button onclick="history.back();" type="button" class="btn btn-dark">Cancel
                                         </button>
                                     </div>
                                 </form>
@@ -293,7 +288,7 @@
             });
         });
         $(".confirm").click(function () {
-            $(".price-input").val(function(index, currentValue){
+            $(".price-input").val(function (index, currentValue) {
                 var value = currentValue.split(',').join('');
                 return value;
             });
@@ -302,7 +297,7 @@
 
         $.validator.addMethod('positiveNumber',
             function (value) {
-            console.log('before split: ' + value);
+                console.log('before split: ' + value);
                 value = value.split(",").join("");
                 console.log('after split: ' + value);
                 return Number(value) > 0;
