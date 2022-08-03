@@ -175,7 +175,7 @@
                         <c:when test="${
                         (requestScope.username != null && requestScope.username ne '')
                         || (requestScope.fullName != null && requestScope.fullName ne '')
-                        || requestScope.roleId ne 0}">
+                        || (requestScope.roleId != null && requestScope.roleId ne 0)}">
                             <c:url var="previousPage"
                                    value="${requestScope.contextPath}/account/search">
                                 <c:param name="page"
@@ -244,7 +244,7 @@
                         <c:when test="${
                         (requestScope.username != null && requestScope.username ne '')
                         || (requestScope.fullName != null && requestScope.fullName ne '')
-                        || requestScope.roleId ne 0}">
+                        || (requestScope.roleId != null && requestScope.roleId ne 0)}">
                             <c:url var="nextPage" value="${requestScope.contextPath}/account/search">
                             <c:param name="page"
                                      value="${requestScope.currentPage + 1}"/>
